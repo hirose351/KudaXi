@@ -1,9 +1,37 @@
 #include	"IScene.h"
-
-Quad		gQuadfadein;
-Quad		gQuadfadeout;
+#include	"../gameobject/gameobject.h"
 
 IScene::IScene() {
+}
+
+void IScene::Update()
+{
+
+	for (auto &obj : objectList)
+	{
+		obj->Update();
+	}
+}
+
+void IScene::Render()
+{
+	for (auto &obj : objectList)
+	{
+		obj->Draw();
+	}
+}
+
+bool IScene::Dispose()
+{
+	for (auto &obj : objectList)
+	{
+		if (obj != nullptr)//nullptr‚Ìƒ„ƒc‚ðdelete‚µ‚½‚ç—Ž‚¿‚é
+		{
+			delete(obj);
+		}
+	}
+
+	return true;
 }
 
 void IScene::updateFadeIn(double t) {

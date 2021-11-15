@@ -67,6 +67,18 @@
     <Filter Include="ソース ファイル\game\gameobject\skydome">
       <UniqueIdentifier>{8b306820-b461-45c3-b57e-d1e2c15103d9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\game\gameobject\player">
+      <UniqueIdentifier>{4df01ec3-5215-42a8-b46e-0f8d5a2e2399}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\game\component\model">
+      <UniqueIdentifier>{0954044b-914c-4e76-8324-fdb65dc66589}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\game\component\quad2d">
+      <UniqueIdentifier>{ec0d46ca-0399-4e7e-8df6-2daa8b410869}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\game\scene\title">
+      <UniqueIdentifier>{494fe833-3fe9-44f5-9aca-e52f356570e8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\Application.cpp">
@@ -108,9 +120,6 @@
     <ClCompile Include="source\system\imgui\imgui_widgets.cpp">
       <Filter>ソース ファイル\system\imgui</Filter>
     </ClCompile>
-    <ClCompile Include="source\game\gameobject\Actor.cpp">
-      <Filter>ソース ファイル\game\gameobject</Filter>
-    </ClCompile>
     <ClCompile Include="source\system\dx11\CDirectXGraphics.cpp">
       <Filter>ソース ファイル\system\dx11</Filter>
     </ClCompile>
@@ -146,12 +155,6 @@
     </ClCompile>
     <ClCompile Include="source\system\imgui\util\myimgui.cpp">
       <Filter>ソース ファイル\system\imgui</Filter>
-    </ClCompile>
-    <ClCompile Include="source\game\component\IComponent.cpp">
-      <Filter>ソース ファイル\game\component</Filter>
-    </ClCompile>
-    <ClCompile Include="source\game\component\TransformComponent.cpp">
-      <Filter>ソース ファイル\game\component\Transform</Filter>
     </ClCompile>
     <ClCompile Include="source\game\manager\SceneManager.cpp">
       <Filter>ソース ファイル\game\manager</Filter>
@@ -198,6 +201,33 @@
     <ClCompile Include="source\game\component\updatespherecamera.cpp">
       <Filter>ソース ファイル\system\util</Filter>
     </ClCompile>
+    <ClCompile Include="source\game\gameobject\gameobject.cpp">
+      <Filter>ソース ファイル\game\gameobject</Filter>
+    </ClCompile>
+    <ClCompile Include="source\game\component\transform2d_component.cpp">
+      <Filter>ソース ファイル\game\component\Transform</Filter>
+    </ClCompile>
+    <ClCompile Include="source\game\component\transfrom3d_component.cpp">
+      <Filter>ソース ファイル\game\component\Transform</Filter>
+    </ClCompile>
+    <ClCompile Include="source\game\gameobject\gameobject_component_base.cpp">
+      <Filter>ソース ファイル\game\gameobject</Filter>
+    </ClCompile>
+    <ClCompile Include="source\game\component\model_component.cpp">
+      <Filter>ソース ファイル\game\component\model</Filter>
+    </ClCompile>
+    <ClCompile Include="source\game\gameobject\player.cpp">
+      <Filter>ソース ファイル\game\gameobject\player</Filter>
+    </ClCompile>
+    <ClCompile Include="source\game\component\quad2d_component.cpp">
+      <Filter>ソース ファイル\game\component\quad2d</Filter>
+    </ClCompile>
+    <ClCompile Include="source\game\component\component_base.cpp">
+      <Filter>ソース ファイル\game\component</Filter>
+    </ClCompile>
+    <ClCompile Include="source\game\scene\title_scene.cpp">
+      <Filter>ソース ファイル\game\scene\title</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\system\model\assimpscene.h">
@@ -232,9 +262,6 @@
     </ClInclude>
     <ClInclude Include="source\system\imgui\imstb_truetype.h">
       <Filter>ソース ファイル\system\imgui</Filter>
-    </ClInclude>
-    <ClInclude Include="source\game\gameobject\Actor.h">
-      <Filter>ソース ファイル\game\gameobject</Filter>
     </ClInclude>
     <ClInclude Include="source\system\dx11\DX11Settransform.h">
       <Filter>ソース ファイル\system\dx11</Filter>
@@ -280,12 +307,6 @@
     </ClInclude>
     <ClInclude Include="source\game\gameobject\gameobject.h">
       <Filter>ソース ファイル\game\gameobject</Filter>
-    </ClInclude>
-    <ClInclude Include="source\game\component\IComponent.h">
-      <Filter>ソース ファイル\game\component</Filter>
-    </ClInclude>
-    <ClInclude Include="source\game\component\TransformComponent.h">
-      <Filter>ソース ファイル\game\component\Transform</Filter>
     </ClInclude>
     <ClInclude Include="source\game\manager\IGameManager.h">
       <Filter>ソース ファイル\game\manager</Filter>
@@ -364,6 +385,36 @@
     </ClInclude>
     <ClInclude Include="source\system\util\resource.h">
       <Filter>ソース ファイル\system\util</Filter>
+    </ClInclude>
+    <ClInclude Include="source\system\util\Vector.h">
+      <Filter>ソース ファイル\system\util</Filter>
+    </ClInclude>
+    <ClInclude Include="source\game\component\transform2d_component.h">
+      <Filter>ソース ファイル\game\component\Transform</Filter>
+    </ClInclude>
+    <ClInclude Include="source\game\component\transform3d_component.h">
+      <Filter>ソース ファイル\game\component\Transform</Filter>
+    </ClInclude>
+    <ClInclude Include="source\game\gameobject\gameobject_component_base.h">
+      <Filter>ソース ファイル\game\gameobject</Filter>
+    </ClInclude>
+    <ClInclude Include="source\game\component\allcomponents.h">
+      <Filter>ソース ファイル\game\component</Filter>
+    </ClInclude>
+    <ClInclude Include="source\game\component\model_component.h">
+      <Filter>ソース ファイル\game\component\model</Filter>
+    </ClInclude>
+    <ClInclude Include="source\game\gameobject\player.h">
+      <Filter>ソース ファイル\game\gameobject\player</Filter>
+    </ClInclude>
+    <ClInclude Include="source\game\component\quad2d_component.h">
+      <Filter>ソース ファイル\game\component\quad2d</Filter>
+    </ClInclude>
+    <ClInclude Include="source\game\component\component_base.h">
+      <Filter>ソース ファイル\game\component</Filter>
+    </ClInclude>
+    <ClInclude Include="source\game\scene\title_scene.h">
+      <Filter>ソース ファイル\game\scene\title</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

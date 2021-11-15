@@ -3,10 +3,16 @@
 #include	"XAudio2.h"
 
 class SceneManager;
+class GameObject;
 
 class IScene : Uncopyable {
 private:
 	SceneManager*	mManager;
+
+	std::vector<GameObject*> objectList;	// ゲームオブジェクトを全部まとめて管理できるオブジェクトリスト
+
+	Quad		gQuadfadein;
+	Quad		gQuadfadeout;
 public:
 	IScene();
 	void SetSceneManager(SceneManager* _sm) {
@@ -16,15 +22,15 @@ public:
 	virtual ~IScene() {}
 
 	// 初期化
-	virtual void Init() = 0;
+	virtual bool Init() = 0;
 	// 更新
-	virtual void Update() = 0;
+	virtual void Update();
 	// 描画
-	virtual void Render() = 0;
+	virtual void Render();
 	// デバッグ
-	virtual void imguidebug() = 0;
+	virtual void ImguiDebug() = 0;
 	// 終了
-	virtual void Dispose() = 0;
+	virtual bool Dispose();
 
 	virtual void updateFadeIn(double t);
 	virtual void updateFadeOut(double t);

@@ -1,47 +1,125 @@
 #pragma once
-#include	<directxmath.h>
+#include <iostream>
+#include <string>
+#include <vector>
 
-using namespace DirectX;
+#include "../component/component_base.h"
+//#include "../component/allcomponents.h"
+class ComponentBase;
 
-class GameObject {
-	uint64_t mId = 0;			// 識別子
+//オブジェクトタイプ
+enum class ObjectType
+{
+	Player = 0b00,
+	Enemy = 0b01,
+	Obstracle = 0b11,
+};
+
+//ゲームオブジェクトの基底クラス
+class GameObject
+{
 protected:
-	XMFLOAT3 mPos;			// 位置
-	XMFLOAT4X4 mMtx;			// 姿勢
-	XMFLOAT4X4 mLocalMtx;		// ローカルの姿勢
+	/*	全ゲームオブジェクトが持ってるパラメータをここに突っ込んでいく。
+		外から触らないようにしておくと、不意に値が変わることが減り、管理しやすい。	*/
+
+	std::string		name;			//名前
+	unsigned int	objectID;		//オブジェクトID番号
+	bool			isExist;		//生存可否
+	ObjectType		objectType;		//オブジェクトタイプ
+
+	std::vector<ComponentBase*> componentList;
 
 public:
-	GameObject() {}
-	virtual ~GameObject() {}
-	virtual bool Init() = 0;
-	virtual void Finalize() = 0;
+	enum State
+	{
+		EActive,
+		EPaused,
+		EDead
+	};
 
-	// 姿勢を取得
-	DirectX::XMFLOAT4X4 GetMtx() {
-		return mMtx;
-	}
+	GameObject() :name("NoName"), objectType(ObjectType::Obstracle) {}
+	virtual ~GameObject();
 
-	// 修正前の姿勢を取得
-	DirectX::XMFLOAT4X4 GetLocalMtx() {
-		return mLocalMtx;
-	}
+	std::string GetName() const { return name; }
+	void SetName(std::string newName) { name = newName; }
 
-	// 位置を取得
-	DirectX::XMFLOAT3 GetPos() {
-		return mPos;
-	}
+	bool GetExistState() const { return isExist; }
+	void SetExistState(bool newState) { isExist = newState; }
 
-	// ＩＤを取得
-	uint64_t GetID() {
-		return mId;
-	}
+	void SetObjectType(ObjectType newType) { objectType = newType; }
+	ObjectType GetObjectType() { return objectType; }
 
-	void SetMtx(const XMFLOAT4X4 &_mtx) {
-		mMtx = _mtx;
-	}
+	virtual void Update();											//オーバーライドして使「える」メソッド。オブジェクトごとに書き分けてね。基本はオーバーライドしなくていい。
+	virtual void CollisionResponse(GameObject* opponent) = 0;		//これはどうにかしてね
 
-	// 初期位置セット
-	void SetInitialPos(const XMFLOAT3 &initpos) {
-		mPos = initpos;
-	}
+	void Draw();
+
+
+	//コンポーネントシステム関係
+	//テンプレートについてわからなければ調べてね
+	// 明示的なインスタンス化
+	template<class T>
+	T* AddComponent();
+
+	template<class T>
+	T* GetComponent();
+
+	template<class T>
+	void RemoveComponent();
+
+	//template ComponentBase* GameObject::AddComponent<ComponentBase>();
 };
+
+
+//----------------------------------------------------
+//			コンポーネント関係
+//----------------------------------------------------
+
+//コンポーネントを追加する
+//AddComponent<追加したいコンポーネントのクラス名>()という形で使う
+template<class T>
+T* GameObject::AddComponent()
+{
+	T* newComponent = new T();//newしたのでdeleteを忘れずに（デストラクタでやってる）
+	if (dynamic_cast<ComponentBase*>(newComponent) != nullptr)
+	{
+		newComponent->SetOwner(this);
+		componentList.emplace_back(newComponent);
+	}
+
+	return newComponent;
+}
+
+//コンポーネントを取得する
+//GetComponent<コンポーネントのクラス名>()->コンポーネントのメソッド()という形で使う
+template<class T>
+T* GameObject::GetComponent()
+{
+	for (auto &com : componentList)
+	{
+		T* sp = dynamic_cast<T*>(com);
+		if (sp != NULL)
+		{
+			return sp;
+		}
+	}
+
+	return nullptr;//当該コンポーネントがなければnullptrをreturn
+}
+
+//コンポーネントを削除する。使い方は上記二つに準ずる。
+template<class T>
+void GameObject::RemoveComponent()
+{
+	for (unsigned int i = 0; i < componentList.size(); i++) //削除はこっちのforが作りやすい
+	{
+		T* toRemove = dynamic_cast<T*>(componentList[i]);
+		if (toRemove != nullptr)
+		{
+			componentList.erase(componentList.begin() + i);		//楽に作るとこうなるが、リストの要素数が増えるとeraseは重いので、別の方法を使った方が良い。がんば！（ブン投げ）
+			//componentList.shrink_to_fit();					//リストのcapasityとsizeの不一致が気になるならこれを入れてもいい。ただしほんの少し重くなる。
+
+			return;//やることは終わったのでreturn
+		}
+	}
+}

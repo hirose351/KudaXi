@@ -18,13 +18,15 @@ enum class GAMESTATE
 class MaingameScene : public IScene
 {
 private:
+
+
 public:
 	MaingameScene();
 	~MaingameScene();
 
-	void Init() override;
+	bool Init() override;
 	void Update() override;
 	void Render() override;
-	void imguidebug() override;
-	void Dispose() override;
+	void ImguiDebug() override;
+	bool Dispose() override;
 };

@@ -5,7 +5,7 @@
 /*------------------------
 ƒ[ƒ‹ƒh•ÏŠ·s—ñ‚ğì‚é
 --------------------------*/
-void DX11MakeWorldMatrix(XMFLOAT4X4& inoutmat, XMFLOAT3& angle, XMFLOAT3& trans)
+void DX11MakeWorldMatrix(XMFLOAT4X4& inoutmat, const XMFLOAT3& angle, const XMFLOAT3& trans)
 {
 	ALIGN16 XMMATRIX mat, matx, maty, matz, mattrans;
 
