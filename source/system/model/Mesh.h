@@ -7,7 +7,7 @@
 #include	"vertexproto.h"
 
 // テクスチャ構造体
-struct Texture {
+struct MeshTextureInfo {
 	std::string type;							// テクスチャ種類
 	std::string path;							// テクスチャパス名
 	ID3D11Resource*	texres;						// テクスチャリソース
@@ -23,11 +23,11 @@ public:
 
 	std::vector<Vertex> mVertices;			// 頂点データ
 	std::vector<unsigned int> mIndices;	// インデックス
-	std::vector<Texture> mTextures;		// テクスチャ
+	std::vector<MeshTextureInfo> mTextures;		// テクスチャ
 	ID3D11Device* mDev;					// デバイス	
 	Material mMtrl;						// マテリアル
 
-	Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices, std::vector<Texture> textures, Material mtrl);
+	Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices, std::vector<MeshTextureInfo> textures, Material mtrl);
 
 	void Draw(ID3D11DeviceContext *devcon);
 	void Close();

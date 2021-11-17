@@ -15,7 +15,7 @@ using namespace std;
 using namespace DirectX;
 using Microsoft::WRL::ComPtr;
 
-Mesh::Mesh(vector<Vertex> vertices, vector<unsigned int> indices, vector<Texture> textures, Material mtrl) {
+Mesh::Mesh(vector<Vertex> vertices, vector<unsigned int> indices, vector<MeshTextureInfo> textures, Material mtrl) {
 
 	// ^‚Á”’‚ÌSRV‚ğˆê‚Âì‚Á‚Ä‚¨‚­
 	bool sts = CreateSRVfromFile("assets/white.bmp", GetDX11Device(), GetDX11DeviceContext(), &mWhiteres, &mWhitesrv);

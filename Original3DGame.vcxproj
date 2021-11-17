@@ -138,7 +138,7 @@
     <ClCompile Include="source\game.cpp" />
     <ClCompile Include="source\game\component\component_base.cpp" />
     <ClCompile Include="source\game\component\model_component.cpp" />
-    <ClCompile Include="source\game\component\quad2d_component.cpp" />
+    <ClCompile Include="source\game\component\sprite_component.cpp" />
     <ClCompile Include="source\game\component\transform2d_component.cpp" />
     <ClCompile Include="source\game\component\transfrom3d_component.cpp" />
     <ClCompile Include="source\game\component\updatespherecamera.cpp" />
@@ -171,6 +171,7 @@
     <ClCompile Include="source\system\model\ModelData.cpp" />
     <ClCompile Include="source\system\model\ModelMgr.cpp" />
     <ClCompile Include="source\system\model\utftosjisconv.cpp" />
+    <ClCompile Include="source\system\texture\texture_manager.cpp" />
     <ClCompile Include="source\system\util\2dsystem.cpp" />
     <ClCompile Include="source\system\util\BoundingSphere.cpp" />
     <ClCompile Include="source\system\util\CBillboard.cpp" />
@@ -192,7 +193,7 @@
     <ClInclude Include="source\game\component\CLight.h" />
     <ClInclude Include="source\game\component\component_base.h" />
     <ClInclude Include="source\game\component\model_component.h" />
-    <ClInclude Include="source\game\component\quad2d_component.h" />
+    <ClInclude Include="source\game\component\sprite_component.h" />
     <ClInclude Include="source\game\component\transform2d_component.h" />
     <ClInclude Include="source\game\component\transform3d_component.h" />
     <ClInclude Include="source\game\component\updatespherecamera.h" />
@@ -231,6 +232,7 @@
     <ClInclude Include="source\system\model\ModelMgr.h" />
     <ClInclude Include="source\system\model\utftosjisconv.h" />
     <ClInclude Include="source\system\model\vertexproto.h" />
+    <ClInclude Include="source\system\texture\texture_manager.h" />
     <ClInclude Include="source\system\util\2dsystem.h" />
     <ClInclude Include="source\system\util\BoundingSphere.h" />
     <ClInclude Include="source\system\util\CBillboard.h" />

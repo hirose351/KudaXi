@@ -39,13 +39,13 @@ private:
 	AssimpScene mAssimpscene;					// assimp scene
 	std::vector<Mesh> mMeshes;					// メッシュの集合がモデル
 	std::string mDirectory;					// テクスチャファイルの位置
-	std::vector<Texture> mTexturesloaded;		// 既にロードされているテクスチャ
+	std::vector<MeshTextureInfo> mTexturesloaded;		// 既にロードされているテクスチャ
 	std::vector<Material> mMaterials;			// マテリアル群
 
 	void processNode(aiNode* _node, const aiScene* _scene);					// ノードを解析
 	Mesh processMesh(aiMesh* _mesh, const aiScene* _scene, int _meshidx);	// メッシュを解析
 																																				// マテリアルに対応したテクスチャを取得する
-	std::vector<Texture> LoadMaterialTextures(
+	std::vector<MeshTextureInfo> LoadMaterialTextures(
 		aiMaterial *_mat,
 		aiTextureType _type,
 		std::string _typeName,

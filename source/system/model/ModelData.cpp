@@ -12,13 +12,13 @@
 #include	"vertexproto.h"
 #include	"utftosjisconv.h"
 
-std::vector<Texture> ModelData::LoadMaterialTextures(
+std::vector<MeshTextureInfo> ModelData::LoadMaterialTextures(
 	aiMaterial* _mtrl,
 	aiTextureType _type,
 	std::string _typeName,
 	const aiScene * _scene)
 {
-	std::vector<Texture> textures;		// このマテリアルに関連づいたDIFFUSEテクスチャのリスト
+	std::vector<MeshTextureInfo> textures;		// このマテリアルに関連づいたDIFFUSEテクスチャのリスト
 	ID3D11Device* dev;
 	ID3D11DeviceContext* devcon;
 
@@ -50,7 +50,7 @@ std::vector<Texture> ModelData::LoadMaterialTextures(
 		}
 		if (!skip)
 		{   // まだ読み込まれていなかった場合
-			Texture tex;
+			MeshTextureInfo tex;
 
 			std::string filename = std::string(str.C_Str());
 			std::string filenameonly = ExtractFileName(filename, '\\');		// ファイル名を取得
@@ -183,7 +183,7 @@ Mesh ModelData::processMesh(aiMesh * mesh, const aiScene * scene, int meshidx)
 {
 	std::vector<Vertex> vertices;			// 頂点
 	std::vector<unsigned int> indices;		// 面の構成情報
-	std::vector<Texture> textures;			// テクスチャ
+	std::vector<MeshTextureInfo> textures;			// テクスチャ
 	Material mtrl;
 
 	// 頂点情報を取得
@@ -232,7 +232,7 @@ Mesh ModelData::processMesh(aiMesh * mesh, const aiScene * scene, int meshidx)
 		aiMaterial* material = scene->mMaterials[mtrlidx];
 
 		// このマテリアルに関連づいたテクスチャを取り出す
-		std::vector<Texture> diffuseMaps = LoadMaterialTextures(material, aiTextureType_DIFFUSE, "texture_diffuse", scene);
+		std::vector<MeshTextureInfo> diffuseMaps = LoadMaterialTextures(material, aiTextureType_DIFFUSE, "texture_diffuse", scene);
 
 		// このメッシュで使用しているテクスチャを保存
 		textures.insert(textures.end(), diffuseMaps.begin(), diffuseMaps.end());

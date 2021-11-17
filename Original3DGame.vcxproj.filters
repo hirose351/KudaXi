@@ -79,6 +79,9 @@
     <Filter Include="ソース ファイル\game\scene\title">
       <UniqueIdentifier>{494fe833-3fe9-44f5-9aca-e52f356570e8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\system\texture">
+      <UniqueIdentifier>{8ed53634-b49a-47e4-9db4-df0c8e7a0015}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\Application.cpp">
@@ -219,14 +222,17 @@
     <ClCompile Include="source\game\gameobject\player.cpp">
       <Filter>ソース ファイル\game\gameobject\player</Filter>
     </ClCompile>
-    <ClCompile Include="source\game\component\quad2d_component.cpp">
-      <Filter>ソース ファイル\game\component\quad2d</Filter>
-    </ClCompile>
     <ClCompile Include="source\game\component\component_base.cpp">
       <Filter>ソース ファイル\game\component</Filter>
     </ClCompile>
     <ClCompile Include="source\game\scene\title_scene.cpp">
       <Filter>ソース ファイル\game\scene\title</Filter>
+    </ClCompile>
+    <ClCompile Include="source\game\component\sprite_component.cpp">
+      <Filter>ソース ファイル\game\component\quad2d</Filter>
+    </ClCompile>
+    <ClCompile Include="source\system\texture\texture_manager.cpp">
+      <Filter>ソース ファイル\system\texture</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -407,14 +413,17 @@
     <ClInclude Include="source\game\gameobject\player.h">
       <Filter>ソース ファイル\game\gameobject\player</Filter>
     </ClInclude>
-    <ClInclude Include="source\game\component\quad2d_component.h">
-      <Filter>ソース ファイル\game\component\quad2d</Filter>
-    </ClInclude>
     <ClInclude Include="source\game\component\component_base.h">
       <Filter>ソース ファイル\game\component</Filter>
     </ClInclude>
     <ClInclude Include="source\game\scene\title_scene.h">
       <Filter>ソース ファイル\game\scene\title</Filter>
+    </ClInclude>
+    <ClInclude Include="source\game\component\sprite_component.h">
+      <Filter>ソース ファイル\game\component\quad2d</Filter>
+    </ClInclude>
+    <ClInclude Include="source\system\texture\texture_manager.h">
+      <Filter>ソース ファイル\system\texture</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
