@@ -1,6 +1,5 @@
 #include	"vector.h"
 #include	<DirectXMath.h>
-#include	<cmath>
 
 Vector3::Vector3(float _x, float _y, float _z)
 {
@@ -11,29 +10,29 @@ Vector3::Vector3(float _x, float _y, float _z)
 
 Vector3 Vector3::operator+(const Vector3& _v3)
 {
-	Vector3 work;
-	work.x = this->x + _v3.x;
-	work.y = this->y + _v3.y;
-	work.z = this->z + _v3.z;
-	return work;
+	Vector3 v3;
+	v3.x = this->x + _v3.x;
+	v3.y = this->y + _v3.y;
+	v3.z = this->z + _v3.z;
+	return v3;
 }
 
 Vector3 Vector3::operator-(const Vector3& _v3)
 {
-	Vector3 work;
-	work.x = this->x - _v3.x;
-	work.y = this->y - _v3.y;
-	work.z = this->z - _v3.z;
-	return work;
+	Vector3 v3;
+	v3.x = this->x - _v3.x;
+	v3.y = this->y - _v3.y;
+	v3.z = this->z - _v3.z;
+	return v3;
 }
 
 Vector3 Vector3::operator*(const Vector3& _v3)
 {
-	Vector3 work;
-	work.x = this->x * _v3.x;
-	work.y = this->y * _v3.y;
-	work.z = this->z * _v3.z;
-	return work;
+	Vector3 v3;
+	v3.x = this->x * _v3.x;
+	v3.y = this->y * _v3.y;
+	v3.z = this->z * _v3.z;
+	return v3;
 }
 
 void Vector3::operator*=(const Vector3& _v3)
@@ -91,20 +90,20 @@ Vector3 Vector3::operator-(const XMFLOAT3& _f3)
 
 Vector3 Vector3::operator*(const XMFLOAT3& _f3)
 {
-	Vector3 work;
-	work.x = this->x * _f3.x;
-	work.y = this->y * _f3.y;
-	work.z = this->z * _f3.z;
-	return work;
+	Vector3 v3;
+	v3.x = this->x * _f3.x;
+	v3.y = this->y * _f3.y;
+	v3.z = this->z * _f3.z;
+	return v3;
 }
 
 Vector3 Vector3::operator*(float _f)
 {
-	Vector3 work;
-	work.x = this->x * _f;
-	work.y = this->y * _f;
-	work.z = this->z * _f;
-	return work;
+	Vector3 v3;
+	v3.x = this->x * _f;
+	v3.y = this->y * _f;
+	v3.z = this->z * _f;
+	return v3;
 }
 
 void Vector3::operator*=(const XMFLOAT3 &_f3)

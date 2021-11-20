@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -136,6 +136,8 @@
   <ItemGroup>
     <ClCompile Include="source\Application.cpp" />
     <ClCompile Include="source\game.cpp" />
+    <ClCompile Include="source\game\gameobject\camera.cpp" />
+    <ClCompile Include="source\game\gameobject\CCamera.cpp" />
     <ClCompile Include="source\game\gameobject\gameobject.cpp" />
     <ClCompile Include="source\game\gameobject\player.cpp" />
     <ClCompile Include="source\game\gameobject\skydome.cpp" />

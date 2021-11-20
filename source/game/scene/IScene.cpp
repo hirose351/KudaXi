@@ -15,10 +15,10 @@ void IScene::Update()
 
 void IScene::Render()
 {
-	for (auto &obj : objectList)
-	{
-		obj->Draw();
-	}
+	//for (auto &obj : objectList)
+	//{
+	//	obj->Draw();
+	//}
 }
 
 bool IScene::Dispose()

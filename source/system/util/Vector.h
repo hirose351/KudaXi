@@ -31,5 +31,5 @@ public:
 	bool operator==(const Vector3& _v3);
 	bool operator!=(const Vector3& _v3);
 
-	DirectX::XMFLOAT3 ConversionToXMFLOAT3();
+	XMFLOAT3 ConversionToXMFLOAT3();
 };
