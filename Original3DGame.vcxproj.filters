@@ -19,9 +19,6 @@
     <Filter Include="ソース ファイル\system">
       <UniqueIdentifier>{37fe7f44-6afd-4f3f-8477-a4f58c5776fd}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\game\component">
-      <UniqueIdentifier>{f4787511-a819-42e9-9baa-5ed25f9aacef}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ソース ファイル\system\windows">
       <UniqueIdentifier>{112853c6-dc87-4179-9ea0-63080bb7da4a}</UniqueIdentifier>
     </Filter>
@@ -43,12 +40,6 @@
     <Filter Include="ソース ファイル\system\util">
       <UniqueIdentifier>{7f5dc70a-9663-4f75-b695-cc6b26e23ae4}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\game\component\camera">
-      <UniqueIdentifier>{f2db575e-ce04-42cc-bfd1-899ccfe9faa4}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ソース ファイル\game\component\Transform">
-      <UniqueIdentifier>{b1d5e8ad-4aee-47b6-8bd2-d7bc965b72ae}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ソース ファイル\game\manager">
       <UniqueIdentifier>{34ed5088-b589-4f46-835b-b0a7f9fc916f}</UniqueIdentifier>
     </Filter>
@@ -58,9 +49,6 @@
     <Filter Include="ソース ファイル\game\scene">
       <UniqueIdentifier>{1abcacf5-80b0-4bd5-bd36-7cf8a7a808d5}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\game\component\light">
-      <UniqueIdentifier>{c118fe6f-e095-422f-9947-a4ea764506c8}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ソース ファイル\game\scene\maingame">
       <UniqueIdentifier>{f1266976-3df3-417c-a01a-a1791cd6206c}</UniqueIdentifier>
     </Filter>
@@ -69,12 +57,6 @@
     </Filter>
     <Filter Include="ソース ファイル\game\gameobject\player">
       <UniqueIdentifier>{4df01ec3-5215-42a8-b46e-0f8d5a2e2399}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ソース ファイル\game\component\model">
-      <UniqueIdentifier>{0954044b-914c-4e76-8324-fdb65dc66589}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ソース ファイル\game\component\quad2d">
-      <UniqueIdentifier>{ec0d46ca-0399-4e7e-8df6-2daa8b410869}</UniqueIdentifier>
     </Filter>
     <Filter Include="ソース ファイル\game\scene\title">
       <UniqueIdentifier>{494fe833-3fe9-44f5-9aca-e52f356570e8}</UniqueIdentifier>
@@ -201,35 +183,14 @@
     <ClCompile Include="source\game\gameobject\skydome.cpp">
       <Filter>ソース ファイル\game\gameobject\skydome</Filter>
     </ClCompile>
-    <ClCompile Include="source\game\component\updatespherecamera.cpp">
-      <Filter>ソース ファイル\system\util</Filter>
-    </ClCompile>
     <ClCompile Include="source\game\gameobject\gameobject.cpp">
       <Filter>ソース ファイル\game\gameobject</Filter>
-    </ClCompile>
-    <ClCompile Include="source\game\component\transform2d_component.cpp">
-      <Filter>ソース ファイル\game\component\Transform</Filter>
-    </ClCompile>
-    <ClCompile Include="source\game\component\transfrom3d_component.cpp">
-      <Filter>ソース ファイル\game\component\Transform</Filter>
-    </ClCompile>
-    <ClCompile Include="source\game\gameobject\gameobject_component_base.cpp">
-      <Filter>ソース ファイル\game\gameobject</Filter>
-    </ClCompile>
-    <ClCompile Include="source\game\component\model_component.cpp">
-      <Filter>ソース ファイル\game\component\model</Filter>
     </ClCompile>
     <ClCompile Include="source\game\gameobject\player.cpp">
       <Filter>ソース ファイル\game\gameobject\player</Filter>
     </ClCompile>
-    <ClCompile Include="source\game\component\component_base.cpp">
-      <Filter>ソース ファイル\game\component</Filter>
-    </ClCompile>
     <ClCompile Include="source\game\scene\title_scene.cpp">
       <Filter>ソース ファイル\game\scene\title</Filter>
-    </ClCompile>
-    <ClCompile Include="source\game\component\sprite_component.cpp">
-      <Filter>ソース ファイル\game\component\quad2d</Filter>
     </ClCompile>
     <ClCompile Include="source\system\texture\texture_manager.cpp">
       <Filter>ソース ファイル\system\texture</Filter>
@@ -344,12 +305,6 @@
     <ClInclude Include="source\system\util\2dsystem.h">
       <Filter>ソース ファイル\system\util</Filter>
     </ClInclude>
-    <ClInclude Include="source\game\component\CCamera.h">
-      <Filter>ソース ファイル\game\component\camera</Filter>
-    </ClInclude>
-    <ClInclude Include="source\game\component\CLight.h">
-      <Filter>ソース ファイル\game\component\light</Filter>
-    </ClInclude>
     <ClInclude Include="source\system\util\quad.h">
       <Filter>ソース ファイル\system\util</Filter>
     </ClInclude>
@@ -369,9 +324,6 @@
       <Filter>ソース ファイル\game\gameobject\skydome</Filter>
     </ClInclude>
     <ClInclude Include="source\system\util\shaderhashmap.h">
-      <Filter>ソース ファイル\system\util</Filter>
-    </ClInclude>
-    <ClInclude Include="source\game\component\updatespherecamera.h">
       <Filter>ソース ファイル\system\util</Filter>
     </ClInclude>
     <ClInclude Include="source\system\util\line.h">
@@ -395,35 +347,20 @@
     <ClInclude Include="source\system\util\Vector.h">
       <Filter>ソース ファイル\system\util</Filter>
     </ClInclude>
-    <ClInclude Include="source\game\component\transform2d_component.h">
-      <Filter>ソース ファイル\game\component\Transform</Filter>
-    </ClInclude>
-    <ClInclude Include="source\game\component\transform3d_component.h">
-      <Filter>ソース ファイル\game\component\Transform</Filter>
-    </ClInclude>
-    <ClInclude Include="source\game\gameobject\gameobject_component_base.h">
-      <Filter>ソース ファイル\game\gameobject</Filter>
-    </ClInclude>
-    <ClInclude Include="source\game\component\allcomponents.h">
-      <Filter>ソース ファイル\game\component</Filter>
-    </ClInclude>
-    <ClInclude Include="source\game\component\model_component.h">
-      <Filter>ソース ファイル\game\component\model</Filter>
-    </ClInclude>
     <ClInclude Include="source\game\gameobject\player.h">
       <Filter>ソース ファイル\game\gameobject\player</Filter>
-    </ClInclude>
-    <ClInclude Include="source\game\component\component_base.h">
-      <Filter>ソース ファイル\game\component</Filter>
     </ClInclude>
     <ClInclude Include="source\game\scene\title_scene.h">
       <Filter>ソース ファイル\game\scene\title</Filter>
     </ClInclude>
-    <ClInclude Include="source\game\component\sprite_component.h">
-      <Filter>ソース ファイル\game\component\quad2d</Filter>
-    </ClInclude>
     <ClInclude Include="source\system\texture\texture_manager.h">
       <Filter>ソース ファイル\system\texture</Filter>
+    </ClInclude>
+    <ClInclude Include="source\game\gameobject\CCamera.h">
+      <Filter>ソース ファイル\game\gameobject</Filter>
+    </ClInclude>
+    <ClInclude Include="source\game\gameobject\CLight.h">
+      <Filter>ソース ファイル\game\gameobject</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

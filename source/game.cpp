@@ -2,7 +2,7 @@
 #include	"Application.h"
 #include	"game/manager/SceneManager.h"
 #include	"game/scene/MaingameScene.h"
-#include	"game/component/CCamera.h"
+#include	"game/gameobject/CCamera.h"
 #include	"system/dx11/CDirectInput.h"
 #include	"system/dx11/DX11Settransform.h"
 #include	"system/imgui/util/myimgui.h"

@@ -1,18 +1,20 @@
 #include	"texture_manager.h"
 #include	"../dx11/DX11Settransform.h"
+#include	<memory>
+#include	<wrl/client.h>
 
 void TextureManager::Finalize()
 {
 }
 
-bool TextureManager::LoadTexture(const std::string& _texFileName)
+bool TextureManager::LoadTexture(std::string _texFileName)
 {
 	// ë∂ç›Ç∑ÇÈÇ©ÇämÇ©ÇﬂÇÈ
 	auto it = mTextureInfo.find(_texFileName);
 
 	// ë∂ç›ÇµÇƒÇ¢ÇÍÇŒ
 	if (it != mTextureInfo.end())
-		return;
+		return false;
 
 	mTextureInfo[_texFileName];
 
@@ -24,13 +26,13 @@ bool TextureManager::LoadTexture(const std::string& _texFileName)
 	device = CDirectXGraphics::GetInstance()->GetDXDevice();
 	ID3D11DeviceContext* devicecontext = CDirectXGraphics::GetInstance()->GetImmediateContext();
 
-	bool sts = CreateSRVfromFile(_texFileName.c_str, device, devicecontext, &mTextureInfo[_texFileName].texRes, &mTextureInfo[_texFileName].texSrv);
+	bool sts = CreateSRVfromFile(_texFileName.c_str(), device, devicecontext, &mTextureInfo[_texFileName].texRes, &mTextureInfo[_texFileName].texSrv);
 	if (!sts)
 	{
 		MessageBox(nullptr, "CreateSRVfromfile ÉGÉâÅ[", "error!!", MB_OK);
 		return false;
 	}
-	return false;
+	return true;
 }
 
 TextureInfo* TextureManager::GetTexturePtr(std::string _key)

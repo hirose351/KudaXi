@@ -2,9 +2,9 @@
 #include	<DirectXMath.h>
 #include	"../CDirectxGraphics.h"
 #include	"../Shader.h"
-#include	"../../../game/component/CCamera.h"
+#include	"../../../game/gameobject/CCamera.h"
 #include	"../../../memory.h"
-#include	"../../../game/component/CLight.h"
+#include	"../../../game/gameobject/CLight.h"
 #include	"../DX11Settransform.h"
 
 CLight				gDirectionallight;

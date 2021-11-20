@@ -28,7 +28,7 @@ public:
 	void Finalize();
 
 	// ロード
-	bool LoadTexture(const std::string& _texFileName);
+	bool LoadTexture(std::string _texFileName);
 
 	// ポインタ取得
 	TextureInfo* GetTexturePtr(std::string _key);

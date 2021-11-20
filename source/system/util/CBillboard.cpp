@@ -3,7 +3,7 @@
 #include	"../dx11/Shader.h"
 #include	"../dx11/DX11Settransform.h"
 #include	"../dx11/util/dx11mathutil.h"
-#include	"../../game/component/CCamera.h"
+#include	"../../game/gameobject/CCamera.h"
 
 ComPtr <ID3D11InputLayout> CBillboard::smIL = nullptr;
 ComPtr <ID3D11VertexShader> CBillboard::smVS = nullptr;
