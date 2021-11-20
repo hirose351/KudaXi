@@ -14,21 +14,25 @@ class TextureManager : public Uncopyable
 {
 private:
 	std::unordered_map<std::string, TextureInfo> mTextureInfo;	// テクスチャ格納辞書
+	ID3D11Device* mpDevice;
 
+	// ロード
+	bool LoadTexture(std::string _texFileName);
+
+	void Finalize();
 public:
 	static TextureManager& GetInstance() {
 		static TextureManager Instance;
 		return Instance;
 	}
 
+	TextureManager() {
+		mpDevice = CDirectXGraphics::GetInstance()->GetDXDevice();
+	}
+
 	virtual ~TextureManager() {
 		Finalize();
 	}
-
-	void Finalize();
-
-	// ロード
-	bool LoadTexture(std::string _texFileName);
 
 	// ポインタ取得
 	TextureInfo* GetTexturePtr(std::string _key);

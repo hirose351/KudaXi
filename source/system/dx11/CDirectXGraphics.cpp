@@ -307,7 +307,7 @@ bool CDirectXGraphics::Init(HWND hWnd, unsigned int Width, unsigned int Height, 
 	blendStateDescription.RenderTarget[0].RenderTargetWriteMask = 0x0f;
 
 	//ブレンドステート作成
-	hr = mpDevice->CreateBlendState(&blendStateDescription, &mAlphaEnableBlendingState);
+	hr = mpDevice->CreateBlendState(&blendStateDescription, &mpAlphaEnableBlendingState);
 	if (FAILED(hr))
 	{
 		return false;
@@ -317,7 +317,7 @@ bool CDirectXGraphics::Init(HWND hWnd, unsigned int Width, unsigned int Height, 
 	blendStateDescription.RenderTarget[0].BlendEnable = false;
 
 	//ブレンドステート作成
-	hr = mpDevice->CreateBlendState(&blendStateDescription, &mAlphaDisableBlendingState);
+	hr = mpDevice->CreateBlendState(&blendStateDescription, &mpAlphaDisableBlendingState);
 	if (FAILED(hr))
 	{
 		return false;
@@ -335,14 +335,14 @@ bool CDirectXGraphics::Init(HWND hWnd, unsigned int Width, unsigned int Height, 
 	//	smpDesc.MaxLOD = D3D11_FLOAT32_MAX;
 
 		// サンプラーステート生成
-	hr = mpDevice->CreateSamplerState(&smpDesc, &mSamplerstate);
+	hr = mpDevice->CreateSamplerState(&smpDesc, &mpSamplerstate);
 	if (FAILED(hr))
 	{
 		return false;
 	}
 
 	// サンプラーステートを転送
-	mpImmediateContext->PSSetSamplers(0, 1, &mSamplerstate);
+	mpImmediateContext->PSSetSamplers(0, 1, &mpSamplerstate);
 
 	mHeight = Height;
 	mWidth = Width;
@@ -359,7 +359,7 @@ void CDirectXGraphics::TurnOnAlphaBlending()
 	blendFactor[3] = 0.0f;
 
 	//アルファブレンドをONにする
-	mpImmediateContext->OMSetBlendState(mAlphaEnableBlendingState.Get(), blendFactor, 0xffffffff);
+	mpImmediateContext->OMSetBlendState(mpAlphaEnableBlendingState.Get(), blendFactor, 0xffffffff);
 	return;
 }
 
@@ -373,7 +373,7 @@ void CDirectXGraphics::TurnOffAlphaBlending()
 	blendFactor[3] = 0.0f;
 
 	//アルファブレンドをOFFにする
-	mpImmediateContext->OMSetBlendState(mAlphaDisableBlendingState.Get(), blendFactor, 0xffffffff);
+	mpImmediateContext->OMSetBlendState(mpAlphaDisableBlendingState.Get(), blendFactor, 0xffffffff);
 	return;
 }
 

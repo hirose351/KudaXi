@@ -1,39 +1,35 @@
 #pragma once
 #include	<d3d11.h>
 #include	<wrl/client.h>
+#include	"../util/uncopyable.h"
 
 using Microsoft::WRL::ComPtr;
 
-class CDirectXGraphics {
+class CDirectXGraphics : public Uncopyable
+{
 private:
 	CDirectXGraphics() {}
-	ComPtr<ID3D11Device>			mpDevice;					// DIRECT3DDEVICE11デバイス
-	ComPtr<ID3D11DeviceContext>		mpImmediateContext;		// DIRECT3DDEVICE11デバイスコンテキスト
-	ComPtr<IDXGISwapChain>			mpSwapChain;				// スワップチェイン
+	ComPtr<ID3D11Device>			mpDevice;						// DIRECT3DDEVICE11デバイス
+	ComPtr<ID3D11DeviceContext>		mpImmediateContext;				// DIRECT3DDEVICE11デバイスコンテキスト
+	ComPtr<IDXGISwapChain>			mpSwapChain;					// スワップチェイン
 
-	ComPtr<ID3D11RenderTargetView>	mpRenderTargetView;		// レンダーターゲットビュー
-	ComPtr<ID3D11Texture2D>			mDepthStencilBuffer;		// Ｚバッファ、ステンシルバッファ
-	ComPtr<ID3D11DepthStencilState>	mDepthStencilState;		// Ｚバッファ、ステンシルステート
-	ComPtr<ID3D11DepthStencilView>	mDepthStencilView;			// Ｚバッファ、ステンシルビュー
-	ComPtr<ID3D11RasterizerState>	mRasterState;				// ラスターステータス
+	ComPtr<ID3D11RenderTargetView>	mpRenderTargetView;				// レンダーターゲットビュー
+	ComPtr<ID3D11Texture2D>			mDepthStencilBuffer;			// Ｚバッファ、ステンシルバッファ
+	ComPtr<ID3D11DepthStencilState>	mDepthStencilState;				// Ｚバッファ、ステンシルステート
+	ComPtr<ID3D11DepthStencilView>	mDepthStencilView;				// Ｚバッファ、ステンシルビュー
+	ComPtr<ID3D11RasterizerState>	mRasterState;					// ラスターステータス
 
-	D3D_DRIVER_TYPE					mDriverType;				// ドライバタイプ
-	D3D_FEATURE_LEVEL				mFeatureLevel;				// 機能レベル
+	D3D_DRIVER_TYPE					mDriverType;					// ドライバタイプ
+	D3D_FEATURE_LEVEL				mFeatureLevel;					// 機能レベル
 
-	ComPtr<ID3D11BlendState>		mAlphaEnableBlendingState;		// アルファブレンドステート（有効）
-	ComPtr<ID3D11BlendState>		mAlphaDisableBlendingState;	// アルファブレンドステート（無効）
+	ComPtr<ID3D11BlendState>		mpAlphaEnableBlendingState;		// アルファブレンドステート（有効）
+	ComPtr<ID3D11BlendState>		mpAlphaDisableBlendingState;	// アルファブレンドステート（無効）
 
-	ComPtr<ID3D11SamplerState>		mSamplerstate;					// サンプラーステート
+	ComPtr<ID3D11SamplerState>		mpSamplerstate;					// サンプラーステート
 
-	int								mWidth = 0;				// バックバッファＸサイズ
-	int								mHeight = 0;				// バックバッファＹサイズ
+	int								mWidth = 0;						// バックバッファＸサイズ
+	int								mHeight = 0;					// バックバッファＹサイズ
 public:
-
-	CDirectXGraphics(const CDirectXGraphics&) = delete;
-	CDirectXGraphics& operator=(const CDirectXGraphics&) = delete;
-	CDirectXGraphics(CDirectXGraphics&&) = delete;
-	CDirectXGraphics& operator=(CDirectXGraphics&&) = delete;
-
 	~CDirectXGraphics() {
 		Exit();
 	}

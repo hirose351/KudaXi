@@ -1,52 +1,30 @@
 #pragma once
-#include <iostream>
-#include <string>
-#include <vector>
-
-//オブジェクトタイプ
-enum class ObjectType
-{
-	Player = 0b00,
-	Enemy = 0b01,
-	Obstracle = 0b11,
-};
+#include	<string>
+#include	"gameobject_utility.h"
 
 //ゲームオブジェクトの基底クラス
 class GameObject
 {
 protected:
-	/*	全ゲームオブジェクトが持ってるパラメータをここに突っ込んでいく。
-		外から触らないようにしておくと、不意に値が変わることが減り、管理しやすい。	*/
-
-	std::string		name;			//名前
-	unsigned int	objectID;		//オブジェクトID番号
-	bool			isExist;		//生存可否
-	ObjectType		objectType;		//オブジェクトタイプ
-
-	//std::vector<ComponentBase*> componentList;
+	std::string		mName;			//名前
+	unsigned int	mObjectID;		//オブジェクトID番号
+	bool			mIsExist;		//生存可否
+	ObjectType		mObjectType;		//オブジェクトタイプ// アクター の 状態 State mState;
+	ObjectState		mObjectState;
 
 public:
-	enum State
-	{
-		EActive,
-		EPaused,
-		EDead
-	};
-
-	GameObject() :name("NoName"), objectType(ObjectType::Obstracle) {}
+	GameObject() :mName("NoName"), mObjectType(ObjectType::Obstracle) {}
 	virtual ~GameObject();
 
-	std::string GetName() const { return name; }
-	void SetName(std::string newName) { name = newName; }
+	virtual void Init() = 0;
+	virtual void Update() = 0;
 
-	bool GetExistState() const { return isExist; }
-	void SetExistState(bool newState) { isExist = newState; }
+	std::string GetName() const { return mName; }
+	void SetName(std::string newName) { mName = newName; }
 
-	void SetObjectType(ObjectType newType) { objectType = newType; }
-	ObjectType GetObjectType() { return objectType; }
+	bool GetExistState() const { return mIsExist; }
+	void SetExistState(bool newState) { mIsExist = newState; }
 
-	virtual void Update();											//オーバーライドして使「える」メソッド。オブジェクトごとに書き分けてね。基本はオーバーライドしなくていい。
-	virtual void CollisionResponse(GameObject* opponent) = 0;		//これはどうにかしてね
-
-	void Draw();
+	void SetObjectType(ObjectType newType) { mObjectType = newType; }
+	ObjectType GetObjectType() { return mObjectType; }
 };

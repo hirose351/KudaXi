@@ -64,6 +64,9 @@
     <Filter Include="ソース ファイル\system\texture">
       <UniqueIdentifier>{8ed53634-b49a-47e4-9db4-df0c8e7a0015}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\game\gameobject\util">
+      <UniqueIdentifier>{7dec68df-f2af-4741-b8d0-a820ed0a7795}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\Application.cpp">
@@ -195,6 +198,12 @@
     <ClCompile Include="source\system\texture\texture_manager.cpp">
       <Filter>ソース ファイル\system\texture</Filter>
     </ClCompile>
+    <ClCompile Include="source\game\gameobject\transform.cpp">
+      <Filter>ソース ファイル\game\gameobject</Filter>
+    </ClCompile>
+    <ClCompile Include="source\system\util\vector.cpp">
+      <Filter>ソース ファイル\system\util</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\system\model\assimpscene.h">
@@ -262,9 +271,6 @@
     </ClInclude>
     <ClInclude Include="source\system\model\vertexproto.h">
       <Filter>ソース ファイル\system\model</Filter>
-    </ClInclude>
-    <ClInclude Include="source\game\gameobject\gameobject_utility.h">
-      <Filter>ソース ファイル\game\gameobject</Filter>
     </ClInclude>
     <ClInclude Include="source\system\model\CModel.h">
       <Filter>ソース ファイル\system\model</Filter>
@@ -344,9 +350,6 @@
     <ClInclude Include="source\system\util\resource.h">
       <Filter>ソース ファイル\system\util</Filter>
     </ClInclude>
-    <ClInclude Include="source\system\util\Vector.h">
-      <Filter>ソース ファイル\system\util</Filter>
-    </ClInclude>
     <ClInclude Include="source\game\gameobject\player.h">
       <Filter>ソース ファイル\game\gameobject\player</Filter>
     </ClInclude>
@@ -361,6 +364,15 @@
     </ClInclude>
     <ClInclude Include="source\game\gameobject\CLight.h">
       <Filter>ソース ファイル\game\gameobject</Filter>
+    </ClInclude>
+    <ClInclude Include="source\game\gameobject\transform.h">
+      <Filter>ソース ファイル\game\gameobject</Filter>
+    </ClInclude>
+    <ClInclude Include="source\game\gameobject\gameobject_utility.h">
+      <Filter>ソース ファイル\game\gameobject\util</Filter>
+    </ClInclude>
+    <ClInclude Include="source\system\util\vector.h">
+      <Filter>ソース ファイル\system\util</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
