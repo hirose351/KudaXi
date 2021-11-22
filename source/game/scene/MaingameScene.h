@@ -1,5 +1,5 @@
 #pragma once
-#include	"IScene.h"
+#include	"scene_base.h"
 #include	"../../system/dx11/dx11mathutil.h"
 #include	"../../system/util/dixsmartptr.h"
 #include	<list>
@@ -17,7 +17,7 @@ enum class GAMESTATE
 	SELECT,	// ÉZÉåÉNÉg
 };
 
-class MaingameScene : public IScene
+class MaingameScene : public SceneBase
 {
 private:
 	std::list<Dix::sp<class GameObject>> mObjList;

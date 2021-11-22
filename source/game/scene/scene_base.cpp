@@ -1,19 +1,19 @@
-#include	"IScene.h"
+#include	"scene_base.h"
 #include	"../gameobject/gameobject.h"
 
-IScene::IScene() {
+SceneBase::SceneBase()
+{
 }
 
-void IScene::Update()
+void SceneBase::Update()
 {
-
 	for (auto &obj : objectList)
 	{
 		obj->Update();
 	}
 }
 
-void IScene::Render()
+void SceneBase::Render()
 {
 	//for (auto &obj : objectList)
 	//{
@@ -21,7 +21,7 @@ void IScene::Render()
 	//}
 }
 
-bool IScene::Dispose()
+bool SceneBase::Dispose()
 {
 	for (auto &obj : objectList)
 	{
@@ -34,17 +34,17 @@ bool IScene::Dispose()
 	return true;
 }
 
-void IScene::updateFadeIn(double t) {
+void SceneBase::updateFadeIn(double t) {
 	//std::cout << "updateFadeIn:" << t << std::endl;
 	Update();
 }
 
-void IScene::updateFadeOut(double t) {
+void SceneBase::updateFadeOut(double t) {
 	//std::cout << "updateFadeOut:" << t << std::endl;
 	Update();
 }
 
-void IScene::drawFadeIn(double t)
+void SceneBase::drawFadeIn(double t)
 {
 	static bool first = true;
 	// ここで真っ黒から透明へアルファ値を変化させながら画面サイズの矩形を描画する
@@ -90,7 +90,7 @@ void IScene::drawFadeIn(double t)
 	TurnOnZbuffer();
 }
 
-void IScene::drawFadeOut(double t)
+void SceneBase::drawFadeOut(double t)
 {
 	static bool first = true;
 	// ここで真っ黒から透明へアルファ値を変化させながら画面サイズの矩形を描画する

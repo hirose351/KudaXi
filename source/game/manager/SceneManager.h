@@ -11,9 +11,9 @@
 #include	"../../system/util/uncopyable.h"
 #include	"../../system/util/StopWatch.h"
 #include	"../../system/util/quad2d.h"
-#include	"../scene/IScene.h"
+#include	"../scene/scene_base.h"
 
-class IScene;
+class SceneBase;
 
 class SceneManager :public Uncopyable {
 private:
@@ -28,7 +28,7 @@ private:
 	};
 
 	// シーン保管
-	std::unordered_map<std::string, std::unique_ptr<IScene>>	mScenefactories;
+	std::unordered_map<std::string, std::unique_ptr<SceneBase>>	mScenefactories;
 	std::string mBeforescenekey;			// 前シーンのキー
 	std::string mCurrentscenekey;			// カレントシーンのキー
 	std::string mNextscenekey;				// 次シーン

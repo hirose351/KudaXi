@@ -5,7 +5,7 @@
 class SceneManager;
 class GameObject;
 
-class IScene : Uncopyable {
+class SceneBase : Uncopyable {
 private:
 	SceneManager*	mManager;
 
@@ -14,12 +14,12 @@ private:
 	Quad2D		gQuadfadein;
 	Quad2D		gQuadfadeout;
 public:
-	IScene();
+	SceneBase();
 	void SetSceneManager(SceneManager* _sm) {
 		mManager = _sm;
 	}
 
-	virtual ~IScene() {}
+	virtual ~SceneBase() {}
 
 	// ‰Šú‰»
 	virtual void AddGameObject() = 0;

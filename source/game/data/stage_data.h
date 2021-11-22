@@ -8,7 +8,9 @@ public:
 	StageData() {
 		mStageName = "Test";
 	}
+
 	~StageData() { Finalize(); }
+
 	// å„énññ
 	void Finalize()
 	{

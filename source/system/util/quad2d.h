@@ -5,6 +5,7 @@
 #include	<string>
 #include	"../dx11/dx11mathutil.h"
 #include	"shaderhashmap.h"
+#include	"texture_manager.h"
 
 // comptr
 using Microsoft::WRL::ComPtr;
@@ -28,8 +29,7 @@ private:
 	float					mHeight;				// 高さ
 	float					mDepth;					// 深度値
 
-	ComPtr<ID3D11ShaderResourceView> mSrv;			// シェーダーリソースビュー
-	ComPtr<ID3D11Resource> mResource;				// リソース
+	TextureInfo mTexInfo;
 
 	DirectX::XMFLOAT2 mUv[4];						// アニメーション用UVテーブル
 	unsigned int mDivu;								// 画像の横分割数

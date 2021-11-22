@@ -1,7 +1,7 @@
 #pragma once
-#include "IScene.h"
+#include "scene_base.h"
 
-class TitleScene : public IScene
+class TitleScene : public SceneBase
 {
 private:
 

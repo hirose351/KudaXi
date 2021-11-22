@@ -177,9 +177,6 @@
     <ClCompile Include="source\game\scene\MaingameScene.cpp">
       <Filter>ソース ファイル\game\scene\maingame</Filter>
     </ClCompile>
-    <ClCompile Include="source\game\scene\IScene.cpp">
-      <Filter>ソース ファイル\game\scene</Filter>
-    </ClCompile>
     <ClCompile Include="source\game\gameobject\skydome.cpp">
       <Filter>ソース ファイル\game\gameobject\skydome</Filter>
     </ClCompile>
@@ -228,14 +225,17 @@
     <ClCompile Include="source\game\data\stage_data.cpp">
       <Filter>ソース ファイル\game\data</Filter>
     </ClCompile>
-    <ClCompile Include="source\game\gameobject\collision.cpp">
-      <Filter>ソース ファイル\game\gameobject\util</Filter>
-    </ClCompile>
     <ClCompile Include="source\game\manager\game_manager.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="source\system\util\quad2d.cpp">
       <Filter>ソース ファイル\system\texture</Filter>
+    </ClCompile>
+    <ClCompile Include="source\game\gameobject\collision_base.cpp">
+      <Filter>ソース ファイル\game\gameobject\util</Filter>
+    </ClCompile>
+    <ClCompile Include="source\game\scene\scene_base.cpp">
+      <Filter>ソース ファイル\game\scene</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -344,9 +344,6 @@
     <ClInclude Include="source\game\scene\MaingameScene.h">
       <Filter>ソース ファイル\game\scene\maingame</Filter>
     </ClInclude>
-    <ClInclude Include="source\game\scene\IScene.h">
-      <Filter>ソース ファイル\game\scene</Filter>
-    </ClInclude>
     <ClInclude Include="source\game\gameobject\skydome.h">
       <Filter>ソース ファイル\game\gameobject\skydome</Filter>
     </ClInclude>
@@ -422,14 +419,17 @@
     <ClInclude Include="source\game\data\stage_data.h">
       <Filter>ソース ファイル\game\data</Filter>
     </ClInclude>
-    <ClInclude Include="source\game\gameobject\collision.h">
-      <Filter>ソース ファイル\game\gameobject\util</Filter>
-    </ClInclude>
     <ClInclude Include="source\game\manager\game_manager.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="source\system\util\quad2d.h">
       <Filter>ソース ファイル\system\texture</Filter>
+    </ClInclude>
+    <ClInclude Include="source\game\gameobject\collision_base.h">
+      <Filter>ソース ファイル\game\gameobject\util</Filter>
+    </ClInclude>
+    <ClInclude Include="source\game\scene\scene_base.h">
+      <Filter>ソース ファイル\game\scene</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

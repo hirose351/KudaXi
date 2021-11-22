@@ -4,17 +4,6 @@
 // comptr
 using Microsoft::WRL::ComPtr;
 
-// 使用する頂点シェーダー名
-const char* vsfilename[] = {
-	"shader/basicvs.hlsl"
-};
-
-// 使用するピクセルシェーダー名
-const char* psfilename[] = {
-	"shader/basicps.hlsl",
-	"shader/basicnotexps.hlsl"
-};
-
 // 矩形の初期化
 bool Quad2D::Init(int width, int height, const char *tex_name, const DirectX::XMFLOAT4 &color, int _u, int _v, float z) {
 	DX11MtxIdentity(mWorldmtx);	// 初期姿勢
@@ -31,48 +20,47 @@ bool Quad2D::Init(int width, int height, const char *tex_name, const DirectX::XM
 	mHeight = (float)height;
 	mColor = color;
 
-	// ピクセルシェーダーを生成
-	bool sts = ShaderHashmap::GetInstance()->SetPixelShader(psfilename[0]);
-	if (!sts)
-	{
-		MessageBox(nullptr, "SetPixelShader error(basicps.hlsl)", "error", MB_OK);
-		return false;
-	}
+	//// ピクセルシェーダーを生成
+	//bool sts = ShaderHashmap::GetInstance()->SetPixelShader(psfilename[0]);
+	//if (!sts)
+	//{
+	//	MessageBox(nullptr, "SetPixelShader error(basicps.hlsl)", "error", MB_OK);
+	//	return false;
+	//}
 
-	// ピクセルシェーダーを生成
-	sts = ShaderHashmap::GetInstance()->SetPixelShader(psfilename[1]);
-	if (!sts)
-	{
-		MessageBox(nullptr, "SetPixelShader error(basicnotexps.hlsl)", "error", MB_OK);
-		return false;
-	}
+	//// ピクセルシェーダーを生成
+	//sts = ShaderHashmap::GetInstance()->SetPixelShader(psfilename[1]);
+	//if (!sts)
+	//{
+	//	MessageBox(nullptr, "SetPixelShader error(basicnotexps.hlsl)", "error", MB_OK);
+	//	return false;
+	//}
 
-	// 頂点データの定義
-	D3D11_INPUT_ELEMENT_DESC layout[] =
-	{
-		{ "POSITION",	0, DXGI_FORMAT_R32G32B32_FLOAT,0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0 },
-		{ "COLOR",		0, DXGI_FORMAT_R32G32B32A32_FLOAT,0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0 },
-		{ "TEXCOORD",	0, DXGI_FORMAT_R32G32_FLOAT,0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0 }
-	};
+	//// 頂点データの定義
+	//D3D11_INPUT_ELEMENT_DESC layout[] =
+	//{
+	//	{ "POSITION",	0, DXGI_FORMAT_R32G32B32_FLOAT,0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0 },
+	//	{ "COLOR",		0, DXGI_FORMAT_R32G32B32A32_FLOAT,0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0 },
+	//	{ "TEXCOORD",	0, DXGI_FORMAT_R32G32_FLOAT,0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0 }
+	//};
 
-	// エレメント数
-	unsigned int numElements = ARRAYSIZE(layout);
+	//// エレメント数
+	//unsigned int numElements = ARRAYSIZE(layout);
 
-	// 頂点シェーダーを生成
-	sts = ShaderHashmap::GetInstance()->SetVertexShader(
-		vsfilename[0],			// 頂点シェーダーファイル名
-		layout,					// 頂点レイアウト
-		numElements);			// エレメント数
+	//// 頂点シェーダーを生成
+	//sts = ShaderHashmap::GetInstance()->SetVertexShader(
+	//	vsfilename[0],			// 頂点シェーダーファイル名
+	//	layout,					// 頂点レイアウト
+	//	numElements);			// エレメント数
 
 	// 頂点初期化
 	UpdateVertex(width, height, color, z);
 
 	// デバイスを取得
-	ID3D11Device* device;
-	device = CDirectXGraphics::GetInstance()->GetDXDevice();
+	ID3D11Device* device = CDirectXGraphics::GetInstance()->GetDXDevice();
 
 	// 頂点バッファを生成
-	sts = CreateVertexBufferWrite(
+	bool sts = CreateVertexBufferWrite(
 		device,						// デバイスオブジェクト
 		sizeof(Quad2D::Vertex),		// １頂点当たりバイト数
 		4,							// 頂点数
@@ -104,11 +92,11 @@ bool Quad2D::Init(int width, int height, const char *tex_name, const DirectX::XM
 	device = CDirectXGraphics::GetInstance()->GetDXDevice();
 	ID3D11DeviceContext* devicecontext = CDirectXGraphics::GetInstance()->GetImmediateContext();
 
-	sts = CreateSRVfromFile(tex_name, device, devicecontext, &mResource, &mSrv);
+	sts = CreateSRVfromFile(tex_name, device, devicecontext, &mTexInfo.texRes, &mTexInfo.texSrv);
 	if (!sts)
 	{
 		// テクスチャ不要な場合はNoTexと入力して描画させないでおく
-		//MessageBox(nullptr, "CreateSRVfromfile エラー", "error!!", MB_OK);
+		MessageBox(nullptr, "CreateSRVfromfile エラー", "error!!", MB_OK);
 		return false;
 	}
 
@@ -126,8 +114,7 @@ bool Quad2D::Init(int width, int height, const char *tex_name, const DirectX::XM
 // 描画
 void Quad2D::Draw() {
 	// デバイスコンテキストを取得
-	ID3D11DeviceContext* devcontext;
-	devcontext = CDirectXGraphics::GetInstance()->GetImmediateContext();
+	ID3D11DeviceContext* devcontext = CDirectXGraphics::GetInstance()->GetImmediateContext();
 
 	// 座標変換用の行列をセット
 	DX11SetTransform::GetInstance()->SetTransform(DX11SetTransform::TYPE::WORLD, mWorldmtx);
@@ -136,7 +123,7 @@ void Quad2D::Draw() {
 	unsigned  offset = 0;						// オフセット値をセット
 
 	// デバイスコンテキストをシェーダーリソースへセット
-	devcontext->PSSetShaderResources(0, 1, mSrv.GetAddressOf());
+	devcontext->PSSetShaderResources(0, 1, mTexInfo.texSrv.GetAddressOf());
 
 	// 頂点バッファをデバイスコンテキストへセット
 	devcontext->IASetVertexBuffers(
@@ -155,86 +142,84 @@ void Quad2D::Draw() {
 	// トポロジーをセット
 	devcontext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
 
-	// 頂点シェーダー、ピクセルシェーダー取得
-	ID3D11VertexShader* vs;
-	vs = ShaderHashmap::GetInstance()->GetVertexShader(vsfilename[0]);
-	ID3D11PixelShader* ps;
-	ps = ShaderHashmap::GetInstance()->GetPixelShader(psfilename[0]);
+	//// 頂点シェーダー、ピクセルシェーダー取得
+	//ID3D11VertexShader* vs = ShaderHashmap::GetInstance()->GetVertexShader(vsfilename[0]);
+	//ID3D11PixelShader* ps = ShaderHashmap::GetInstance()->GetPixelShader(psfilename[0]);
 
-	// 頂点レイアウト取得
-	ID3D11InputLayout* layout;
-	layout = ShaderHashmap::GetInstance()->GetVertexLayout(vsfilename[0]);
+	//// 頂点レイアウト取得
+	//ID3D11InputLayout* layout = ShaderHashmap::GetInstance()->GetVertexLayout(vsfilename[0]);
 
-	devcontext->VSSetShader(vs, nullptr, 0);
-	devcontext->GSSetShader(nullptr, nullptr, 0);
-	devcontext->HSSetShader(nullptr, nullptr, 0);
-	devcontext->DSSetShader(nullptr, nullptr, 0);
-	devcontext->PSSetShader(ps, nullptr, 0);
+	//devcontext->VSSetShader(vs, nullptr, 0);
+	//devcontext->GSSetShader(nullptr, nullptr, 0);
+	//devcontext->HSSetShader(nullptr, nullptr, 0);
+	//devcontext->DSSetShader(nullptr, nullptr, 0);
+	//devcontext->PSSetShader(ps, nullptr, 0);
 
-	// 頂点フォーマットをセット
-	devcontext->IASetInputLayout(layout);
+	//// 頂点フォーマットをセット
+	//devcontext->IASetInputLayout(layout);
 
-	// ドローコール発行
-	devcontext->DrawIndexed(
-		4,						// インデックス数
-		0,						// 開始インデックス
-		0);						// 基準頂点インデックス
+	//// ドローコール発行
+	//devcontext->DrawIndexed(
+	//	4,						// インデックス数
+	//	0,						// 開始インデックス
+	//	0);						// 基準頂点インデックス
+
+	TextureManager::GetInstance().Draw(mTexInfo, mWorldmtx);
 }
-
 
 // 描画
 void Quad2D::DrawNoTex() {
-	// デバイスコンテキストを取得
-	ID3D11DeviceContext* devcontext;
-	devcontext = CDirectXGraphics::GetInstance()->GetImmediateContext();
+	//// デバイスコンテキストを取得
+	//ID3D11DeviceContext* devcontext;
+	//devcontext = CDirectXGraphics::GetInstance()->GetImmediateContext();
 
-	// 座標変換用の行列をセット
-	DX11SetTransform::GetInstance()->SetTransform(DX11SetTransform::TYPE::WORLD, mWorldmtx);
+	//// 座標変換用の行列をセット
+	//DX11SetTransform::GetInstance()->SetTransform(DX11SetTransform::TYPE::WORLD, mWorldmtx);
 
-	unsigned int stride = sizeof(Quad2D::Vertex);	// ストライドをセット（１頂点当たりのバイト数）
-	unsigned  offset = 0;						// オフセット値をセット
+	//unsigned int stride = sizeof(Quad2D::Vertex);	// ストライドをセット（１頂点当たりのバイト数）
+	//unsigned  offset = 0;						// オフセット値をセット
 
-	// 頂点バッファをデバイスコンテキストへセット
-	devcontext->IASetVertexBuffers(
-		0,									// スタートスロット
-		1,									// 頂点バッファ個数
-		mVertexbuffer.GetAddressOf(),		// 頂点バッファの先頭アドレス
-		&stride,							// ストライド
-		&offset);							// オフセット
+	//// 頂点バッファをデバイスコンテキストへセット
+	//devcontext->IASetVertexBuffers(
+	//	0,									// スタートスロット
+	//	1,									// 頂点バッファ個数
+	//	mVertexbuffer.GetAddressOf(),		// 頂点バッファの先頭アドレス
+	//	&stride,							// ストライド
+	//	&offset);							// オフセット
 
-	// インデックスバッファをデバイスコンテキストへセット
-	devcontext->IASetIndexBuffer(
-		mIndexbuffer.Get(),				// インデックスバッファ
-		DXGI_FORMAT_R32_UINT,				// フォーマット
-		0);									// オフセット
+	//// インデックスバッファをデバイスコンテキストへセット
+	//devcontext->IASetIndexBuffer(
+	//	mIndexbuffer.Get(),				// インデックスバッファ
+	//	DXGI_FORMAT_R32_UINT,				// フォーマット
+	//	0);									// オフセット
 
-	// トポロジーをセット
-	devcontext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
+	//// トポロジーをセット
+	//devcontext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
 
-	// 頂点シェーダー、ピクセルシェーダー取得
-	ID3D11VertexShader* vs;
-	vs = ShaderHashmap::GetInstance()->GetVertexShader(vsfilename[0]);
-	ID3D11PixelShader* ps;
-	ps = ShaderHashmap::GetInstance()->GetPixelShader(psfilename[1]);
+	//// 頂点シェーダー、ピクセルシェーダー取得
+	//ID3D11VertexShader* vs;
+	//vs = ShaderHashmap::GetInstance()->GetVertexShader(vsfilename[0]);
+	//ID3D11PixelShader* ps;
+	//ps = ShaderHashmap::GetInstance()->GetPixelShader(psfilename[1]);
 
-	// 頂点レイアウト取得
-	ID3D11InputLayout* layout;
-	layout = ShaderHashmap::GetInstance()->GetVertexLayout(vsfilename[0]);
+	//// 頂点レイアウト取得
+	//ID3D11InputLayout* layout;
+	//layout = ShaderHashmap::GetInstance()->GetVertexLayout(vsfilename[0]);
 
-	devcontext->VSSetShader(vs, nullptr, 0);
-	devcontext->GSSetShader(nullptr, nullptr, 0);
-	devcontext->HSSetShader(nullptr, nullptr, 0);
-	devcontext->DSSetShader(nullptr, nullptr, 0);
-	devcontext->PSSetShader(ps, nullptr, 0);
+	//devcontext->VSSetShader(vs, nullptr, 0);
+	//devcontext->GSSetShader(nullptr, nullptr, 0);
+	//devcontext->HSSetShader(nullptr, nullptr, 0);
+	//devcontext->DSSetShader(nullptr, nullptr, 0);
+	//devcontext->PSSetShader(ps, nullptr, 0);
 
-	// 頂点フォーマットをセット
-	devcontext->IASetInputLayout(layout);
+	//// 頂点フォーマットをセット
+	//devcontext->IASetInputLayout(layout);
 
-	// ドローコール発行
-	devcontext->DrawIndexed(
-		4,						// インデックス数
-		0,						// 開始インデックス
-		0);						// 基準頂点インデックス
+	//// ドローコール発行
+	//devcontext->DrawIndexed(
+	//	4,						// インデックス数
+	//	0,						// 開始インデックス
+	//	0);						// 基準頂点インデックス
 }
 
 // 拡大、縮小
