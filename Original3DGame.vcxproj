@@ -147,6 +147,7 @@
     <ClCompile Include="source\game\gameobject\skydome.cpp" />
     <ClCompile Include="source\game\gameobject\transform.cpp" />
     <ClCompile Include="source\game\manager\dice_manager.cpp" />
+    <ClCompile Include="source\game\manager\game_manager.cpp" />
     <ClCompile Include="source\game\manager\SceneManager.cpp" />
     <ClCompile Include="source\game\manager\SelectManager.cpp" />
     <ClCompile Include="source\game\manager\stagedata_manager.cpp" />
@@ -203,6 +204,7 @@
     <ClInclude Include="source\game\gameobject\skydome.h" />
     <ClInclude Include="source\game\gameobject\transform.h" />
     <ClInclude Include="source\game\manager\dice_manager.h" />
+    <ClInclude Include="source\game\manager\game_manager.h" />
     <ClInclude Include="source\game\manager\IGameManager.h" />
     <ClInclude Include="source\game\manager\SceneManager.h" />
     <ClInclude Include="source\game\manager\SelectManager.h" />

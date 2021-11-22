@@ -213,9 +213,6 @@
     <ClCompile Include="source\game\gameobject\dice.cpp">
       <Filter>ソース ファイル\game\gameobject\dice</Filter>
     </ClCompile>
-    <ClCompile Include="source\system\util\quad2d.cpp">
-      <Filter>ソース ファイル\system\util</Filter>
-    </ClCompile>
     <ClCompile Include="source\game\manager\dice_manager.cpp">
       <Filter>ソース ファイル\game\manager</Filter>
     </ClCompile>
@@ -233,6 +230,12 @@
     </ClCompile>
     <ClCompile Include="source\game\gameobject\collision.cpp">
       <Filter>ソース ファイル\game\gameobject\util</Filter>
+    </ClCompile>
+    <ClCompile Include="source\game\manager\game_manager.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="source\system\util\quad2d.cpp">
+      <Filter>ソース ファイル\system\texture</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -398,9 +401,6 @@
     <ClInclude Include="source\game\gameobject\dice.h">
       <Filter>ソース ファイル\game\gameobject\dice</Filter>
     </ClInclude>
-    <ClInclude Include="source\system\util\quad2d.h">
-      <Filter>ソース ファイル\system\util</Filter>
-    </ClInclude>
     <ClInclude Include="source\game\manager\dice_manager.h">
       <Filter>ソース ファイル\game\manager</Filter>
     </ClInclude>
@@ -424,6 +424,12 @@
     </ClInclude>
     <ClInclude Include="source\game\gameobject\collision.h">
       <Filter>ソース ファイル\game\gameobject\util</Filter>
+    </ClInclude>
+    <ClInclude Include="source\game\manager\game_manager.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="source\system\util\quad2d.h">
+      <Filter>ソース ファイル\system\texture</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
