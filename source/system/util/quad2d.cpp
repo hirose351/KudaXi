@@ -1,4 +1,4 @@
-#include	"quad.h"
+#include	"quad2d.h"
 #include	"../dx11/DX11Settransform.h"
 
 // comptr
@@ -16,7 +16,7 @@ const char* psfilename[] = {
 };
 
 // 矩形の初期化
-bool Quad::Init(int width, int height, const char *tex_name, const DirectX::XMFLOAT4 &color, int _u, int _v, float z) {
+bool Quad2D::Init(int width, int height, const char *tex_name, const DirectX::XMFLOAT4 &color, int _u, int _v, float z) {
 	DX11MtxIdentity(mWorldmtx);	// 初期姿勢
 
 	// 4角形の初期化処理
@@ -74,7 +74,7 @@ bool Quad::Init(int width, int height, const char *tex_name, const DirectX::XMFL
 	// 頂点バッファを生成
 	sts = CreateVertexBufferWrite(
 		device,						// デバイスオブジェクト
-		sizeof(Quad::Vertex),		// １頂点当たりバイト数
+		sizeof(Quad2D::Vertex),		// １頂点当たりバイト数
 		4,							// 頂点数
 		mVertex,					// 頂点データ格納メモリ先頭アドレス
 		&mVertexbuffer				// 頂点バッファ
@@ -124,7 +124,7 @@ bool Quad::Init(int width, int height, const char *tex_name, const DirectX::XMFL
 }
 
 // 描画
-void Quad::Draw() {
+void Quad2D::Draw() {
 	// デバイスコンテキストを取得
 	ID3D11DeviceContext* devcontext;
 	devcontext = CDirectXGraphics::GetInstance()->GetImmediateContext();
@@ -132,7 +132,7 @@ void Quad::Draw() {
 	// 座標変換用の行列をセット
 	DX11SetTransform::GetInstance()->SetTransform(DX11SetTransform::TYPE::WORLD, mWorldmtx);
 
-	unsigned int stride = sizeof(Quad::Vertex);	// ストライドをセット（１頂点当たりのバイト数）
+	unsigned int stride = sizeof(Quad2D::Vertex);	// ストライドをセット（１頂点当たりのバイト数）
 	unsigned  offset = 0;						// オフセット値をセット
 
 	// デバイスコンテキストをシェーダーリソースへセット
@@ -183,7 +183,7 @@ void Quad::Draw() {
 
 
 // 描画
-void Quad::DrawNoTex() {
+void Quad2D::DrawNoTex() {
 	// デバイスコンテキストを取得
 	ID3D11DeviceContext* devcontext;
 	devcontext = CDirectXGraphics::GetInstance()->GetImmediateContext();
@@ -191,7 +191,7 @@ void Quad::DrawNoTex() {
 	// 座標変換用の行列をセット
 	DX11SetTransform::GetInstance()->SetTransform(DX11SetTransform::TYPE::WORLD, mWorldmtx);
 
-	unsigned int stride = sizeof(Quad::Vertex);	// ストライドをセット（１頂点当たりのバイト数）
+	unsigned int stride = sizeof(Quad2D::Vertex);	// ストライドをセット（１頂点当たりのバイト数）
 	unsigned  offset = 0;						// オフセット値をセット
 
 	// 頂点バッファをデバイスコンテキストへセット
@@ -238,22 +238,22 @@ void Quad::DrawNoTex() {
 }
 
 // 拡大、縮小
-void Quad::SetScale(float sx, float sy, float sz) {
+void Quad2D::SetScale(float sx, float sy, float sz) {
 	DX11MtxScale(sx, sy, sz, mWorldmtx);
 }
 
 // 位置をセット
-void Quad::SetPosition(float x, float y, float z) {
+void Quad2D::SetPosition(float x, float y, float z) {
 	mWorldmtx._41 = x;
 	mWorldmtx._42 = y;
 	mWorldmtx._43 = z;
 }
 
-void Quad::SetColor(const DirectX::XMFLOAT4 &_color)
+void Quad2D::SetColor(const DirectX::XMFLOAT4 &_color)
 {
 	mColor = _color;
 
-	Quad::Vertex	v[4] = {
+	Quad2D::Vertex	v[4] = {
 		// 座標													// カラー	// UV	
 		XMFLOAT3(-mWidth / 2.0f,	-mHeight / 2.0f, 0.0f),	_color,		mUv[0],
 		XMFLOAT3(mWidth / 2.0f,	-mHeight / 2.0f, 0.0f),	_color,		mUv[1],
@@ -268,22 +268,22 @@ void Quad::SetColor(const DirectX::XMFLOAT4 &_color)
 }
 
 // Z軸回転
-void Quad::SetZRotation(float angle) {
+void Quad2D::SetZRotation(float angle) {
 	DX11MtxRotationZ(angle, mWorldmtx);
 }
 
 // X軸回転
-void Quad::SetXRotation(float angle) {
+void Quad2D::SetXRotation(float angle) {
 	DX11MtxRotationX(angle, mWorldmtx);
 }
 
 // 頂点データ更新
-void Quad::UpdateVertex(uint32_t width, uint32_t height, const DirectX::XMFLOAT4 &color, float z) {
+void Quad2D::UpdateVertex(uint32_t width, uint32_t height, const DirectX::XMFLOAT4 &color, float z) {
 
 	mWidth = static_cast<float>(width);
 	mHeight = static_cast<float>(height);
 
-	Quad::Vertex	v[4] = {
+	Quad2D::Vertex	v[4] = {
 		// 座標													// カラー	// UV	
 		XMFLOAT3(-mWidth / 2.0f,	-mHeight / 2.0f, z),	color,		mUv[0],
 		XMFLOAT3(mWidth / 2.0f,	-mHeight / 2.0f, z),	color,		mUv[1],
@@ -298,7 +298,7 @@ void Quad::UpdateVertex(uint32_t width, uint32_t height, const DirectX::XMFLOAT4
 }
 
 // 頂点バッファ更新
-void Quad::UpdateVbuffer() {
+void Quad2D::UpdateVbuffer() {
 	D3D11_MAPPED_SUBRESOURCE pData;
 	ID3D11DeviceContext* devcontext;
 	devcontext = CDirectXGraphics::GetInstance()->GetImmediateContext();
@@ -306,14 +306,14 @@ void Quad::UpdateVbuffer() {
 	HRESULT hr = devcontext->Map(mVertexbuffer.Get(), 0, D3D11_MAP_WRITE_DISCARD, 0, &pData);
 	if (SUCCEEDED(hr))
 	{
-		memcpy_s(pData.pData, pData.RowPitch, (void*)(mVertex), sizeof(Quad::Vertex) * 4);
+		memcpy_s(pData.pData, pData.RowPitch, (void*)(mVertex), sizeof(Quad2D::Vertex) * 4);
 		devcontext->Unmap(mVertexbuffer.Get(), 0);
 	}
 }
 
 
 // UV座標設定　(_u：左から何番目か  _v：上から何番目か　direction：描画方向(０→左 １→右)　デフォルトは右)
-void Quad::SetTextureUV(int _u, int _v, int direction) {
+void Quad2D::SetTextureUV(int _u, int _v, int direction) {
 
 	// 左向き
 	if (direction == 0)

@@ -136,16 +136,20 @@
   <ItemGroup>
     <ClCompile Include="source\Application.cpp" />
     <ClCompile Include="source\game.cpp" />
+    <ClCompile Include="source\game\data\stage_data.cpp" />
     <ClCompile Include="source\game\gameobject\camera.cpp" />
     <ClCompile Include="source\game\gameobject\CCamera.cpp" />
+    <ClCompile Include="source\game\gameobject\collision.cpp" />
     <ClCompile Include="source\game\gameobject\dice.cpp" />
     <ClCompile Include="source\game\gameobject\drawobject.cpp" />
     <ClCompile Include="source\game\gameobject\gameobject.cpp" />
     <ClCompile Include="source\game\gameobject\player.cpp" />
     <ClCompile Include="source\game\gameobject\skydome.cpp" />
     <ClCompile Include="source\game\gameobject\transform.cpp" />
+    <ClCompile Include="source\game\manager\dice_manager.cpp" />
     <ClCompile Include="source\game\manager\SceneManager.cpp" />
     <ClCompile Include="source\game\manager\SelectManager.cpp" />
+    <ClCompile Include="source\game\manager\stagedata_manager.cpp" />
     <ClCompile Include="source\game\scene\IScene.cpp" />
     <ClCompile Include="source\game\scene\MaingameScene.cpp" />
     <ClCompile Include="source\game\scene\title_scene.cpp" />
@@ -173,7 +177,7 @@
     <ClCompile Include="source\system\util\BoundingSphere.cpp" />
     <ClCompile Include="source\system\util\CBillboard.cpp" />
     <ClCompile Include="source\system\util\drawaxis.cpp" />
-    <ClCompile Include="source\system\util\quad.cpp" />
+    <ClCompile Include="source\system\util\quad2d.cpp" />
     <ClCompile Include="source\system\util\Sphere.cpp" />
     <ClCompile Include="source\system\util\StopWatch.cpp" />
     <ClCompile Include="source\system\util\texture_manager.cpp" />
@@ -187,8 +191,10 @@
   <ItemGroup>
     <ClInclude Include="source\Application.h" />
     <ClInclude Include="source\game.h" />
+    <ClInclude Include="source\game\data\stage_data.h" />
     <ClInclude Include="source\game\gameobject\CCamera.h" />
     <ClInclude Include="source\game\gameobject\CLight.h" />
+    <ClInclude Include="source\game\gameobject\collision.h" />
     <ClInclude Include="source\game\gameobject\dice.h" />
     <ClInclude Include="source\game\gameobject\drawobject.h" />
     <ClInclude Include="source\game\gameobject\gameobject.h" />
@@ -196,9 +202,11 @@
     <ClInclude Include="source\game\gameobject\player.h" />
     <ClInclude Include="source\game\gameobject\skydome.h" />
     <ClInclude Include="source\game\gameobject\transform.h" />
+    <ClInclude Include="source\game\manager\dice_manager.h" />
     <ClInclude Include="source\game\manager\IGameManager.h" />
     <ClInclude Include="source\game\manager\SceneManager.h" />
     <ClInclude Include="source\game\manager\SelectManager.h" />
+    <ClInclude Include="source\game\manager\stagedata_manager.h" />
     <ClInclude Include="source\game\scene\IScene.h" />
     <ClInclude Include="source\game\scene\MaingameScene.h" />
     <ClInclude Include="source\game\scene\title_scene.h" />
@@ -232,7 +240,7 @@
     <ClInclude Include="source\system\util\dixsmartptr.h" />
     <ClInclude Include="source\system\util\drawaxis.h" />
     <ClInclude Include="source\system\util\line.h" />
-    <ClInclude Include="source\system\util\quad.h" />
+    <ClInclude Include="source\system\util\quad2d.h" />
     <ClInclude Include="source\system\util\resource.h" />
     <ClInclude Include="source\system\util\shaderhashmap.h" />
     <ClInclude Include="source\system\util\Sphere.h" />

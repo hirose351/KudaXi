@@ -8,6 +8,7 @@ using namespace Dix;
 
 MaingameScene::MaingameScene()
 {
+	AddGameObject();
 }
 
 MaingameScene::~MaingameScene()
@@ -15,7 +16,7 @@ MaingameScene::~MaingameScene()
 	Dispose();
 }
 
-bool MaingameScene::Init()
+void MaingameScene::AddGameObject()
 {
 	sp<Player> player;
 	player.SetPtr(new Player);
@@ -23,36 +24,39 @@ bool MaingameScene::Init()
 	sp<Dice> dice;
 	dice.SetPtr(new Dice);
 	mObjList.emplace_back(dice);
+}
 
-	for (auto item = mObjList.begin(); item != mObjList.end();)
+bool MaingameScene::Init()
+{
+	for (auto obj = mObjList.begin(); obj != mObjList.end();)
 	{
-		(*item)->Init();
-		item++;
+		(*obj)->Init();
+		obj++;
 	}
 	return true;
 }
 
 void MaingameScene::Update()
 {
-	for (auto item = mObjList.begin(); item != mObjList.end();)
+	for (auto obj = mObjList.begin(); obj != mObjList.end();)
 	{
-		(*item)->Update();
-		//if (!(*item)->GetLife())
+		(*obj)->Update();
+		//if (!(*obj)->GetLife())
 		//{
-		//	item->Clear();
-		//	item = mObjList.erase(item);
+		//	obj->Clear();
+		//	obj = mObjList.erase(obj);
 		//	continue;
 		//}
-		item++;
+		obj++;
 	}
 }
 
 void MaingameScene::Render()
 {
-	for (auto item = mObjList.begin(); item != mObjList.end();)
+	for (auto obj = mObjList.begin(); obj != mObjList.end();)
 	{
-		(*item)->Draw();
-		item++;
+		(*obj)->Draw();
+		obj++;
 	}
 }
 
@@ -62,10 +66,12 @@ void MaingameScene::ImguiDebug()
 
 bool MaingameScene::Dispose()
 {
-	for (auto item = mObjList.begin(); item != mObjList.end();)
+	for (auto obj = mObjList.begin(); obj != mObjList.end();)
 	{
-		(*item)->Finalize();
-		item++;
+		(*obj)->Finalize();
+		obj++;
 	}
+
+	mObjList.clear();
 	return false;
 }

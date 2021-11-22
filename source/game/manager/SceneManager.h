@@ -10,7 +10,7 @@
 #include	"../../Application.h"
 #include	"../../system/util/uncopyable.h"
 #include	"../../system/util/StopWatch.h"
-#include	"../../system/util/quad.h"
+#include	"../../system/util/quad2d.h"
 #include	"../scene/IScene.h"
 
 class IScene;

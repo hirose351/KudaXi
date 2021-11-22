@@ -7,7 +7,7 @@ class Player :public GameObject, Transform
 {
 private:
 	CModel*	mpModel;							// ３Ｄモデル
-	Transform mTramsform;						// 位置、姿勢、大きさ
+	//Transform mTramsform;						// 位置、姿勢、大きさ
 	bool mIsDiceMove = false;					// サイコロが回転しているか
 	DIRECTION mDiceMoveDirection;				// サイコロを回転させる方向
 	DIRECTION mDirection;						// プレイヤーの方向(キー参照)

@@ -50,12 +50,13 @@ void Player::Init()
 	mMove = { 0.0f, 0.0f, 0.0f };
 
 	mDirection = DIRECTION::DOWN;
+
 	mIsDiceMove = false;
 }
 
 void Player::Update()
 {
-	Vector3 rotCamera;
+	Vector3 rotCamera = { 0,0,0 };
 	float radian;
 	if (!mIsDiceMove)
 	{
@@ -130,7 +131,13 @@ void Player::Update()
 
 		if (CDirectInput::GetInstance().CheckKeyBuffer(DIK_RETURN))
 		{
-			Init();
+			// ƒŠƒZƒbƒg
+			// ‰ŠúŽp¨
+			mRotation = { 0.0f, 0.0f, 0.0f };
+			// –Ú•WŽp¨
+			mDestrot = { 0.0f, 0.0f, 0.0f };
+			// ˆÚ“®—Ê
+			mMove = { 0.0f, 0.0f, 0.0f };
 		}
 	}
 	// –Ú•WŠp“x‚ÆŒ»ÝŠp“x‚Æ‚Ì·•ª‚ð‹‚ß‚é
@@ -157,9 +164,15 @@ void Player::Update()
 
 	/// ˆÊ’uˆÚ“®
 	mPosition += mMove;
+	//mPosition.x += mMove.x;
+	//mPosition.z += mMove.z;
+	//mPosition.y += mMove.y;
 
 	// ˆÚ“®—Ê‚ÉŠµ«‚ð‚©‚¯‚é(Œ¸‘¬Šµ«)
 	mMove += (mMove*-1.0f) * RATE_MOVE_MODEL;
+	//mMove.x += (0.0f - mMove.x) * RATE_MOVE_MODEL;
+	//mMove.y += (0.0f - mMove.y) * RATE_MOVE_MODEL;
+	//mMove.z += (0.0f - mMove.z) * RATE_MOVE_MODEL;
 
 	// ‰ñ“]‚ð”½‰fA•½sˆÚ“®‚ð”½‰f
 	Vector3 degree = (mRotation* 180.0f) / XM_PI;
@@ -168,6 +181,7 @@ void Player::Update()
 	DX11MtxScale(1.3f, 1.3f, 1.3f, scaleMtx);
 	DX11MtxMultiply(mMtx, scaleMtx, mMtx);
 }
+
 void Player::Draw()
 {
 	mpModel->Draw(mMtx);

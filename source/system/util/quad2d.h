@@ -10,7 +10,7 @@
 using Microsoft::WRL::ComPtr;
 
 // 矩形クラス
-class Quad {
+class Quad2D {
 private:
 	// 頂点データ
 	struct Vertex {
@@ -22,7 +22,7 @@ private:
 	DirectX::XMFLOAT4X4		mWorldmtx;				// ワールド変換行列
 	ComPtr<ID3D11Buffer>	mVertexbuffer;			// 頂点バッファ
 	ComPtr<ID3D11Buffer>	mIndexbuffer;			// インデックスバッファ
-	Quad::Vertex			mVertex[4];				// 矩形４頂点
+	Quad2D::Vertex			mVertex[4];				// 矩形４頂点
 	DirectX::XMFLOAT4		mColor;					// 頂点カラー
 	float					mWidth;					// 幅
 	float					mHeight;				// 高さ

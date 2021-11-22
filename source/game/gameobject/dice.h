@@ -33,7 +33,7 @@ private:
 	DIRECTION mDirection = DIRECTION::NEUTRAL;			// サイコロの移動方向	
 
 	DirectX::XMFLOAT4X4 mMtxFrame;						// 1フレームでの変化を表す行列	
-	Vector3 mStartPos;									/// キー入力された際の開始位置	
+	Vector3 mStartPos;									// キー入力された際の開始位置	
 
 	int mCrrentRotCnt = 0;								// 今の回転回数
 	const int mRotCnt = 12;								// 90度回転するのに必要な更新回数	
@@ -62,6 +62,11 @@ public:
 		mTopDiceType = OverPlane();
 	}
 
+	// 指定方向に移動
+	bool Push(DIRECTION _direction);
+	// 指定方向に回転
+	bool Roll(DIRECTION _direction);
+
 	// 上面取得
 	DICETYPE GetTopDiceType() {
 		return mTopDiceType;
@@ -79,7 +84,5 @@ public:
 	// 1マス分移動
 	void MoveDiceScale(DIRECTION _direction);
 
-	// 指定方向に回転
-	void Rotation(DIRECTION _direction);
 };
 

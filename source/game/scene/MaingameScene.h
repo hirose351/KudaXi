@@ -26,6 +26,7 @@ public:
 	MaingameScene();
 	~MaingameScene();
 
+	void AddGameObject() override;
 	bool Init() override;
 	void Update() override;
 	void Render() override;

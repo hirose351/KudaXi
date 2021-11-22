@@ -11,8 +11,8 @@ private:
 
 	std::vector<GameObject*> objectList;	// ゲームオブジェクトを全部まとめて管理できるオブジェクトリスト
 
-	Quad		gQuadfadein;
-	Quad		gQuadfadeout;
+	Quad2D		gQuadfadein;
+	Quad2D		gQuadfadeout;
 public:
 	IScene();
 	void SetSceneManager(SceneManager* _sm) {
@@ -22,6 +22,7 @@ public:
 	virtual ~IScene() {}
 
 	// 初期化
+	virtual void AddGameObject() = 0;
 	virtual bool Init() = 0;
 	// 更新
 	virtual void Update();

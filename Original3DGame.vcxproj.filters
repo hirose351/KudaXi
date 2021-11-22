@@ -70,6 +70,9 @@
     <Filter Include="ソース ファイル\game\gameobject\dice">
       <UniqueIdentifier>{ff6f6cdc-02bc-459f-aae9-da3c531b61f2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\game\data">
+      <UniqueIdentifier>{46c4faa1-7293-4ac6-a2b3-828507cd5ce2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\Application.cpp">
@@ -165,9 +168,6 @@
     <ClCompile Include="source\system\util\2dsystem.cpp">
       <Filter>ソース ファイル\system\util</Filter>
     </ClCompile>
-    <ClCompile Include="source\system\util\quad.cpp">
-      <Filter>ソース ファイル\system\util</Filter>
-    </ClCompile>
     <ClCompile Include="source\system\util\Sphere.cpp">
       <Filter>ソース ファイル\system\util</Filter>
     </ClCompile>
@@ -183,17 +183,11 @@
     <ClCompile Include="source\game\gameobject\skydome.cpp">
       <Filter>ソース ファイル\game\gameobject\skydome</Filter>
     </ClCompile>
-    <ClCompile Include="source\game\gameobject\gameobject.cpp">
-      <Filter>ソース ファイル\game\gameobject</Filter>
-    </ClCompile>
     <ClCompile Include="source\game\gameobject\player.cpp">
       <Filter>ソース ファイル\game\gameobject\player</Filter>
     </ClCompile>
     <ClCompile Include="source\game\scene\title_scene.cpp">
       <Filter>ソース ファイル\game\scene\title</Filter>
-    </ClCompile>
-    <ClCompile Include="source\game\gameobject\transform.cpp">
-      <Filter>ソース ファイル\game\gameobject</Filter>
     </ClCompile>
     <ClCompile Include="source\system\util\vector.cpp">
       <Filter>ソース ファイル\system\util</Filter>
@@ -218,6 +212,27 @@
     </ClCompile>
     <ClCompile Include="source\game\gameobject\dice.cpp">
       <Filter>ソース ファイル\game\gameobject\dice</Filter>
+    </ClCompile>
+    <ClCompile Include="source\system\util\quad2d.cpp">
+      <Filter>ソース ファイル\system\util</Filter>
+    </ClCompile>
+    <ClCompile Include="source\game\manager\dice_manager.cpp">
+      <Filter>ソース ファイル\game\manager</Filter>
+    </ClCompile>
+    <ClCompile Include="source\game\manager\stagedata_manager.cpp">
+      <Filter>ソース ファイル\game\manager</Filter>
+    </ClCompile>
+    <ClCompile Include="source\game\gameobject\gameobject.cpp">
+      <Filter>ソース ファイル\game\gameobject\util</Filter>
+    </ClCompile>
+    <ClCompile Include="source\game\gameobject\transform.cpp">
+      <Filter>ソース ファイル\game\gameobject\util</Filter>
+    </ClCompile>
+    <ClCompile Include="source\game\data\stage_data.cpp">
+      <Filter>ソース ファイル\game\data</Filter>
+    </ClCompile>
+    <ClCompile Include="source\game\gameobject\collision.cpp">
+      <Filter>ソース ファイル\game\gameobject\util</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -287,9 +302,6 @@
     <ClInclude Include="source\system\imgui\util\myimgui.h">
       <Filter>ソース ファイル\system\imgui</Filter>
     </ClInclude>
-    <ClInclude Include="source\game\gameobject\gameobject.h">
-      <Filter>ソース ファイル\game\gameobject</Filter>
-    </ClInclude>
     <ClInclude Include="source\game\manager\IGameManager.h">
       <Filter>ソース ファイル\game\manager</Filter>
     </ClInclude>
@@ -318,9 +330,6 @@
       <Filter>ソース ファイル\system\util</Filter>
     </ClInclude>
     <ClInclude Include="source\system\util\2dsystem.h">
-      <Filter>ソース ファイル\system\util</Filter>
-    </ClInclude>
-    <ClInclude Include="source\system\util\quad.h">
       <Filter>ソース ファイル\system\util</Filter>
     </ClInclude>
     <ClInclude Include="source\system\util\Sphere.h">
@@ -365,15 +374,6 @@
     <ClInclude Include="source\game\scene\title_scene.h">
       <Filter>ソース ファイル\game\scene\title</Filter>
     </ClInclude>
-    <ClInclude Include="source\game\gameobject\CCamera.h">
-      <Filter>ソース ファイル\game\gameobject</Filter>
-    </ClInclude>
-    <ClInclude Include="source\game\gameobject\CLight.h">
-      <Filter>ソース ファイル\game\gameobject</Filter>
-    </ClInclude>
-    <ClInclude Include="source\game\gameobject\transform.h">
-      <Filter>ソース ファイル\game\gameobject</Filter>
-    </ClInclude>
     <ClInclude Include="source\game\gameobject\gameobject_utility.h">
       <Filter>ソース ファイル\game\gameobject\util</Filter>
     </ClInclude>
@@ -397,6 +397,33 @@
     </ClInclude>
     <ClInclude Include="source\game\gameobject\dice.h">
       <Filter>ソース ファイル\game\gameobject\dice</Filter>
+    </ClInclude>
+    <ClInclude Include="source\system\util\quad2d.h">
+      <Filter>ソース ファイル\system\util</Filter>
+    </ClInclude>
+    <ClInclude Include="source\game\manager\dice_manager.h">
+      <Filter>ソース ファイル\game\manager</Filter>
+    </ClInclude>
+    <ClInclude Include="source\game\manager\stagedata_manager.h">
+      <Filter>ソース ファイル\game\manager</Filter>
+    </ClInclude>
+    <ClInclude Include="source\game\gameobject\CCamera.h">
+      <Filter>ソース ファイル\game\gameobject\util</Filter>
+    </ClInclude>
+    <ClInclude Include="source\game\gameobject\CLight.h">
+      <Filter>ソース ファイル\game\gameobject\util</Filter>
+    </ClInclude>
+    <ClInclude Include="source\game\gameobject\gameobject.h">
+      <Filter>ソース ファイル\game\gameobject\util</Filter>
+    </ClInclude>
+    <ClInclude Include="source\game\gameobject\transform.h">
+      <Filter>ソース ファイル\game\gameobject\util</Filter>
+    </ClInclude>
+    <ClInclude Include="source\game\data\stage_data.h">
+      <Filter>ソース ファイル\game\data</Filter>
+    </ClInclude>
+    <ClInclude Include="source\game\gameobject\collision.h">
+      <Filter>ソース ファイル\game\gameobject\util</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -29,8 +29,6 @@ void Dice::Init()
 	DX11MtxIdentity(mMtx);
 	DX11MtxIdentity(mLocalMtx);
 
-
-
 	DirectX::XMFLOAT4X4 scaleMtx;
 	DX11MtxScale(7.0f, 7.0f, 7.0f, scaleMtx);
 	DX11MtxMultiply(mMtx, scaleMtx, mMtx);
@@ -55,7 +53,7 @@ void Dice::Update()
 		DX11MtxMultiply(mMtx, mMtx, mMtxFrame);
 
 		//半径を計算
-		const static float radius = static_cast<float>(7.5f*sqrt(2));		//15×ルート2÷2＝7.5f×ルート2
+		const static float radius = static_cast<float>((DICESCALE / 2.0f)*sqrt(2));		//15×ルート2÷2＝7.5f×ルート2
 
 		//45度から回転角度を足し算
 		float nowcenterposy = radius * sin(ToRad(45 + mRotAnglePerFrame * mCrrentRotCnt));
@@ -70,7 +68,7 @@ void Dice::Update()
 			//割合を計算
 			t = static_cast<float>(mCrrentRotCnt + 1) / static_cast<float>(mRotCnt);
 			//終了位置を計算
-			endpos.x = mStartPos.x + 15.0f;
+			endpos.x = mStartPos.x + DICESCALE;
 			//線形補間の式でX座標を計算
 			pos.x = mStartPos.x *(1.0f - t) + endpos.x*t;
 		}
@@ -80,7 +78,7 @@ void Dice::Update()
 			//割合を計算
 			t = static_cast<float>(mCrrentRotCnt + 1) / static_cast<float>(mRotCnt);
 			//終了位置を計算
-			endpos.x = mStartPos.x - 15.0f;
+			endpos.x = mStartPos.x - DICESCALE;
 			//線形補間の式でX座標を計算
 			pos.x = mStartPos.x *(1.0f - t) + endpos.x*t;
 		}
@@ -90,7 +88,7 @@ void Dice::Update()
 			//割合を計算
 			t = static_cast<float>(mCrrentRotCnt + 1) / static_cast<float>(mRotCnt);
 			//終了位置を計算
-			endpos.z = mStartPos.z + 15.0f;
+			endpos.z = mStartPos.z + DICESCALE;
 			//線形補間の式でX座標を計算
 			pos.z = mStartPos.z *(1.0f - t) + endpos.z*t;
 		}
@@ -100,7 +98,7 @@ void Dice::Update()
 			//割合を計算
 			t = static_cast<float>(mCrrentRotCnt + 1) / static_cast<float>(mRotCnt);
 			//終了位置を計算
-			endpos.z = mStartPos.z - 15.0f;
+			endpos.z = mStartPos.z - DICESCALE;
 			//線形補間の式でX座標を計算
 			pos.z = mStartPos.z *(1.0f - t) + endpos.z*t;
 		}
@@ -158,9 +156,21 @@ void Dice::MoveDiceScale(DIRECTION _direction)
 	}
 }
 
-void Dice::Rotation(DIRECTION _direction)
+bool Dice::Push(DIRECTION _direction)
 {
-	// 平均移動量、角度を初期化
+	return false;
+}
+
+bool Dice::Roll(DIRECTION _direction)
+{
+	//if (// 回転不可なら)
+	//{
+	//return false;
+	//}
+
+	//else(// 回転可能なら)｛
+
+	// 平均移動量、角度
 	Vector3 trans, angle;
 
 	switch (_direction)
@@ -181,6 +191,8 @@ void Dice::Rotation(DIRECTION _direction)
 	DX11MakeWorldMatrix(mLocalMtx, angle, trans);
 	DX11MtxMultiply(mMtx, mMtx, mLocalMtx);
 	mTopDiceType = OverPlane();
+	//}
+	return true;
 }
 
 void Dice::SetRollDirection(DIRECTION _direction)
@@ -253,20 +265,11 @@ DICETYPE Dice::OverPlane() {
 	DX11Vec3Dot(dot, axis, underaxis);
 	sts[5] = floatcheck(dot, 7.0f, 0.001f);
 
-	const char* tbl[] = {
-	"PEACH",
-	"MELON",
-	"BLUEBERRY",
-	"BANANA",
-	"APPLE",
-	"ORANGE",
-	};
-
 	for (int i = 0; i < 6; i++)
 	{
 		if (sts[i])
 		{
-			return (DICETYPE)i;
+			return static_cast<DICETYPE>(i);
 			break;
 		}
 	}
