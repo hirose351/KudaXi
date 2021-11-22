@@ -138,6 +138,7 @@
     <ClCompile Include="source\game.cpp" />
     <ClCompile Include="source\game\gameobject\camera.cpp" />
     <ClCompile Include="source\game\gameobject\CCamera.cpp" />
+    <ClCompile Include="source\game\gameobject\drawobject.cpp" />
     <ClCompile Include="source\game\gameobject\gameobject.cpp" />
     <ClCompile Include="source\game\gameobject\player.cpp" />
     <ClCompile Include="source\game\gameobject\skydome.cpp" />
@@ -149,9 +150,9 @@
     <ClCompile Include="source\game\scene\title_scene.cpp" />
     <ClCompile Include="source\system\dx11\CDirectXGraphics.cpp" />
     <ClCompile Include="source\system\dx11\DDSTextureLoader.cpp" />
+    <ClCompile Include="source\system\dx11\dx11mathutil.cpp" />
+    <ClCompile Include="source\system\dx11\DX11util.cpp" />
     <ClCompile Include="source\system\dx11\Shader.cpp" />
-    <ClCompile Include="source\system\dx11\util\dx11mathutil.cpp" />
-    <ClCompile Include="source\system\dx11\util\DX11util.cpp" />
     <ClCompile Include="source\system\dx11\WICTextureLoader.cpp" />
     <ClCompile Include="source\system\imgui\imgui.cpp" />
     <ClCompile Include="source\system\imgui\imgui_demo.cpp" />
@@ -187,6 +188,7 @@
     <ClInclude Include="source\game.h" />
     <ClInclude Include="source\game\gameobject\CCamera.h" />
     <ClInclude Include="source\game\gameobject\CLight.h" />
+    <ClInclude Include="source\game\gameobject\drawobject.h" />
     <ClInclude Include="source\game\gameobject\gameobject.h" />
     <ClInclude Include="source\game\gameobject\gameobject_utility.h" />
     <ClInclude Include="source\game\gameobject\player.h" />
@@ -202,10 +204,10 @@
     <ClInclude Include="source\Memory.h" />
     <ClInclude Include="source\system\dx11\CDirectInput.h" />
     <ClInclude Include="source\system\dx11\CDirectxGraphics.h" />
+    <ClInclude Include="source\system\dx11\dx11mathutil.h" />
     <ClInclude Include="source\system\dx11\DX11Settransform.h" />
+    <ClInclude Include="source\system\dx11\DX11util.h" />
     <ClInclude Include="source\system\dx11\Shader.h" />
-    <ClInclude Include="source\system\dx11\util\dx11mathutil.h" />
-    <ClInclude Include="source\system\dx11\util\DX11util.h" />
     <ClInclude Include="source\system\imgui\imconfig.h" />
     <ClInclude Include="source\system\imgui\imgui.h" />
     <ClInclude Include="source\system\imgui\imgui_impl_dx11.h" />
@@ -226,6 +228,7 @@
     <ClInclude Include="source\system\util\2dsystem.h" />
     <ClInclude Include="source\system\util\BoundingSphere.h" />
     <ClInclude Include="source\system\util\CBillboard.h" />
+    <ClInclude Include="source\system\util\dixsmartptr.h" />
     <ClInclude Include="source\system\util\drawaxis.h" />
     <ClInclude Include="source\system\util\line.h" />
     <ClInclude Include="source\system\util\quad.h" />

@@ -3,7 +3,7 @@
 #include	<wrl/client.h>
 #include	<d3d11.h>
 #include	<vector>
-#include	"../dx11/util/DX11util.h"
+#include	"../dx11/DX11util.h"
 #include	"../dx11/Shader.h"
 
 using Microsoft::WRL::ComPtr;

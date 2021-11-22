@@ -11,8 +11,8 @@
 //-----------------------------------------------------------------------------
 #include	<DirectXMath.h>
 #include	"Sphere.h"
-#include	"../dx11/util/dx11mathutil.h"
-#include	"../dx11/util/DX11util.h"
+#include	"../dx11/dx11mathutil.h"
+#include	"../dx11/DX11util.h"
 #include	"../dx11/DX11Settransform.h"
 
 //-----------------------------------------------------------------------------

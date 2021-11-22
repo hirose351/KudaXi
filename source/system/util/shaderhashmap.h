@@ -2,7 +2,7 @@
 #include	<unordered_map>
 #include	<d3d11.h>
 #include	<string>
-#include	"../dx11/util/DX11util.h"
+#include	"../dx11/DX11util.h"
 #include	"../dx11/Shader.h"
 
 class ShaderHashmap {

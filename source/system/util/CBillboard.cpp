@@ -2,7 +2,7 @@
 #include	"../dx11/CDirectxGraphics.h"
 #include	"../dx11/Shader.h"
 #include	"../dx11/DX11Settransform.h"
-#include	"../dx11/util/dx11mathutil.h"
+#include	"../dx11/dx11mathutil.h"
 #include	"../../game/gameobject/CCamera.h"
 
 ComPtr <ID3D11InputLayout> CBillboard::smIL = nullptr;

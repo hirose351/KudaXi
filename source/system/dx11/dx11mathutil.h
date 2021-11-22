@@ -1,8 +1,8 @@
 #pragma once
 #include <DirectXMath.h>
 #include <d3d11.h>
-#include "../../../game/gameobject/CCamera.h"
-#include "../CDirectxGraphics.h"
+#include "../../game/gameobject/CCamera.h"
+#include "CDirectxGraphics.h"
 
 struct PLANE {
 	float a, b, c, d;

@@ -1,8 +1,10 @@
 #pragma once
-#include	"../../system/dx11/util/dx11mathutil.h"
-#include	"../gameobject/skydome.h"
-#include	"../manager/SceneManager.h"
-#include	"../manager/SelectManager.h"
+#include	"IScene.h"
+#include	"../../system/dx11/dx11mathutil.h"
+#include	"../../system/util/dixsmartptr.h"
+#include	<list>
+
+using Microsoft::WRL::ComPtr;
 
 // èÛë‘
 enum class GAMESTATE
@@ -18,7 +20,7 @@ enum class GAMESTATE
 class MaingameScene : public IScene
 {
 private:
-
+	std::list<Dix::sp<class GameObject>> mObjList;
 
 public:
 	MaingameScene();

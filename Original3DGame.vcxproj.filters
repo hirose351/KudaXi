@@ -114,12 +114,6 @@
     <ClCompile Include="source\system\dx11\Shader.cpp">
       <Filter>ソース ファイル\system\dx11</Filter>
     </ClCompile>
-    <ClCompile Include="source\system\dx11\util\dx11mathutil.cpp">
-      <Filter>ソース ファイル\system\dx11\util</Filter>
-    </ClCompile>
-    <ClCompile Include="source\system\dx11\util\DX11util.cpp">
-      <Filter>ソース ファイル\system\dx11\util</Filter>
-    </ClCompile>
     <ClCompile Include="source\system\model\ModelData.cpp">
       <Filter>ソース ファイル\system\model</Filter>
     </ClCompile>
@@ -204,6 +198,21 @@
     <ClCompile Include="source\system\util\vector.cpp">
       <Filter>ソース ファイル\system\util</Filter>
     </ClCompile>
+    <ClCompile Include="source\game\gameobject\camera.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="source\game\gameobject\CCamera.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="source\game\gameobject\drawobject.cpp">
+      <Filter>ソース ファイル\game\gameobject\util</Filter>
+    </ClCompile>
+    <ClCompile Include="source\system\dx11\dx11mathutil.cpp">
+      <Filter>ソース ファイル\system\dx11\util</Filter>
+    </ClCompile>
+    <ClCompile Include="source\system\dx11\DX11util.cpp">
+      <Filter>ソース ファイル\system\dx11\util</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\system\model\assimpscene.h">
@@ -250,12 +259,6 @@
     </ClInclude>
     <ClInclude Include="source\system\dx11\Shader.h">
       <Filter>ソース ファイル\system\dx11</Filter>
-    </ClInclude>
-    <ClInclude Include="source\system\dx11\util\dx11mathutil.h">
-      <Filter>ソース ファイル\system\dx11\util</Filter>
-    </ClInclude>
-    <ClInclude Include="source\system\dx11\util\DX11util.h">
-      <Filter>ソース ファイル\system\dx11\util</Filter>
     </ClInclude>
     <ClInclude Include="source\system\model\ModelData.h">
       <Filter>ソース ファイル\system\model</Filter>
@@ -372,6 +375,18 @@
       <Filter>ソース ファイル\game\gameobject\util</Filter>
     </ClInclude>
     <ClInclude Include="source\system\util\vector.h">
+      <Filter>ソース ファイル\system\util</Filter>
+    </ClInclude>
+    <ClInclude Include="source\game\gameobject\drawobject.h">
+      <Filter>ソース ファイル\game\gameobject\util</Filter>
+    </ClInclude>
+    <ClInclude Include="source\system\dx11\DX11util.h">
+      <Filter>ソース ファイル\system\dx11\util</Filter>
+    </ClInclude>
+    <ClInclude Include="source\system\dx11\dx11mathutil.h">
+      <Filter>ソース ファイル\system\dx11\util</Filter>
+    </ClInclude>
+    <ClInclude Include="source\system\util\dixsmartptr.h">
       <Filter>ソース ファイル\system\util</Filter>
     </ClInclude>
   </ItemGroup>

@@ -1,7 +1,7 @@
 #pragma once
 #include	<d3d11.h>
 #include	<DirectXMath.h>
-#include	"../CDirectxGraphics.h"
+#include	"CDirectxGraphics.h"
 
 CDirectXGraphics* GetDX11Obj();
 ID3D11Device* GetDX11Device();

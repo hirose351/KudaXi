@@ -1,5 +1,5 @@
 #include	"Sphere.h"
-#include	"../dx11/util/dx11mathutil.h"
+#include	"../dx11/dx11mathutil.h"
 
 // 法線ベクトルを計算
 // ノーマライズ

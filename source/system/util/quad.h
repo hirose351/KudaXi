@@ -3,7 +3,7 @@
 #include	<d3d11.h>
 #include	<wrl/client.h>
 #include	<string>
-#include	"../dx11/util/dx11mathutil.h"
+#include	"../dx11/dx11mathutil.h"
 #include	"shaderhashmap.h"
 
 // comptr

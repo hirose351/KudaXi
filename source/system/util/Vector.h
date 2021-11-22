@@ -1,5 +1,5 @@
 #pragma once
-#include "../dx11/util/dx11mathutil.h"
+#include "../dx11/dx11mathutil.h"
 
 struct Vector3 : public DirectX::XMFLOAT3
 {
@@ -21,7 +21,9 @@ public:
 	Vector3 operator+(const XMFLOAT3& _f3);
 	Vector3 operator-(const XMFLOAT3& _f3);
 	Vector3 operator*(const XMFLOAT3& _f3);
+
 	Vector3 operator*(float _f);
+	Vector3 operator/(float _f);
 
 	void operator*=(const XMFLOAT3& _f3);
 	void operator+=(const XMFLOAT3& _f3);

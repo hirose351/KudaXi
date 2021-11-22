@@ -106,6 +106,15 @@ Vector3 Vector3::operator*(float _f)
 	return v3;
 }
 
+Vector3 Vector3::operator/(float _f)
+{
+	Vector3 v3;
+	v3.x = this->x / _f;
+	v3.y = this->y / _f;
+	v3.z = this->z / _f;
+	return v3;
+}
+
 void Vector3::operator*=(const XMFLOAT3 &_f3)
 {
 	this->x *= _f3.x;

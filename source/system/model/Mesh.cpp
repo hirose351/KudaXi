@@ -9,7 +9,7 @@
 #include	"../dx11/Shader.h"
 #include	"vertexproto.h"
 #include	"Mesh.h"
-#include	"../dx11/util/DX11util.h"
+#include	"../dx11/DX11util.h"
 
 using namespace std;
 using namespace DirectX;

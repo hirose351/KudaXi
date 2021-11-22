@@ -1,7 +1,7 @@
 #pragma once
 
 // ˆÚ“®•ûŒü
-enum class DIrection {
+enum class DIRECTION {
 	NEUTRAL,			// ‰ñ“]‚µ‚Ä‚¢‚È‚¢
 	UP,				// ã•ûŒü‚É‰ñ“]
 	DOWN,			// ‰º•ûŒü‚É‰ñ“]

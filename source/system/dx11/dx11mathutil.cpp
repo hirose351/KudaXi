@@ -1,6 +1,6 @@
 #include	"DX11mathutil.h"
 #include	"memory.h"
-#include	 "../DX11Settransform.h"
+#include	 "DX11Settransform.h"
 
 /*------------------------
 ƒ[ƒ‹ƒh•ÏŠ·s—ñ‚ğì‚é
