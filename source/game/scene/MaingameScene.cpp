@@ -2,6 +2,7 @@
 #include	"../../Memory.h"
 #include	"../gameobject/gameobject.h"
 #include	"../gameobject/player.h"
+#include	"../gameobject/dice.h"
 
 using namespace Dix;
 
@@ -19,6 +20,9 @@ bool MaingameScene::Init()
 	sp<Player> player;
 	player.SetPtr(new Player);
 	mObjList.emplace_back(player);
+	sp<Dice> dice;
+	dice.SetPtr(new Dice);
+	mObjList.emplace_back(dice);
 
 	for (auto item = mObjList.begin(); item != mObjList.end();)
 	{

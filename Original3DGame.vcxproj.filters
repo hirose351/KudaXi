@@ -67,6 +67,9 @@
     <Filter Include="ソース ファイル\game\gameobject\util">
       <UniqueIdentifier>{7dec68df-f2af-4741-b8d0-a820ed0a7795}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\game\gameobject\dice">
+      <UniqueIdentifier>{ff6f6cdc-02bc-459f-aae9-da3c531b61f2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\Application.cpp">
@@ -189,9 +192,6 @@
     <ClCompile Include="source\game\scene\title_scene.cpp">
       <Filter>ソース ファイル\game\scene\title</Filter>
     </ClCompile>
-    <ClCompile Include="source\system\texture\texture_manager.cpp">
-      <Filter>ソース ファイル\system\texture</Filter>
-    </ClCompile>
     <ClCompile Include="source\game\gameobject\transform.cpp">
       <Filter>ソース ファイル\game\gameobject</Filter>
     </ClCompile>
@@ -212,6 +212,12 @@
     </ClCompile>
     <ClCompile Include="source\system\dx11\DX11util.cpp">
       <Filter>ソース ファイル\system\dx11\util</Filter>
+    </ClCompile>
+    <ClCompile Include="source\system\util\texture_manager.cpp">
+      <Filter>ソース ファイル\system\texture</Filter>
+    </ClCompile>
+    <ClCompile Include="source\game\gameobject\dice.cpp">
+      <Filter>ソース ファイル\game\gameobject\dice</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -359,9 +365,6 @@
     <ClInclude Include="source\game\scene\title_scene.h">
       <Filter>ソース ファイル\game\scene\title</Filter>
     </ClInclude>
-    <ClInclude Include="source\system\texture\texture_manager.h">
-      <Filter>ソース ファイル\system\texture</Filter>
-    </ClInclude>
     <ClInclude Include="source\game\gameobject\CCamera.h">
       <Filter>ソース ファイル\game\gameobject</Filter>
     </ClInclude>
@@ -388,6 +391,12 @@
     </ClInclude>
     <ClInclude Include="source\system\util\dixsmartptr.h">
       <Filter>ソース ファイル\system\util</Filter>
+    </ClInclude>
+    <ClInclude Include="source\system\util\texture_manager.h">
+      <Filter>ソース ファイル\system\texture</Filter>
+    </ClInclude>
+    <ClInclude Include="source\game\gameobject\dice.h">
+      <Filter>ソース ファイル\game\gameobject\dice</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

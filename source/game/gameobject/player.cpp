@@ -55,25 +55,7 @@ void Player::Init()
 
 void Player::Update()
 {
-	//// ゲームオーバーになっていなければ
-	//if (!mIsAgain)
-	//{
-	//	// ダイスに乗っている時、Y座標を合わせる
-	//	if (_stage->GetMapChipNo(mMapPos.z, mMapPos.x) != -1)
-	//	{
-	//		if (_stage->GetDiceDown(mMapPos.z, mMapPos.x))
-	//		{
-	//			mPos.y = _stage->GetDiceYPos(mMapPos.z, mMapPos.x) + (mMapPos.y*5.0f);
-	//		}
-	//		else
-	//		{
-	//			mPos.y = mMapPos.y*5.0f;
-	//		}
-	//	}
-	//	// ゲームクリアになっていなければ
-	//	if (!mIsClear)
-	//	{
-	Vector3 rotCamera = { 0,0,0 };
+	Vector3 rotCamera;
 	float radian;
 	if (!mIsDiceMove)
 	{

@@ -1,4 +1,5 @@
 #pragma once
+#define	DICESCALE			(15.0f)
 
 // ˆÚ“®•ûŒü
 enum class DIRECTION {
@@ -22,3 +23,4 @@ enum class ObjectState
 	EPaused,
 	EDead
 };
+

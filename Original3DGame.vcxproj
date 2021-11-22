@@ -138,6 +138,7 @@
     <ClCompile Include="source\game.cpp" />
     <ClCompile Include="source\game\gameobject\camera.cpp" />
     <ClCompile Include="source\game\gameobject\CCamera.cpp" />
+    <ClCompile Include="source\game\gameobject\dice.cpp" />
     <ClCompile Include="source\game\gameobject\drawobject.cpp" />
     <ClCompile Include="source\game\gameobject\gameobject.cpp" />
     <ClCompile Include="source\game\gameobject\player.cpp" />
@@ -168,7 +169,6 @@
     <ClCompile Include="source\system\model\ModelData.cpp" />
     <ClCompile Include="source\system\model\ModelMgr.cpp" />
     <ClCompile Include="source\system\model\utftosjisconv.cpp" />
-    <ClCompile Include="source\system\texture\texture_manager.cpp" />
     <ClCompile Include="source\system\util\2dsystem.cpp" />
     <ClCompile Include="source\system\util\BoundingSphere.cpp" />
     <ClCompile Include="source\system\util\CBillboard.cpp" />
@@ -176,6 +176,7 @@
     <ClCompile Include="source\system\util\quad.cpp" />
     <ClCompile Include="source\system\util\Sphere.cpp" />
     <ClCompile Include="source\system\util\StopWatch.cpp" />
+    <ClCompile Include="source\system\util\texture_manager.cpp" />
     <ClCompile Include="source\system\util\time.cpp" />
     <ClCompile Include="source\system\util\vector.cpp" />
     <ClCompile Include="source\system\util\XAudio2.cpp" />
@@ -188,6 +189,7 @@
     <ClInclude Include="source\game.h" />
     <ClInclude Include="source\game\gameobject\CCamera.h" />
     <ClInclude Include="source\game\gameobject\CLight.h" />
+    <ClInclude Include="source\game\gameobject\dice.h" />
     <ClInclude Include="source\game\gameobject\drawobject.h" />
     <ClInclude Include="source\game\gameobject\gameobject.h" />
     <ClInclude Include="source\game\gameobject\gameobject_utility.h" />
@@ -224,7 +226,6 @@
     <ClInclude Include="source\system\model\ModelMgr.h" />
     <ClInclude Include="source\system\model\utftosjisconv.h" />
     <ClInclude Include="source\system\model\vertexproto.h" />
-    <ClInclude Include="source\system\texture\texture_manager.h" />
     <ClInclude Include="source\system\util\2dsystem.h" />
     <ClInclude Include="source\system\util\BoundingSphere.h" />
     <ClInclude Include="source\system\util\CBillboard.h" />
@@ -236,6 +237,7 @@
     <ClInclude Include="source\system\util\shaderhashmap.h" />
     <ClInclude Include="source\system\util\Sphere.h" />
     <ClInclude Include="source\system\util\StopWatch.h" />
+    <ClInclude Include="source\system\util\texture_manager.h" />
     <ClInclude Include="source\system\util\time.h" />
     <ClInclude Include="source\system\util\uncopyable.h" />
     <ClInclude Include="source\system\util\vector.h" />

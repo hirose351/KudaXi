@@ -1,7 +1,6 @@
 #pragma once
 #include	"gameobject.h"
 #include	"transform.h"
-#include	"gameobject_utility.h"
 #include	"../../system/model/CModel.h"
 
 class Player :public GameObject, Transform
@@ -13,11 +12,8 @@ private:
 	DIRECTION mDiceMoveDirection;				// サイコロを回転させる方向
 	DIRECTION mDirection;						// プレイヤーの方向(キー参照)
 
-	///////////////////////////////////////////////////////////////
-
-	Vector3					mMove;					// 移動量
-	Vector3					mDestrot;				// 目標姿勢
-	DIRECTION				mMoveKeySts;			// 押されている移動キー
+	Vector3					mDestrot;			// 目標姿勢
+	DIRECTION				mMoveKeySts;		// 押されている移動キー
 
 
 	// モデルポインタ取得
