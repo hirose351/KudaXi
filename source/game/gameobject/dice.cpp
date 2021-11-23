@@ -53,7 +53,7 @@ void Dice::Update()
 		DX11MtxMultiply(mMtx, mMtx, mMtxFrame);
 
 		//半径を計算
-		const static float radius = static_cast<float>((DICESCALE / 2.0f)*sqrt(2));		//15×ルート2÷2＝7.5f×ルート2
+		const static float radius = static_cast<float>((DICESCALE / 2.0f)*sqrt(2));		// DICESCALE*ルート2/2＝DICESCALE/2.0f*ルート2
 
 		//45度から回転角度を足し算
 		float nowcenterposy = radius * sin(ToRad(45 + mRotAnglePerFrame * mCrrentRotCnt));
@@ -119,8 +119,8 @@ void Dice::Update()
 			mCrrentRotCnt = 0;
 			// 回転後の面に設定
 			mTopDiceType = OverPlane();
-			// 接しているブロックと面が同じかチェック
-			// ステップ数減らす
+			/// 接しているブロックと面が同じかチェック
+			/// ステップ数減らす
 		}
 	}
 }

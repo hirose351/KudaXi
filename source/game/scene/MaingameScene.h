@@ -6,16 +6,16 @@
 
 using Microsoft::WRL::ComPtr;
 
-// 状態
-enum class GAMESTATE
-{
-	SETUP,	// 準備
-	PLAY,	// プレイ中
-	PAUSE,	// 中断
-	OVER,	// ゲームオーバー
-	CLEAR,	// クリア
-	SELECT,	// セレクト
-};
+//// 状態
+//enum class GAMESTATE
+//{
+//	SETUP,	// 準備
+//	PLAY,	// プレイ中
+//	PAUSE,	// 中断
+//	OVER,	// ゲームオーバー
+//	CLEAR,	// クリア
+//	SELECT,	// セレクト
+//};
 
 class MaingameScene : public SceneBase
 {

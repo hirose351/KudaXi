@@ -143,6 +143,7 @@
     <ClCompile Include="source\game\gameobject\dice.cpp" />
     <ClCompile Include="source\game\gameobject\drawobject.cpp" />
     <ClCompile Include="source\game\gameobject\gameobject.cpp" />
+    <ClCompile Include="source\game\gameobject\plane.cpp" />
     <ClCompile Include="source\game\gameobject\player.cpp" />
     <ClCompile Include="source\game\gameobject\skydome.cpp" />
     <ClCompile Include="source\game\gameobject\transform.cpp" />
@@ -200,6 +201,7 @@
     <ClInclude Include="source\game\gameobject\drawobject.h" />
     <ClInclude Include="source\game\gameobject\gameobject.h" />
     <ClInclude Include="source\game\gameobject\gameobject_utility.h" />
+    <ClInclude Include="source\game\gameobject\plane.h" />
     <ClInclude Include="source\game\gameobject\player.h" />
     <ClInclude Include="source\game\gameobject\skydome.h" />
     <ClInclude Include="source\game\gameobject\transform.h" />

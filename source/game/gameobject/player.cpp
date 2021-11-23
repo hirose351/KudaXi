@@ -56,7 +56,7 @@ void Player::Init()
 
 void Player::Update()
 {
-	Vector3 rotCamera = { 0,0,0 };
+	Vector3 rotCamera(0, 0, 0);
 	float radian;
 	if (!mIsDiceMove)
 	{

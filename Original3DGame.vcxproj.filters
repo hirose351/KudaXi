@@ -73,6 +73,9 @@
     <Filter Include="ソース ファイル\game\data">
       <UniqueIdentifier>{46c4faa1-7293-4ac6-a2b3-828507cd5ce2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\game\gameobject\plane">
+      <UniqueIdentifier>{21c1923f-0364-4b23-921d-13eb78453df5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\Application.cpp">
@@ -189,9 +192,6 @@
     <ClCompile Include="source\system\util\vector.cpp">
       <Filter>ソース ファイル\system\util</Filter>
     </ClCompile>
-    <ClCompile Include="source\game\gameobject\camera.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="source\game\gameobject\CCamera.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
@@ -225,9 +225,6 @@
     <ClCompile Include="source\game\data\stage_data.cpp">
       <Filter>ソース ファイル\game\data</Filter>
     </ClCompile>
-    <ClCompile Include="source\game\manager\game_manager.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="source\system\util\quad2d.cpp">
       <Filter>ソース ファイル\system\texture</Filter>
     </ClCompile>
@@ -236,6 +233,15 @@
     </ClCompile>
     <ClCompile Include="source\game\scene\scene_base.cpp">
       <Filter>ソース ファイル\game\scene</Filter>
+    </ClCompile>
+    <ClCompile Include="source\game\gameobject\camera.cpp">
+      <Filter>ソース ファイル\game\gameobject\util</Filter>
+    </ClCompile>
+    <ClCompile Include="source\game\manager\game_manager.cpp">
+      <Filter>ソース ファイル\game\manager</Filter>
+    </ClCompile>
+    <ClCompile Include="source\game\gameobject\plane.cpp">
+      <Filter>ソース ファイル\game\gameobject\plane</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -419,9 +425,6 @@
     <ClInclude Include="source\game\data\stage_data.h">
       <Filter>ソース ファイル\game\data</Filter>
     </ClInclude>
-    <ClInclude Include="source\game\manager\game_manager.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="source\system\util\quad2d.h">
       <Filter>ソース ファイル\system\texture</Filter>
     </ClInclude>
@@ -430,6 +433,12 @@
     </ClInclude>
     <ClInclude Include="source\game\scene\scene_base.h">
       <Filter>ソース ファイル\game\scene</Filter>
+    </ClInclude>
+    <ClInclude Include="source\game\manager\game_manager.h">
+      <Filter>ソース ファイル\game\manager</Filter>
+    </ClInclude>
+    <ClInclude Include="source\game\gameobject\plane.h">
+      <Filter>ソース ファイル\game\gameobject\plane</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

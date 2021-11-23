@@ -36,20 +36,19 @@ private:
 	// 画面遷移法
 	TransitionState mTransitionState = TransitionState::None;
 
-	int32_t	mTransitionTimeMillisec = 1000;	// 遷移時間（デフォルト：１０００ミリ秒）
+	int32_t	mTransitionTimeMillisec = 1000;							// 遷移時間（デフォルト：１０００ミリ秒）
 
-	Stopwatch mStopwatch;						// ストップウオッチ
+	Stopwatch mStopwatch;											// ストップウオッチ
 
-	DirectX::XMFLOAT4 mFadeColor = DirectX::XMFLOAT4(0, 0, 0, 1);		// フェードカラー
+	DirectX::XMFLOAT4 mFadeColor = DirectX::XMFLOAT4(0, 0, 0, 1);	// フェードカラー
 
 	bool mCrossFade = false;
+	bool mGameEndFlg = false;										// ゲームを終了するか
 
-	bool mGameEndFlg = false;	// ゲームを終了するか
-
-	void UpdateSingle();					// ひとつの遷移方法で更新
-	void UpdateCross();						// クロスフェードで更新
-	void DrawScene();						// カレントシーン描画
-	void SetTransitionState(SceneManager::TransitionState ts);	// 遷移方法セット
+	void UpdateSingle();											// ひとつの遷移方法で更新
+	void UpdateCross();												// クロスフェードで更新
+	void DrawScene();												// カレントシーン描画
+	void SetTransitionState(SceneManager::TransitionState ts);		// 遷移方法セット
 
 public:
 
@@ -164,6 +163,5 @@ bool SceneManager::changeScene(std::string key, int32_t transitionTimeMillisec, 
 		mTransitionState = TransitionState::FadeOut;
 		mStopwatch.restart();
 	}
-
 	return true;
 }
