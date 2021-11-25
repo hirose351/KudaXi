@@ -2,6 +2,7 @@
 
 Transform::Transform()
 {
+	DX11MtxIdentity(mMtx);	// ’PˆÊs—ñ‰»
 }
 
 void Transform::AddPosition()

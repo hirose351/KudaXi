@@ -210,9 +210,6 @@
     <ClCompile Include="source\game\gameobject\dice.cpp">
       <Filter>ソース ファイル\game\gameobject\dice</Filter>
     </ClCompile>
-    <ClCompile Include="source\game\manager\dice_manager.cpp">
-      <Filter>ソース ファイル\game\manager</Filter>
-    </ClCompile>
     <ClCompile Include="source\game\manager\stagedata_manager.cpp">
       <Filter>ソース ファイル\game\manager</Filter>
     </ClCompile>
@@ -242,6 +239,12 @@
     </ClCompile>
     <ClCompile Include="source\game\gameobject\plane.cpp">
       <Filter>ソース ファイル\game\gameobject\plane</Filter>
+    </ClCompile>
+    <ClCompile Include="source\game\manager\dice_manager.cpp">
+      <Filter>ソース ファイル\game\manager</Filter>
+    </ClCompile>
+    <ClCompile Include="source\game\manager\collision_manager.cpp">
+      <Filter>ソース ファイル\game\manager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -404,9 +407,6 @@
     <ClInclude Include="source\game\gameobject\dice.h">
       <Filter>ソース ファイル\game\gameobject\dice</Filter>
     </ClInclude>
-    <ClInclude Include="source\game\manager\dice_manager.h">
-      <Filter>ソース ファイル\game\manager</Filter>
-    </ClInclude>
     <ClInclude Include="source\game\manager\stagedata_manager.h">
       <Filter>ソース ファイル\game\manager</Filter>
     </ClInclude>
@@ -439,6 +439,15 @@
     </ClInclude>
     <ClInclude Include="source\game\gameobject\plane.h">
       <Filter>ソース ファイル\game\gameobject\plane</Filter>
+    </ClInclude>
+    <ClInclude Include="source\game\manager\dice_manager.h">
+      <Filter>ソース ファイル\game\manager</Filter>
+    </ClInclude>
+    <ClInclude Include="source\game\gameobject\primitive_utility.h">
+      <Filter>ソース ファイル\game\gameobject\util</Filter>
+    </ClInclude>
+    <ClInclude Include="source\game\manager\collision_manager.h">
+      <Filter>ソース ファイル\game\manager</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

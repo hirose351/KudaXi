@@ -96,7 +96,7 @@ bool StageDataManager::LoadStage(std::string _key)
 		fin.read((char*)&stagedata->mTargetDiceType, sizeof(int));
 		fin.read((char*)&stagedata->mStep, sizeof(int));
 
-		fin.read((char*)&stagedata->mPlayerPos, sizeof(Vector3));
+		fin.read((char*)&stagedata->mPlayerPos, sizeof(Float3));
 
 		// unordered_mapコンテナに格納
 		mStageHashmap[_key].swap(stagedata);
@@ -170,7 +170,7 @@ void StageDataManager::SaveStage(const StageData& _stagedata)
 	fout.write((char*)&_stagedata.mDiceAlignCnt, sizeof(int));
 	fout.write((char*)&_stagedata.mTargetDiceType, sizeof(int));
 	fout.write((char*)&_stagedata.mStep, sizeof(int));
-	fout.write((char*)&_stagedata.mPlayerPos, sizeof(Vector3));
+	fout.write((char*)&_stagedata.mPlayerPos, sizeof(Float3));
 
 	fout.close();  //ファイルを閉じる
 }

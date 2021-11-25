@@ -6,14 +6,15 @@
 class GameObject
 {
 protected:
-	std::string		mName;			//名前
-	unsigned int	mObjectID;		//オブジェクトID番号
-	bool			mIsExist;		//生存可否
-	ObjectType		mObjectType;		//オブジェクトタイプ// アクター の 状態 State mState;
-	ObjectState		mObjectState;
+	std::string		mName;			// 名前
+	unsigned int	mObjectID;		// オブジェクトID番号
+	ObjectType		mObjectType;	// オブジェクトタイプ
+	bool			mIsExist;		// 生存可否
+	ObjectState		mObjectState;	// 状態;
 
 public:
 	GameObject() :mName("NoName"), mObjectType(ObjectType::Obstracle) {}
+	GameObject(std::string mName, ObjectType mObjectType) :mName(mName), mObjectType(mObjectType) {}
 	virtual ~GameObject();
 
 	virtual void Init() = 0;

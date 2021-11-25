@@ -1,8 +1,8 @@
 #pragma once
 #include	"gameobject.h"
 #include	"transform.h"
-#include	"../../system/model/CModel.h"
-#include	<vector>
+#include	"collision_base.h"
+#include	"../../system/model/ModelMgr.h"
 
 using Microsoft::WRL::ComPtr;
 
@@ -24,7 +24,7 @@ enum class DICESTATUS {
 	HALFDOWN,	// 半分沈む
 };
 
-class Dice : public GameObject, Transform
+class Dice : public GameObject, Transform, CollisionBase
 {
 private:
 	CModel* mpModel;
@@ -33,7 +33,7 @@ private:
 	DIRECTION mDirection = DIRECTION::NEUTRAL;			// サイコロの移動方向	
 
 	DirectX::XMFLOAT4X4 mMtxFrame;						// 1フレームでの変化を表す行列	
-	Vector3 mStartPos;									// キー入力された際の開始位置	
+	Float3 mStartPos;									// キー入力された際の開始位置	
 
 	int mCrrentRotCnt = 0;								// 今の回転回数
 	const int mRotCnt = 12;								// 90度回転するのに必要な更新回数	
@@ -49,7 +49,18 @@ private:
 		mpModel = p;
 	}
 public:
-	Dice();
+	Dice() :CollisionBase(new Primitive::AABB, this), GameObject(("Dice"), ObjectType::Dice) {
+		bool sts = ModelMgr::GetInstance().LoadModel(
+			"assets/model/dice/Dice.fbx",
+			"shader/vs.hlsl", "shader/pstexcol.hlsl",
+			"assets/model/dice/");
+		if (!sts)
+		{
+			MessageBox(nullptr, "Diceモデル 読み込みエラー", "error", MB_OK);
+		}
+		SetModel(ModelMgr::GetInstance().GetModelPtr("assets/model/dice/Dice.fbx"));
+		Init();
+	}
 	~Dice()override;
 
 	void Init() override;
@@ -84,5 +95,8 @@ public:
 	// 1マス分移動
 	void MoveDiceScale(DIRECTION _direction);
 
+	void OnCollisionEnter() override;
+	void OnCollisionStay() override;
+	void OnCollisionExit() override;
 };
 

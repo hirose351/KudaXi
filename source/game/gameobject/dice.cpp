@@ -1,22 +1,5 @@
 #include	"dice.h"
-#include	"../../system/model/ModelMgr.h"
 //#include	"../../system/util/XAudio2.h"
-
-Dice::Dice()
-{
-	bool sts = ModelMgr::GetInstance().LoadModel(
-		"assets/model/dice/Dice.fbx",			// ファイル名 
-		"shader/vs.hlsl",						// 頂点シェーダー
-		"shader/pstexcol.hlsl",					// ピクセルシェーダー
-		"assets/model/dice/");					// テクスチャの格納フォルダ
-
-	if (!sts)
-	{
-		MessageBox(nullptr, "Diceモデル 読み込みエラー", "error", MB_OK);
-	}
-	SetModel(ModelMgr::GetInstance().GetModelPtr("assets/model/dice/Dice.fbx"));
-	Init();
-}
 
 Dice::~Dice()
 {
@@ -26,22 +9,13 @@ Dice::~Dice()
 void Dice::Init()
 {
 	//単位行列化
-	DX11MtxIdentity(mMtx);
-	DX11MtxIdentity(mLocalMtx);
-
-	DirectX::XMFLOAT4X4 scaleMtx;
-	DX11MtxScale(7.0f, 7.0f, 7.0f, scaleMtx);
-	DX11MtxMultiply(mMtx, scaleMtx, mMtx);
-
-
-	DX11MtxIdentity(mMtxFrame);
-	DX11MtxMultiply(mMtxFrame, scaleMtx, mMtxFrame);
+	DX11MtxIdentity(mScaleMtx);
+	DX11MtxScale(7.0f, 7.0f, 7.0f, mScaleMtx);
+	mMtx = mLocalMtx = mScaleMtx;
 	// 初期値を入れる
 	mAngle = { 0,0,0 };
-	DIRECTION m_direction = DIRECTION::NEUTRAL;
-
+	mDirection = DIRECTION::NEUTRAL;
 	mCrrentRotCnt = 0;
-	DX11MtxMultiply(mLocalMtx, scaleMtx, mLocalMtx);
 }
 
 void Dice::Update()
@@ -59,8 +33,8 @@ void Dice::Update()
 		float nowcenterposy = radius * sin(ToRad(45 + mRotAnglePerFrame * mCrrentRotCnt));
 
 		//移動量の計算
-		Vector3 pos = { mStartPos.x,0.0f,mStartPos.z };
-		Vector3 endpos;
+		Float3 pos = { mStartPos.x,0.0f,mStartPos.z };
+		Float3 endpos;
 		float t;
 
 		if (mDirection == DIRECTION::RIGHT)
@@ -156,6 +130,18 @@ void Dice::MoveDiceScale(DIRECTION _direction)
 	}
 }
 
+void Dice::OnCollisionEnter()
+{
+}
+
+void Dice::OnCollisionStay()
+{
+}
+
+void Dice::OnCollisionExit()
+{
+}
+
 bool Dice::Push(DIRECTION _direction)
 {
 	return false;
@@ -171,7 +157,7 @@ bool Dice::Roll(DIRECTION _direction)
 	//else(// 回転可能なら)｛
 
 	// 平均移動量、角度
-	Vector3 trans, angle;
+	Float3 trans, angle;
 
 	switch (_direction)
 	{
@@ -198,7 +184,7 @@ bool Dice::Roll(DIRECTION _direction)
 void Dice::SetRollDirection(DIRECTION _direction)
 {
 	// 平均移動量、角度を初期化
-	Vector3 trans, angle;
+	Float3 trans, angle;
 
 	//ニュートラルの時だけキー入力を認める
 	if (mDirection == DIRECTION::NEUTRAL)
@@ -231,8 +217,8 @@ void Dice::SetRollDirection(DIRECTION _direction)
 
 //増した方向の面を特定
 DICETYPE Dice::OverPlane() {
-	Vector3 underaxis = { 0,-1,0 };
-	Vector3 axis;
+	Float3 underaxis = { 0,-1,0 };
+	Float3 axis;
 	bool sts[6];
 	float dot;
 

@@ -13,7 +13,7 @@ enum class DIRECTION {
 enum class ObjectType
 {
 	Player = 0b00,
-	Enemy = 0b01,
+	Dice = 0b01,
 	Obstracle = 0b11,
 };
 

@@ -3,7 +3,6 @@
 #include	<string>
 #include	"../../system/dx11/CDirectInput.h"
 #include	"../../system/dx11/DX11Settransform.h"
-#include	"../../system/model/ModelMgr.h"
 
 //*****************************************************************************
 // ƒ}ƒNƒ’è‹`
@@ -13,27 +12,6 @@
 #define	RATE_ROTATE_MODEL	(0.10f)					// ‰ñ“]Šµ«ŒW”
 #define	RATE_MOVE_MODEL		(0.1f)
 //#define	RATE_MOVE_MODEL		(0.025f)			// ˆÚ“®Šµ«ŒW”
-
-Player::Player()
-{
-	bool sts = ModelMgr::GetInstance().LoadModel(
-		"assets/model/player/player.fbx",
-		"shader/vs.hlsl",
-		"shader/ps.hlsl",
-		"assets/model/player/");
-	//’PˆÊs—ñ‰»
-	DX11MtxIdentity(mMtx);
-	// ‰ŠúŽp¨
-	mRotation = { 0.0f, 0.0f, 0.0f };
-	// –Ú•WŽp¨
-	mDestrot = { 0.0f, 0.0f, 0.0f };
-	// ˆÚ“®—Ê
-	mMove = { 0.0f, 0.0f, 0.0f };
-
-	SetModel(ModelMgr::GetInstance().GetModelPtr("assets/model/player/player.fbx"));
-
-	Init();
-}
 
 Player::~Player()
 {
@@ -56,7 +34,7 @@ void Player::Init()
 
 void Player::Update()
 {
-	Vector3 rotCamera(0, 0, 0);
+	Float3 rotCamera(0, 0, 0);
 	float radian;
 	if (!mIsDiceMove)
 	{
@@ -175,7 +153,7 @@ void Player::Update()
 	//mMove.z += (0.0f - mMove.z) * RATE_MOVE_MODEL;
 
 	// ‰ñ“]‚ð”½‰fA•½sˆÚ“®‚ð”½‰f
-	Vector3 degree = (mRotation* 180.0f) / XM_PI;
+	Float3 degree = (mRotation* 180.0f) / XM_PI;
 	DX11MakeWorldMatrix(mMtx, degree, mPosition);
 	DirectX::XMFLOAT4X4 scaleMtx;
 	DX11MtxScale(1.3f, 1.3f, 1.3f, scaleMtx);
@@ -190,4 +168,16 @@ void Player::Draw()
 void Player::Finalize()
 {
 	//mpModel->Uninit();
+}
+
+void Player::OnCollisionEnter()
+{
+}
+
+void Player::OnCollisionStay()
+{
+}
+
+void Player::OnCollisionExit()
+{
 }

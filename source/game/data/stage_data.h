@@ -60,6 +60,6 @@ public:
 	int mTargetDiceType = 3;						// 揃えるサイコロの面
 	int mStep = 5;									// サイコロの移動可能数
 
-	Vector3 mPlayerPos;								// プレイヤーの初期位置
+	Float3 mPlayerPos;								// プレイヤーの初期位置
 };
 

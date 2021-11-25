@@ -22,9 +22,9 @@ void MaingameScene::AddGameObject()
 	sp<Player> player;
 	player.SetPtr(new Player);
 	mObjList.emplace_back(player);
-	//sp<Dice> dice;
-	//dice.SetPtr(new Dice);
-	//mObjList.emplace_back(dice);
+	sp<Dice> dice;
+	dice.SetPtr(new Dice);
+	mObjList.emplace_back(dice);
 	sp<Plane> plane;
 	plane.SetPtr(new Plane);
 	mObjList.emplace_back(plane);
