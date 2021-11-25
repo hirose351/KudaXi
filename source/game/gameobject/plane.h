@@ -1,16 +1,17 @@
 #pragma once
 #include	"gameobject.h"
-#include	"transform.h"
 #include	"../../system/model/vertexproto.h"
 #include	"../../system/util/texture_manager.h"
 
-class Plane : public GameObject, Transform
+using Microsoft::WRL::ComPtr;
+
+class Plane : public GameObject
 {
 private:
 	TextureInfo* mTexInfo[4];
 
 	ComPtr<ID3D11Buffer> mpVertexBuffer;		// 頂点バッファ
-	ComPtr<ID3D11Buffer> mpIndexBuffer;			// インデックスバッファ
+	//ComPtr<ID3D11Buffer> mpIndexBuffer;			// インデックスバッファ
 	ComPtr<ID3D11VertexShader> mpVertexShader;	// 頂点シェーダー
 	ComPtr<ID3D11PixelShader>  mpPixelShader;	// ピクセルシェーダー
 	ComPtr<ID3D11InputLayout>  mpVertexLayout;	// 頂点レイアウト

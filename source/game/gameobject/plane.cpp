@@ -47,9 +47,9 @@ void Plane::Init()
 	}
 	// 平行移動量を計算
 
-	DX11MtxIdentity(mMtx);	// 単位行列化
+	DX11MtxIdentity(mTransform.mtx);	// 単位行列化
 	Float3 trans(DICESCALE, DICESCALE / 2.0f, -DICESCALE);
-	DX11MtxTranslation(trans, mMtx);			// 行列作成
+	DX11MtxTranslation(trans, mTransform.mtx);			// 行列作成
 }
 
 void Plane::Update()
@@ -70,7 +70,7 @@ void Plane::Draw()
 	devcontext->PSSetShader(mpPixelShader.Get(), nullptr, 0);						// ピクセルシェーダーをセット
 
 	// ワールド変換行列セット
-	DX11SetTransform::GetInstance()->SetTransform(DX11SetTransform::TYPE::WORLD, mMtx);
+	DX11SetTransform::GetInstance()->SetTransform(DX11SetTransform::TYPE::WORLD, mTransform.mtx);
 
 	// テクスチャセット
 	devcontext->PSSetShaderResources(0, 1, mTexInfo[1]->texSrv.GetAddressOf());

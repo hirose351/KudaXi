@@ -1,6 +1,5 @@
 #pragma once
 #include	"gameobject.h"
-#include	"transform.h"
 #include	"collision_base.h"
 #include	"../../system/model/ModelMgr.h"
 
@@ -24,7 +23,7 @@ enum class DICESTATUS {
 	HALFDOWN,	// ”¼•ª’¾‚Þ
 };
 
-class Dice : public GameObject, Transform, CollisionBase
+class Dice : public GameObject, CollisionBase
 {
 private:
 	CModel* mpModel;

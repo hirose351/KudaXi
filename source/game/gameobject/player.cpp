@@ -21,11 +21,11 @@ Player::~Player()
 void Player::Init()
 {
 	// ‰ŠúŽp¨
-	mRotation = { 0.0f, 0.0f, 0.0f };
+	mTransform.rotation = { 0.0f, 0.0f, 0.0f };
 	// –Ú•WŽp¨
 	mDestrot = { 0.0f, 0.0f, 0.0f };
 	// ˆÚ“®—Ê
-	mMove = { 0.0f, 0.0f, 0.0f };
+	mTransform.move = { 0.0f, 0.0f, 0.0f };
 
 	mDirection = DIRECTION::DOWN;
 
@@ -43,8 +43,8 @@ void Player::Update()
 			// ¶ˆÚ“®
 			radian = rotCamera.y + XM_PI * 0.50f;
 
-			mMove.x -= sinf(XM_PI * 0.50f) * VALUE_MOVE_MODEL;
-			mMove.z -= cosf(XM_PI * 0.50f) * VALUE_MOVE_MODEL;
+			mTransform.move.x -= sinf(XM_PI * 0.50f) * VALUE_MOVE_MODEL;
+			mTransform.move.z -= cosf(XM_PI * 0.50f) * VALUE_MOVE_MODEL;
 			//// zŽ²’²®
 			//if (m_pos.z > (-m_mapPos.z*DICESCALE)) {
 			//	m_move.z -= 0.01f;
@@ -61,8 +61,8 @@ void Player::Update()
 			// ‰EˆÚ“®
 			radian = rotCamera.y - XM_PI * 0.50f;
 
-			mMove.x -= sinf(radian) * VALUE_MOVE_MODEL;
-			mMove.z -= cosf(radian) * VALUE_MOVE_MODEL;
+			mTransform.move.x -= sinf(radian) * VALUE_MOVE_MODEL;
+			mTransform.move.z -= cosf(radian) * VALUE_MOVE_MODEL;
 			//// zŽ²’²®
 			//if (m_pos.z > (-m_mapPos.z*DICESCALE)) {
 			//	m_move.z -= 0.01f;
@@ -77,8 +77,8 @@ void Player::Update()
 		else if (CDirectInput::GetInstance().CheckKeyBuffer(DIK_UP) || CDirectInput::GetInstance().CheckKeyBuffer(DIK_W))
 		{
 			// ‘OˆÚ“®
-			mMove.x -= sinf(XM_PI) * VALUE_MOVE_MODEL;
-			mMove.z -= cosf(XM_PI) * VALUE_MOVE_MODEL;
+			mTransform.move.x -= sinf(XM_PI) * VALUE_MOVE_MODEL;
+			mTransform.move.z -= cosf(XM_PI) * VALUE_MOVE_MODEL;
 			//// xŽ²’²®
 			//if (m_pos.x > m_mapPos.x*DICESCALE) {
 			//	m_move.x -= 0.01f;
@@ -93,8 +93,8 @@ void Player::Update()
 		else if (CDirectInput::GetInstance().CheckKeyBuffer(DIK_DOWN) || CDirectInput::GetInstance().CheckKeyBuffer(DIK_S))
 		{
 			// ŒãˆÚ“®
-			mMove.x -= sinf(rotCamera.y) * VALUE_MOVE_MODEL;
-			mMove.z -= cosf(rotCamera.y) * VALUE_MOVE_MODEL;
+			mTransform.move.x -= sinf(rotCamera.y) * VALUE_MOVE_MODEL;
+			mTransform.move.z -= cosf(rotCamera.y) * VALUE_MOVE_MODEL;
 			//// xŽ²’²®
 			//if (m_pos.x > m_mapPos.x*DICESCALE) {
 			//	m_move.x -= 0.01f;
@@ -111,15 +111,15 @@ void Player::Update()
 		{
 			// ƒŠƒZƒbƒg
 			// ‰ŠúŽp¨
-			mRotation = { 0.0f, 0.0f, 0.0f };
+			mTransform.rotation = { 0.0f, 0.0f, 0.0f };
 			// –Ú•WŽp¨
 			mDestrot = { 0.0f, 0.0f, 0.0f };
 			// ˆÚ“®—Ê
-			mMove = { 0.0f, 0.0f, 0.0f };
+			mTransform.move = { 0.0f, 0.0f, 0.0f };
 		}
 	}
 	// –Ú•WŠp“x‚ÆŒ»ÝŠp“x‚Æ‚Ì·•ª‚ð‹‚ß‚é
-	float diffrot = mDestrot.y - mRotation.y;
+	float diffrot = mDestrot.y - mTransform.rotation.y;
 	if (diffrot > XM_PI)
 	{
 		diffrot -= XM_PI * 2.0f;
@@ -130,39 +130,39 @@ void Player::Update()
 	}
 
 	// Šp“x‘¬“x‚ÉŠµ«‚ð•t‚¯‚é
-	mRotation.y += diffrot * RATE_ROTATE_MODEL;
-	if (mRotation.y > XM_PI)
+	mTransform.rotation.y += diffrot * RATE_ROTATE_MODEL;
+	if (mTransform.rotation.y > XM_PI)
 	{
-		mRotation.y -= XM_PI * 2.0f;
+		mTransform.rotation.y -= XM_PI * 2.0f;
 	}
-	if (mRotation.y < -XM_PI)
+	if (mTransform.rotation.y < -XM_PI)
 	{
-		mRotation.y += XM_PI * 2.0f;
+		mTransform.rotation.y += XM_PI * 2.0f;
 	}
 
 	/// ˆÊ’uˆÚ“®
-	mPosition += mMove;
+	mTransform.position += mTransform.move;
 	//mPosition.x += mMove.x;
 	//mPosition.z += mMove.z;
 	//mPosition.y += mMove.y;
 
 	// ˆÚ“®—Ê‚ÉŠµ«‚ð‚©‚¯‚é(Œ¸‘¬Šµ«)
-	mMove += (mMove*-1.0f) * RATE_MOVE_MODEL;
+	mTransform.move += (mTransform.move*-1.0f) * RATE_MOVE_MODEL;
 	//mMove.x += (0.0f - mMove.x) * RATE_MOVE_MODEL;
 	//mMove.y += (0.0f - mMove.y) * RATE_MOVE_MODEL;
 	//mMove.z += (0.0f - mMove.z) * RATE_MOVE_MODEL;
 
 	// ‰ñ“]‚ð”½‰fA•½sˆÚ“®‚ð”½‰f
-	Float3 degree = (mRotation* 180.0f) / XM_PI;
-	DX11MakeWorldMatrix(mMtx, degree, mPosition);
+	Float3 degree = (mTransform.rotation* 180.0f) / XM_PI;
+	DX11MakeWorldMatrix(mTransform.mtx, degree, mTransform.position);
 	DirectX::XMFLOAT4X4 scaleMtx;
 	DX11MtxScale(1.3f, 1.3f, 1.3f, scaleMtx);
-	DX11MtxMultiply(mMtx, scaleMtx, mMtx);
+	DX11MtxMultiply(mTransform.mtx, scaleMtx, mTransform.mtx);
 }
 
 void Player::Draw()
 {
-	mpModel->Draw(mMtx);
+	mpModel->Draw(mTransform.mtx);
 }
 
 void Player::Finalize()

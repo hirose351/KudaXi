@@ -1,11 +1,13 @@
 #pragma once
 #include	<string>
 #include	"gameobject_utility.h"
+#include	"transform.h"
 
 //ゲームオブジェクトの基底クラス
 class GameObject
 {
 protected:
+	Transform		mTransform;		// 位置回転大きさ
 	std::string		mName;			// 名前
 	unsigned int	mObjectID;		// オブジェクトID番号
 	ObjectType		mObjectType;	// オブジェクトタイプ
