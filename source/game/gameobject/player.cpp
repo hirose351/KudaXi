@@ -152,14 +152,14 @@ void Player::Finalize()
 	//mpModel->Uninit();
 }
 
-void Player::OnCollisionEnter()
+void Player::OnCollisionEnter(GameObject* _oher)
 {
 }
 
-void Player::OnCollisionStay()
+void Player::OnCollisionStay(GameObject* _oher)
 {
 }
 
-void Player::OnCollisionExit()
+void Player::OnCollisionExit(GameObject* _oher)
 {
 }

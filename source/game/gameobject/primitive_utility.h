@@ -15,7 +15,8 @@
 
 class CollisionManager;
 
-struct PrimitiveBase {
+class PrimitiveBase {
+public:
 	GameObject* mOwner;
 	PrimitiveBase() :mOwner(nullptr) {};
 	PrimitiveBase(GameObject* _owner) :mOwner(_owner) { SetManager(); };

@@ -94,8 +94,8 @@ public:
 	// 1ƒ}ƒX•ªˆÚ“®
 	void MoveDiceScale(DIRECTION _direction);
 
-	void OnCollisionEnter() override;
-	void OnCollisionStay() override;
-	void OnCollisionExit() override;
+	void OnCollisionEnter(GameObject* _oher) override;
+	void OnCollisionStay(GameObject* _oher) override;
+	void OnCollisionExit(GameObject* _oher) override;
 };
 

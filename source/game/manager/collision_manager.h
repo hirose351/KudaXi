@@ -5,12 +5,12 @@
 #include	"../gameobject/primitive_utility.h"
 #include	<list>
 
-struct PrimitiveBase;
+class PrimitiveBase;
 
 class CollisionManager : public Uncopyable
 {
 private:
-	std::list<Dix::sp<struct PrimitiveBase>> mPrimList;
+	std::list<Dix::sp<class PrimitiveBase>> mPrimList;
 
 public:
 	static CollisionManager& GetInstance() {

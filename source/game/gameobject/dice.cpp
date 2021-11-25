@@ -130,15 +130,15 @@ void Dice::MoveDiceScale(DIRECTION _direction)
 	}
 }
 
-void Dice::OnCollisionEnter()
+void Dice::OnCollisionEnter(GameObject* _oher)
 {
 }
 
-void Dice::OnCollisionStay()
+void Dice::OnCollisionStay(GameObject* _oher)
 {
 }
 
-void Dice::OnCollisionExit()
+void Dice::OnCollisionExit(GameObject* _oher)
 {
 }
 

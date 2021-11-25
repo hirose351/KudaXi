@@ -40,7 +40,7 @@ public:
 	void Draw() override;
 	void Finalize() override;
 
-	void OnCollisionEnter() override;
-	void OnCollisionStay() override;
-	void OnCollisionExit() override;
+	void OnCollisionEnter(GameObject* _oher) override;
+	void OnCollisionStay(GameObject* _oher) override;
+	void OnCollisionExit(GameObject* _oher) override;
 };
