@@ -1,22 +1,27 @@
 #pragma once
 #include	"../../system/util/vector.h"
+#include	"../manager/collision_manager.h"
+#include	"gameobject.h"
+
+#include	<math.h>
 
 // プリミティブ定義
-
 // v1.00
 //  初出
-
 // v1.01
 // ベクトルの平行判定を外積に置き換え
 
-
-#include <math.h>
-
 #define _OX_EPSILON_	0.000001f	// 誤差
 
+class CollisionManager;
 
 struct PrimitiveBase {
+	GameObject* mOwner;
+	PrimitiveBase() :mOwner(nullptr) {};
+	PrimitiveBase(GameObject* _owner) :mOwner(_owner) { SetManager(); };
+	~PrimitiveBase() { /*削除？*/ };
 	virtual PrimitiveBase* Get() { return this; }
+	void SetManager();
 };
 
 namespace Primitive {

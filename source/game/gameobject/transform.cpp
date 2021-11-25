@@ -2,7 +2,19 @@
 
 Transform::Transform()
 {
-	DX11MtxIdentity(mtx);	// 単位行列化
+	ReSetValue();	// 単位行列化
+}
+
+void Transform::ReSetValue()
+{
+	position = { 0, 0, 0 };
+	move = { 0, 0, 0 };
+	rotation = { 0, 0, 0 };
+	scale = { 0, 0, 0 };
+	angle = { 0, 0, 0 };
+	DX11MtxIdentity(mtx);
+	DX11MtxIdentity(localMtx);
+	DX11MtxIdentity(scaleMtx);
 }
 
 void Transform::AddPosition()

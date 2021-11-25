@@ -4,19 +4,19 @@
 #include	"gameobject.h"
 #include	"../../system/util/dixsmartptr.h"
 
-class CollisionBase
+class CollisionInterface
 {
-private:
-	bool mIsHit;			// 今当たったか
-	bool mIsBeforeHit;		// 前当たったか
-
-protected:
-	PrimitiveBase* mPrimitive;	// 形
-	GameObject* mOwner;		// 持ち主
-
+	//private
+	//	bool mIsHit;			// 今当たったか
+	//	bool mIsBeforeHit;		// 前当たったか
+	//
+	//protected:
+	//	PrimitiveBase* mPrimitive;	// 形
+	//	GameObject* mOwner;		// 持ち主
+	//
 public:
-	CollisionBase() {};
-	CollisionBase(PrimitiveBase *_primitive, GameObject *_owner) :mPrimitive(_primitive), mOwner(_owner) {}
+	//CollisionBase() {};
+	//CollisionBase(PrimitiveBase *_primitive, GameObject *_owner) :mPrimitive(_primitive), mOwner(_owner) {}
 	//virtual ~CollisionBase() {};
 
 	virtual void OnCollisionEnter() = 0;

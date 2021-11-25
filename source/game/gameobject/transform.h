@@ -26,6 +26,8 @@ struct Transform
 
 	// Todo:‰ñ“]‚Æ‚©ˆÚ“®‚Æ‚©‚ÌŠÖ”ì‚é
 
+	void ReSetValue();
+
 	void AddPosition();
 	void CreateScaleMtx();
 

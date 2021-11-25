@@ -246,6 +246,9 @@
     <ClCompile Include="source\game\manager\collision_manager.cpp">
       <Filter>ソース ファイル\game\manager</Filter>
     </ClCompile>
+    <ClCompile Include="source\game\gameobject\primitive_utility.cpp">
+      <Filter>ソース ファイル\game\gameobject\util</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\system\model\assimpscene.h">

@@ -5,12 +5,12 @@
 
 using Microsoft::WRL::ComPtr;
 
-class Player :public GameObject, CollisionBase
+class Player :public GameObject, CollisionInterface
 {
 private:
 	CModel*	mpModel;							// ３Ｄモデル
-	bool mIsDiceMove = false;					// サイコロが回転しているか
 	DIRECTION mDiceMoveDirection;				// サイコロを回転させる方向
+	bool mIsDiceMove = false;					// サイコロが回転しているか
 	DIRECTION mDirection;						// プレイヤーの方向(キー参照)
 
 	Float3					mDestrot;			// 目標姿勢
@@ -21,7 +21,7 @@ private:
 		mpModel = p;
 	}
 public:
-	Player() :CollisionBase(new Primitive::Capsule, this), GameObject(("Player"), ObjectType::Player) {
+	Player() : GameObject(("Player"), ObjectType::Player) {
 		bool sts = ModelMgr::GetInstance().LoadModel(
 			"assets/model/player/player.fbx",
 			"shader/vs.hlsl", "shader/ps.hlsl",
@@ -31,7 +31,6 @@ public:
 			MessageBox(nullptr, "Playerモデル 読み込みエラー", "error", MB_OK);
 		}
 		SetModel(ModelMgr::GetInstance().GetModelPtr("assets/model/player/player.fbx"));
-		DX11MtxIdentity(mTransform.mtx);	// 単位行列化
 		Init();
 	};
 	~Player();

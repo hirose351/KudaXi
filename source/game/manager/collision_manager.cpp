@@ -1,12 +1,19 @@
 #include "collision_manager.h"
 
-void CollisionManager::AddCollision(const CollisionBase &_col)
+void CollisionManager::AddPrim(PrimitiveBase *_col)
 {
-	//mColList.emplace_back(_col);
+	mPrimList.emplace_back(_col);
+}
+
+void CollisionManager::RemovePrim(PrimitiveBase *_col)
+{
+	//mPrimList.erase(_col);
 }
 
 void CollisionManager::UpdateCollision()
 {
+	// Ç±Ç¡ÇøÇ≈çÌèúämîFÅH
+
 	//for (auto itA = mColList.begin(); itA != mColList.end(); itA++)
 	//{
 	//	for (auto itB = itA; itB != mColList.end(); itB++)

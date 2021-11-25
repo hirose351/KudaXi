@@ -145,6 +145,7 @@
     <ClCompile Include="source\game\gameobject\gameobject.cpp" />
     <ClCompile Include="source\game\gameobject\plane.cpp" />
     <ClCompile Include="source\game\gameobject\player.cpp" />
+    <ClCompile Include="source\game\gameobject\primitive_utility.cpp" />
     <ClCompile Include="source\game\gameobject\skydome.cpp" />
     <ClCompile Include="source\game\gameobject\transform.cpp" />
     <ClCompile Include="source\game\manager\collision_manager.cpp" />

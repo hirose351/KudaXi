@@ -23,7 +23,7 @@ enum class DICESTATUS {
 	HALFDOWN,	// ”¼•ª’¾‚Þ
 };
 
-class Dice : public GameObject, CollisionBase
+class Dice : public GameObject, CollisionInterface
 {
 private:
 	CModel* mpModel;
@@ -48,7 +48,7 @@ private:
 		mpModel = p;
 	}
 public:
-	Dice() :CollisionBase(new Primitive::AABB, this), GameObject(("Dice"), ObjectType::Dice) {
+	Dice() :GameObject(("Dice"), ObjectType::Dice) {
 		bool sts = ModelMgr::GetInstance().LoadModel(
 			"assets/model/dice/Dice.fbx",
 			"shader/vs.hlsl", "shader/pstexcol.hlsl",

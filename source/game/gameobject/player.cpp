@@ -20,12 +20,7 @@ Player::~Player()
 
 void Player::Init()
 {
-	// 初期姿勢
-	mTransform.rotation = { 0.0f, 0.0f, 0.0f };
-	// 目標姿勢
-	mDestrot = { 0.0f, 0.0f, 0.0f };
-	// 移動量
-	mTransform.move = { 0.0f, 0.0f, 0.0f };
+	mTransform.ReSetValue();
 
 	mDirection = DIRECTION::DOWN;
 
@@ -109,13 +104,7 @@ void Player::Update()
 
 		if (CDirectInput::GetInstance().CheckKeyBuffer(DIK_RETURN))
 		{
-			// リセット
-			// 初期姿勢
-			mTransform.rotation = { 0.0f, 0.0f, 0.0f };
-			// 目標姿勢
-			mDestrot = { 0.0f, 0.0f, 0.0f };
-			// 移動量
-			mTransform.move = { 0.0f, 0.0f, 0.0f };
+			mTransform.ReSetValue();
 		}
 	}
 	// 目標角度と現在角度との差分を求める
@@ -140,20 +129,13 @@ void Player::Update()
 		mTransform.rotation.y += XM_PI * 2.0f;
 	}
 
-	/// 位置移動
+	// 位置移動
 	mTransform.position += mTransform.move;
-	//mPosition.x += mMove.x;
-	//mPosition.z += mMove.z;
-	//mPosition.y += mMove.y;
-
 	// 移動量に慣性をかける(減速慣性)
 	mTransform.move += (mTransform.move*-1.0f) * RATE_MOVE_MODEL;
-	//mMove.x += (0.0f - mMove.x) * RATE_MOVE_MODEL;
-	//mMove.y += (0.0f - mMove.y) * RATE_MOVE_MODEL;
-	//mMove.z += (0.0f - mMove.z) * RATE_MOVE_MODEL;
-
 	// 回転を反映、平行移動を反映
-	Float3 degree = (mTransform.rotation* 180.0f) / XM_PI;
+	Float3 degree((mTransform.rotation* 180.0f) / XM_PI);
+
 	DX11MakeWorldMatrix(mTransform.mtx, degree, mTransform.position);
 	DirectX::XMFLOAT4X4 scaleMtx;
 	DX11MtxScale(1.3f, 1.3f, 1.3f, scaleMtx);
