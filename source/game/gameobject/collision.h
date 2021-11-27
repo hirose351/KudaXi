@@ -1,6 +1,6 @@
 #pragma once
 #include	"transform.h"
-#include	"primitive_utility.h"
+#include	"primitive.h"
 #include	"gameobject.h"
 #include	"../../system/util/dixsmartptr.h"
 

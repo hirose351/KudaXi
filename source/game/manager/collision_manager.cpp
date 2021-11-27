@@ -10,7 +10,7 @@ void CollisionManager::RemovePrim(PrimitiveBase *_col)
 	//mPrimList.erase(_col);
 }
 
-void CollisionManager::UpdateCollision()
+void CollisionManager::UpdatePrimitive()
 {
 	// ‚±‚Á‚¿‚ÅíœŠm”FH
 

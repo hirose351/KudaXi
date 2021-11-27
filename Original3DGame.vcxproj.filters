@@ -76,6 +76,21 @@
     <Filter Include="ソース ファイル\game\gameobject\plane">
       <UniqueIdentifier>{21c1923f-0364-4b23-921d-13eb78453df5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\game\component">
+      <UniqueIdentifier>{7eebec67-83f2-486a-bc56-c55687c4130b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\game\component\transform">
+      <UniqueIdentifier>{d0269909-83dc-4061-98b0-51ba047c421e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\game\component\collision">
+      <UniqueIdentifier>{43b5d054-c190-4997-bc80-bbfd26b827e4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\game\component\draw">
+      <UniqueIdentifier>{c925b7e8-2de2-4419-879e-47b5ed255760}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\game\component\draw\model">
+      <UniqueIdentifier>{55c4da22-f145-4cbc-b123-c4f00e72bd2d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\Application.cpp">
@@ -225,9 +240,6 @@
     <ClCompile Include="source\system\util\quad2d.cpp">
       <Filter>ソース ファイル\system\texture</Filter>
     </ClCompile>
-    <ClCompile Include="source\game\gameobject\collision_base.cpp">
-      <Filter>ソース ファイル\game\gameobject\util</Filter>
-    </ClCompile>
     <ClCompile Include="source\game\scene\scene_base.cpp">
       <Filter>ソース ファイル\game\scene</Filter>
     </ClCompile>
@@ -246,8 +258,23 @@
     <ClCompile Include="source\game\manager\collision_manager.cpp">
       <Filter>ソース ファイル\game\manager</Filter>
     </ClCompile>
-    <ClCompile Include="source\game\gameobject\primitive_utility.cpp">
+    <ClCompile Include="source\game\gameobject\primitive.cpp">
       <Filter>ソース ファイル\game\gameobject\util</Filter>
+    </ClCompile>
+    <ClCompile Include="source\game\gameobject\collision.cpp">
+      <Filter>ソース ファイル\game\gameobject\util</Filter>
+    </ClCompile>
+    <ClCompile Include="source\game\component\component_base.cpp">
+      <Filter>ソース ファイル\game\component</Filter>
+    </ClCompile>
+    <ClCompile Include="source\game\component\model_component.cpp">
+      <Filter>ソース ファイル\game\component\draw\model</Filter>
+    </ClCompile>
+    <ClCompile Include="source\game\component\transform_component.cpp">
+      <Filter>ソース ファイル\game\component\transform</Filter>
+    </ClCompile>
+    <ClCompile Include="source\game\component\collision_component.cpp">
+      <Filter>ソース ファイル\game\component\collision</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -431,9 +458,6 @@
     <ClInclude Include="source\system\util\quad2d.h">
       <Filter>ソース ファイル\system\texture</Filter>
     </ClInclude>
-    <ClInclude Include="source\game\gameobject\collision_base.h">
-      <Filter>ソース ファイル\game\gameobject\util</Filter>
-    </ClInclude>
     <ClInclude Include="source\game\scene\scene_base.h">
       <Filter>ソース ファイル\game\scene</Filter>
     </ClInclude>
@@ -446,11 +470,29 @@
     <ClInclude Include="source\game\manager\dice_manager.h">
       <Filter>ソース ファイル\game\manager</Filter>
     </ClInclude>
-    <ClInclude Include="source\game\gameobject\primitive_utility.h">
-      <Filter>ソース ファイル\game\gameobject\util</Filter>
-    </ClInclude>
     <ClInclude Include="source\game\manager\collision_manager.h">
       <Filter>ソース ファイル\game\manager</Filter>
+    </ClInclude>
+    <ClInclude Include="source\game\gameobject\primitive.h">
+      <Filter>ソース ファイル\game\gameobject\util</Filter>
+    </ClInclude>
+    <ClInclude Include="source\game\gameobject\collision.h">
+      <Filter>ソース ファイル\game\gameobject\util</Filter>
+    </ClInclude>
+    <ClInclude Include="source\game\component\component_base.h">
+      <Filter>ソース ファイル\game\component</Filter>
+    </ClInclude>
+    <ClInclude Include="source\game\component\model_component.h">
+      <Filter>ソース ファイル\game\component\draw\model</Filter>
+    </ClInclude>
+    <ClInclude Include="source\game\component\transform_component.h">
+      <Filter>ソース ファイル\game\component\transform</Filter>
+    </ClInclude>
+    <ClInclude Include="source\game\component\collision_component.h">
+      <Filter>ソース ファイル\game\component\collision</Filter>
+    </ClInclude>
+    <ClInclude Include="source\game\component\allcomponents.h">
+      <Filter>ソース ファイル\game</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

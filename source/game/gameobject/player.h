@@ -1,6 +1,6 @@
 #pragma once
 #include	"gameobject.h"
-#include	"collision_base.h"
+#include	"collision.h"
 #include	"../../system/model/ModelMgr.h"
 
 using Microsoft::WRL::ComPtr;

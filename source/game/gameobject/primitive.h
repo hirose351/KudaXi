@@ -130,8 +130,28 @@ namespace Primitive {
 		}
 	};
 
+	//// AABB
+	//struct AABB :public PrimitiveBase {
+	//	Point p;	// 中心点
+	//	Float3 hl;	// 各軸の辺の長さの半分
+	//	AABB() {}
+	//	AABB(const Point &p, const Float3 &hl) : p(p), hl(hl) {}
+
+	//	// 辺の長さを取得
+	//	float lenX() const { return hl.x * 2.0f; };
+	//	float lenY() const { return hl.y * 2.0f; };
+	//	float lenZ() const { return hl.z * 2.0f; };
+	//	float len(int i) {
+	//		return *((&hl.x) + i) * 2.0f;
+	//	}
+
+	//	PrimitiveBase* Get() override {
+	//		return this;
+	//	}
+	//};
+
 	// AABB
-	struct AABB :public PrimitiveBase {
+	struct AABB {
 		Point p;	// 中心点
 		Float3 hl;	// 各軸の辺の長さの半分
 		AABB() {}
@@ -143,10 +163,6 @@ namespace Primitive {
 		float lenZ() const { return hl.z * 2.0f; };
 		float len(int i) {
 			return *((&hl.x) + i) * 2.0f;
-		}
-
-		PrimitiveBase* Get() override {
-			return this;
 		}
 	};
 }

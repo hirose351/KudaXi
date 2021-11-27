@@ -1,4 +1,4 @@
-#include	"primitive_utility.h"
+#include	"primitive.h"
 
 void PrimitiveBase::SetManager()
 {

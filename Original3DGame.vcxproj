@@ -136,16 +136,20 @@
   <ItemGroup>
     <ClCompile Include="source\Application.cpp" />
     <ClCompile Include="source\game.cpp" />
+    <ClCompile Include="source\game\component\collision_component.cpp" />
+    <ClCompile Include="source\game\component\component_base.cpp" />
+    <ClCompile Include="source\game\component\model_component.cpp" />
+    <ClCompile Include="source\game\component\transform_component.cpp" />
     <ClCompile Include="source\game\data\stage_data.cpp" />
     <ClCompile Include="source\game\gameobject\camera.cpp" />
     <ClCompile Include="source\game\gameobject\CCamera.cpp" />
-    <ClCompile Include="source\game\gameobject\collision_base.cpp" />
+    <ClCompile Include="source\game\gameobject\collision.cpp" />
     <ClCompile Include="source\game\gameobject\dice.cpp" />
     <ClCompile Include="source\game\gameobject\drawobject.cpp" />
     <ClCompile Include="source\game\gameobject\gameobject.cpp" />
     <ClCompile Include="source\game\gameobject\plane.cpp" />
     <ClCompile Include="source\game\gameobject\player.cpp" />
-    <ClCompile Include="source\game\gameobject\primitive_utility.cpp" />
+    <ClCompile Include="source\game\gameobject\primitive.cpp" />
     <ClCompile Include="source\game\gameobject\skydome.cpp" />
     <ClCompile Include="source\game\gameobject\transform.cpp" />
     <ClCompile Include="source\game\manager\collision_manager.cpp" />
@@ -195,17 +199,22 @@
   <ItemGroup>
     <ClInclude Include="source\Application.h" />
     <ClInclude Include="source\game.h" />
+    <ClInclude Include="source\game\component\allcomponents.h" />
+    <ClInclude Include="source\game\component\collision_component.h" />
+    <ClInclude Include="source\game\component\component_base.h" />
+    <ClInclude Include="source\game\component\model_component.h" />
+    <ClInclude Include="source\game\component\transform_component.h" />
     <ClInclude Include="source\game\data\stage_data.h" />
     <ClInclude Include="source\game\gameobject\CCamera.h" />
     <ClInclude Include="source\game\gameobject\CLight.h" />
-    <ClInclude Include="source\game\gameobject\collision_base.h" />
+    <ClInclude Include="source\game\gameobject\collision.h" />
     <ClInclude Include="source\game\gameobject\dice.h" />
     <ClInclude Include="source\game\gameobject\drawobject.h" />
     <ClInclude Include="source\game\gameobject\gameobject.h" />
     <ClInclude Include="source\game\gameobject\gameobject_utility.h" />
     <ClInclude Include="source\game\gameobject\plane.h" />
     <ClInclude Include="source\game\gameobject\player.h" />
-    <ClInclude Include="source\game\gameobject\primitive_utility.h" />
+    <ClInclude Include="source\game\gameobject\primitive.h" />
     <ClInclude Include="source\game\gameobject\skydome.h" />
     <ClInclude Include="source\game\gameobject\transform.h" />
     <ClInclude Include="source\game\manager\collision_manager.h" />

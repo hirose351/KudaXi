@@ -2,7 +2,7 @@
 #include	"../../system/util/uncopyable.h"
 #include	"../../system/dx11/dx11mathutil.h"
 #include	"../../system/util/dixsmartptr.h"
-#include	"../gameobject/primitive_utility.h"
+#include	"../gameobject/primitive.h"
 #include	<list>
 
 class PrimitiveBase;
@@ -25,6 +25,6 @@ public:
 	void RemovePrim(PrimitiveBase *_col);
 
 	// çXêV
-	void UpdateCollision();
+	void UpdatePrimitive();
 };
 
