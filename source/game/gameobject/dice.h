@@ -2,6 +2,7 @@
 #include	"gameobject.h"
 #include	"collision.h"
 #include	"../../system/model/ModelMgr.h"
+#include	"../component/allcomponents.h"
 
 using Microsoft::WRL::ComPtr;
 
@@ -26,7 +27,7 @@ enum class DICESTATUS {
 class Dice : public GameObject, CollisionInterface
 {
 private:
-	CModel* mpModel;
+	//CModel* mpModel;
 	DICETYPE mTopDiceType;								// 上面
 	DICESTATUS mSts;	// 生存状態
 	DIRECTION mDirection = DIRECTION::NEUTRAL;			// サイコロの移動方向	
@@ -43,10 +44,10 @@ private:
 	// 回転移動セット
 	void SetRollDirection(DIRECTION _direction);
 
-	// モデルポインタ取得
-	void SetModel(CModel* p) {
-		mpModel = p;
-	}
+	//// モデルポインタ取得
+	//void SetModel(CModel* p) {
+	//	mpModel = p;
+	//}
 public:
 	Dice() :GameObject(("Dice"), ObjectType::Dice) {
 		bool sts = ModelMgr::GetInstance().LoadModel(
@@ -57,15 +58,16 @@ public:
 		{
 			MessageBox(nullptr, "Diceモデル 読み込みエラー", "error", MB_OK);
 		}
-		SetModel(ModelMgr::GetInstance().GetModelPtr("assets/model/dice/Dice.fbx"));
+		AddComponent<Component::ModelComponent>()->SetModel(ModelMgr::GetInstance().GetModelPtr("assets/model/dice/Dice.fbx"));
+
 		Init();
 	}
 	~Dice()override;
 
 	void Init() override;
-	void Update()override;
-	void Draw()override;
-	void Finalize()override;
+	void ObjectUpdate()override;
+	void ObjectDraw()override;
+	void Uninit()override;
 
 	// 初期面セット
 	void SetInitType() {

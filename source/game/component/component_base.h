@@ -1,6 +1,8 @@
 #pragma once
 #include "../gameobject/gameobject.h"
 
+class GameObject;
+
 class ComponentBase
 {
 protected:

@@ -1,6 +1,7 @@
 #include	"MaingameScene.h"
 #include	"../../Memory.h"
 #include	"../gameobject/gameobject.h"
+#include	"../manager/collision_manager.h"
 #include	"../gameobject/player.h"
 #include	"../gameobject/dice.h"
 #include	"../gameobject/plane.h"
@@ -53,6 +54,8 @@ void MaingameScene::Update()
 		//}
 		obj++;
 	}
+
+	CollisionManager::GetInstance().Update();
 }
 
 void MaingameScene::Render()
@@ -72,7 +75,7 @@ bool MaingameScene::Dispose()
 {
 	for (auto obj = mObjList.begin(); obj != mObjList.end();)
 	{
-		(*obj)->Finalize();
+		(*obj)->Uninit();
 		obj++;
 	}
 

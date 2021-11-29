@@ -7,7 +7,7 @@
 
 class ComponentBase;
 
-//ゲームオブジェクトの基底クラス
+// ゲームオブジェクトの基底クラス
 class GameObject
 {
 protected:
@@ -26,9 +26,11 @@ public:
 	virtual ~GameObject();
 
 	virtual void Init() = 0;
-	virtual void Update() = 0;
-	virtual void Draw() = 0;
-	virtual void Finalize() = 0;
+	void Update();
+	virtual void ObjectUpdate() = 0;
+	void Draw();
+	virtual void ObjectDraw() = 0;
+	virtual void Uninit() = 0;
 
 	std::string GetName() const { return mName; }
 	void SetName(std::string newName) { mName = newName; }
@@ -38,6 +40,8 @@ public:
 
 	void SetObjectType(ObjectType newType) { mObjectType = newType; }
 	ObjectType GetObjectType() { return mObjectType; }
+
+	Transform* GetTransform() { return &mTransform; }
 
 	//コンポーネントシステム関係
 	// 明示的なインスタンス化
@@ -55,12 +59,12 @@ public:
 //			コンポーネント関係
 //----------------------------------------------------
 
-//コンポーネントを追加する
-//AddComponent<追加したいコンポーネントのクラス名>()という形で使う
+// コンポーネントを追加する
+// AddComponent<追加したいコンポーネントのクラス名>()という形で使う
 template<class T>
 T* GameObject::AddComponent()
 {
-	T* newComponent = new T();//newしたのでdeleteを忘れずに（デストラクタでやってる）
+	T* newComponent = new T();	// newしたのでdeleteを忘れずに（デストラクタでやってる）
 	if (dynamic_cast<ComponentBase*>(newComponent) != nullptr)
 	{
 		newComponent->SetOwner(this);
@@ -70,8 +74,8 @@ T* GameObject::AddComponent()
 	return newComponent;
 }
 
-//コンポーネントを取得する
-//GetComponent<コンポーネントのクラス名>()->コンポーネントのメソッド()という形で使う
+// コンポーネントを取得する
+// GetComponent<コンポーネントのクラス名>()->コンポーネントのメソッド()という形で使う
 template<class T>
 T* GameObject::GetComponent()
 {
@@ -83,23 +87,22 @@ T* GameObject::GetComponent()
 			return sp;
 		}
 	}
-
-	return nullptr;//当該コンポーネントがなければnullptrをreturn
+	return nullptr;	// 当該コンポーネントがなければnullptrをreturn
 }
 
-//コンポーネントを削除する。使い方は上記二つに準ずる。
+// コンポーネントを削除する。使い方は上記二つに準ずる。
 template<class T>
 void GameObject::RemoveComponent()
 {
-	for (unsigned int i = 0; i < componentList.size(); i++) //削除はこっちのforが作りやすい
+	for (unsigned int i = 0; i < componentList.size(); i++) // 削除はこっちのforが作りやすい
 	{
 		T* toRemove = dynamic_cast<T*>(componentList[i]);
 		if (toRemove != nullptr)
 		{
-			componentList.erase(componentList.begin() + i);		//楽に作るとこうなるが、リストの要素数が増えるとeraseは重いので、別の方法を使った方が良い。がんば！（ブン投げ）
-			//componentList.shrink_to_fit();					//リストのcapasityとsizeの不一致が気になるならこれを入れてもいい。ただしほんの少し重くなる。
+			componentList.erase(componentList.begin() + i);		// 楽に作るとこうなるが、リストの要素数が増えるとeraseは重いので、別の方法を使った方が良い。がんば！（ブン投げ）
+			// componentList.shrink_to_fit();					// リストのcapasityとsizeの不一致が気になるならこれを入れてもいい。ただしほんの少し重くなる。
 
-			return;//やることは終わったのでreturn
+			return;// やることは終わったのでreturn
 		}
 	}
 }

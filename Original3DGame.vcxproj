@@ -145,7 +145,6 @@
     <ClCompile Include="source\game\gameobject\CCamera.cpp" />
     <ClCompile Include="source\game\gameobject\collision.cpp" />
     <ClCompile Include="source\game\gameobject\dice.cpp" />
-    <ClCompile Include="source\game\gameobject\drawobject.cpp" />
     <ClCompile Include="source\game\gameobject\gameobject.cpp" />
     <ClCompile Include="source\game\gameobject\plane.cpp" />
     <ClCompile Include="source\game\gameobject\player.cpp" />
@@ -209,7 +208,6 @@
     <ClInclude Include="source\game\gameobject\CLight.h" />
     <ClInclude Include="source\game\gameobject\collision.h" />
     <ClInclude Include="source\game\gameobject\dice.h" />
-    <ClInclude Include="source\game\gameobject\drawobject.h" />
     <ClInclude Include="source\game\gameobject\gameobject.h" />
     <ClInclude Include="source\game\gameobject\gameobject_utility.h" />
     <ClInclude Include="source\game\gameobject\plane.h" />

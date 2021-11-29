@@ -210,9 +210,6 @@
     <ClCompile Include="source\game\gameobject\CCamera.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="source\game\gameobject\drawobject.cpp">
-      <Filter>ソース ファイル\game\gameobject\util</Filter>
-    </ClCompile>
     <ClCompile Include="source\system\dx11\dx11mathutil.cpp">
       <Filter>ソース ファイル\system\dx11\util</Filter>
     </ClCompile>
@@ -418,9 +415,6 @@
     </ClInclude>
     <ClInclude Include="source\system\util\vector.h">
       <Filter>ソース ファイル\system\util</Filter>
-    </ClInclude>
-    <ClInclude Include="source\game\gameobject\drawobject.h">
-      <Filter>ソース ファイル\game\gameobject\util</Filter>
     </ClInclude>
     <ClInclude Include="source\system\dx11\DX11util.h">
       <Filter>ソース ファイル\system\dx11\util</Filter>

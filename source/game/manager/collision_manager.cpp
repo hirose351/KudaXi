@@ -1,35 +1,36 @@
 #include "collision_manager.h"
 
-void CollisionManager::AddPrim(PrimitiveBase *_col)
+//using namespace Component;
+
+void CollisionManager::AddCollision(Component::CollisionComponent *_col)
 {
-	mPrimList.emplace_back(_col);
+	mColList.emplace_back(_col);
 }
 
-void CollisionManager::RemovePrim(PrimitiveBase *_col)
+void CollisionManager::RemoveCollision(Component::CollisionComponent *_col)
 {
 	//mPrimList.erase(_col);
 }
 
-void CollisionManager::UpdatePrimitive()
+void CollisionManager::Update()
 {
-	// こっちで削除確認？
+	for (auto itA = mColList.begin(); itA != mColList.end(); itA++)
+	{
+		for (auto itB = itA; itB != mColList.end(); itB++)
+		{
+			if (itA == itB) continue;
+			Primitive::AABB a = (*itA)->GetPrim();
+			Primitive::AABB b = (*itB)->GetPrim();
 
-	//for (auto itA = mColList.begin(); itA != mColList.end(); itA++)
-	//{
-	//	for (auto itB = itA; itB != mColList.end(); itB++)
-	//	{
-	//		if (itA == itB) continue;
-	//		//CollisionBase* A = (*itA)->getCollisionNode();
-	//		//CollisionBase* B = (*itB)->getCollisionNode();
+			if ((a.hl.x + b.hl.x) < std::abs(a.p.x - b.p.x)) continue;
+			if ((a.hl.y + b.hl.y) < std::abs(a.p.y - b.p.x)) continue;
+			if ((a.hl.z + b.hl.z) < std::abs(a.p.z - b.p.z)) continue;
 
-	//		//// ここで型を識別して使用する関数を変えたい
 
-	//		//if (sphere2sphere((SphereNode&)*A, (SphereNode&)*B))
-	//		//{
-	//		//	(*itA)->OnCollision((*itB));
-	//		//	(*itB)->OnCollision((*itA));
-	//		//}
-	//	}
-	//}
-	//mColList.clear();
+
+			//	(*itA)->OnCollision((*itB));
+			//	(*itB)->OnCollision((*itA));
+		}
+	}
+	mColList.clear();
 }

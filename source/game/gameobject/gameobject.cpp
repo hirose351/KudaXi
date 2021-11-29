@@ -17,6 +17,7 @@ void GameObject::Update()
 	{
 		component->Update();
 	}
+	ObjectUpdate();
 }
 
 void GameObject::Draw()

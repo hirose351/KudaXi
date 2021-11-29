@@ -1,8 +1,5 @@
 #pragma once
 #include	"../../system/util/vector.h"
-#include	"../manager/collision_manager.h"
-#include	"gameobject.h"
-
 #include	<math.h>
 
 // プリミティブ定義
@@ -13,17 +10,15 @@
 
 #define _OX_EPSILON_	0.000001f	// 誤差
 
-class CollisionManager;
-
-class PrimitiveBase {
-public:
-	GameObject* mOwner;
-	PrimitiveBase() :mOwner(nullptr) {};
-	PrimitiveBase(GameObject* _owner) :mOwner(_owner) { SetManager(); };
-	~PrimitiveBase() { /*削除？*/ };
-	virtual PrimitiveBase* Get() { return this; }
-	void SetManager();
-};
+//class PrimitiveBase {
+//public:
+//	GameObject* mOwner;
+//	PrimitiveBase() :mOwner(nullptr) {};
+//	PrimitiveBase(GameObject* _owner) :mOwner(_owner) { SetManager(); };
+//	~PrimitiveBase() { /*削除？*/ };
+//	virtual PrimitiveBase* Get() { return this; }
+//	void SetManager();
+//};
 
 namespace Primitive {
 
@@ -106,28 +101,22 @@ namespace Primitive {
 
 
 	// 球
-	struct Sphere :public PrimitiveBase {
+	struct Sphere {
 		Point p;
 		float r;	// 半径
 		Sphere() : p(0.0f, 0.0f, 0.0f), r(0.5f) {}
 		Sphere(const Point &p, float r) : p(p), r(r) {}
 		~Sphere() {}
-		PrimitiveBase* Get()  override {
-			return this;
-		}
 	};
 
 	// カプセル
-	struct Capsule :public PrimitiveBase {
+	struct Capsule {
 		Segment s;
 		float r;	// 半径
 		Capsule() : r(0.5f) {}
 		Capsule(const Segment &s, float r) : s(s), r(r) {}
 		Capsule(const Point &p1, const Point &p2, float r) : s(p1, p2), r(r) {}
 		~Capsule() {}
-		PrimitiveBase* Get() override {
-			return this;
-		}
 	};
 
 	//// AABB

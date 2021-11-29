@@ -52,11 +52,11 @@ void Plane::Init()
 	DX11MtxTranslation(trans, mTransform.mtx);			// 行列作成
 }
 
-void Plane::Update()
+void Plane::ObjectUpdate()
 {
 }
 
-void Plane::Draw()
+void Plane::ObjectDraw()
 {
 	ID3D11DeviceContext* devcontext = GetDX11DeviceContext();
 	// 頂点バッファをセットする
@@ -77,7 +77,7 @@ void Plane::Draw()
 	devcontext->Draw(4, 0);
 }
 
-void Plane::Finalize()
+void Plane::Uninit()
 {
 
 }

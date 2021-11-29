@@ -2,29 +2,29 @@
 #include	"../../system/util/uncopyable.h"
 #include	"../../system/dx11/dx11mathutil.h"
 #include	"../../system/util/dixsmartptr.h"
-#include	"../gameobject/primitive.h"
+#include	"../component/collision_component.h"
 #include	<list>
 
-class PrimitiveBase;
+class Component::CollisionComponent;
 
 class CollisionManager : public Uncopyable
 {
 private:
-	std::list<Dix::sp<class PrimitiveBase>> mPrimList;
+	std::list<Dix::sp<class Component::CollisionComponent>> mColList;
 
 public:
 	static CollisionManager& GetInstance() {
 		static CollisionManager Instance;
 		return Instance;
 	}
-	~CollisionManager() { mPrimList.clear(); }
+	~CollisionManager() { mColList.clear(); }
 
 	// í«â¡
-	void AddPrim(PrimitiveBase *_col);
+	void AddCollision(Component::CollisionComponent *_col);
 	// í«â¡
-	void RemovePrim(PrimitiveBase *_col);
+	void RemoveCollision(Component::CollisionComponent *_col);
 
 	// çXêV
-	void UpdatePrimitive();
+	void Update();
 };
 

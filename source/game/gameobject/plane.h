@@ -41,8 +41,8 @@ public:
 	~Plane()override {};
 
 	void Init() override;
-	void Update()override;
-	void Draw()override;
-	void Finalize()override;
+	void ObjectUpdate()override;
+	void ObjectDraw()override;
+	void Uninit()override;
 };
 

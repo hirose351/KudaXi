@@ -72,3 +72,13 @@ struct Float3 : public DirectX::XMFLOAT3
 		return Float3(0.0f, 0.0f, 0.0f);
 	}
 };
+
+struct FLOAT4X4 :public DirectX::XMFLOAT4X4 {
+
+	FLOAT4X4 operator=(float a) {
+		_11 = _12 = _13 = _14 =
+			_21 = _22 = _23 = _24 =
+			_31 = _32 = _33 = _34 =
+			_41 = _42 = _43 = _44 = a;
+	}
+};

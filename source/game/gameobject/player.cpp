@@ -4,6 +4,8 @@
 #include	"../../system/dx11/CDirectInput.h"
 #include	"../../system/dx11/DX11Settransform.h"
 
+#include	"../component/allcomponents.h"
+
 //*****************************************************************************
 // ƒ}ƒNƒ’è‹`
 //*****************************************************************************
@@ -15,7 +17,7 @@
 
 Player::~Player()
 {
-	Finalize();
+	Uninit();
 };
 
 void Player::Init()
@@ -27,7 +29,7 @@ void Player::Init()
 	mIsDiceMove = false;
 }
 
-void Player::Update()
+void Player::ObjectUpdate()
 {
 	Float3 rotCamera(0, 0, 0);
 	float radian;
@@ -142,12 +144,11 @@ void Player::Update()
 	DX11MtxMultiply(mTransform.mtx, scaleMtx, mTransform.mtx);
 }
 
-void Player::Draw()
-{
-	mpModel->Draw(mTransform.mtx);
-}
+//void Player::Draw()
+//{
+//}
 
-void Player::Finalize()
+void Player::Uninit()
 {
 	//mpModel->Uninit();
 }

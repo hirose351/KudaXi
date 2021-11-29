@@ -18,7 +18,7 @@ void Dice::Init()
 	mCrrentRotCnt = 0;
 }
 
-void Dice::Update()
+void Dice::ObjectUpdate()
 {
 	//ニュートラル以外で落ちていない場合
 	if (mDirection != DIRECTION::NEUTRAL)
@@ -99,13 +99,13 @@ void Dice::Update()
 	}
 }
 
-void Dice::Draw()
+void Dice::ObjectDraw()
 {
 	// モデル描画
-	mpModel->Draw(mTransform.mtx);
+	//mpModel->Draw(mTransform.mtx);
 }
 
-void Dice::Finalize()
+void Dice::Uninit()
 {
 	//mpModel->Uninit();
 	//mpDownModel->Uninit();
