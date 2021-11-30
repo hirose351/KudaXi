@@ -12,6 +12,8 @@ void Dice::Init()
 	DX11MtxIdentity(mTransform.scaleMtx);
 	DX11MtxScale(7.0f, 7.0f, 7.0f, mTransform.scaleMtx);
 	mTransform.mtx = mTransform.localMtx = mTransform.scaleMtx;
+	mTransform.CreateMtx();
+	mTransform.CreateScaleMtx();
 	// ‰Šú’l‚ğ“ü‚ê‚é
 	mTransform.angle = { 0,0,0 };
 	mDirection = DIRECTION::NEUTRAL;

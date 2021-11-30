@@ -258,9 +258,6 @@
     <ClCompile Include="source\game\gameobject\primitive.cpp">
       <Filter>ソース ファイル\game\gameobject\util</Filter>
     </ClCompile>
-    <ClCompile Include="source\game\gameobject\collision.cpp">
-      <Filter>ソース ファイル\game\gameobject\util</Filter>
-    </ClCompile>
     <ClCompile Include="source\game\component\component_base.cpp">
       <Filter>ソース ファイル\game\component</Filter>
     </ClCompile>
@@ -272,6 +269,9 @@
     </ClCompile>
     <ClCompile Include="source\game\component\collision_component.cpp">
       <Filter>ソース ファイル\game\component\collision</Filter>
+    </ClCompile>
+    <ClCompile Include="source\game\gameobject\collision.cpp">
+      <Filter>ソース ファイル\game\gameobject\util</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -470,9 +470,6 @@
     <ClInclude Include="source\game\gameobject\primitive.h">
       <Filter>ソース ファイル\game\gameobject\util</Filter>
     </ClInclude>
-    <ClInclude Include="source\game\gameobject\collision.h">
-      <Filter>ソース ファイル\game\gameobject\util</Filter>
-    </ClInclude>
     <ClInclude Include="source\game\component\component_base.h">
       <Filter>ソース ファイル\game\component</Filter>
     </ClInclude>
@@ -487,6 +484,9 @@
     </ClInclude>
     <ClInclude Include="source\game\component\allcomponents.h">
       <Filter>ソース ファイル\game</Filter>
+    </ClInclude>
+    <ClInclude Include="source\game\gameobject\collision.h">
+      <Filter>ソース ファイル\game\gameobject\util</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

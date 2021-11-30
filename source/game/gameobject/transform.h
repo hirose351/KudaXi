@@ -30,6 +30,7 @@ struct Transform
 
 	void AddPosition();
 	void CreateScaleMtx();
+	void CreateMtx();
 
 	void SetPosition(const Float3& _pos) { position = _pos; }
 	void SetRotation(const Float3& _rot) { rotation = _rot; }

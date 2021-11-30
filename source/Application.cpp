@@ -93,10 +93,10 @@ bool Application::Init(HINSTANCE h_Instance)
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 
 	// コンソールを割り当てる
-	//AllocConsole();
+	AllocConsole();
 
 	// 標準出力の割り当て
-	//freopen_s(&m_fp, "CON", "w", stdout);
+	freopen_s(&mFp, "CON", "w", stdout);
 
 	// 幅と高さ初期化
 	InitSystemWH();
@@ -132,9 +132,9 @@ bool Application::Init(HINSTANCE h_Instance)
 void Application::Dispose()
 {
 	// 標準出力クローズ
-	//fclose(m_fp);
+	fclose(mFp);
 	// コンソール開放
-	//::FreeConsole();
+	::FreeConsole();
 
 	return;
 }

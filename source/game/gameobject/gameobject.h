@@ -25,12 +25,17 @@ public:
 	GameObject(std::string mName, ObjectType mObjectType) :mName(mName), mObjectType(mObjectType) {}
 	virtual ~GameObject();
 
-	virtual void Init() = 0;
-	void Update();
-	virtual void ObjectUpdate() = 0;
 	void Draw();
+	void Update();
+
+	virtual void Init() = 0;
+	virtual void ObjectUpdate() = 0;
 	virtual void ObjectDraw() = 0;
 	virtual void Uninit() = 0;
+
+	virtual void OnCollisionEnter(GameObject* _oher) {};
+	virtual void OnCollisionStay(GameObject* _oher) {};
+	virtual void OnCollisionExit(GameObject* _oher) {};
 
 	std::string GetName() const { return mName; }
 	void SetName(std::string newName) { mName = newName; }

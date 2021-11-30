@@ -5,6 +5,7 @@
 
 struct CollisionData
 {
+	CollisionData() :isHit(false), beforeHit(false) {}
 	GameObject* gameObject;
 	bool isHit;
 	bool beforeHit;
@@ -15,7 +16,7 @@ namespace Component {
 	{
 	private:
 		Primitive::AABB mPrim;
-		std::list<Dix::sp<CollisionData>> mHitColList;
+		std::vector<Dix::sp<CollisionData>> mHitColList;
 
 	public:
 		CollisionComponent();
@@ -26,7 +27,9 @@ namespace Component {
 		void Draw()override;
 		void Uninit()override {};
 
+		void ColUpdate();
+
 		void SetHitObj(GameObject* _hitobj);
-		Primitive::AABB GetPrim() { return mPrim; }
+		Primitive::AABB* GetPrim() { return &mPrim; }
 	};
 }

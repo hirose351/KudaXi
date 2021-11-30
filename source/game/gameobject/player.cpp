@@ -6,6 +6,8 @@
 
 #include	"../component/allcomponents.h"
 
+#include	<iostream>
+
 //*****************************************************************************
 // マクロ定義
 //*****************************************************************************
@@ -37,6 +39,8 @@ void Player::ObjectUpdate()
 	{
 		if (CDirectInput::GetInstance().CheckKeyBuffer(DIK_LEFT) || CDirectInput::GetInstance().CheckKeyBuffer(DIK_A))
 		{
+			//std::cout << "左\n";
+
 			// 左移動
 			radian = rotCamera.y + XM_PI * 0.50f;
 
@@ -55,6 +59,7 @@ void Player::ObjectUpdate()
 		}
 		else if (CDirectInput::GetInstance().CheckKeyBuffer(DIK_RIGHT) || CDirectInput::GetInstance().CheckKeyBuffer(DIK_D))
 		{
+			//std::cout << "右\n";
 			// 右移動
 			radian = rotCamera.y - XM_PI * 0.50f;
 
@@ -73,6 +78,7 @@ void Player::ObjectUpdate()
 		}
 		else if (CDirectInput::GetInstance().CheckKeyBuffer(DIK_UP) || CDirectInput::GetInstance().CheckKeyBuffer(DIK_W))
 		{
+			//std::cout << "上\n";
 			// 前移動
 			mTransform.move.x -= sinf(XM_PI) * VALUE_MOVE_MODEL;
 			mTransform.move.z -= cosf(XM_PI) * VALUE_MOVE_MODEL;
@@ -89,6 +95,7 @@ void Player::ObjectUpdate()
 		}
 		else if (CDirectInput::GetInstance().CheckKeyBuffer(DIK_DOWN) || CDirectInput::GetInstance().CheckKeyBuffer(DIK_S))
 		{
+			//std::cout << "下\n";
 			// 後移動
 			mTransform.move.x -= sinf(rotCamera.y) * VALUE_MOVE_MODEL;
 			mTransform.move.z -= cosf(rotCamera.y) * VALUE_MOVE_MODEL;
@@ -155,12 +162,15 @@ void Player::Uninit()
 
 void Player::OnCollisionEnter(GameObject* _oher)
 {
+	std::cout << "OnCollisionEnter　ObjectName:" + _oher->GetName() + "\n";
 }
 
 void Player::OnCollisionStay(GameObject* _oher)
 {
+	std::cout << "OnCollisionStay　ObjectName:" + _oher->GetName() + "\n";
 }
 
 void Player::OnCollisionExit(GameObject* _oher)
 {
+	std::cout << "OnCollisionExit　ObjectName:" + _oher->GetName() + "\n";
 }

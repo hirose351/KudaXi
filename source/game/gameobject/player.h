@@ -6,7 +6,7 @@
 
 using Microsoft::WRL::ComPtr;
 
-class Player :public GameObject, CollisionInterface
+class Player :public GameObject/*, CollisionInterface*/
 {
 private:
 	//CModel*	mpModel;							// ３Ｄモデル
@@ -31,7 +31,9 @@ public:
 		{
 			MessageBox(nullptr, "Playerモデル 読み込みエラー", "error", MB_OK);
 		}
+		mTransform.scale = 1;
 		AddComponent<Component::ModelComponent>()->SetModel(ModelMgr::GetInstance().GetModelPtr("assets/model/player/player.fbx"));
+		AddComponent<Component::CollisionComponent>();
 
 		Init();
 	};

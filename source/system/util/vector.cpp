@@ -1,6 +1,11 @@
 #include	"vector.h"
 #include	<DirectXMath.h>
 
+Float3::Float3(float _f)
+{
+	this->x = this->y = this->z = _f;
+}
+
 Float3::Float3(float _x, float _y, float _z)
 {
 	this->x = _x;

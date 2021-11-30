@@ -3,14 +3,13 @@
 #include	"../../system/dx11/dx11mathutil.h"
 #include	"../../system/util/dixsmartptr.h"
 #include	"../component/collision_component.h"
-#include	<list>
 
 class Component::CollisionComponent;
 
 class CollisionManager : public Uncopyable
 {
 private:
-	std::list<Dix::sp<class Component::CollisionComponent>> mColList;
+	std::vector<Dix::sp<class Component::CollisionComponent>> mColList;
 
 public:
 	static CollisionManager& GetInstance() {

@@ -24,7 +24,7 @@ enum class DICESTATUS {
 	HALFDOWN,	// ”¼•ª’¾‚Ş
 };
 
-class Dice : public GameObject, CollisionInterface
+class Dice : public GameObject/*, CollisionInterface*/
 {
 private:
 	//CModel* mpModel;
@@ -58,8 +58,9 @@ public:
 		{
 			MessageBox(nullptr, "Diceƒ‚ƒfƒ‹ “Ç‚İ‚İƒGƒ‰[", "error", MB_OK);
 		}
+		mTransform.SetScale(15.0f);
 		AddComponent<Component::ModelComponent>()->SetModel(ModelMgr::GetInstance().GetModelPtr("assets/model/dice/Dice.fbx"));
-
+		AddComponent<Component::CollisionComponent>();
 		Init();
 	}
 	~Dice()override;

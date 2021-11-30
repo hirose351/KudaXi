@@ -3,7 +3,8 @@
 
 struct Float3 : public DirectX::XMFLOAT3
 {
-	Float3() {}
+	Float3() { this->x = this->y = this->z = 0; }
+	Float3(float _f);
 	Float3(float _x, float _y, float _z);
 	Float3(const XMFLOAT3& _f3) { this->x = _f3.x; this->y = _f3.y; this->z = _f3.z; }
 
