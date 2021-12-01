@@ -19,18 +19,14 @@ CollisionComponent::~CollisionComponent()
 
 void CollisionComponent::Init()
 {
-	//mPrim.hl = mOwner->GetTransform()->scale / 2.0f + mLocalScaleHalf;
-	mPrim.p = /*mOwner->GetTransform()->GetPosition() +*/ mLocalPos;
 	mQube.Init(mPrim, mColor);
-
 	DX11MakeWorldMatrix(mLocalMtx, XMFLOAT3(0, 0, 0), mLocalPos);
 }
 
 void CollisionComponent::Update()
 {
 	DX11MtxMultiply(mWorldMtx, mLocalMtx, mOwner->GetTransform()->GetMtx());
-	//mPrim.hl = mOwner->GetTransform()->scale / 2.0f * mLocalScaleHalf;
-	mPrim.p =/* mOwner->GetTransform()->GetPosition() +*/ mLocalPos;
+	mPrim.p = { mWorldMtx._41,mWorldMtx._42,mWorldMtx._43 };
 	mQube.Update(mPrim);
 }
 
@@ -93,4 +89,12 @@ void CollisionComponent::SetHitObj(GameObject* _hitobj)
 	colData.SetPtr(new CollisionData);
 	(*colData).gameObject = _hitobj;
 	mHitColList.emplace_back(colData);
+}
+
+void Component::CollisionComponent::SetInitState(ColliderTag _tag, Float3 _localPos, Float3 _scale, DirectX::XMFLOAT4 _color)
+{
+	mTag = _tag;
+	mLocalPos = _localPos;
+	mPrim.hl = _scale;
+	mColor = _color;
 }

@@ -41,6 +41,9 @@ namespace Component {
 		void SetLocalScale(Float3 _scale) { mPrim.hl = _scale; };
 		void SetLocalPos(Float3 _localPos) { mLocalPos = _localPos; };
 		void SetColor(DirectX::XMFLOAT4 _color) { mColor = _color; };
+
+		void SetInitState(ColliderTag _tag, Float3 _localPos, Float3 _scale, DirectX::XMFLOAT4 _color);
+
 		ColliderTag GetTag() { return mTag; }
 		Primitive::AABB* GetPrim() { return &mPrim; }
 	};

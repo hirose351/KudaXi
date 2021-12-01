@@ -32,8 +32,8 @@ public:
 		}
 		mTransform.scale = 2;
 		AddComponent<Component::ModelComponent>()->SetModel(ModelMgr::GetInstance().GetModelPtr("assets/model/player/player.fbx"));
-		AddComponent<Component::CollisionComponent>()->SetLocalPos(20);
-		GetComponent<Component::CollisionComponent>()->SetLocalScale(Float3(5, 8, 5));
+		//AddComponent<Component::CollisionComponent>()->SetLocalPos(20);
+		AddComponent<Component::CollisionComponent>()->SetLocalScale(Float3(5, 8, 5));
 		GetComponent<Component::CollisionComponent>()->SetColor(DirectX::XMFLOAT4(1, 0, 0, 0.3f));
 		ObjectInit();
 	};

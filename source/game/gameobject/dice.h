@@ -59,8 +59,8 @@ public:
 		}
 		//mTransform.SetScale(15.0f);
 		AddComponent<Component::ModelComponent>()->SetModel(ModelMgr::GetInstance().GetModelPtr("assets/model/dice/Dice.fbx"));
-		AddComponent<Component::CollisionComponent>()->SetLocalScale(8.5f);
-		GetComponent<Component::CollisionComponent>()->SetColor(DirectX::XMFLOAT4(0, 1, 0, 0.3f));
+		AddComponent<Component::CollisionComponent>()->SetInitState(ColliderTag::DiceTop, Float3(0, 7, 0), Float3(8.5f, 8.5f*0.2f, 8.5f), DirectX::XMFLOAT4(0, 1, 0, 0.3f));
+		AddComponent<Component::CollisionComponent>()->SetInitState(ColliderTag::Dice, Float3(0, -2, 0), Float3(8.5f, 8.5f*0.8f, 8.5f), DirectX::XMFLOAT4(0, 0, 1, 0.3f));
 		ObjectInit();
 	}
 	~Dice()override;
