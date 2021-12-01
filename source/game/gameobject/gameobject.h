@@ -34,9 +34,9 @@ public:
 	virtual void ObjectDraw() = 0;
 	virtual void Uninit() = 0;
 
-	virtual void OnCollisionEnter(GameObject* _oher) {};
-	virtual void OnCollisionStay(GameObject* _oher) {};
-	virtual void OnCollisionExit(GameObject* _oher) {};
+	virtual void OnCollisionEnter(ComponentBase* _oher) {};
+	virtual void OnCollisionStay(ComponentBase* _oher) {};
+	virtual void OnCollisionExit(ComponentBase* _oher) {};
 
 	std::string GetName() const { return mName; }
 	void SetName(std::string newName) { mName = newName; }

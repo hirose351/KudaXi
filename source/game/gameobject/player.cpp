@@ -145,7 +145,7 @@ void Player::ObjectUpdate()
 	// 回転を反映、平行移動を反映
 	Float3 degree((mTransform.rotation* 180.0f) / XM_PI);
 
-	mTransform.position.y = DICESCALE / 2.0f;
+	mTransform.position.y = DICESCALE / 2.0f - 3;
 
 	DX11MakeWorldMatrix(mTransform.worldMtx, degree, mTransform.position);
 }
@@ -159,17 +159,27 @@ void Player::Uninit()
 	//mpModel->Uninit();
 }
 
-void Player::OnCollisionEnter(GameObject* _oher)
+void Player::OnCollisionEnter(ComponentBase* _oher)
 {
-	std::cout << "OnCollisionEnter　ObjectName:" + _oher->GetName() + "\n";
+	std::cout << "OnCollisionEnter　ObjectName:" + _oher->GetOwner()->GetName() + "\n";
+
+	if (_oher->GetTag() == ObjectTag::Dice)
+	{
+		OnColEnterObj(dynamic_cast<Dice*>(_oher->GetOwner()));
+	}
 }
 
-void Player::OnCollisionStay(GameObject* _oher)
+void Player::OnCollisionStay(ComponentBase* _oher)
 {
-	std::cout << "OnCollisionStay　ObjectName:" + _oher->GetName() + "\n";
+	std::cout << "OnCollisionStay　ObjectName:" + _oher->GetOwner()->GetName() + "\n";
 }
 
-void Player::OnCollisionExit(GameObject* _oher)
+void Player::OnCollisionExit(ComponentBase* _oher)
 {
-	std::cout << "OnCollisionExit　ObjectName:" + _oher->GetName() + "\n";
+	std::cout << "OnCollisionExit　ObjectName:" + _oher->GetOwner()->GetName() + "\n";
+}
+
+void Player::OnColEnterObj(Dice * _other)
+{
+	_other->Push(mDirection);
 }

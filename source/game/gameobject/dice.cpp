@@ -132,20 +132,24 @@ void Dice::MoveDiceScale(DIRECTION _direction)
 	}
 }
 
-void Dice::OnCollisionEnter(GameObject* _oher)
-{
-}
-
-void Dice::OnCollisionStay(GameObject* _oher)
-{
-}
-
-void Dice::OnCollisionExit(GameObject* _oher)
-{
-}
 
 bool Dice::Push(DIRECTION _direction)
 {
+	switch (_direction)
+	{
+	case DIRECTION::UP:
+		mTransform.worldMtx._43 += DICESCALE;
+		break;
+	case DIRECTION::DOWN:
+		mTransform.worldMtx._43 -= DICESCALE;
+		break;
+	case DIRECTION::LEFT:
+		mTransform.worldMtx._41 -= DICESCALE;
+		break;
+	case DIRECTION::RIGHT:
+		mTransform.worldMtx._41 += DICESCALE;
+		break;
+	}
 	return false;
 }
 
@@ -263,3 +267,15 @@ DICETYPE Dice::OverPlane() {
 	}
 	return DICETYPE::APPLE;
 }
+
+//void Dice::OnCollisionEnter(GameObject* _oher)
+//{
+//}
+//
+//void Dice::OnCollisionStay(GameObject* _oher)
+//{
+//}
+//
+//void Dice::OnCollisionExit(GameObject* _oher)
+//{
+//}

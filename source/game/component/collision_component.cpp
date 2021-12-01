@@ -49,15 +49,15 @@ void CollisionComponent::ColUpdate()
 		// 当たった関数呼び出し
 		if ((*obj)->isHit && (*obj)->beforeHit)
 		{
-			mOwner->OnCollisionStay((*obj)->gameObject);
+			mOwner->OnCollisionStay((*obj)->col);
 		}
 		else if (!(*obj)->isHit && (*obj)->beforeHit)
 		{
-			mOwner->OnCollisionExit((*obj)->gameObject);
+			mOwner->OnCollisionExit((*obj)->col);
 		}
 		else if ((*obj)->isHit && !(*obj)->beforeHit)
 		{
-			mOwner->OnCollisionEnter((*obj)->gameObject);
+			mOwner->OnCollisionEnter((*obj)->col);
 		}
 
 		// フラグ更新
@@ -68,12 +68,12 @@ void CollisionComponent::ColUpdate()
 	mHitColList.shrink_to_fit();
 }
 
-void CollisionComponent::SetHitObj(GameObject* _hitobj)
+void CollisionComponent::SetHitObj(CollisionComponent* _hitobj)
 {
 	// リストに存在するオブジェクトか
 	for (auto obj = mHitColList.begin(); obj != mHitColList.end(); obj++)
 	{
-		if ((*obj)->gameObject != _hitobj)
+		if ((*obj)->col != _hitobj)
 		{
 			continue;
 		}
@@ -87,11 +87,11 @@ void CollisionComponent::SetHitObj(GameObject* _hitobj)
 	// リストに新規で入れる
 	sp<CollisionData> colData;
 	colData.SetPtr(new CollisionData);
-	(*colData).gameObject = _hitobj;
+	(*colData).col = _hitobj;
 	mHitColList.emplace_back(colData);
 }
 
-void Component::CollisionComponent::SetInitState(ColliderTag _tag, Float3 _localPos, Float3 _scale, DirectX::XMFLOAT4 _color)
+void Component::CollisionComponent::SetInitState(ObjectTag _tag, Float3 _localPos, Float3 _scale, DirectX::XMFLOAT4 _color)
 {
 	mTag = _tag;
 	mLocalPos = _localPos;

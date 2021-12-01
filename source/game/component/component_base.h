@@ -7,6 +7,7 @@ class ComponentBase
 {
 protected:
 	GameObject* mOwner;		// 自身を所有しているゲームオブジェクト
+	ObjectTag mTag;
 
 public:
 	ComponentBase() { mOwner = nullptr; }
@@ -14,7 +15,11 @@ public:
 	virtual ~ComponentBase() { mOwner = nullptr; }
 
 	GameObject* GetOwner() { return mOwner; }
-	GameObject* SetOwner(GameObject* newowner) { mOwner = newowner;  return mOwner; }
+	void SetOwner(GameObject* newowner) { mOwner = newowner; }
+
+
+	ObjectTag GetTag() { return mTag; }
+	void SetTag(ObjectTag _tag) { mTag = _tag; }
 
 	virtual void Awake() {}
 	virtual void Init() {}

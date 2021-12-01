@@ -9,6 +9,7 @@ enum class DIRECTION {
 	LEFT,			// 左方向に回転
 	RIGHT			// 右方向に回転
 };
+
 //オブジェクトタイプ
 enum class ObjectType
 {
@@ -24,7 +25,7 @@ enum class ObjectState
 	EDead
 };
 
-enum class ColliderTag
+enum class ObjectTag
 {
 	Floor,
 	DiceTop,

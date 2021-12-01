@@ -27,8 +27,8 @@ void CollisionManager::Update()
 			if ((a.hl.y + b.hl.y) < std::abs(a.p.y - b.p.y)) continue;
 			if ((a.hl.z + b.hl.z) < std::abs(a.p.z - b.p.z)) continue;
 
-			(*itA)->SetHitObj((*itB)->GetOwner());
-			(*itB)->SetHitObj((*itA)->GetOwner());
+			(*itA)->SetHitObj((*itB).GetPtr());
+			(*itB)->SetHitObj((*itA).GetPtr());
 		}
 	}
 

@@ -4,13 +4,8 @@
 #include	"../gameobject/primitive.h"
 #include	"Qube.h"
 
-struct CollisionData
-{
-	CollisionData() :isHit(false), beforeHit(false) {}
-	GameObject* gameObject;
-	bool isHit;
-	bool beforeHit;
-};
+struct CollisionData;
+class ComponentBase;
 
 namespace Component {
 	class CollisionComponent : public ComponentBase
@@ -21,7 +16,6 @@ namespace Component {
 		Qube mQube;
 		Float3 mLocalScaleHalf;
 		Float3 mLocalPos;
-		ColliderTag mTag;
 		DirectX::XMFLOAT4 mColor{ 1, 1, 1, 1 };
 		DirectX::XMFLOAT4X4 mLocalMtx;
 		DirectX::XMFLOAT4X4 mWorldMtx;
@@ -37,14 +31,21 @@ namespace Component {
 
 		void ColUpdate();
 
-		void SetHitObj(GameObject* _hitobj);
+		void SetHitObj(Component::CollisionComponent* _hitobj);
 		void SetLocalScale(Float3 _scale) { mPrim.hl = _scale; };
 		void SetLocalPos(Float3 _localPos) { mLocalPos = _localPos; };
 		void SetColor(DirectX::XMFLOAT4 _color) { mColor = _color; };
 
-		void SetInitState(ColliderTag _tag, Float3 _localPos, Float3 _scale, DirectX::XMFLOAT4 _color);
+		void SetInitState(ObjectTag _tag, Float3 _localPos, Float3 _scale, DirectX::XMFLOAT4 _color);
 
-		ColliderTag GetTag() { return mTag; }
 		Primitive::AABB* GetPrim() { return &mPrim; }
 	};
 }
+
+struct CollisionData
+{
+	CollisionData() :isHit(false), beforeHit(false) {}
+	Component::CollisionComponent* col;
+	bool isHit;
+	bool beforeHit;
+};

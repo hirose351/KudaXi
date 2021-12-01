@@ -1,5 +1,6 @@
 #pragma once
 #include	"gameobject.h"
+#include	"dice.h"
 #include	"../../system/model/ModelMgr.h"
 #include	"../component/allcomponents.h"
 
@@ -33,7 +34,7 @@ public:
 		mTransform.scale = 2;
 		AddComponent<Component::ModelComponent>()->SetModel(ModelMgr::GetInstance().GetModelPtr("assets/model/player/player.fbx"));
 		//AddComponent<Component::CollisionComponent>()->SetLocalPos(20);
-		AddComponent<Component::CollisionComponent>()->SetLocalScale(Float3(5, 8, 5));
+		AddComponent<Component::CollisionComponent>()->SetLocalScale(Float3(5, 7, 5));
 		GetComponent<Component::CollisionComponent>()->SetColor(DirectX::XMFLOAT4(1, 0, 0, 0.3f));
 		ObjectInit();
 	};
@@ -44,7 +45,9 @@ public:
 	void ObjectDraw()override {};
 	void Uninit() override;
 
-	void OnCollisionEnter(GameObject* _oher) override;
-	void OnCollisionStay(GameObject* _oher) override;
-	void OnCollisionExit(GameObject* _oher) override;
+	void OnCollisionEnter(ComponentBase* _oher) override;
+	void OnCollisionStay(ComponentBase* _oher) override;
+	void OnCollisionExit(ComponentBase* _oher) override;
+
+	void OnColEnterObj(Dice* _other);
 };
