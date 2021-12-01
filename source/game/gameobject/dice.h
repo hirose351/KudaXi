@@ -1,6 +1,5 @@
 #pragma once
 #include	"gameobject.h"
-#include	"collision.h"
 #include	"../../system/model/ModelMgr.h"
 #include	"../component/allcomponents.h"
 
@@ -58,14 +57,15 @@ public:
 		{
 			MessageBox(nullptr, "DiceÉÇÉfÉã ì«Ç›çûÇ›ÉGÉâÅ[", "error", MB_OK);
 		}
-		mTransform.SetScale(15.0f);
+		//mTransform.SetScale(15.0f);
 		AddComponent<Component::ModelComponent>()->SetModel(ModelMgr::GetInstance().GetModelPtr("assets/model/dice/Dice.fbx"));
-		AddComponent<Component::CollisionComponent>();
-		Init();
+		AddComponent<Component::CollisionComponent>()->SetLocalScale(8.5f);
+		GetComponent<Component::CollisionComponent>()->SetColor(DirectX::XMFLOAT4(0, 1, 0, 0.3f));
+		ObjectInit();
 	}
 	~Dice()override;
 
-	void Init() override;
+	void ObjectInit() override;
 	void ObjectUpdate()override;
 	void ObjectDraw()override;
 	void Uninit()override;

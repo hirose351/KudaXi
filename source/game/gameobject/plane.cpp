@@ -3,7 +3,7 @@
 #include	"../../system/dx11/DX11Settransform.h"
 #include	"../../system/dx11/Shader.h"
 
-void Plane::Init()
+void Plane::ObjectInit()
 {
 	ID3D11Device* dev;
 	ID3D11DeviceContext* devcontext;
@@ -47,9 +47,8 @@ void Plane::Init()
 	}
 	// 平行移動量を計算
 
-	DX11MtxIdentity(mTransform.mtx);	// 単位行列化
-	Float3 trans(DICESCALE, DICESCALE / 2.0f, -DICESCALE);
-	DX11MtxTranslation(trans, mTransform.mtx);			// 行列作成
+	DX11MtxIdentity(mTransform.worldMtx);	// 単位行列化
+	mTransform.CreateMtx();
 }
 
 void Plane::ObjectUpdate()
@@ -70,9 +69,11 @@ void Plane::ObjectDraw()
 	devcontext->PSSetShader(mpPixelShader.Get(), nullptr, 0);						// ピクセルシェーダーをセット
 
 	// ワールド変換行列セット
-	DX11SetTransform::GetInstance()->SetTransform(DX11SetTransform::TYPE::WORLD, mTransform.mtx);
+	mTransform.CreateMtx();
+	DX11SetTransform::GetInstance()->SetTransform(DX11SetTransform::TYPE::WORLD, mTransform.worldMtx);
 
 	// テクスチャセット
+	/// このテクスチャの配列の添え字を変えることで画像を変更できる
 	devcontext->PSSetShaderResources(0, 1, mTexInfo[1]->texSrv.GetAddressOf());
 	devcontext->Draw(4, 0);
 }

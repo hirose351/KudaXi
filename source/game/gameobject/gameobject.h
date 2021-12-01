@@ -25,10 +25,11 @@ public:
 	GameObject(std::string mName, ObjectType mObjectType) :mName(mName), mObjectType(mObjectType) {}
 	virtual ~GameObject();
 
-	void Draw();
+	void Init();
 	void Update();
+	void Draw();
 
-	virtual void Init() = 0;
+	virtual void ObjectInit() = 0;
 	virtual void ObjectUpdate() = 0;
 	virtual void ObjectDraw() = 0;
 	virtual void Uninit() = 0;

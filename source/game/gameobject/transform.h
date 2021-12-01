@@ -9,7 +9,7 @@ struct Transform
 	Float3 rotation;
 	Float3 scale;
 	Float3 angle;
-	DirectX::XMFLOAT4X4 mtx;
+	DirectX::XMFLOAT4X4 worldMtx;
 	DirectX::XMFLOAT4X4 localMtx;
 	DirectX::XMFLOAT4X4 scaleMtx;
 	//Float3 mPosition;
@@ -36,10 +36,10 @@ struct Transform
 	void SetRotation(const Float3& _rot) { rotation = _rot; }
 	void SetScale(const Float3& _sc) { scale = _sc; }
 	void SetAngle(const Float3& _ang) { angle = _ang; }
-	void SetMtx(const DirectX::XMFLOAT4X4 _mtx) { mtx = _mtx; }
+	void SetMtx(const DirectX::XMFLOAT4X4 _mtx) { worldMtx = _mtx; }
 	Float3 GetPosition() { return position; }
 	Float3 GetRotation() { return rotation; }
 	Float3 GetScale() { return scale; }
 	Float3 GetAngle() { return angle; }
-	DirectX::XMFLOAT4X4 GetMtx() { return mtx; }
+	DirectX::XMFLOAT4X4 GetMtx() { return worldMtx; }
 };

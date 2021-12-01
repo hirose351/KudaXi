@@ -1,11 +1,12 @@
 #include	<DirectXMath.h>
 #include	<vector>
 #include	"line.h"
+#include	"../dx11/Shader.h"
 
-Line gLine;
 
 void drawaxis(const XMFLOAT4X4 &_mtx, float _length, const XMFLOAT3 &_pos) {
 	// ê¸èâä˙âª
+	static Line line;
 	std::vector<Line::MyVertex> v;
 	v.resize(2);
 
@@ -19,8 +20,7 @@ void drawaxis(const XMFLOAT4X4 &_mtx, float _length, const XMFLOAT3 &_pos) {
 
 		v[0].color = v[1].color = XMFLOAT4(1.0f, 0.0f, 0.0f, 1.0f);
 
-
-		gLine.Init(v);
+		line.Init(v);
 
 		first = false;
 	}
@@ -35,8 +35,8 @@ void drawaxis(const XMFLOAT4X4 &_mtx, float _length, const XMFLOAT3 &_pos) {
 	v[1].vertex.z = _pos.z + _mtx._13*_length / 2.0f;
 
 	v[0].color = v[1].color = XMFLOAT4(1.0f, 0.0f, 0.0f, 1.0f);
-	gLine.SetVertex(v);
-	gLine.Draw();
+	line.SetVertex(v);
+	line.Draw();
 
 	// Yé≤
 	v[0].vertex.x = _pos.x + _mtx._21*-_length / 2.0f;
@@ -49,8 +49,8 @@ void drawaxis(const XMFLOAT4X4 &_mtx, float _length, const XMFLOAT3 &_pos) {
 
 	v[0].color = v[1].color = XMFLOAT4(0.0f, 1.0f, 0.0f, 1.0f);
 
-	gLine.SetVertex(v);
-	gLine.Draw();
+	line.SetVertex(v);
+	line.Draw();
 
 	// Zé≤
 	v[0].vertex.x = _pos.x + _mtx._31*-_length / 2.0f;
@@ -63,7 +63,6 @@ void drawaxis(const XMFLOAT4X4 &_mtx, float _length, const XMFLOAT3 &_pos) {
 
 	v[0].color = v[1].color = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
 
-	gLine.SetVertex(v);
-	gLine.Draw();
-
+	line.SetVertex(v);
+	line.Draw();
 }

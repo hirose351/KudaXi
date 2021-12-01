@@ -61,5 +61,10 @@ public:
 	int mStep = 5;									// サイコロの移動可能数
 
 	Float3 mPlayerPos;								// プレイヤーの初期位置
+
+	int GetFloorMap(int _cnt)
+	{
+		return mFloorMap[_cnt%mMapSizeWidth][_cnt / mMapSizeWidth];
+	}
 };
 

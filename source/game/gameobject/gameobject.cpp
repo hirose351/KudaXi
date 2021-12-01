@@ -11,17 +11,27 @@ GameObject::~GameObject()
 	componentList.shrink_to_fit();
 }
 
+void GameObject::Init()
+{
+	ObjectInit();
+	for (auto& component : componentList)
+	{
+		component->Init();
+	}
+}
+
 void GameObject::Update()
 {
+	ObjectUpdate();
 	for (auto& component : componentList)
 	{
 		component->Update();
 	}
-	ObjectUpdate();
 }
 
 void GameObject::Draw()
 {
+	ObjectDraw();
 	for (auto& component : componentList)
 	{
 		component->Draw();

@@ -16,7 +16,7 @@ private:
 	ComPtr<ID3D11PixelShader>  mpPixelShader;	// ピクセルシェーダー
 	ComPtr<ID3D11InputLayout>  mpVertexLayout;	// 頂点レイアウト
 
-	int mMapChipSize = static_cast<int>(DICESCALE);
+	float mMapChipSize = DICESCALE;
 
 	// 平面チップ
 	Vertex mVartex[4] = {
@@ -40,7 +40,7 @@ public:
 	Plane() :GameObject(("Plane"), ObjectType::Obstracle) {};
 	~Plane()override {};
 
-	void Init() override;
+	void ObjectInit() override;
 	void ObjectUpdate()override;
 	void ObjectDraw()override;
 	void Uninit()override;

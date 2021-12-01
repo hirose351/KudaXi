@@ -6,14 +6,14 @@ Dice::~Dice()
 	//Finalize();
 }
 
-void Dice::Init()
+void Dice::ObjectInit()
 {
 	//単位行列化
-	DX11MtxIdentity(mTransform.scaleMtx);
-	DX11MtxScale(7.0f, 7.0f, 7.0f, mTransform.scaleMtx);
-	mTransform.mtx = mTransform.localMtx = mTransform.scaleMtx;
+	//DX11MtxIdentity(mTransform.scaleMtx);
+	//DX11MtxScale(7.0f, 7.0f, 7.0f, mTransform.scaleMtx);
+	mTransform.worldMtx = mTransform.localMtx = mTransform.scaleMtx;
 	mTransform.CreateMtx();
-	mTransform.CreateScaleMtx();
+	//mTransform.CreateScaleMtx();
 	// 初期値を入れる
 	mTransform.angle = { 0,0,0 };
 	mDirection = DIRECTION::NEUTRAL;
@@ -26,7 +26,7 @@ void Dice::ObjectUpdate()
 	if (mDirection != DIRECTION::NEUTRAL)
 	{
 		//行列を作成(ワールドの軸を中心に回転)
-		DX11MtxMultiply(mTransform.mtx, mTransform.mtx, mMtxFrame);
+		DX11MtxMultiply(mTransform.worldMtx, mTransform.worldMtx, mMtxFrame);
 
 		//半径を計算
 		const static float radius = static_cast<float>((DICESCALE / 2.0f)*sqrt(2));		// DICESCALE*ルート2/2＝DICESCALE/2.0f*ルート2
@@ -80,9 +80,9 @@ void Dice::ObjectUpdate()
 		}
 
 		//原点の位置を補正
-		mTransform.mtx._41 = pos.x;
-		mTransform.mtx._42 = nowcenterposy - DICESCALE / 2.0f;
-		mTransform.mtx._43 = pos.z;
+		mTransform.worldMtx._41 = pos.x;
+		mTransform.worldMtx._42 = nowcenterposy - DICESCALE / 2.0f;
+		mTransform.worldMtx._43 = pos.z;
 
 		//回転数をカウントアップ
 		mCrrentRotCnt++;
@@ -118,16 +118,16 @@ void Dice::MoveDiceScale(DIRECTION _direction)
 	switch (_direction)
 	{
 	case DIRECTION::UP:
-		mTransform.mtx._43 += DICESCALE;
+		mTransform.worldMtx._43 += DICESCALE;
 		break;
 	case DIRECTION::DOWN:
-		mTransform.mtx._43 -= DICESCALE;
+		mTransform.worldMtx._43 -= DICESCALE;
 		break;
 	case DIRECTION::LEFT:
-		mTransform.mtx._41 -= DICESCALE;
+		mTransform.worldMtx._41 -= DICESCALE;
 		break;
 	case DIRECTION::RIGHT:
-		mTransform.mtx._41 += DICESCALE;
+		mTransform.worldMtx._41 += DICESCALE;
 		break;
 	}
 }
@@ -177,7 +177,7 @@ bool Dice::Roll(DIRECTION _direction)
 		break;
 	}
 	DX11MakeWorldMatrix(mTransform.localMtx, angle, trans);
-	DX11MtxMultiply(mTransform.mtx, mTransform.mtx, mTransform.localMtx);
+	DX11MtxMultiply(mTransform.worldMtx, mTransform.worldMtx, mTransform.localMtx);
 	mTopDiceType = OverPlane();
 	//}
 	return true;
@@ -213,7 +213,7 @@ void Dice::SetRollDirection(DIRECTION _direction)
 		mCrrentRotCnt = 0;
 		DX11MakeWorldMatrix(mMtxFrame, mTransform.angle, trans);
 		//開始位置を保存
-		mStartPos = { mTransform.mtx._41, mTransform.mtx._42,mTransform.mtx._43 };
+		mStartPos = { mTransform.worldMtx._41, mTransform.worldMtx._42,mTransform.worldMtx._43 };
 	}
 }
 
@@ -225,7 +225,7 @@ DICETYPE Dice::OverPlane() {
 	float dot;
 
 	// X軸取り出し
-	axis = { mTransform.mtx._11, mTransform.mtx._12, mTransform.mtx._13 };
+	axis = { mTransform.worldMtx._11, mTransform.worldMtx._12, mTransform.worldMtx._13 };
 	// X軸ベクトルと下向きベクトルの内積を計算
 	DX11Vec3Dot(dot, axis, underaxis);
 
@@ -233,23 +233,23 @@ DICETYPE Dice::OverPlane() {
 	sts[0] = floatcheck(dot, 7.0f, 0.001f);
 
 	// Y軸取得
-	axis = { mTransform.mtx._21, mTransform.mtx._22, mTransform.mtx._23 };
+	axis = { mTransform.worldMtx._21, mTransform.worldMtx._22, mTransform.worldMtx._23 };
 	DX11Vec3Dot(dot, axis, underaxis);
 	sts[1] = floatcheck(dot, 7.0f, 0.001f);
 	// Z軸取得
-	axis = { mTransform.mtx._31, mTransform.mtx._32, mTransform.mtx._33 };
+	axis = { mTransform.worldMtx._31, mTransform.worldMtx._32, mTransform.worldMtx._33 };
 	DX11Vec3Dot(dot, axis, underaxis);
 	sts[2] = floatcheck(dot, 7.0f, 0.001f);
 	// -X軸取得
-	axis = { -mTransform.mtx._11, -mTransform.mtx._12, -mTransform.mtx._13 };
+	axis = { -mTransform.worldMtx._11, -mTransform.worldMtx._12, -mTransform.worldMtx._13 };
 	DX11Vec3Dot(dot, axis, underaxis);
 	sts[3] = floatcheck(dot, 7.0f, 0.001f);
 	// -Y軸取得
-	axis = { -mTransform.mtx._21, -mTransform.mtx._22, -mTransform.mtx._23 };
+	axis = { -mTransform.worldMtx._21, -mTransform.worldMtx._22, -mTransform.worldMtx._23 };
 	DX11Vec3Dot(dot, axis, underaxis);
 	sts[4] = floatcheck(dot, 7.0f, 0.001f);
 	// -Z軸取得
-	axis = { -mTransform.mtx._31, -mTransform.mtx._32, -mTransform.mtx._33 };
+	axis = { -mTransform.worldMtx._31, -mTransform.worldMtx._32, -mTransform.worldMtx._33 };
 	DX11Vec3Dot(dot, axis, underaxis);
 	sts[5] = floatcheck(dot, 7.0f, 0.001f);
 

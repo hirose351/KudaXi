@@ -20,7 +20,7 @@ public:
 
 	// ’Ç‰Á
 	void AddCollision(Component::CollisionComponent *_col);
-	// ’Ç‰Á
+	// íœ
 	void RemoveCollision(Component::CollisionComponent *_col);
 
 	// XV

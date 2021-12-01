@@ -22,7 +22,7 @@ Player::~Player()
 	Uninit();
 };
 
-void Player::Init()
+void Player::ObjectInit()
 {
 	mTransform.ReSetValue();
 
@@ -145,10 +145,9 @@ void Player::ObjectUpdate()
 	// âÒì]ÇîΩâfÅAïΩçsà⁄ìÆÇîΩâf
 	Float3 degree((mTransform.rotation* 180.0f) / XM_PI);
 
-	DX11MakeWorldMatrix(mTransform.mtx, degree, mTransform.position);
-	DirectX::XMFLOAT4X4 scaleMtx;
-	DX11MtxScale(1.3f, 1.3f, 1.3f, scaleMtx);
-	DX11MtxMultiply(mTransform.mtx, scaleMtx, mTransform.mtx);
+	mTransform.position.y = DICESCALE / 2.0f;
+
+	DX11MakeWorldMatrix(mTransform.worldMtx, degree, mTransform.position);
 }
 
 //void Player::Draw()

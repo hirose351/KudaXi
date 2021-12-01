@@ -7,6 +7,7 @@ using namespace Dix;
 CollisionComponent::CollisionComponent()
 {
 	CollisionManager::GetInstance().AddCollision(this);
+	//mQube.Init(mPrim, DirectX::XMFLOAT4(0, 1, 0, 0.5f));
 	//mPrim.hl = mOwner->GetTransform()->scale / 2.0f;
 }
 
@@ -16,22 +17,26 @@ CollisionComponent::~CollisionComponent()
 	mHitColList.clear();
 }
 
+void CollisionComponent::Init()
+{
+	//mPrim.hl = mOwner->GetTransform()->scale / 2.0f + mLocalScaleHalf;
+	mPrim.p = /*mOwner->GetTransform()->GetPosition() +*/ mLocalPos;
+	mQube.Init(mPrim, mColor);
+
+	DX11MakeWorldMatrix(mLocalMtx, XMFLOAT3(0, 0, 0), mLocalPos);
+}
+
 void CollisionComponent::Update()
 {
-	mPrim.hl = mOwner->GetTransform()->scale / 2.0f;
-	mPrim.p = mOwner->GetTransform()->GetPosition();
-	/*
-		for (auto obj = mHitColList.begin(); obj != mHitColList.end();)
-		{
-			(*obj)->beforeHit = (*obj)->isHit;
-			(*obj)->isHit = false;
-			obj++;
-		}*/
+	DX11MtxMultiply(mWorldMtx, mLocalMtx, mOwner->GetTransform()->GetMtx());
+	//mPrim.hl = mOwner->GetTransform()->scale / 2.0f * mLocalScaleHalf;
+	mPrim.p =/* mOwner->GetTransform()->GetPosition() +*/ mLocalPos;
+	mQube.Update(mPrim);
 }
 
 void CollisionComponent::Draw()
 {
-
+	mQube.Draw(mWorldMtx);
 }
 
 void CollisionComponent::ColUpdate()

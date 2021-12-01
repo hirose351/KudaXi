@@ -1,6 +1,5 @@
 #pragma once
 #include	"gameobject.h"
-#include	"collision.h"
 #include	"../../system/model/ModelMgr.h"
 #include	"../component/allcomponents.h"
 
@@ -31,19 +30,18 @@ public:
 		{
 			MessageBox(nullptr, "PlayerÉÇÉfÉã ì«Ç›çûÇ›ÉGÉâÅ[", "error", MB_OK);
 		}
-		mTransform.scale = 1;
+		mTransform.scale = 2;
 		AddComponent<Component::ModelComponent>()->SetModel(ModelMgr::GetInstance().GetModelPtr("assets/model/player/player.fbx"));
-		AddComponent<Component::CollisionComponent>();
-
-		Init();
+		AddComponent<Component::CollisionComponent>()->SetLocalPos(20);
+		GetComponent<Component::CollisionComponent>()->SetLocalScale(Float3(5, 8, 5));
+		GetComponent<Component::CollisionComponent>()->SetColor(DirectX::XMFLOAT4(1, 0, 0, 0.3f));
+		ObjectInit();
 	};
 	~Player();
 
-	void Init() override;
+	void ObjectInit() override;
 	void ObjectUpdate()override;
 	void ObjectDraw()override {};
-	//void Update() override;
-	//void Draw() override;
 	void Uninit() override;
 
 	void OnCollisionEnter(GameObject* _oher) override;

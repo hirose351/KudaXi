@@ -1,5 +1,5 @@
 #pragma once
-#define	DICESCALE			(15.0f)
+#define	DICESCALE			(16.2f)
 
 // ˆÚ“®•ûŒü
 enum class DIRECTION {
@@ -24,3 +24,9 @@ enum class ObjectState
 	EDead
 };
 
+enum class ColliderTag
+{
+	Floor,
+	DiceTop,
+	Dice,
+};

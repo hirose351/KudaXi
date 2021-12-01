@@ -66,7 +66,7 @@ using namespace Component;
 
 void ModelComponent::Draw()
 {
-	_mpModel->Draw(mOwner->GetTransform()->mtx);
+	_mpModel->Draw(mOwner->GetTransform()->worldMtx);
 }
 
 void ModelComponent::Uninit()

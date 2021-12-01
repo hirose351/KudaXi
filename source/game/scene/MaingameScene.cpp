@@ -4,7 +4,7 @@
 #include	"../manager/collision_manager.h"
 #include	"../gameobject/player.h"
 #include	"../gameobject/dice.h"
-#include	"../gameobject/plane.h"
+#include	"../gameobject/stage.h"
 
 using namespace Dix;
 
@@ -22,22 +22,27 @@ void MaingameScene::AddGameObject()
 {
 	sp<Player> player;
 	player.SetPtr(new Player);
+	//player->GetTransform()->SetPosition(Float3(0, DICESCALE / 2.0f, 0));
 	mObjList.emplace_back(player);
+
 	sp<Dice> dice;
 	dice.SetPtr(new Dice);
-	dice->GetTransform()->SetPosition(Float3(0, 0, 30));
+	dice->GetTransform()->SetPosition(Float3(0, 8.1f, -DICESCALE));
 	mObjList.emplace_back(dice);
+
 	sp<Dice> dice1;
 	dice1.SetPtr(new Dice);
-	dice1->GetTransform()->SetPosition(Float3(30, 0, 0));
+	dice1->GetTransform()->SetPosition(Float3(DICESCALE, 8.1f, -DICESCALE * 2));
 	mObjList.emplace_back(dice1);
+
 	sp<Dice> dice2;
 	dice2.SetPtr(new Dice);
-	dice2->GetTransform()->SetPosition(Float3(-30, 0, 0));
+	dice2->GetTransform()->SetPosition(Float3(DICESCALE * 2, 8.1f, -DICESCALE * 2));
 	mObjList.emplace_back(dice2);
-	sp<Plane> plane;
-	plane.SetPtr(new Plane);
-	mObjList.emplace_back(plane);
+
+	sp<Stage> stage;
+	stage.SetPtr(new Stage);
+	mObjList.emplace_back(stage);
 }
 
 bool MaingameScene::Init()
