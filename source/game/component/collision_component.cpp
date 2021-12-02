@@ -35,6 +35,14 @@ void CollisionComponent::Draw()
 	mQube.Draw(mWorldMtx);
 }
 
+void Component::CollisionComponent::ImguiDraw()
+{
+	ImGui::Text("Transform");
+	ImGui::DragFloat("x", &mLocalMtx._41, 0.5f);
+	ImGui::DragFloat("y", &mLocalMtx._42, 0.5f);
+	ImGui::DragFloat("z", &mLocalMtx._43, 0.5f);
+}
+
 void CollisionComponent::ColUpdate()
 {
 	// ƒRƒ“ƒeƒi‚ª‹ó‚È‚ç•Ô‚·
@@ -91,7 +99,7 @@ void CollisionComponent::SetHitObj(CollisionComponent* _hitobj)
 	mHitColList.emplace_back(colData);
 }
 
-void Component::CollisionComponent::SetInitState(ObjectTag _tag, Float3 _localPos, Float3 _scale, DirectX::XMFLOAT4 _color)
+void CollisionComponent::SetInitState(ObjectTag _tag, Float3 _localPos, Float3 _scale, DirectX::XMFLOAT4 _color)
 {
 	mTag = _tag;
 	mLocalPos = _localPos;

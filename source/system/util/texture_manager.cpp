@@ -16,6 +16,17 @@ const char* psfilename[] = {
 
 void TextureManager::Finalize()
 {
+	for (auto&& info : mTextureInfo)
+	{
+		info.second.texRes->Release();
+		info.second.texRes = nullptr;
+
+		info.second.texSrv->Release();
+		info.second.texSrv = nullptr;
+	}
+
+	mpDevice = nullptr;
+	//mTextureInfo.erase(mTextureInfo.begin(), mTextureInfo.end());
 }
 
 TextureManager::TextureManager()
@@ -64,12 +75,14 @@ bool TextureManager::LoadTexture(std::string _texFileName)
 	if (it != mTextureInfo.end())
 		return false;
 
-	mTextureInfo[_texFileName];
+	//mTextureInfo[_texFileName];
 
 	// テクスチャ設定
 	ID3D11DeviceContext* devicecontext = CDirectXGraphics::GetInstance()->GetImmediateContext();
 
 	bool sts = CreateSRVfromFile(_texFileName.c_str(), mpDevice, devicecontext, &mTextureInfo[_texFileName].texRes, &mTextureInfo[_texFileName].texSrv);
+
+	//_texFileName.clear();
 	if (!sts)
 	{
 		MessageBox(nullptr, "CreateSRVfromfile エラー", "error!!", MB_OK);

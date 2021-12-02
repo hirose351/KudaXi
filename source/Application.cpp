@@ -5,10 +5,12 @@
 //!	@author	
 //*****************************************************************************
 
+#define _CRTDBG_MAP_ALLOC
 //-----------------------------------------------------------------------------
 //	Include header files.
 //-----------------------------------------------------------------------------
-#include	<Crtdbg.h>
+//#include	<cstdlib>
+//#include	<crtdbg.h>
 #include	<Windows.h>
 #include	<chrono>
 #include	<thread>
@@ -89,8 +91,8 @@ void Application::InitSystemWH()
 //==============================================================================
 bool Application::Init(HINSTANCE h_Instance)
 {
-	// メモリーリークを検出
-	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
+	// メモリーリーク検出設定
+	//_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 
 	// コンソールを割り当てる
 	AllocConsole();
@@ -192,6 +194,9 @@ unsigned long Application::MainLoop()
 
 	// ゲームの終了処理
 	GameDispose();
+
+	// メモリリーク検出
+	_CrtDumpMemoryLeaks();
 
 	return window->GetMessage();
 }

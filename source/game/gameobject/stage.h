@@ -9,7 +9,6 @@ class Stage : public GameObject
 {
 private:
 	StageData mCurrentStageData;
-	//std::list<Dix::sp<class Plane>> planeList;
 	Plane mPlane;
 
 public:

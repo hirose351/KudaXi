@@ -7,7 +7,7 @@ GameObject::~GameObject()
 	{
 		componentList.pop_back();
 	}
-
+	componentList.clear();
 	componentList.shrink_to_fit();
 }
 
@@ -35,5 +35,13 @@ void GameObject::Draw()
 	for (auto& component : componentList)
 	{
 		component->Draw();
+	}
+}
+
+void GameObject::ImguiDraw()
+{
+	if (ImGui::TreeNode(mName.c_str()))
+	{
+
 	}
 }

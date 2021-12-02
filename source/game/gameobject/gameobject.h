@@ -4,6 +4,7 @@
 #include	"gameobject_utility.h"
 #include	"transform.h"
 #include	"../component/component_base.h"
+#include	"../../system/imgui/util/myimgui.h"
 
 class ComponentBase;
 
@@ -29,6 +30,7 @@ public:
 	void Update();
 	void Draw();
 
+	virtual void ImguiDraw();
 	virtual void ObjectInit() = 0;
 	virtual void ObjectUpdate() = 0;
 	virtual void ObjectDraw() = 0;

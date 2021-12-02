@@ -27,7 +27,7 @@ public:
 
 	TextureManager();
 
-	virtual ~TextureManager() {
+	~TextureManager() {
 		Finalize();
 	}
 

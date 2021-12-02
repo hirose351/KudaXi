@@ -12,35 +12,11 @@ namespace Component {
 	class ModelComponent : public ComponentBase
 	{
 	private:
-		//enum FILETYPE {
-		//	eDATFILE,
-		//	eASSIMPFILE
-		//};
-		//FILETYPE				mFileType = eASSIMPFILE;		// ファイルタイプ
-		//ModelData				mAssimpFile;					// assimpfile
-		//ID3D11VertexShader*     mpVertexShader = nullptr;		// 頂点シェーダー入れ物
-		//ID3D11PixelShader*      mpPixelShader = nullptr;		// ピクセルシェーダー入れ物
-		//ID3D11InputLayout*      mpVertexLayout = nullptr;		// 頂点フォーマット定義
-
-		//ID3D11ShaderResourceView*	mTexSRV = nullptr;			// テクスチャＳＲＶ
-
 		CModel* _mpModel;
 	public:
-		//void SetModelData(const char * _fileName, const char * _vsFile, const char * _psFile, std::string _texFolder);
-
-		//void Update(
-			//unsigned int _animno,
-			//const DirectX::XMFLOAT4X4& _mtxworld);
-
 		void Draw()override;
+		void ImguiDraw()override;
 		void Uninit() override;
-
-		//// ピクセルシェーダーセット
-		//bool SetPsShader(const char* _psfile);
-
-		//const ModelData& GetModelData() {
-		//	return mAssimpFile;
-		//}
 
 		void SetModel(CModel* p) {
 			_mpModel = p;

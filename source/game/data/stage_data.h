@@ -1,6 +1,8 @@
 #pragma once
-#include	<vector>
-#include	"../../system/util/vector.h"
+#include		<vector>
+#include		"../../system/util/vector.h"
+#define		STAGESIZEMAX			(10)
+
 
 class StageData
 {
@@ -24,7 +26,7 @@ public:
 	int mMapSizeHeight = 5;		// マップ縦サイズ
 
 	// 床配置用マップ配列
-	int mFloorMap[10][10] = {
+	int mFloorMap[STAGESIZEMAX][STAGESIZEMAX] = {
 		// 0:なし 1:床アリ 
 			1,1,1,1,1,1,1,1,1,1,
 			1,1,1,1,1,1,1,1,1,1,

@@ -22,7 +22,6 @@ void MaingameScene::AddGameObject()
 {
 	sp<Player> player;
 	player.SetPtr(new Player);
-	//player->GetTransform()->SetPosition(Float3(0, DICESCALE / 2.0f, 0));
 	mObjList.emplace_back(player);
 
 	sp<Dice> dice;

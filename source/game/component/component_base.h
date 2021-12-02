@@ -12,7 +12,7 @@ protected:
 public:
 	ComponentBase() { mOwner = nullptr; }
 	ComponentBase(GameObject* mOwner) :mOwner(mOwner) {}
-	virtual ~ComponentBase() { mOwner = nullptr; }
+	~ComponentBase() { Uninit(); mOwner = nullptr; }
 
 	GameObject* GetOwner() { return mOwner; }
 	void SetOwner(GameObject* newowner) { mOwner = newowner; }
@@ -25,6 +25,7 @@ public:
 	virtual void Init() {}
 	virtual void Update() {}
 	virtual void Draw() {}
+	virtual void ImguiDraw() {}
 	virtual void Uninit() {}
 };
 

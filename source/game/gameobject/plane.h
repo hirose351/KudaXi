@@ -8,7 +8,7 @@ using Microsoft::WRL::ComPtr;
 class Plane : public GameObject
 {
 private:
-	TextureInfo* mTexInfo[4];
+	TextureInfo mTexInfo[4];
 
 	ComPtr<ID3D11Buffer> mpVertexBuffer;		// 頂点バッファ
 	//ComPtr<ID3D11Buffer> mpIndexBuffer;			// インデックスバッファ
@@ -38,7 +38,7 @@ private:
 
 public:
 	Plane() :GameObject(("Plane"), ObjectType::Obstracle) {};
-	~Plane()override {};
+	~Plane() { /*delete[] mTexInfo;*/ };
 
 	void ObjectInit() override;
 	void ObjectUpdate()override;

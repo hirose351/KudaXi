@@ -9,6 +9,7 @@ void ModelMgr::Finalize()
 
 		(itr->second)->Uninit();
 	}
+	//mModelhashmap.erase(mModelhashmap.begin(), mModelhashmap.end());
 }
 
 bool ModelMgr::LoadModel(std::string _modelfilename, std::string _vsfilename, std::string _psfilename, std::string _texfilefolder)
@@ -36,6 +37,10 @@ bool ModelMgr::LoadModel(std::string _modelfilename, std::string _vsfilename, st
 		// unordered_mapƒRƒ“ƒeƒi‚ÉŠi”[
 		mModelhashmap[_modelfilename].swap(p);
 	}
+	//_modelfilename.clear();
+	//_vsfilename.clear();
+	//_psfilename.clear();
+	//_texfilefolder.clear();
 	return true;
 }
 

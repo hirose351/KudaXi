@@ -14,7 +14,7 @@ void Plane::ObjectInit()
 	// テクスチャ読み込み
 	for (int i = 0; i < 4; i++)
 	{
-		mTexInfo[i] = (TextureManager::GetInstance().GetTexturePtr(mTexFileName[i]));
+		mTexInfo[i] = *TextureManager::GetInstance().GetTexturePtr(mTexFileName[i]);
 	}
 
 	bool sts = CreateVertexBuffer(dev, sizeof(Vertex), 4, mVartex, &mpVertexBuffer);
@@ -74,7 +74,7 @@ void Plane::ObjectDraw()
 
 	// テクスチャセット
 	/// このテクスチャの配列の添え字を変えることで画像を変更できる
-	devcontext->PSSetShaderResources(0, 1, mTexInfo[1]->texSrv.GetAddressOf());
+	devcontext->PSSetShaderResources(0, 1, mTexInfo[1].texSrv.GetAddressOf());
 	devcontext->Draw(4, 0);
 }
 

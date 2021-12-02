@@ -16,7 +16,7 @@ public:
 		static CollisionManager Instance;
 		return Instance;
 	}
-	~CollisionManager() { mColList.clear(); }
+	~CollisionManager() {}
 
 	// ’Ç‰Á
 	void AddCollision(Component::CollisionComponent *_col);

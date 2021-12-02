@@ -37,7 +37,7 @@ INT APIENTRY WinMain(HINSTANCE  h_hInst,
 					 LPSTR		h_lpszArgs,
 					 int		h_nWinMode)
 {
-	// メモリリーク検知
+	//// メモリリーク検知
 	//_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 	//_CrtSetBreakAlloc(9554);
 	//_CrtSetBreakAlloc(9553);

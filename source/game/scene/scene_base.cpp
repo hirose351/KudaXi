@@ -5,6 +5,11 @@ SceneBase::SceneBase()
 {
 }
 
+void SceneBase::AddGameObject(GameObject* _object)
+{
+	objectList.emplace_back(_object);
+}
+
 void SceneBase::Update()
 {
 	for (auto &obj : objectList)
@@ -15,10 +20,10 @@ void SceneBase::Update()
 
 void SceneBase::Render()
 {
-	//for (auto &obj : objectList)
-	//{
-	//	obj->Draw();
-	//}
+	for (auto &obj : objectList)
+	{
+		obj->Draw();
+	}
 }
 
 bool SceneBase::Dispose()
@@ -30,7 +35,6 @@ bool SceneBase::Dispose()
 			delete(obj);
 		}
 	}
-
 	return true;
 }
 

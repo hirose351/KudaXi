@@ -9,7 +9,7 @@ void CollisionManager::AddCollision(Component::CollisionComponent *_col)
 
 void CollisionManager::RemoveCollision(Component::CollisionComponent *_col)
 {
-	//mPrimList.erase(_col);
+	//mColList.erase(_col);
 }
 
 void CollisionManager::Update()

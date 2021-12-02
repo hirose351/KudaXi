@@ -23,6 +23,8 @@ public:
 
 	// ‰Šú‰»
 	virtual void AddGameObject() = 0;
+	void AddGameObject(GameObject* _object);
+
 	virtual bool Init() = 0;
 	// XV
 	virtual void Update();
