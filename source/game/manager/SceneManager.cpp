@@ -185,6 +185,11 @@ std::string SceneManager::GetBeforeSceneKey()
 	return mBeforescenekey;
 }
 
+std::string SceneManager::GetAddSceneKey()
+{
+	return mAddkey;
+}
+
 DirectX::XMFLOAT4 SceneManager::GetFadeColor() {
 	return mFadeColor;
 }

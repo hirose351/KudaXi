@@ -1,13 +1,29 @@
 #include	"scene_base.h"
 #include	"../gameobject/gameobject.h"
+#include	"../../system/imgui/util/myimgui.h"
 
 SceneBase::SceneBase()
 {
 }
 
+SceneBase::~SceneBase()
+{
+	objectList.clear();
+	objectList.shrink_to_fit();
+}
+
 void SceneBase::AddGameObject(GameObject* _object)
 {
 	objectList.emplace_back(_object);
+}
+
+bool SceneBase::Init()
+{
+	for (auto &obj : objectList)
+	{
+		obj->Init();
+	}
+	return true;
 }
 
 void SceneBase::Update()
@@ -16,6 +32,7 @@ void SceneBase::Update()
 	{
 		obj->Update();
 	}
+	SceneUpdate();
 }
 
 void SceneBase::Render()
@@ -24,13 +41,28 @@ void SceneBase::Render()
 	{
 		obj->Draw();
 	}
+	SceneRender();
+	imguiDraw(std::bind(&SceneBase::ImguiDebug, std::ref(*this)));
+}
+
+void SceneBase::ImguiDebug()
+{
+	ImGui::SetNextWindowPos(ImVec2(20, 20), ImGuiCond_Once);
+	ImGui::SetNextWindowSize(ImVec2(280, 300), ImGuiCond_Once);
+	ImGui::Begin(u8"GameObject");
+	for (auto &obj : objectList)
+	{
+		obj->ImguiDraw();
+	}
+	ImGui::End();
+
 }
 
 bool SceneBase::Dispose()
 {
 	for (auto &obj : objectList)
 	{
-		if (obj != nullptr)//nullptr‚Ìƒ„ƒc‚ðdelete‚µ‚½‚ç—Ž‚¿‚é
+		if (obj != nullptr)
 		{
 			delete(obj);
 		}
@@ -39,12 +71,10 @@ bool SceneBase::Dispose()
 }
 
 void SceneBase::updateFadeIn(double t) {
-	//std::cout << "updateFadeIn:" << t << std::endl;
 	Update();
 }
 
 void SceneBase::updateFadeOut(double t) {
-	//std::cout << "updateFadeOut:" << t << std::endl;
 	Update();
 }
 

@@ -1,14 +1,14 @@
 #include "collision_component.h"
 #include "../manager/collision_manager.h"
 
+#define STR(var) #var   //ˆø”‚É‚µ‚½•Ï”‚ð•Ï”–¼‚ðŽ¦‚·•¶Žš—ñƒŠƒeƒ‰ƒ‹‚Æ‚µ‚Ä•Ô‚·ƒ}ƒNƒŠÖ”
+
 using namespace Component;
 using namespace Dix;
 
 CollisionComponent::CollisionComponent()
 {
 	CollisionManager::GetInstance().AddCollision(this);
-	//mQube.Init(mPrim, DirectX::XMFLOAT4(0, 1, 0, 0.5f));
-	//mPrim.hl = mOwner->GetTransform()->scale / 2.0f;
 }
 
 CollisionComponent::~CollisionComponent()
@@ -35,12 +35,18 @@ void CollisionComponent::Draw()
 	mQube.Draw(mWorldMtx);
 }
 
-void Component::CollisionComponent::ImguiDraw()
+void CollisionComponent::ImguiDraw()
 {
-	ImGui::Text("Transform");
-	ImGui::DragFloat("x", &mLocalMtx._41, 0.5f);
-	ImGui::DragFloat("y", &mLocalMtx._42, 0.5f);
-	ImGui::DragFloat("z", &mLocalMtx._43, 0.5f);
+	if (ImGui::TreeNode("CollisionComponent"))
+	{
+		std::string str;
+		ImGui::Text("LocalPosition");
+		ImGui::DragFloat("x", &mLocalMtx._41, 0.5f);
+		ImGui::DragFloat("y", &mLocalMtx._42, 0.5f);
+		ImGui::DragFloat("z", &mLocalMtx._43, 0.5f);
+
+		ImGui::TreePop();
+	}
 }
 
 void CollisionComponent::ColUpdate()

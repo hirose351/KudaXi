@@ -19,21 +19,31 @@ public:
 		mManager = _sm;
 	}
 
-	virtual ~SceneBase() {}
+	virtual ~SceneBase();
 
-	// 初期化
-	virtual void AddGameObject() = 0;
+	// リストに追加
 	void AddGameObject(GameObject* _object);
 
-	virtual bool Init() = 0;
-	// 更新
-	virtual void Update();
-	// 描画
-	virtual void Render();
-	// デバッグ
-	virtual void ImguiDebug() = 0;
+	// オブジェクト初期化
+	bool Init();
+	// オブジェクト更新
+	void Update();
+	// オブジェクト描画
+	void Render();
+
+	// 各シーンの初期化
+	virtual void SceneInit() = 0;
+	// 各シーンの更新
+	virtual void SceneUpdate() = 0;
+	// 各シーンの描画
+	virtual void SceneRender() = 0;
+
+	// imguiデバッグ
+	virtual void ImguiDebug()/* = 0*/;
 	// 終了
 	virtual bool Dispose();
+
+	// フェード処理
 
 	virtual void updateFadeIn(double t);
 	virtual void updateFadeOut(double t);

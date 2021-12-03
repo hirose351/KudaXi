@@ -5,6 +5,7 @@
 #include	"transform.h"
 #include	"../component/component_base.h"
 #include	"../../system/imgui/util/myimgui.h"
+#include	"../manager/SceneManager.h"
 
 class ComponentBase;
 
@@ -22,8 +23,14 @@ protected:
 	std::vector<ComponentBase*> componentList;
 
 public:
-	GameObject() :mName("NoName"), mObjectType(ObjectType::Obstracle) {}
-	GameObject(std::string mName, ObjectType mObjectType) :mName(mName), mObjectType(mObjectType) {}
+	GameObject() :mName("NoName"), mObjectType(ObjectType::Obstracle)
+	{
+		SceneManager::GetInstance()->GetAddScene()->AddGameObject(this);
+	}
+	GameObject(std::string mName, ObjectType mObjectType) :mName(mName), mObjectType(mObjectType)
+	{
+		SceneManager::GetInstance()->GetAddScene()->AddGameObject(this);
+	}
 	virtual ~GameObject();
 
 	void Init();

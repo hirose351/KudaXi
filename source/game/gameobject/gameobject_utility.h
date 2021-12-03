@@ -31,3 +31,6 @@ enum class ObjectTag
 	DiceTop,
 	Dice,
 };
+
+static const char *ObjectTagStr[] =
+{ "Floor", "DiceTop", "Dice" };

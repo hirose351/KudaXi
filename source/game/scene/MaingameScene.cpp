@@ -10,7 +10,6 @@ using namespace Dix;
 
 MaingameScene::MaingameScene()
 {
-	AddGameObject();
 }
 
 MaingameScene::~MaingameScene()
@@ -18,80 +17,36 @@ MaingameScene::~MaingameScene()
 	Dispose();
 }
 
-void MaingameScene::AddGameObject()
+void MaingameScene::SceneInit()
 {
-	sp<Player> player;
-	player.SetPtr(new Player);
-	mObjList.emplace_back(player);
+	Player* player = new Player;
 
-	sp<Dice> dice;
-	dice.SetPtr(new Dice);
+	Dice* dice = new Dice;
 	dice->GetTransform()->SetPosition(Float3(0, 8.1f, -DICESCALE));
-	mObjList.emplace_back(dice);
 
-	sp<Dice> dice1;
-	dice1.SetPtr(new Dice);
+	Dice* dice1 = new Dice;
 	dice1->GetTransform()->SetPosition(Float3(DICESCALE, 8.1f, -DICESCALE * 2));
-	mObjList.emplace_back(dice1);
 
-	sp<Dice> dice2;
-	dice2.SetPtr(new Dice);
+	Dice* dice2 = new Dice;
 	dice2->GetTransform()->SetPosition(Float3(DICESCALE * 2, 8.1f, -DICESCALE * 2));
-	mObjList.emplace_back(dice2);
 
-	sp<Stage> stage;
-	stage.SetPtr(new Stage);
-	mObjList.emplace_back(stage);
+	Stage* stage = new Stage;
 }
 
-bool MaingameScene::Init()
+void MaingameScene::SceneUpdate()
 {
-	for (auto obj = mObjList.begin(); obj != mObjList.end();)
-	{
-		(*obj)->Init();
-		obj++;
-	}
-	return true;
-}
-
-void MaingameScene::Update()
-{
-	for (auto obj = mObjList.begin(); obj != mObjList.end();)
-	{
-		(*obj)->Update();
-		//if (!(*obj)->GetLife())
-		//{
-		//	obj->Clear();
-		//	obj = mObjList.erase(obj);
-		//	continue;
-		//}
-		obj++;
-	}
-
 	CollisionManager::GetInstance().Update();
 }
 
-void MaingameScene::Render()
+void MaingameScene::SceneRender()
 {
-	for (auto obj = mObjList.begin(); obj != mObjList.end();)
-	{
-		(*obj)->Draw();
-		obj++;
-	}
 }
 
-void MaingameScene::ImguiDebug()
-{
-}
+//void MaingameScene::ImguiDebug()
+//{
+//}
 
 bool MaingameScene::Dispose()
 {
-	for (auto obj = mObjList.begin(); obj != mObjList.end();)
-	{
-		(*obj)->Uninit();
-		obj++;
-	}
-
-	mObjList.clear();
 	return false;
 }

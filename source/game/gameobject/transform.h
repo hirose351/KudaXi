@@ -4,32 +4,26 @@
 struct Transform
 {
 	//protected:
-	Float3 position;
-	Float3 move;
-	Float3 rotation;
-	Float3 scale;
-	Float3 angle;
-	DirectX::XMFLOAT4X4 worldMtx;
-	DirectX::XMFLOAT4X4 localMtx;
-	DirectX::XMFLOAT4X4 scaleMtx;
-	//Float3 mPosition;
-	//Float3 mMove;
-	//Float3 mRotation;
-	//Float3 mScale;
-	//Float3 mAngle;
-	//DirectX::XMFLOAT4X4 mMtx;
-	//DirectX::XMFLOAT4X4 mLocalMtx;
-	//DirectX::XMFLOAT4X4 mScaleMtx;
+	Float3 position;		// 位置
+	Float3 move;			// 移動量
+	Float3 angle;			// 回転
+	Float3 rotation;		// 回転量
+	Float3 scale;			// 大きさ
+	DirectX::XMFLOAT4X4 worldMtx;	// ワールド行列
+	DirectX::XMFLOAT4X4 localMtx;	// ローカル行列
+	DirectX::XMFLOAT4X4 scaleMtx;	// 拡大行列
 
-	//public:
 	Transform();
 
 	// Todo:回転とか移動とかの関数作る
 
+	// 初期値に戻す
 	void ReSetValue();
-
+	// 移動量加算
 	void AddPosition();
+	// 拡大行列作成
 	void CreateScaleMtx();
+	// 行列を作成
 	void CreateMtx();
 
 	void SetPosition(const Float3& _pos) { position = _pos; }

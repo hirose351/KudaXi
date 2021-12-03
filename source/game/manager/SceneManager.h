@@ -32,6 +32,7 @@ private:
 	std::string mBeforescenekey;			// 前シーンのキー
 	std::string mCurrentscenekey;			// カレントシーンのキー
 	std::string mNextscenekey;				// 次シーン
+	std::string mAddkey;					// 追加シーン
 
 	// 画面遷移法
 	TransitionState mTransitionState = TransitionState::None;
@@ -81,13 +82,23 @@ public:
 
 	std::string GetCurrentSceneKey();
 	std::string GetBeforeSceneKey();
+	std::string GetAddSceneKey();
 	DirectX::XMFLOAT4 GetFadeColor();
 	void SetFadeColor(DirectX::XMFLOAT4 color);
+
+	SceneBase* GetCurrentScene() {
+		return mScenefactories[mCurrentscenekey].get();
+	}
+	SceneBase* GetAddScene() {
+		return mScenefactories[mAddkey].get();
+	}
 };
 
 template <class sceneclass>
 void SceneManager::add(std::string key) {
 	mScenefactories[key] = std::move(std::make_unique<sceneclass>());
+	mAddkey = key;
+	mScenefactories[key].get()->SceneInit();
 	mScenefactories[key].get()->Init();
 	mScenefactories[key].get()->SetSceneManager(this);
 

@@ -20,16 +20,15 @@ using Microsoft::WRL::ComPtr;
 class MaingameScene : public SceneBase
 {
 private:
-	std::list<Dix::sp<class GameObject>> mObjList;
+	//std::list<Dix::sp<class GameObject>> mObjList;
 
 public:
 	MaingameScene();
 	~MaingameScene();
 
-	void AddGameObject() override;
-	bool Init() override;
-	void Update() override;
-	void Render() override;
-	void ImguiDebug() override;
+	void SceneInit() override;
+	void SceneUpdate() override;
+	void SceneRender() override;
+	/*void ImguiDebug() override;*/
 	bool Dispose() override;
 };

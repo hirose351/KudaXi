@@ -196,7 +196,7 @@ unsigned long Application::MainLoop()
 	GameDispose();
 
 	// ƒƒ‚ƒŠƒŠ[ƒNŒŸo
-	_CrtDumpMemoryLeaks();
+	//_CrtDumpMemoryLeaks();
 
 	return window->GetMessage();
 }
