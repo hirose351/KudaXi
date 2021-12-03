@@ -42,11 +42,14 @@ void GameObject::ImguiDraw()
 {
 	if (ImGui::TreeNode(mName.c_str()))
 	{
-		ImGui::Text("Transform");
-		ImGui::Text("Position");
-		ImGui::DragFloat("x", &mTransform.position.x, 0.5f);
-		ImGui::DragFloat("y", &mTransform.position.y, 0.5f);
-		ImGui::DragFloat("z", &mTransform.position.z, 0.5f);
+		if (ImGui::TreeNode("Transform"))
+		{
+			ImGui::Text("Position");
+			ImGui::DragFloat("x", &mTransform.position.x, 0.5f);
+			ImGui::DragFloat("y", &mTransform.position.y, 0.5f);
+			ImGui::DragFloat("z", &mTransform.position.z, 0.5f);
+			ImGui::TreePop();
+		}
 		for (auto& component : componentList)
 		{
 			component->ImguiDraw();

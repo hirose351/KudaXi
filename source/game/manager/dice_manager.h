@@ -3,15 +3,23 @@
 #include	"../gameobject/gameobject.h"
 #include	"../../system/util/dixsmartptr.h"
 #include	"../manager/stagedata_manager.h"
-#include	<list>
 
 class DiceManager
 {
 private:
-	std::list<Dix::sp<Dice>> diceList;
+	std::vector<Dice*> diceList;
+	StageData mCurrentStageData;
 	int diceMap[STAGESIZEMAX][STAGESIZEMAX];
+
+	// Diceê∂ê¨
+	void DiceCreate();
 public:
+	DiceManager() {};
+	~DiceManager() {};
 
-
+	// èâä˙âª
+	void Init();
+	void Update();
+	void Uninit();
 };
 

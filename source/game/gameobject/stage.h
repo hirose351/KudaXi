@@ -1,6 +1,6 @@
 #pragma once
 #include	"gameobject.h"
-#include	"../data/stage_data.h"
+#include	"../manager/stagedata_manager.h"
 #include	"../../system/util/dixsmartptr.h"
 #include	"plane.h"
 #include	<list>
@@ -12,6 +12,7 @@ private:
 	Plane mPlane;
 
 public:
+	Stage() :GameObject(("Stage"), ObjectType::Obstracle) {};
 	void ObjectInit() override;
 	void ObjectUpdate()override {};
 	void ObjectDraw()override;

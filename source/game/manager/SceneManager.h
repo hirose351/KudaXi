@@ -7,7 +7,7 @@
 #include	<directxmath.h>
 #include	<chrono>
 #include	<thread>
-#include	"../../Application.h"
+#include	"../../application.h"
 #include	"../../system/util/uncopyable.h"
 #include	"../../system/util/StopWatch.h"
 #include	"../../system/util/quad2d.h"

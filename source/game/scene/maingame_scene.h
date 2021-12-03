@@ -3,6 +3,7 @@
 #include	"../../system/dx11/dx11mathutil.h"
 #include	"../../system/util/dixsmartptr.h"
 #include	<list>
+#include	"../manager/dice_manager.h"
 
 using Microsoft::WRL::ComPtr;
 
@@ -21,7 +22,7 @@ class MaingameScene : public SceneBase
 {
 private:
 	//std::list<Dix::sp<class GameObject>> mObjList;
-
+	DiceManager dm;
 public:
 	MaingameScene();
 	~MaingameScene();

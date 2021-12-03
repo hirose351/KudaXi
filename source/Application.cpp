@@ -14,7 +14,7 @@
 #include	<Windows.h>
 #include	<chrono>
 #include	<thread>
-#include	"Application.h"
+#include	"application.h"
 #include	"system/windows/CWindow.h"
 #include	"macro.h"
 #include	"game.h"

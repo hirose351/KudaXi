@@ -9,6 +9,9 @@ void Stage::ObjectInit()
 
 	//	plane++;
 	//}
+
+	/// Todo:現在のステージを取得する処理を加える
+
 	mPlane.Init();
 }
 

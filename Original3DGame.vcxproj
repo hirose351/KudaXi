@@ -134,12 +134,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="source\Application.cpp" />
+    <ClCompile Include="source\application.cpp" />
     <ClCompile Include="source\game.cpp" />
     <ClCompile Include="source\game\component\collision_component.cpp" />
     <ClCompile Include="source\game\component\component_base.cpp" />
     <ClCompile Include="source\game\component\model_component.cpp" />
-    <ClCompile Include="source\game\component\Qube.cpp" />
+    <ClCompile Include="source\game\component\qube.cpp" />
     <ClCompile Include="source\game\component\transform_component.cpp" />
     <ClCompile Include="source\game\data\stage_data.cpp" />
     <ClCompile Include="source\game\gameobject\camera.cpp" />
@@ -159,7 +159,7 @@
     <ClCompile Include="source\game\manager\SelectManager.cpp" />
     <ClCompile Include="source\game\manager\stagedata_manager.cpp" />
     <ClCompile Include="source\game\scene\scene_base.cpp" />
-    <ClCompile Include="source\game\scene\MaingameScene.cpp" />
+    <ClCompile Include="source\game\scene\maingame_scene.cpp" />
     <ClCompile Include="source\game\scene\title_scene.cpp" />
     <ClCompile Include="source\system\dx11\CDirectXGraphics.cpp" />
     <ClCompile Include="source\system\dx11\DDSTextureLoader.cpp" />
@@ -198,13 +198,13 @@
     <ClCompile Include="source\WinMain.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="source\Application.h" />
+    <ClInclude Include="source\application.h" />
     <ClInclude Include="source\game.h" />
     <ClInclude Include="source\game\component\allcomponents.h" />
     <ClInclude Include="source\game\component\collision_component.h" />
     <ClInclude Include="source\game\component\component_base.h" />
     <ClInclude Include="source\game\component\model_component.h" />
-    <ClInclude Include="source\game\component\Qube.h" />
+    <ClInclude Include="source\game\component\qube.h" />
     <ClInclude Include="source\game\component\transform_component.h" />
     <ClInclude Include="source\game\data\stage_data.h" />
     <ClInclude Include="source\game\gameobject\CCamera.h" />
@@ -226,7 +226,7 @@
     <ClInclude Include="source\game\manager\SelectManager.h" />
     <ClInclude Include="source\game\manager\stagedata_manager.h" />
     <ClInclude Include="source\game\scene\scene_base.h" />
-    <ClInclude Include="source\game\scene\MaingameScene.h" />
+    <ClInclude Include="source\game\scene\maingame_scene.h" />
     <ClInclude Include="source\game\scene\title_scene.h" />
     <ClInclude Include="source\macro.h" />
     <ClInclude Include="source\Memory.h" />

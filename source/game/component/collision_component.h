@@ -2,7 +2,7 @@
 #include	"component_base.h"
 #include	"../../system/util/dixsmartptr.h"
 #include	"../gameobject/primitive.h"
-#include	"Qube.h"
+#include	"qube.h"
 
 struct CollisionData;
 class ComponentBase;
