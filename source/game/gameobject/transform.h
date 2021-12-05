@@ -13,6 +13,8 @@ struct Transform
 	DirectX::XMFLOAT4X4 localMtx;	// ローカル行列
 	DirectX::XMFLOAT4X4 scaleMtx;	// 拡大行列
 
+	DirectX::XMFLOAT4X4 beforeMtx;	// 拡大行列
+
 	Transform();
 
 	// Todo:回転とか移動とかの関数作る
@@ -31,6 +33,21 @@ struct Transform
 	void SetScale(const Float3& _sc) { scale = _sc; }
 	void SetAngle(const Float3& _ang) { angle = _ang; }
 	void SetMtx(const DirectX::XMFLOAT4X4 _mtx) { worldMtx = _mtx; }
+	void PositionCorrectionX(float _pos) {
+		worldMtx._41 -= _pos;
+		position.x -= _pos;
+		//move.x = 0;
+	}
+	void PositionCorrectionY(float _pos) {
+		worldMtx._42 -= _pos;
+		position.y -= _pos;
+		//move.y = 0;
+	}
+	void PositionCorrectionZ(float _pos) {
+		worldMtx._43 -= _pos;
+		position.z -= _pos;
+		//move.z = 0;
+	}
 	Float3 GetPosition() { return position; }
 	Float3 GetRotation() { return rotation; }
 	Float3 GetScale() { return scale; }

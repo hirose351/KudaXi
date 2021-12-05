@@ -33,6 +33,8 @@ void Player::ObjectInit()
 
 void Player::ObjectUpdate()
 {
+	mTransform.beforeMtx = mTransform.worldMtx;
+
 	Float3 rotCamera(0, 0, 0);
 	float radian;
 	if (!mIsDiceMove)
@@ -163,7 +165,7 @@ void Player::OnCollisionEnter(ComponentBase* _oher)
 {
 	std::cout << "OnCollisionEnter@ObjectName:" + _oher->GetOwner()->GetName() + "\n";
 
-	if (_oher->GetTag() == ObjectTag::Dice)
+	if (_oher->GetTag() == ObjectTag::Dice && !isDiceOperation)
 	{
 		OnColEnterObj(dynamic_cast<Dice*>(_oher->GetOwner()));
 	}
@@ -172,14 +174,47 @@ void Player::OnCollisionEnter(ComponentBase* _oher)
 void Player::OnCollisionStay(ComponentBase* _oher)
 {
 	std::cout << "OnCollisionStay@ObjectName:" + _oher->GetOwner()->GetName() + "\n";
+	if (_oher->GetTag() == ObjectTag::Dice)
+	{
+		OnColStayObj(dynamic_cast<Dice*>(_oher->GetOwner()));
+	}
 }
 
 void Player::OnCollisionExit(ComponentBase* _oher)
 {
 	std::cout << "OnCollisionExit@ObjectName:" + _oher->GetOwner()->GetName() + "\n";
+	if (_oher->GetTag() == ObjectTag::Dice && isDiceOperation)
+	{
+		OnColExitObj(dynamic_cast<Dice*>(_oher->GetOwner()));
+	}
 }
 
 void Player::OnColEnterObj(Dice * _other)
 {
-	_other->Push(mDirection);
+	mdice = _other;
+
+	if (_other->Push(mDirection))
+	{
+
+	}
+	else
+	{
+		a = mTransform.beforeMtx;
+		mTransform.move = 0;
+	}
+	isDiceOperation = true;
+}
+
+void Player::OnColStayObj(Dice * _other)
+{
+	mTransform.worldMtx = a;
+	mTransform.move = 0;
+}
+
+void Player::OnColExitObj(Dice * _other)
+{
+	if (mdice == _other)
+	{
+		isDiceOperation = false;
+	}
 }

@@ -8,20 +8,6 @@ struct PLANE {
 	float a, b, c, d;
 };
 
-struct INT3 {
-	int x, y, z;
-	INT3() = default;
-
-	INT3(const INT3&) = default;
-	INT3& operator=(const INT3&) = default;
-
-	INT3(INT3&&) = default;
-	INT3& operator=(INT3&&) = default;
-
-	XM_CONSTEXPR INT3(int _x, int _y, int _z) : x(_x), y(_y), z(_z) {}
-	explicit INT3(_In_reads_(3) const int *pArray) : x(pArray[0]), y(pArray[1]), z(pArray[2]) {}
-};
-
 void DX11MakeWorldMatrix(DirectX::XMFLOAT4X4& mat, const DirectX::XMFLOAT3& angle, const DirectX::XMFLOAT3& trans);
 void DX11Vec3MulMatrix(DirectX::XMFLOAT3& outvec, const DirectX::XMFLOAT3& invec, const DirectX::XMFLOAT4X4& mat);
 void DX11Vec3Cross(DirectX::XMFLOAT3& outvec, DirectX::XMFLOAT3& invec1, DirectX::XMFLOAT3& invec2);

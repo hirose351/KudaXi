@@ -32,6 +32,7 @@ void CollisionComponent::Update()
 
 void CollisionComponent::Draw()
 {
+	DX11MtxMultiply(mWorldMtx, mLocalMtx, mOwner->GetTransform()->GetMtx());
 	mQube.Draw(mWorldMtx);
 }
 

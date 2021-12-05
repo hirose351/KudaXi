@@ -2,6 +2,7 @@
 #include	"gameobject.h"
 #include	"../../system/model/ModelMgr.h"
 #include	"../component/allcomponents.h"
+#include	"../../system/util/INT3.h"
 
 using Microsoft::WRL::ComPtr;
 
@@ -27,12 +28,13 @@ class Dice : public GameObject/*, CollisionInterface*/
 {
 private:
 	//CModel* mpModel;
+	INT3 mapPos;
 	DICETYPE mTopDiceType;								// 上面
 	DICESTATUS mSts;	// 生存状態
 	DIRECTION mDirection = DIRECTION::NEUTRAL;			// サイコロの移動方向	
 
 	DirectX::XMFLOAT4X4 mMtxFrame;						// 1フレームでの変化を表す行列	
-	Float3 mStartPos;									// キー入力された際の開始位置	
+	Float3 mRotateStartPos;									// キー入力された際の開始位置	
 
 	int mCrrentRotCnt = 0;								// 今の回転回数
 	const int mRotCnt = 12;								// 90度回転するのに必要な更新回数	
@@ -96,6 +98,9 @@ public:
 
 	// 1マス分移動
 	void MoveDiceScale(DIRECTION _direction);
+
+	void SetMapPos(INT3 _i3) { mapPos = _i3; };
+	INT3 GetMapPos() { return mapPos; };
 
 	//void OnCollisionEnter(GameObject* _oher) override;
 	//void OnCollisionStay(GameObject* _oher) override;

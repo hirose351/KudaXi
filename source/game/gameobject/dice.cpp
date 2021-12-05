@@ -1,4 +1,5 @@
 #include	"dice.h"
+#include	"../manager/dice_manager.h"
 //#include	"../../system/util/XAudio2.h"
 
 Dice::~Dice()
@@ -35,7 +36,7 @@ void Dice::ObjectUpdate()
 		float nowcenterposy = radius * sin(ToRad(45 + mRotAnglePerFrame * mCrrentRotCnt));
 
 		//移動量の計算
-		Float3 pos = { mStartPos.x,0.0f,mStartPos.z };
+		Float3 pos = { mRotateStartPos.x,0.0f,mRotateStartPos.z };
 		Float3 endpos;
 		float t;
 
@@ -44,9 +45,9 @@ void Dice::ObjectUpdate()
 			//割合を計算
 			t = static_cast<float>(mCrrentRotCnt + 1) / static_cast<float>(mRotCnt);
 			//終了位置を計算
-			endpos.x = mStartPos.x + DICESCALE;
+			endpos.x = mRotateStartPos.x + DICESCALE;
 			//線形補間の式でX座標を計算
-			pos.x = mStartPos.x *(1.0f - t) + endpos.x*t;
+			pos.x = mRotateStartPos.x *(1.0f - t) + endpos.x*t;
 		}
 
 		if (mDirection == DIRECTION::LEFT)
@@ -54,9 +55,9 @@ void Dice::ObjectUpdate()
 			//割合を計算
 			t = static_cast<float>(mCrrentRotCnt + 1) / static_cast<float>(mRotCnt);
 			//終了位置を計算
-			endpos.x = mStartPos.x - DICESCALE;
+			endpos.x = mRotateStartPos.x - DICESCALE;
 			//線形補間の式でX座標を計算
-			pos.x = mStartPos.x *(1.0f - t) + endpos.x*t;
+			pos.x = mRotateStartPos.x *(1.0f - t) + endpos.x*t;
 		}
 
 		if (mDirection == DIRECTION::UP)
@@ -64,9 +65,9 @@ void Dice::ObjectUpdate()
 			//割合を計算
 			t = static_cast<float>(mCrrentRotCnt + 1) / static_cast<float>(mRotCnt);
 			//終了位置を計算
-			endpos.z = mStartPos.z + DICESCALE;
+			endpos.z = mRotateStartPos.z + DICESCALE;
 			//線形補間の式でX座標を計算
-			pos.z = mStartPos.z *(1.0f - t) + endpos.z*t;
+			pos.z = mRotateStartPos.z *(1.0f - t) + endpos.z*t;
 		}
 
 		if (mDirection == DIRECTION::DOWN)
@@ -74,9 +75,9 @@ void Dice::ObjectUpdate()
 			//割合を計算
 			t = static_cast<float>(mCrrentRotCnt + 1) / static_cast<float>(mRotCnt);
 			//終了位置を計算
-			endpos.z = mStartPos.z - DICESCALE;
+			endpos.z = mRotateStartPos.z - DICESCALE;
 			//線形補間の式でX座標を計算
-			pos.z = mStartPos.z *(1.0f - t) + endpos.z*t;
+			pos.z = mRotateStartPos.z *(1.0f - t) + endpos.z*t;
 		}
 
 		//原点の位置を補正
@@ -103,14 +104,10 @@ void Dice::ObjectUpdate()
 
 void Dice::ObjectDraw()
 {
-	// モデル描画
-	//mpModel->Draw(mTransform.mtx);
 }
 
 void Dice::Uninit()
 {
-	//mpModel->Uninit();
-	//mpDownModel->Uninit();
 }
 
 void Dice::MoveDiceScale(DIRECTION _direction)
@@ -135,6 +132,9 @@ void Dice::MoveDiceScale(DIRECTION _direction)
 
 bool Dice::Push(DIRECTION _direction)
 {
+	if (!DiceManager::GetInstance()->CheckMove(this, _direction))
+		return false;
+
 	switch (_direction)
 	{
 	case DIRECTION::UP:
@@ -150,17 +150,13 @@ bool Dice::Push(DIRECTION _direction)
 		mTransform.worldMtx._41 += DICESCALE;
 		break;
 	}
-	return false;
+	return true;
 }
 
 bool Dice::Roll(DIRECTION _direction)
 {
-	//if (// 回転不可なら)
-	//{
-	//return false;
-	//}
-
-	//else(// 回転可能なら)｛
+	if (!DiceManager::GetInstance()->CheckMove(this, _direction))
+		return false;
 
 	// 平均移動量、角度
 	Float3 trans, angle;
@@ -183,7 +179,7 @@ bool Dice::Roll(DIRECTION _direction)
 	DX11MakeWorldMatrix(mTransform.localMtx, angle, trans);
 	DX11MtxMultiply(mTransform.worldMtx, mTransform.worldMtx, mTransform.localMtx);
 	mTopDiceType = OverPlane();
-	//}
+
 	return true;
 }
 
@@ -217,7 +213,7 @@ void Dice::SetRollDirection(DIRECTION _direction)
 		mCrrentRotCnt = 0;
 		DX11MakeWorldMatrix(mMtxFrame, mTransform.angle, trans);
 		//開始位置を保存
-		mStartPos = { mTransform.worldMtx._41, mTransform.worldMtx._42,mTransform.worldMtx._43 };
+		mRotateStartPos = { mTransform.worldMtx._41, mTransform.worldMtx._42,mTransform.worldMtx._43 };
 	}
 }
 

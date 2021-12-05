@@ -8,15 +8,15 @@ struct Float3 : public DirectX::XMFLOAT3
 	Float3(float _x, float _y, float _z);
 	Float3(const XMFLOAT3& _f3) { this->x = _f3.x; this->y = _f3.y; this->z = _f3.z; }
 
-	Float3 operator+(const Float3& _v3);
-	Float3 operator-(const Float3& _v3);
-	Float3 operator*(const Float3& _v3);
+	Float3 operator+(const Float3& _f3);
+	Float3 operator-(const Float3& _f3);
+	Float3 operator*(const Float3& _f3);
 
-	void operator*=(const Float3& _v3);
+	void operator*=(const Float3& _f3);
 	void operator*=(float _f);
-	void operator+=(const Float3& _v3);
+	void operator+=(const Float3& _f3);
 	void operator+=(float _f);
-	void operator-=(const Float3& _v3);
+	void operator-=(const Float3& _f3);
 
 	Float3 operator+(const XMFLOAT3& _f3);
 	Float3 operator-(const XMFLOAT3& _f3);

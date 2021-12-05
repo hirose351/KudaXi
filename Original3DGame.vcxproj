@@ -185,6 +185,7 @@
     <ClCompile Include="source\system\util\BoundingSphere.cpp" />
     <ClCompile Include="source\system\util\CBillboard.cpp" />
     <ClCompile Include="source\system\util\drawaxis.cpp" />
+    <ClCompile Include="source\system\util\INT3.cpp" />
     <ClCompile Include="source\system\util\line.cpp" />
     <ClCompile Include="source\system\util\quad2d.cpp" />
     <ClCompile Include="source\system\util\Sphere.cpp" />
@@ -257,6 +258,7 @@
     <ClInclude Include="source\system\util\CBillboard.h" />
     <ClInclude Include="source\system\util\dixsmartptr.h" />
     <ClInclude Include="source\system\util\drawaxis.h" />
+    <ClInclude Include="source\system\util\INT3.h" />
     <ClInclude Include="source\system\util\line.h" />
     <ClInclude Include="source\system\util\quad2d.h" />
     <ClInclude Include="source\system\util\resource.h" />

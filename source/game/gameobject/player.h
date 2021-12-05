@@ -17,6 +17,11 @@ private:
 	Float3					mDestrot;			// 目標姿勢
 	DIRECTION				mMoveKeySts;		// 押されている移動キー
 
+	bool isDiceOperation = false;
+	Dice* mdice;
+
+	DirectX::XMFLOAT4X4 a;
+
 	//// モデルポインタ取得
 	//void SetModel(CModel* p) {
 	//	mpModel = p;
@@ -34,7 +39,7 @@ public:
 		mTransform.scale = 2;
 		AddComponent<Component::ModelComponent>()->SetModel(ModelMgr::GetInstance().GetModelPtr("assets/model/player/player.fbx"));
 		//AddComponent<Component::CollisionComponent>()->SetLocalPos(20);
-		AddComponent<Component::CollisionComponent>()->SetLocalScale(Float3(5, 7, 5));
+		AddComponent<Component::CollisionComponent>()->SetLocalScale(Float3(4, 7, 4));
 		GetComponent<Component::CollisionComponent>()->SetColor(DirectX::XMFLOAT4(1, 0, 0, 0.3f));
 		ObjectInit();
 	};
@@ -50,4 +55,6 @@ public:
 	void OnCollisionExit(ComponentBase* _oher) override;
 
 	void OnColEnterObj(Dice* _other);
+	void OnColStayObj(Dice* _other);
+	void OnColExitObj(Dice* _other);
 };

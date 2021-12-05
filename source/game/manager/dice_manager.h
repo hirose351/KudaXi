@@ -4,7 +4,7 @@
 #include	"../../system/util/dixsmartptr.h"
 #include	"../manager/stagedata_manager.h"
 
-class DiceManager
+class DiceManager :Uncopyable
 {
 private:
 	std::vector<Dice*> diceList;
@@ -13,7 +13,12 @@ private:
 
 	// Diceê∂ê¨
 	void DiceCreate();
+
 public:
+	static DiceManager* GetInstance() {
+		static DiceManager Instance;
+		return &Instance;
+	}
 	DiceManager() {};
 	~DiceManager() {};
 
@@ -21,5 +26,8 @@ public:
 	void Init();
 	void Update();
 	void Uninit();
+
+	// ÇªÇÃÉ}ÉXÇ…DiceÇ™ë∂ç›Ç∑ÇÈÇ©
+	bool CheckMove(Dice* _dice, DIRECTION _dire);
 };
 

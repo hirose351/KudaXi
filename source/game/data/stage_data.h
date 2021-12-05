@@ -16,14 +16,17 @@ public:
 	// 後始末
 	void Finalize()
 	{
-		mDiceMtx.clear();
-		mDiceMtx.shrink_to_fit();
+		//if (!mDiceMtx.empty())
+		//{
+		//	mDiceMtx.clear();
+		//	mDiceMtx.shrink_to_fit();
+		//}
 	}
 
 	std::string mStageName;
 
-	int mMapSizeWidth = 5;			// マップ横サイズ
-	int mMapSizeHeight = 5;		// マップ縦サイズ
+	int mMapSizeWidth = 8;			// マップ横サイズ
+	int mMapSizeHeight = 8;		// マップ縦サイズ
 
 	// 床配置用マップ配列
 	int mFloorMap[STAGESIZEMAX][STAGESIZEMAX] = {
@@ -56,7 +59,7 @@ public:
 	};
 
 	int mDiceCnt;									// Diceの総数 
-	std::vector<DirectX::XMFLOAT4X4> mDiceMtx;		// 各サイコロの行列
+	//std::vector<DirectX::XMFLOAT4X4> mDiceMtx;		// 各サイコロの行列
 
 	int mDiceAlignCnt = 3;							// 揃った判定になる数
 	int mTargetDiceType = 3;						// 揃えるサイコロの面

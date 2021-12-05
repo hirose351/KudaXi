@@ -21,18 +21,8 @@ MaingameScene::~MaingameScene()
 void MaingameScene::SceneInit()
 {
 	Player* player = new Player;
-	/*
-		Dice* dice = new Dice;
-		dice->GetTransform()->SetPosition(Float3(0, 8.1f, -DICESCALE));
-
-		Dice* dice1 = new Dice;
-		dice1->GetTransform()->SetPosition(Float3(DICESCALE, 8.1f, -DICESCALE * 2));
-
-		Dice* dice2 = new Dice;
-		dice2->GetTransform()->SetPosition(Float3(DICESCALE * 2, 8.1f, -DICESCALE * 2));*/
-
 	Stage* stage = new Stage;
-	dm.Init();
+	DiceManager::GetInstance()->Init();
 }
 
 void MaingameScene::SceneUpdate()
