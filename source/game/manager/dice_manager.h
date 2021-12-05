@@ -28,6 +28,6 @@ public:
 	void Uninit();
 
 	// ÇªÇÃÉ}ÉXÇ…DiceÇ™ë∂ç›Ç∑ÇÈÇ©
-	bool CheckMove(Dice* _dice, DIRECTION _dire);
+	bool CanPush(Dice* _dice, DIRECTION _dire);
 };
 

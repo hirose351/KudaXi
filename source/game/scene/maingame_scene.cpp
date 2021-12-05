@@ -6,6 +6,7 @@
 #include	"../gameobject/dice.h"
 #include	"../gameobject/stage.h"
 #include	"../manager/dice_manager.h"
+#include	"../gameobject/skydome.h"
 
 using namespace Dix;
 
@@ -22,6 +23,7 @@ void MaingameScene::SceneInit()
 {
 	Player* player = new Player;
 	Stage* stage = new Stage;
+	Skydome* skydome = new Skydome;
 	DiceManager::GetInstance()->Init();
 }
 

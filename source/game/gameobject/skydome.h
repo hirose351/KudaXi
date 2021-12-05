@@ -1,32 +1,39 @@
-//#pragma once
-//#include	"gameobject.h"
-//#include	"../../system/model/CModel.h"
-//
-//class Skydome : public GameObject {
-//private:
-//	CModel*	mPmodel;	// ３Ｄモデル
-//
-//	// モデルポインタ取得
-//	void SetModel(CModel* p) {
-//		mPmodel = p;
-//	}
-//
-//public:
-//	enum Type {
-//		TITLE,
-//		GAME,
-//		CLEATE,
-//	};
-//
-//	Skydome();
-//
-//	void SetType(Type _type);
-//
-//	bool Init() override;		// 初期処理
-//
-//	void Draw();				// 描画
-//
-//	void Update();				// 更新
-//
-//	void Finalize() override;	// 終了処理	
-//};
+#pragma once
+#include	"gameobject.h"
+#include	"../../system/model/ModelMgr.h"
+#include	"../component/allcomponents.h"
+#include	"../../system/util/INT3.h"
+
+class Skydome : public GameObject {
+private:
+	const float mRotationNum = 0.07f;
+	DirectX::XMFLOAT4X4 rotationMtx;	//回転用行列
+
+public:
+	enum Type {
+		TITLE,
+		GAME,
+		CLEATE,
+	};
+
+	Skydome() :GameObject(("SkyDome"), ObjectType::Dice) {
+		bool sts = ModelMgr::GetInstance().LoadModel(
+			"assets/model/skydome/skydome_pink.fbx",		// ファイル名 
+			"shader/vs.hlsl",								// 頂点シェーダー
+			"shader/pstexcol.hlsl",							// ピクセルシェーダー
+			"assets/model/skydome/");						// テクスチャの格納フォルダ
+		if (!sts)
+		{
+			MessageBox(nullptr, "ColorfulSkydomeモデル 読み込みエラー", "error", MB_OK);
+		}
+		AddComponent<Component::ModelComponent>()->SetModel(ModelMgr::GetInstance().GetModelPtr("assets/model/skydome/skydome_pink.fbx"));
+		ObjectInit();
+	}
+
+	void ObjectInit() override;
+	void ObjectUpdate()override;
+	void ObjectDraw()override;
+	void Uninit()override;
+
+	void SetType(Type _type);
+};

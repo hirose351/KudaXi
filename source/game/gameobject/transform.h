@@ -23,6 +23,8 @@ struct Transform
 	void ReSetValue();
 	// ˆÚ“®—Ê‰ÁZ
 	void AddPosition();
+	// ˆÚ“®—Ê‰ÁZ
+	void AddRotation();
 	// Šg‘ås—ñì¬
 	void CreateScaleMtx();
 	// s—ñ‚ğì¬

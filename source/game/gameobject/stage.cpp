@@ -25,7 +25,7 @@ void Stage::ObjectDraw()
 	{
 		for (int x = 0; x < mCurrentStageData.mMapSizeWidth; x++)
 		{
-			if (mCurrentStageData.mFloorMap[x][z] != 0)
+			if (mCurrentStageData.mFloorMap[z][x] != 0)
 			{
 				mPlane.GetTransform()->SetPosition(Float3(DICESCALE*x, 0, -DICESCALE * z));
 				mPlane.Draw();

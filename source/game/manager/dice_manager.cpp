@@ -8,14 +8,15 @@ void DiceManager::DiceCreate()
 	{
 		for (int x = 0; x < mCurrentStageData.mMapSizeWidth; x++)
 		{
-			if (mCurrentStageData.mMap[x][z] > 0)
+			if (mCurrentStageData.mMap[z][x] > 0)
 			{
 				Dice* dice = new Dice;
-				dice->GetTransform()->SetPosition(Float3(DICESCALE*x, 0, -DICESCALE * z));
+				dice->GetTransform()->SetPosition(Float3(DICESCALE*x, DICESCALE / 2.0f, -DICESCALE * z));
+				dice->GetTransform()->CreateMtx();
 				dice->SetMapPos(INT3(x, 0, z));
 				diceList.emplace_back(dice);
 			}
-			diceMap[x][z] = mCurrentStageData.mMap[x][z];
+			diceMap[z][x] = mCurrentStageData.mMap[z][x];
 		}
 	}
 }
@@ -40,9 +41,11 @@ void DiceManager::Uninit()
 	}
 }
 
-bool DiceManager::CheckMove(Dice* _dice, DIRECTION _dire)
+bool DiceManager::CanPush(Dice* _dice, DIRECTION _dire)
 {
 	/// Todo:•ûŒü‚ÆINT3‚ğ˜AŒg‚³‚¹‚é‰½‚©‚ğì‚é
+
+
 
 	INT3 afterPos;
 	switch (_dire)
@@ -63,15 +66,15 @@ bool DiceManager::CheckMove(Dice* _dice, DIRECTION _dire)
 		return false;
 	}
 
-	// s‚«æ‚ªŒŠ‚È‚ç‰ñ“]‚µ‚È‚¢
-	if (mCurrentStageData.mFloorMap[afterPos.x][afterPos.z] <= 0)
+	// s‚«æ‚ªŒŠ‚È‚çˆÚ“®‚µ‚È‚¢
+	if (mCurrentStageData.mFloorMap[afterPos.z][afterPos.x] <= 0)
 		return false;
 
 
-	if (diceMap[afterPos.x][afterPos.z] <= 0)
+	if (diceMap[afterPos.z][afterPos.x] <= 0)
 	{
-		diceMap[_dice->GetMapPos().x][_dice->GetMapPos().z] = -1;
-		diceMap[afterPos.x][afterPos.z] = diceMap[_dice->GetMapPos().x][_dice->GetMapPos().z];
+		diceMap[_dice->GetMapPos().z][_dice->GetMapPos().x] = -1;
+		diceMap[afterPos.z][afterPos.x] = diceMap[_dice->GetMapPos().z][_dice->GetMapPos().x];
 		_dice->SetMapPos(afterPos);
 		return true;
 	}

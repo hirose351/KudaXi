@@ -20,6 +20,10 @@ void Transform::AddPosition()
 	position += move;
 }
 
+void Transform::AddRotation()
+{
+}
+
 void Transform::CreateScaleMtx()
 {
 	DirectX::XMFLOAT4X4 mScaleMtx;

@@ -20,8 +20,11 @@ enum class DICETYPE {
 // サイコロの状態
 enum class DICESTATUS {
 	NORMAL,		// 通常
+	ROLL,		// 回転
+	PUSH,		// 押す
 	DOWN,		// 沈む
 	HALFDOWN,	// 半分沈む
+	UP,	// 半分沈む
 };
 
 class Dice : public GameObject/*, CollisionInterface*/
@@ -39,6 +42,9 @@ private:
 	int mCrrentRotCnt = 0;								// 今の回転回数
 	const int mRotCnt = 12;								// 90度回転するのに必要な更新回数	
 	const float mRotAnglePerFrame = 90.0f / mRotCnt;	// 1回当たりの回転角度	
+
+	int mCrrentPushCnt = 0;								// 今の回転回数
+	const float mPushPisitionPerFrame = DICESCALE / mRotCnt;
 
 	// 上の面を特定
 	DICETYPE OverPlane();

@@ -16,15 +16,15 @@ private:
 	ComPtr<ID3D11PixelShader>  mpPixelShader;	// ピクセルシェーダー
 	ComPtr<ID3D11InputLayout>  mpVertexLayout;	// 頂点レイアウト
 
-	float mMapChipSize = DICESCALE;
+	Float3 mScale = (DICESCALE - 0.6f, 0, DICESCALE - 0.6f);
 
 	// 平面チップ
 	Vertex mVartex[4] = {
 		// 頂点座標															法線ベクトル								テクスチャ座標
-		{ DirectX::XMFLOAT3(-mMapChipSize / 2.0f, 0,  mMapChipSize / 2.0f), DirectX::XMFLOAT3(0.0f,1.0f,0.0f),DirectX::XMFLOAT2(1.0f, 0.0f) },
-		{ DirectX::XMFLOAT3(mMapChipSize / 2.0f, 0,  mMapChipSize / 2.0f), DirectX::XMFLOAT3(0.0f,1.0f,0.0f),DirectX::XMFLOAT2(1.0f, 1.0f) },
-		{ DirectX::XMFLOAT3(-mMapChipSize / 2.0f, 0, -mMapChipSize / 2.0f), DirectX::XMFLOAT3(0.0f,1.0f,0.0f),DirectX::XMFLOAT2(0.0f, 0.0f) },
-		{ DirectX::XMFLOAT3(mMapChipSize / 2.0f, 0, -mMapChipSize / 2.0f), DirectX::XMFLOAT3(0.0f,1.0f,0.0f),DirectX::XMFLOAT2(0.0f, 1.0f) }
+		{ DirectX::XMFLOAT3(-mScale.x / 2.0f, 0,  mScale.z / 2.0f), DirectX::XMFLOAT3(0.0f,1.0f,0.0f),DirectX::XMFLOAT2(1.0f, 0.0f) },
+		{ DirectX::XMFLOAT3(mScale.x / 2.0f, 0,  mScale.z / 2.0f), DirectX::XMFLOAT3(0.0f,1.0f,0.0f),DirectX::XMFLOAT2(1.0f, 1.0f) },
+		{ DirectX::XMFLOAT3(-mScale.x / 2.0f, 0, -mScale.z / 2.0f), DirectX::XMFLOAT3(0.0f,1.0f,0.0f),DirectX::XMFLOAT2(0.0f, 0.0f) },
+		{ DirectX::XMFLOAT3(mScale.x / 2.0f, 0, -mScale.z / 2.0f), DirectX::XMFLOAT3(0.0f,1.0f,0.0f),DirectX::XMFLOAT2(0.0f, 1.0f) }
 	};
 
 	// todo:ステージによってテクスチャ分ける
@@ -37,7 +37,8 @@ private:
 	};
 
 public:
-	Plane() :GameObject(("Plane"), ObjectType::Obstracle) {};
+	Plane() :mScale((DICESCALE - 0.6f, 0, DICESCALE - 0.6f)), GameObject(("Plane"), ObjectType::Obstracle) { };
+	Plane(Float3 mScale) :mScale(mScale), GameObject(("Plane"), ObjectType::Obstracle) { };
 	~Plane() { /*delete[] mTexInfo;*/ };
 
 	void ObjectInit() override;
