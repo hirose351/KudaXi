@@ -3,18 +3,18 @@
 GameObject::~GameObject()
 {
 	mName.clear();
-	for (auto &component : componentList)
+	for (auto &component : mComponentList)
 	{
-		componentList.pop_back();
+		mComponentList.pop_back();
 	}
-	componentList.clear();
-	componentList.shrink_to_fit();
+	mComponentList.clear();
+	mComponentList.shrink_to_fit();
 }
 
 void GameObject::Init()
 {
 	ObjectInit();
-	for (auto& component : componentList)
+	for (auto& component : mComponentList)
 	{
 		component->Init();
 	}
@@ -23,7 +23,7 @@ void GameObject::Init()
 void GameObject::Update()
 {
 	ObjectUpdate();
-	for (auto& component : componentList)
+	for (auto& component : mComponentList)
 	{
 		component->Update();
 	}
@@ -32,7 +32,7 @@ void GameObject::Update()
 void GameObject::Draw()
 {
 	ObjectDraw();
-	for (auto& component : componentList)
+	for (auto& component : mComponentList)
 	{
 		component->Draw();
 	}
@@ -54,7 +54,7 @@ void GameObject::ImguiDraw()
 			ImGui::DragFloat("z", &mTransform.position.z, 0.5f);
 			ImGui::TreePop();
 		}
-		for (auto& component : componentList)
+		for (auto& component : mComponentList)
 		{
 			component->ImguiDraw();
 		}

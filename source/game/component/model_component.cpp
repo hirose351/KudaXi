@@ -9,7 +9,7 @@ using namespace Component;
 
 void ModelComponent::Draw()
 {
-	_mpModel->Draw(mOwner->GetTransform()->worldMtx);
+	mpModel->Draw(mOwner->GetTransform()->worldMtx);
 }
 
 void Component::ModelComponent::ImguiDraw()
@@ -19,5 +19,5 @@ void Component::ModelComponent::ImguiDraw()
 
 void ModelComponent::Uninit()
 {
-	_mpModel = nullptr;
+	mpModel = nullptr;
 }

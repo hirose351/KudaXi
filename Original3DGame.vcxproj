@@ -140,9 +140,7 @@
     <ClCompile Include="source\game\component\component_base.cpp" />
     <ClCompile Include="source\game\component\model_component.cpp" />
     <ClCompile Include="source\game\component\qube.cpp" />
-    <ClCompile Include="source\game\component\transform_component.cpp" />
     <ClCompile Include="source\game\data\stage_data.cpp" />
-    <ClCompile Include="source\game\gameobject\camera.cpp" />
     <ClCompile Include="source\game\gameobject\CCamera.cpp" />
     <ClCompile Include="source\game\gameobject\dice.cpp" />
     <ClCompile Include="source\game\gameobject\gameobject.cpp" />
@@ -207,7 +205,6 @@
     <ClInclude Include="source\game\component\component_base.h" />
     <ClInclude Include="source\game\component\model_component.h" />
     <ClInclude Include="source\game\component\qube.h" />
-    <ClInclude Include="source\game\component\transform_component.h" />
     <ClInclude Include="source\game\data\stage_data.h" />
     <ClInclude Include="source\game\gameobject\CCamera.h" />
     <ClInclude Include="source\game\gameobject\CLight.h" />

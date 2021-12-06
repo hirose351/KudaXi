@@ -39,7 +39,7 @@ namespace Component {
 
 		void SetInitState(ObjectTag _tag, Float3 _localPos, Float3 _scale, DirectX::XMFLOAT4 _color);
 
-		Primitive::AABB* GetPrim() { return &mPrim; }
+		Primitive::AABB* GetPrim() { Update(); return &mPrim; }
 	};
 }
 

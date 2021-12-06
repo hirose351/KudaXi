@@ -7,7 +7,7 @@
 class Skydome : public GameObject {
 private:
 	const float mRotationNum = 0.07f;
-	DirectX::XMFLOAT4X4 rotationMtx;	//回転用行列
+	DirectX::XMFLOAT4X4 mRotationMtx;	//回転用行列
 
 public:
 	enum Type {
@@ -16,7 +16,7 @@ public:
 		CLEATE,
 	};
 
-	Skydome() :GameObject(("SkyDome"), ObjectType::Dice) {
+	Skydome() :GameObject(("SkyDome"), ObjectType::eDice) {
 		bool sts = ModelMgr::GetInstance().LoadModel(
 			"assets/model/skydome/skydome_pink.fbx",		// ファイル名 
 			"shader/vs.hlsl",								// 頂点シェーダー

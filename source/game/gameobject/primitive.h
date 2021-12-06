@@ -10,21 +10,10 @@
 
 #define _OX_EPSILON_	0.000001f	// 誤差
 
-//class PrimitiveBase {
-//public:
-//	GameObject* mOwner;
-//	PrimitiveBase() :mOwner(nullptr) {};
-//	PrimitiveBase(GameObject* _owner) :mOwner(_owner) { SetManager(); };
-//	~PrimitiveBase() { /*削除？*/ };
-//	virtual PrimitiveBase* Get() { return this; }
-//	void SetManager();
-//};
-
 namespace Primitive {
 
 	// 点
 	typedef Float3 Point;
-
 
 	// ベクトル
 	struct Vec3 : public Float3 {

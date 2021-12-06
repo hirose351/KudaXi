@@ -27,36 +27,35 @@ enum class DICESTATUS {
 	UP,	// 半分沈む
 };
 
-class Dice : public GameObject/*, CollisionInterface*/
+class Dice : public GameObject
 {
 private:
-	//CModel* mpModel;
-	INT3 mapPos;
+	INT3 mMapPos;
 	DICETYPE mTopDiceType;								// 上面
 	DICESTATUS mSts;	// 生存状態
-	DIRECTION mDirection = DIRECTION::NEUTRAL;			// サイコロの移動方向	
+	Direction mDirection = Direction::eNeutral;			// サイコロの移動方向	
 
 	DirectX::XMFLOAT4X4 mMtxFrame;						// 1フレームでの変化を表す行列	
 	Float3 mRotateStartPos;									// キー入力された際の開始位置	
 
-	int mCrrentRotCnt = 0;								// 今の回転回数
-	const int mRotCnt = 12;								// 90度回転するのに必要な更新回数	
-	const float mRotAnglePerFrame = 90.0f / mRotCnt;	// 1回当たりの回転角度	
+	const int mMoveCnt = 12;							// 90度回転、押されるのに必要な更新回数
+	int mCrrentRotCnt = 0;								// 今の回転回数	
+	const float mRotAnglePerFrame = 90.0f / mMoveCnt;	// 1回当たりの回転角度	
 
 	int mCrrentPushCnt = 0;								// 今の回転回数
-	const float mPushPisitionPerFrame = DICESCALE / mRotCnt;
+	const float mPushPisitionPerFrame = DICE_SCALE / mMoveCnt;
 
 	const int mUpCnt = 150;
-	const float mUpPisitionPerFrame = DICESCALE / mUpCnt;
+	const float mUpPisitionPerFrame = DICE_SCALE / mUpCnt;
 
 	// 上の面を特定
 	DICETYPE OverPlane();
 	// 回転移動セット
-	void SetRollDirection(DIRECTION _direction);
+	void SetRollDirection(Direction _direction);
 
 	void Up();
 public:
-	Dice() :GameObject(("Dice"), ObjectType::Dice) {
+	Dice() :GameObject(("Dice"), ObjectType::eDice) {
 		bool sts = ModelMgr::GetInstance().LoadModel(
 			"assets/model/dice/Dice.fbx",
 			"shader/vs.hlsl", "shader/pstexcol.hlsl",
@@ -84,9 +83,9 @@ public:
 	}
 
 	// 指定方向に移動
-	bool Push(DIRECTION _direction);
+	bool Push(Direction _direction);
 	// 指定方向に回転
-	bool Roll(DIRECTION _direction);
+	bool Roll(Direction _direction);
 
 	// 上面取得
 	DICETYPE GetTopDiceType() {
@@ -98,21 +97,21 @@ public:
 		return mSts;
 	}
 
-	DIRECTION GetDirection() {
+	Direction GetDirection() {
 		return mDirection;
 	}
 
 	// 1マス分移動
-	void MoveDiceScale(DIRECTION _direction);
+	void MoveDiceScale(Direction _direction);
 
-	void SetMapPos(INT3 _i3) { mapPos = _i3; };
-	INT3 GetMapPos() { return mapPos; };
+	void SetMapPos(INT3 _i3) { mMapPos = _i3; };
+	INT3 GetMapPos() { return mMapPos; };
 
 	void OnCollisionEnter(ComponentBase* _oher) override;
 	void OnCollisionStay(ComponentBase* _oher) override;
 	void OnCollisionExit(ComponentBase* _oher) override;
 
 	float GetmPushPositionPerFrame() { return mPushPisitionPerFrame; }
-	bool GetPush() { return mCrrentPushCnt == mRotCnt; }
+	bool GetPush() { return mCrrentPushCnt == mMoveCnt; }
 };
 

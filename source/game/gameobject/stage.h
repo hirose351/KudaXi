@@ -12,7 +12,7 @@ private:
 	Plane mPlane;
 
 public:
-	Stage() :GameObject(("Stage"), ObjectType::Obstracle) {};
+	Stage() :GameObject(("Stage"), ObjectType::eObstracle) {};
 	void ObjectInit() override;
 	void ObjectUpdate()override {};
 	void ObjectDraw()override;

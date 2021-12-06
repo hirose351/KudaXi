@@ -8,18 +8,18 @@ SceneBase::SceneBase()
 
 SceneBase::~SceneBase()
 {
-	objectList.clear();
-	objectList.shrink_to_fit();
+	mObjectList.clear();
+	mObjectList.shrink_to_fit();
 }
 
 void SceneBase::AddGameObject(GameObject* _object)
 {
-	objectList.emplace_back(_object);
+	mObjectList.emplace_back(_object);
 }
 
 bool SceneBase::Init()
 {
-	for (auto &obj : objectList)
+	for (auto &obj : mObjectList)
 	{
 		obj->Init();
 	}
@@ -28,7 +28,7 @@ bool SceneBase::Init()
 
 void SceneBase::Update()
 {
-	for (auto &obj : objectList)
+	for (auto &obj : mObjectList)
 	{
 		obj->Update();
 	}
@@ -37,7 +37,7 @@ void SceneBase::Update()
 
 void SceneBase::Render()
 {
-	for (auto &obj : objectList)
+	for (auto &obj : mObjectList)
 	{
 		obj->Draw();
 	}
@@ -50,7 +50,7 @@ void SceneBase::ImguiDebug()
 	ImGui::SetNextWindowPos(ImVec2(20, 20), ImGuiCond_Once);
 	ImGui::SetNextWindowSize(ImVec2(280, 300), ImGuiCond_Once);
 	ImGui::Begin(u8"GameObject");
-	for (auto &obj : objectList)
+	for (auto &obj : mObjectList)
 	{
 		obj->ImguiDraw();
 	}
@@ -60,7 +60,7 @@ void SceneBase::ImguiDebug()
 
 bool SceneBase::Dispose()
 {
-	for (auto &obj : objectList)
+	for (auto &obj : mObjectList)
 	{
 		if (obj != nullptr)
 		{
@@ -70,15 +70,15 @@ bool SceneBase::Dispose()
 	return true;
 }
 
-void SceneBase::updateFadeIn(double t) {
+void SceneBase::UpdateFadeIn(double t) {
 	Update();
 }
 
-void SceneBase::updateFadeOut(double t) {
+void SceneBase::UpdateFadeOut(double t) {
 	Update();
 }
 
-void SceneBase::drawFadeIn(double t)
+void SceneBase::DrawFadeIn(double t)
 {
 	static bool first = true;
 	// ここで真っ黒から透明へアルファ値を変化させながら画面サイズの矩形を描画する
@@ -93,7 +93,7 @@ void SceneBase::drawFadeIn(double t)
 
 	if (first)
 	{
-		gQuadfadein.Init(Application::CLIENT_WIDTH,
+		mQuadfadein.Init(Application::CLIENT_WIDTH,
 						 Application::CLIENT_HEIGHT,
 						 "assets/white.bmp", DirectX::XMFLOAT4(fadecolor.x, fadecolor.y, fadecolor.z, fadecolor.w));
 		first = false;
@@ -109,22 +109,22 @@ void SceneBase::drawFadeIn(double t)
 
 	TurnOffZbuffer();
 
-	gQuadfadein.SetPosition(
+	mQuadfadein.SetPosition(
 		Application::CLIENT_WIDTH / 2.0f,
 		Application::CLIENT_HEIGHT / 2.0f, 0);
 
-	gQuadfadein.UpdateVertex(
+	mQuadfadein.UpdateVertex(
 		static_cast<uint32_t>(Application::CLIENT_WIDTH),
 		static_cast<uint32_t>(Application::CLIENT_HEIGHT),
 		DirectX::XMFLOAT4(fadecolor.x, fadecolor.y, fadecolor.z, fadecolor.w));
 
-	gQuadfadein.UpdateVbuffer();
-	gQuadfadein.Draw();
+	mQuadfadein.UpdateVbuffer();
+	mQuadfadein.Draw();
 
 	TurnOnZbuffer();
 }
 
-void SceneBase::drawFadeOut(double t)
+void SceneBase::DrawFadeOut(double t)
 {
 	static bool first = true;
 	// ここで真っ黒から透明へアルファ値を変化させながら画面サイズの矩形を描画する
@@ -138,7 +138,7 @@ void SceneBase::drawFadeOut(double t)
 
 	if (first)
 	{
-		gQuadfadeout.Init(Application::CLIENT_WIDTH,
+		mQuadfadeout.Init(Application::CLIENT_WIDTH,
 						  Application::CLIENT_HEIGHT,
 						  "assets/white.bmp", DirectX::XMFLOAT4(fadecolor.x, fadecolor.y, fadecolor.z, fadecolor.w));
 		first = false;
@@ -154,18 +154,18 @@ void SceneBase::drawFadeOut(double t)
 
 	fadecolor.w = static_cast<float>(t);
 
-	gQuadfadeout.UpdateVertex(
+	mQuadfadeout.UpdateVertex(
 		Application::CLIENT_WIDTH,
 		Application::CLIENT_HEIGHT,
 		DirectX::XMFLOAT4(fadecolor.x, fadecolor.y, fadecolor.z, fadecolor.w));
 
-	gQuadfadeout.UpdateVbuffer();
+	mQuadfadeout.UpdateVbuffer();
 
-	gQuadfadeout.SetPosition(
+	mQuadfadeout.SetPosition(
 		static_cast<float>(Application::CLIENT_WIDTH / 2),
 		static_cast<float>(Application::CLIENT_HEIGHT / 2), 0);
 
-	gQuadfadeout.Draw();
+	mQuadfadeout.Draw();
 
 	TurnOnZbuffer();
 }

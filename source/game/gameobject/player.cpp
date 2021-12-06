@@ -25,7 +25,10 @@ void Player::ObjectInit()
 {
 	mTransform.ReSetValue();
 
-	mDirection = DIRECTION::DOWN;
+	mTransform.SetPosition(Float3(mInitMapPos.x*DICE_SCALE, -DICE_SCALE / 2.0f, -mInitMapPos.z*DICE_SCALE));
+	mTransform.CreateMtx();
+
+	mDirection = Direction::eDown;
 
 	mIsDiceMove = false;
 }
@@ -34,6 +37,15 @@ void Player::ObjectUpdate()
 {
 	switch (mPstate)
 	{
+	case eStop:
+		if (mStartCount < 0)
+		{
+			mPstate = eMove;
+		}
+		else
+		{
+			mStartCount--;
+		}
 	case eMove:
 		Move();
 		break;;
@@ -54,7 +66,7 @@ void Player::OnCollisionEnter(ComponentBase* _oher)
 {
 	std::cout << "OnCollisionEnter　ObjectName:" + _oher->GetOwner()->GetName() + "\n";
 
-	if (_oher->GetTag() == ObjectTag::Dice && !isDiceOperation)
+	if (_oher->GetTag() == ObjectTag::Dice && !mIsDiceOperation)
 	{
 		OnColEnterObj(dynamic_cast<Dice*>(_oher->GetOwner()));
 	}
@@ -72,7 +84,7 @@ void Player::OnCollisionStay(ComponentBase* _oher)
 void Player::OnCollisionExit(ComponentBase* _oher)
 {
 	std::cout << "OnCollisionExit　ObjectName:" + _oher->GetOwner()->GetName() + "\n";
-	if (_oher->GetTag() == ObjectTag::Dice && isDiceOperation)
+	if (_oher->GetTag() == ObjectTag::Dice && mIsDiceOperation)
 	{
 		OnColExitObj(dynamic_cast<Dice*>(_oher->GetOwner()));
 	}
@@ -80,14 +92,15 @@ void Player::OnCollisionExit(ComponentBase* _oher)
 
 void Player::OnColEnterObj(Dice* _other)
 {
-	mDice = _other;
-
+	mOperationDice = _other;
+	mIsDiceOperation = true;
+	if (mPstate != eMove)
+		return;
 	if (_other->Push(mDirection))
 	{
 		// 状態を変える
 		mPstate = ePush;
 	}
-	isDiceOperation = true;
 }
 
 void Player::OnColStayObj(Dice* _other)
@@ -96,37 +109,35 @@ void Player::OnColStayObj(Dice* _other)
 
 void Player::OnColExitObj(Dice* _other)
 {
-	if (mDice == _other)
+	if (mOperationDice == _other)
 	{
-		isDiceOperation = false;
+		mIsDiceOperation = false;
 	}
 }
 
 void Player::Move()
 {
-	Float3 rotCamera(0, 0, 0);
+	Float3 rotCamera;
 	float radian;
 	if (CDirectInput::GetInstance().CheckKeyBuffer(DIK_LEFT) || CDirectInput::GetInstance().CheckKeyBuffer(DIK_A))
 	{
 		// 左移動
 		radian = rotCamera.y + XM_PI * 0.50f;
-
 		mTransform.move.x -= sinf(XM_PI * 0.50f) * VALUE_MOVE_MODEL;
 		mTransform.move.z -= cosf(XM_PI * 0.50f) * VALUE_MOVE_MODEL;
 		// 目標角度をセット
 		mDestrot.y = radian;
-		mDirection = DIRECTION::LEFT;
+		mDirection = Direction::eLeft;
 	}
 	else if (CDirectInput::GetInstance().CheckKeyBuffer(DIK_RIGHT) || CDirectInput::GetInstance().CheckKeyBuffer(DIK_D))
 	{
 		// 右移動
 		radian = rotCamera.y - XM_PI * 0.50f;
-
 		mTransform.move.x -= sinf(radian) * VALUE_MOVE_MODEL;
 		mTransform.move.z -= cosf(radian) * VALUE_MOVE_MODEL;
 		// 目標角度をセット
 		mDestrot.y = radian;
-		mDirection = DIRECTION::RIGHT;
+		mDirection = Direction::eRight;
 	}
 	else if (CDirectInput::GetInstance().CheckKeyBuffer(DIK_UP) || CDirectInput::GetInstance().CheckKeyBuffer(DIK_W))
 	{
@@ -135,7 +146,7 @@ void Player::Move()
 		mTransform.move.z -= cosf(XM_PI) * VALUE_MOVE_MODEL;
 		// 目標角度をセット
 		mDestrot.y = rotCamera.y + XM_PI;
-		mDirection = DIRECTION::UP;
+		mDirection = Direction::eUp;
 	}
 	else if (CDirectInput::GetInstance().CheckKeyBuffer(DIK_DOWN) || CDirectInput::GetInstance().CheckKeyBuffer(DIK_S))
 	{
@@ -144,7 +155,7 @@ void Player::Move()
 		mTransform.move.z -= cosf(rotCamera.y) * VALUE_MOVE_MODEL;
 		// 目標角度をセット
 		mDestrot.y = rotCamera.y;
-		mDirection = DIRECTION::DOWN;
+		mDirection = Direction::eDown;
 	}
 
 	if (CDirectInput::GetInstance().CheckKeyBuffer(DIK_RETURN))
@@ -180,7 +191,7 @@ void Player::Move()
 	// 回転を反映、平行移動を反映
 	mTransform.angle = ((mTransform.rotation* 180.0f) / XM_PI);
 
-	mTransform.position.y = DICESCALE / 2.0f - 3;
+	//mTransform.position.y = DICESCALE / 2.0f - 3;
 
 	mTransform.CreateMtx();
 }
@@ -191,7 +202,7 @@ void Player::Roll()
 
 void Player::Push()
 {
-	if (mDice->GetPush())
+	if (mOperationDice->GetPush())
 	{
 		mPstate = eMove;
 		mTransform.move = mTransform.move * -1.0f;
@@ -201,26 +212,26 @@ void Player::Push()
 		return;
 	}
 
-	float movePos = mDice->GetmPushPositionPerFrame();
+	float movePos = mOperationDice->GetmPushPositionPerFrame();
 
 	switch (mDirection)
 	{
-	case DIRECTION::NEUTRAL:
+	case Direction::eNeutral:
 		mPstate = eMove;
 		return;
-	case DIRECTION::UP:
+	case Direction::eUp:
 		std::cout << "上強制移動\n";
 		mTransform.move = { 0, 0, movePos };
 		break;
-	case DIRECTION::DOWN:
+	case Direction::eDown:
 		std::cout << "下強制移動\n";
 		mTransform.move = { 0, 0, -movePos };
 		break;
-	case DIRECTION::LEFT:
+	case Direction::eLeft:
 		std::cout << "左強制移動\n";
 		mTransform.move = { -movePos, 0, 0 };
 		break;
-	case DIRECTION::RIGHT:
+	case Direction::eRight:
 		std::cout << "右強制移動\n";
 		mTransform.move = { movePos, 0, 0 };
 		break;

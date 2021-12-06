@@ -13,16 +13,16 @@ void DiceManager::DiceCreate()
 			if (mCurrentStageData.mMap[z][x] > 0)
 			{
 				Dice* dice = new Dice;
-				dice->GetTransform()->SetPosition(Float3(DICESCALE*x, -DICESCALE / 2.0f, -DICESCALE * z));
+				dice->GetTransform()->SetPosition(Float3(DICE_SCALE*x, -DICE_SCALE / 2.0f, -DICE_SCALE * z));
 				dice->GetTransform()->CreateMtx();
 				dice->SetMapPos(INT3(x, 0, z));
 				nameNum = ("Dice" + std::to_string(i));
 
 				dice->SetName(nameNum);
-				diceList.emplace_back(dice);
+				mDiceList.emplace_back(dice);
 				i++;
 			}
-			diceMap[z][x] = mCurrentStageData.mMap[z][x];
+			mDiceMap[z][x] = mCurrentStageData.mMap[z][x];
 		}
 	}
 }
@@ -38,7 +38,7 @@ void DiceManager::Update()
 
 void DiceManager::Uninit()
 {
-	for (auto &obj : diceList)
+	for (auto &obj : mDiceList)
 	{
 		if (obj != nullptr)
 		{
@@ -47,7 +47,7 @@ void DiceManager::Uninit()
 	}
 }
 
-bool DiceManager::CanPush(Dice* _dice, DIRECTION _dire)
+bool DiceManager::CanPush(Dice* _dice, Direction _dire)
 {
 	/// Todo:•ûŒü‚ÆINT3‚ð˜AŒg‚³‚¹‚é‰½‚©‚ðì‚é
 
@@ -56,16 +56,16 @@ bool DiceManager::CanPush(Dice* _dice, DIRECTION _dire)
 	INT3 afterPos;
 	switch (_dire)
 	{
-	case DIRECTION::UP:
+	case Direction::eUp:
 		afterPos = { _dice->GetMapPos().x, 0, _dice->GetMapPos().z - 1 };
 		break;
-	case DIRECTION::DOWN:
+	case Direction::eDown:
 		afterPos = { _dice->GetMapPos().x, 0, _dice->GetMapPos().z + 1 };
 		break;
-	case DIRECTION::LEFT:
+	case Direction::eLeft:
 		afterPos = { _dice->GetMapPos().x - 1, 0, _dice->GetMapPos().z };
 		break;
-	case DIRECTION::RIGHT:
+	case Direction::eRight:
 		afterPos = { _dice->GetMapPos().x + 1, 0, _dice->GetMapPos().z };
 		break;
 	default:
@@ -78,10 +78,10 @@ bool DiceManager::CanPush(Dice* _dice, DIRECTION _dire)
 	if (mCurrentStageData.mFloorMap[afterPos.z][afterPos.x] <= 0)
 		return false;
 
-	if (diceMap[afterPos.z][afterPos.x] <= 0)
+	if (mDiceMap[afterPos.z][afterPos.x] <= 0)
 	{
-		diceMap[afterPos.z][afterPos.x] = diceMap[_dice->GetMapPos().z][_dice->GetMapPos().x];
-		diceMap[_dice->GetMapPos().z][_dice->GetMapPos().x] = 0;
+		mDiceMap[afterPos.z][afterPos.x] = mDiceMap[_dice->GetMapPos().z][_dice->GetMapPos().x];
+		mDiceMap[_dice->GetMapPos().z][_dice->GetMapPos().x] = 0;
 		_dice->SetMapPos(afterPos);
 		return true;
 	}

@@ -12,14 +12,14 @@ namespace Component {
 	class ModelComponent : public ComponentBase
 	{
 	private:
-		CModel* _mpModel;
+		CModel* mpModel;
 	public:
 		void Draw()override;
 		void ImguiDraw()override;
 		void Uninit() override;
 
 		void SetModel(CModel* p) {
-			_mpModel = p;
+			mpModel = p;
 		}
 	};
 }

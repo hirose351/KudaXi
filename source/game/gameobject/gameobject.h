@@ -14,7 +14,6 @@ class GameObject
 {
 protected:
 	//GameObject		mParent;
-
 	Transform		mTransform;		// 位置回転大きさ
 	std::string		mName;			// 名前
 	unsigned int	mObjectID;		// オブジェクトID番号
@@ -22,10 +21,10 @@ protected:
 	bool			mIsExist;		// 生存可否
 	ObjectState		mObjectState;	// 状態;
 
-	std::vector<ComponentBase*> componentList;
+	std::vector<ComponentBase*> mComponentList;
 
 public:
-	GameObject() :mName("NoName"), mObjectType(ObjectType::Obstracle)
+	GameObject() :mName("NoName"), mObjectType(ObjectType::eObstracle)
 	{
 		SceneManager::GetInstance()->GetAddScene()->AddGameObject(this);
 	}
@@ -84,7 +83,7 @@ T* GameObject::AddComponent()
 	if (dynamic_cast<ComponentBase*>(newComponent) != nullptr)
 	{
 		newComponent->SetOwner(this);
-		componentList.emplace_back(newComponent);
+		mComponentList.emplace_back(newComponent);
 	}
 
 	return newComponent;
@@ -94,7 +93,7 @@ T* GameObject::AddComponent()
 template<class T>
 T* GameObject::GetComponent()
 {
-	for (auto &com : componentList)
+	for (auto &com : mComponentList)
 	{
 		T* sp = dynamic_cast<T*>(com);
 		if (sp != NULL)
@@ -109,13 +108,13 @@ T* GameObject::GetComponent()
 template<class T>
 void GameObject::RemoveComponent()
 {
-	for (unsigned int i = 0; i < componentList.size(); i++)
+	for (unsigned int i = 0; i < mComponentList.size(); i++)
 	{
-		T* toRemove = dynamic_cast<T*>(componentList[i]);
+		T* toRemove = dynamic_cast<T*>(mComponentList[i]);
 		if (toRemove != nullptr)
 		{
-			componentList.erase(componentList.begin() + i);
-			componentList.shrink_to_fit();
+			mComponentList.erase(mComponentList.begin() + i);
+			mComponentList.shrink_to_fit();
 			return;
 		}
 	}

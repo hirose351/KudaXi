@@ -3,13 +3,13 @@
 void Skydome::ObjectInit()
 {
 	// âÒì]çsóÒçÏê¨
-	DX11MtxRotationX(0.05f, rotationMtx);
+	DX11MtxRotationX(0.05f, mRotationMtx);
 }
 
 void Skydome::ObjectUpdate()
 {
 	// ä|ÇØéZ
-	DX11MtxMultiply(mTransform.worldMtx, rotationMtx, mTransform.worldMtx);
+	DX11MtxMultiply(mTransform.worldMtx, mRotationMtx, mTransform.worldMtx);
 }
 
 void Skydome::ObjectDraw()

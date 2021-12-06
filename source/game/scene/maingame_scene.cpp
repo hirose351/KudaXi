@@ -29,6 +29,8 @@ void MaingameScene::SceneInit()
 
 void MaingameScene::SceneUpdate()
 {
+
+
 	CollisionManager::GetInstance().Update();
 }
 

@@ -9,10 +9,10 @@ class SceneBase : Uncopyable {
 private:
 	SceneManager*	mManager;
 
-	std::vector<GameObject*> objectList;	// ゲームオブジェクトを全部まとめて管理できるオブジェクトリスト
+	std::vector<GameObject*> mObjectList;	// ゲームオブジェクトを全部まとめて管理できるオブジェクトリスト
 
-	Quad2D		gQuadfadein;
-	Quad2D		gQuadfadeout;
+	Quad2D		mQuadfadein;
+	Quad2D		mQuadfadeout;
 public:
 	SceneBase();
 	void SetSceneManager(SceneManager* _sm) {
@@ -45,9 +45,9 @@ public:
 
 	// フェード処理
 
-	virtual void updateFadeIn(double t);
-	virtual void updateFadeOut(double t);
+	virtual void UpdateFadeIn(double t);
+	virtual void UpdateFadeOut(double t);
 
-	virtual void drawFadeIn(double t);
-	virtual void drawFadeOut(double t);
+	virtual void DrawFadeIn(double t);
+	virtual void DrawFadeOut(double t);
 };

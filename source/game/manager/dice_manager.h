@@ -7,9 +7,9 @@
 class DiceManager :Uncopyable
 {
 private:
-	std::vector<Dice*> diceList;
+	std::vector<Dice*> mDiceList;
 	StageData mCurrentStageData;
-	int diceMap[STAGESIZEMAX][STAGESIZEMAX];
+	int mDiceMap[STAGESIZEMAX][STAGESIZEMAX];
 
 	// Diceê∂ê¨
 	void DiceCreate();
@@ -28,6 +28,6 @@ public:
 	void Uninit();
 
 	// ÇªÇÃÉ}ÉXÇ…DiceÇ™ë∂ç›Ç∑ÇÈÇ©
-	bool CanPush(Dice* _dice, DIRECTION _dire);
+	bool CanPush(Dice* _dice, Direction _dire);
 };
 

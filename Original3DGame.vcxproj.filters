@@ -79,9 +79,6 @@
     <Filter Include="ソース ファイル\game\component">
       <UniqueIdentifier>{7eebec67-83f2-486a-bc56-c55687c4130b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\game\component\transform">
-      <UniqueIdentifier>{d0269909-83dc-4061-98b0-51ba047c421e}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ソース ファイル\game\component\collision">
       <UniqueIdentifier>{43b5d054-c190-4997-bc80-bbfd26b827e4}</UniqueIdentifier>
     </Filter>
@@ -243,9 +240,6 @@
     <ClCompile Include="source\game\scene\scene_base.cpp">
       <Filter>ソース ファイル\game\scene</Filter>
     </ClCompile>
-    <ClCompile Include="source\game\gameobject\camera.cpp">
-      <Filter>ソース ファイル\game\gameobject\util</Filter>
-    </ClCompile>
     <ClCompile Include="source\game\gameobject\plane.cpp">
       <Filter>ソース ファイル\game\gameobject\plane</Filter>
     </ClCompile>
@@ -257,9 +251,6 @@
     </ClCompile>
     <ClCompile Include="source\game\component\model_component.cpp">
       <Filter>ソース ファイル\game\component\draw\model</Filter>
-    </ClCompile>
-    <ClCompile Include="source\game\component\transform_component.cpp">
-      <Filter>ソース ファイル\game\component\transform</Filter>
     </ClCompile>
     <ClCompile Include="source\game\component\collision_component.cpp">
       <Filter>ソース ファイル\game\component\collision</Filter>
@@ -481,9 +472,6 @@
     </ClInclude>
     <ClInclude Include="source\game\component\model_component.h">
       <Filter>ソース ファイル\game\component\draw\model</Filter>
-    </ClInclude>
-    <ClInclude Include="source\game\component\transform_component.h">
-      <Filter>ソース ファイル\game\component\transform</Filter>
     </ClInclude>
     <ClInclude Include="source\game\component\collision_component.h">
       <Filter>ソース ファイル\game\component\collision</Filter>

@@ -11,12 +11,11 @@ private:
 	TextureInfo mTexInfo[4];
 
 	ComPtr<ID3D11Buffer> mpVertexBuffer;		// 頂点バッファ
-	//ComPtr<ID3D11Buffer> mpIndexBuffer;			// インデックスバッファ
 	ComPtr<ID3D11VertexShader> mpVertexShader;	// 頂点シェーダー
 	ComPtr<ID3D11PixelShader>  mpPixelShader;	// ピクセルシェーダー
 	ComPtr<ID3D11InputLayout>  mpVertexLayout;	// 頂点レイアウト
 
-	Float3 mScale = (DICESCALE - 0.8f, 0, DICESCALE - 0.8f);
+	Float3 mScale = (DICE_SCALE - 0.8f, 0, DICE_SCALE - 0.8f);
 
 	// 平面チップ
 	Vertex mVartex[4] = {
@@ -37,8 +36,8 @@ private:
 	};
 
 public:
-	Plane() :mScale((DICESCALE - 0.8f, 0, DICESCALE - 0.8f)), GameObject(("Plane"), ObjectType::Obstracle) { };
-	Plane(Float3 mScale) :mScale(mScale), GameObject(("Plane"), ObjectType::Obstracle) { };
+	Plane() :mScale((DICE_SCALE - 0.8f, 0, DICE_SCALE - 0.8f)), GameObject(("Plane"), ObjectType::eObstracle) { };
+	Plane(Float3 mScale) :mScale(mScale), GameObject(("Plane"), ObjectType::eObstracle) { };
 	~Plane() { /*delete[] mTexInfo;*/ };
 
 	void ObjectInit() override;

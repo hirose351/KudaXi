@@ -41,14 +41,14 @@ void SceneManager::UpdateSingle()
 	{
 	case TransitionState::FadeIn:
 		assert(mTransitionTimeMillisec);
-		mScenefactories[mCurrentscenekey]->updateFadeIn(elapsed / mTransitionTimeMillisec);
+		mScenefactories[mCurrentscenekey]->UpdateFadeIn(elapsed / mTransitionTimeMillisec);
 		return;
 	case TransitionState::Active:
 		mScenefactories[mCurrentscenekey]->Update();
 		return;
 	case TransitionState::FadeOut:
 		assert(mTransitionTimeMillisec);
-		mScenefactories[mCurrentscenekey]->updateFadeOut(elapsed / mTransitionTimeMillisec);
+		mScenefactories[mCurrentscenekey]->UpdateFadeOut(elapsed / mTransitionTimeMillisec);
 		return;
 	default:
 		return;
@@ -83,9 +83,9 @@ void SceneManager::UpdateCross()
 	{
 		const double t = elapsed / mTransitionTimeMillisec;
 
-		mScenefactories[mCurrentscenekey]->updateFadeOut(t);
+		mScenefactories[mCurrentscenekey]->UpdateFadeOut(t);
 
-		mScenefactories[mNextscenekey]->updateFadeIn(t);
+		mScenefactories[mNextscenekey]->UpdateFadeIn(t);
 
 		return;
 	}
@@ -144,7 +144,7 @@ void SceneManager::DrawScene()
 		// フェードイン描画
 
 //		TurnOffZbuffer();
-		mScenefactories[mCurrentscenekey]->drawFadeIn(elapsed / mTransitionTimeMillisec);
+		mScenefactories[mCurrentscenekey]->DrawFadeIn(elapsed / mTransitionTimeMillisec);
 		//		TurnOnZbuffer();
 	}
 	// 遷移フェードアウトなら
@@ -152,7 +152,7 @@ void SceneManager::DrawScene()
 	{
 		// フェードアウト描画
 //		TurnOffZbuffer();
-		mScenefactories[mCurrentscenekey]->drawFadeOut(elapsed / mTransitionTimeMillisec);
+		mScenefactories[mCurrentscenekey]->DrawFadeOut(elapsed / mTransitionTimeMillisec);
 		//		TurnOnZbuffer();
 	}
 	// 遷移クロスフェードなら
@@ -160,12 +160,12 @@ void SceneManager::DrawScene()
 	{
 		// フェードアウト描画
 //		TurnOffZbuffer();
-		mScenefactories[mCurrentscenekey]->drawFadeOut(elapsed / mTransitionTimeMillisec);
+		mScenefactories[mCurrentscenekey]->DrawFadeOut(elapsed / mTransitionTimeMillisec);
 		// 次のシーンが設定されていれば
 		if (!mNextscenekey.empty())
 		{
 			// フェードイン描画
-			mScenefactories[mNextscenekey]->drawFadeIn(elapsed / mTransitionTimeMillisec);
+			mScenefactories[mNextscenekey]->DrawFadeIn(elapsed / mTransitionTimeMillisec);
 		}
 		//		TurnOnZbuffer();
 	}

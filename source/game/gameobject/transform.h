@@ -17,7 +17,7 @@ struct Transform
 
 	Transform();
 
-	// Todo:‰ñ“]‚Æ‚©ˆÚ“®‚Æ‚©‚ÌŠÖ”ì‚é
+	/// Todo:‰ñ“]‚Æ‚©ˆÚ“®‚Æ‚©‚ÌŠÖ”ì‚é
 
 	// ‰Šú’l‚É–ß‚·
 	void ReSetValue();
@@ -38,17 +38,18 @@ struct Transform
 	void PositionCorrectionX(float _pos) {
 		worldMtx._41 += _pos;
 		position.x += _pos;
-		//move.x = 0;
 	}
 	void PositionCorrectionY(float _pos) {
 		worldMtx._42 += _pos;
 		position.y += _pos;
-		//move.y = 0;
+	}
+	void SetPositionY(float _pos) {
+		worldMtx._42 = _pos;
+		position.y = _pos;
 	}
 	void PositionCorrectionZ(float _pos) {
 		worldMtx._43 += _pos;
 		position.z += _pos;
-		//move.z = 0;
 	}
 	Float3 GetPosition() { return position; }
 	Float3 GetRotation() { return rotation; }

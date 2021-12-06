@@ -20,6 +20,7 @@ using Microsoft::WRL::ComPtr;
 class MaingameScene : public SceneBase
 {
 private:
+
 public:
 	MaingameScene();
 	~MaingameScene();
