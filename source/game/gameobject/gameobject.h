@@ -74,12 +74,11 @@ public:
 //			コンポーネント関係
 //----------------------------------------------------
 
-// コンポーネントを追加する
-// AddComponent<追加したいコンポーネントのクラス名>()という形で使う
+// コンポーネント追加
 template<class T>
 T* GameObject::AddComponent()
 {
-	T* newComponent = new T();	// newしたのでdeleteを忘れずに（デストラクタでやってる）
+	T* newComponent = new T();
 	if (dynamic_cast<ComponentBase*>(newComponent) != nullptr)
 	{
 		newComponent->SetOwner(this);
@@ -89,8 +88,7 @@ T* GameObject::AddComponent()
 	return newComponent;
 }
 
-// コンポーネントを取得する
-// GetComponent<コンポーネントのクラス名>()->コンポーネントのメソッド()という形で使う
+// コンポーネント取得
 template<class T>
 T* GameObject::GetComponent()
 {
@@ -105,19 +103,18 @@ T* GameObject::GetComponent()
 	return nullptr;	// 当該コンポーネントがなければnullptrをreturn
 }
 
-// コンポーネントを削除する。使い方は上記二つに準ずる。
+// コンポーネント削除
 template<class T>
 void GameObject::RemoveComponent()
 {
-	for (unsigned int i = 0; i < componentList.size(); i++) // 削除はこっちのforが作りやすい
+	for (unsigned int i = 0; i < componentList.size(); i++)
 	{
 		T* toRemove = dynamic_cast<T*>(componentList[i]);
 		if (toRemove != nullptr)
 		{
-			componentList.erase(componentList.begin() + i);		// 楽に作るとこうなるが、リストの要素数が増えるとeraseは重いので、別の方法を使った方が良い。がんば！（ブン投げ）
-			// componentList.shrink_to_fit();					// リストのcapasityとsizeの不一致が気になるならこれを入れてもいい。ただしほんの少し重くなる。
-
-			return;// やることは終わったのでreturn
+			componentList.erase(componentList.begin() + i);
+			componentList.shrink_to_fit();
+			return;
 		}
 	}
 }

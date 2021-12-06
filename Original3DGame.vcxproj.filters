@@ -109,6 +109,9 @@
     <Filter Include="ソース ファイル\game\gameobject\stage">
       <UniqueIdentifier>{498f6ac7-8290-4d56-8715-fbcc922458cf}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\game\state">
+      <UniqueIdentifier>{20a5849b-c6fb-4f0d-8a0b-6354cde63573}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\game.cpp">
@@ -299,6 +302,9 @@
     </ClCompile>
     <ClCompile Include="source\system\util\INT3.cpp">
       <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="source\game\state\state.cpp">
+      <Filter>ソース ファイル\game\state</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -520,6 +526,9 @@
     </ClInclude>
     <ClInclude Include="source\system\util\INT3.h">
       <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="source\game\state\state.h">
+      <Filter>ソース ファイル\game\state</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -36,18 +36,18 @@ struct Transform
 	void SetAngle(const Float3& _ang) { angle = _ang; }
 	void SetMtx(const DirectX::XMFLOAT4X4 _mtx) { worldMtx = _mtx; }
 	void PositionCorrectionX(float _pos) {
-		worldMtx._41 -= _pos;
-		position.x -= _pos;
+		worldMtx._41 += _pos;
+		position.x += _pos;
 		//move.x = 0;
 	}
 	void PositionCorrectionY(float _pos) {
-		worldMtx._42 -= _pos;
-		position.y -= _pos;
+		worldMtx._42 += _pos;
+		position.y += _pos;
 		//move.y = 0;
 	}
 	void PositionCorrectionZ(float _pos) {
-		worldMtx._43 -= _pos;
-		position.z -= _pos;
+		worldMtx._43 += _pos;
+		position.z += _pos;
 		//move.z = 0;
 	}
 	Float3 GetPosition() { return position; }

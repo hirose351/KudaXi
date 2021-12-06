@@ -33,8 +33,6 @@ void Player::ObjectInit()
 
 void Player::ObjectUpdate()
 {
-	mTransform.beforeMtx = mTransform.worldMtx;
-
 	Float3 rotCamera(0, 0, 0);
 	float radian;
 	if (!mIsDiceMove)
@@ -145,20 +143,15 @@ void Player::ObjectUpdate()
 	// ˆÚ“®—Ê‚ÉŠµ«‚ğ‚©‚¯‚é(Œ¸‘¬Šµ«)
 	mTransform.move += (mTransform.move*-1.0f) * RATE_MOVE_MODEL;
 	// ‰ñ“]‚ğ”½‰fA•½sˆÚ“®‚ğ”½‰f
-	Float3 degree((mTransform.rotation* 180.0f) / XM_PI);
+	mTransform.angle = ((mTransform.rotation* 180.0f) / XM_PI);
 
 	mTransform.position.y = DICESCALE / 2.0f - 3;
 
-	DX11MakeWorldMatrix(mTransform.worldMtx, degree, mTransform.position);
+	mTransform.CreateMtx();
 }
-
-//void Player::Draw()
-//{
-//}
 
 void Player::Uninit()
 {
-	//mpModel->Uninit();
 }
 
 void Player::OnCollisionEnter(ComponentBase* _oher)
@@ -195,20 +188,13 @@ void Player::OnColEnterObj(Dice * _other)
 
 	if (_other->Push(mDirection))
 	{
-
-	}
-	else
-	{
-		a = mTransform.beforeMtx;
-		mTransform.move = 0;
+		// ó‘Ô‚ğ•Ï‚¦‚é
 	}
 	isDiceOperation = true;
 }
 
 void Player::OnColStayObj(Dice * _other)
 {
-	mTransform.worldMtx = a;
-	mTransform.move = 0;
 }
 
 void Player::OnColExitObj(Dice * _other)

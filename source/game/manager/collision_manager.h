@@ -16,7 +16,7 @@ public:
 		static CollisionManager Instance;
 		return Instance;
 	}
-	~CollisionManager() {}
+	virtual ~CollisionManager() {}
 
 	// ’Ç‰Á
 	void AddCollision(Component::CollisionComponent *_col);

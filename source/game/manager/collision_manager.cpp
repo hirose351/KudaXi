@@ -14,9 +14,22 @@ void CollisionManager::RemoveCollision(Component::CollisionComponent *_col)
 
 float hisei(float aHl, float aP, float bHl, float bP)
 {
-	if (aP > bP)
+	if (aP < bP)
+	{
+		if (-((aHl + bHl) - std::abs(aP - bP)) < -0.5f)
+		{
+			return -((aHl + bHl) - std::abs(aP - bP));
+		}
 		return -((aHl + bHl) - std::abs(aP - bP));
-	return (aHl + bHl) - std::abs(aP - bP);
+	}
+	else
+	{
+		if (((aHl + bHl) - std::abs(aP - bP)) > 0.5f)
+		{
+			return (aHl + bHl) - std::abs(aP - bP);
+		}
+		return (aHl + bHl) - std::abs(aP - bP);
+	}
 }
 void CollisionManager::Update()
 {
@@ -56,6 +69,7 @@ void CollisionManager::Update()
 					std::cout << "Z•â³\n";
 					(*itA).GetPtr()->GetOwner()->GetTransform()->PositionCorrectionZ(hisei(a.hl.z, a.p.z, b.hl.z, b.p.z));
 				}
+				(*itA).GetPtr()->GetOwner()->GetTransform()->CreateMtx();
 			}
 			else if ((*itB).GetPtr()->GetOwner()->GetObjectType() == ObjectType::Player)
 			{
@@ -74,6 +88,7 @@ void CollisionManager::Update()
 					std::cout << "Z•â³\n";
 					(*itB).GetPtr()->GetOwner()->GetTransform()->PositionCorrectionY(hisei(a.hl.y, a.p.y, b.hl.y, b.p.y));
 				}
+				(*itB).GetPtr()->GetOwner()->GetTransform()->CreateMtx();
 			}
 		}
 

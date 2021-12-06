@@ -9,7 +9,6 @@ using Microsoft::WRL::ComPtr;
 class Player :public GameObject/*, CollisionInterface*/
 {
 private:
-	//CModel*	mpModel;							// ３Ｄモデル
 	DIRECTION mDiceMoveDirection;				// サイコロを回転させる方向
 	bool mIsDiceMove = false;					// サイコロが回転しているか
 	DIRECTION mDirection;						// プレイヤーの方向(キー参照)
@@ -19,13 +18,6 @@ private:
 
 	bool isDiceOperation = false;
 	Dice* mdice;
-
-	DirectX::XMFLOAT4X4 a;
-
-	//// モデルポインタ取得
-	//void SetModel(CModel* p) {
-	//	mpModel = p;
-	//}
 public:
 	Player() : GameObject(("Player"), ObjectType::Player) {
 		bool sts = ModelMgr::GetInstance().LoadModel(

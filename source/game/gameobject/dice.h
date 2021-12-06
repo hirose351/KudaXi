@@ -46,15 +46,15 @@ private:
 	int mCrrentPushCnt = 0;								// 今の回転回数
 	const float mPushPisitionPerFrame = DICESCALE / mRotCnt;
 
+	const int mUpCnt = 150;
+	const float mUpPisitionPerFrame = DICESCALE / mUpCnt;
+
 	// 上の面を特定
 	DICETYPE OverPlane();
 	// 回転移動セット
 	void SetRollDirection(DIRECTION _direction);
 
-	//// モデルポインタ取得
-	//void SetModel(CModel* p) {
-	//	mpModel = p;
-	//}
+	void Up();
 public:
 	Dice() :GameObject(("Dice"), ObjectType::Dice) {
 		bool sts = ModelMgr::GetInstance().LoadModel(
@@ -108,8 +108,8 @@ public:
 	void SetMapPos(INT3 _i3) { mapPos = _i3; };
 	INT3 GetMapPos() { return mapPos; };
 
-	//void OnCollisionEnter(GameObject* _oher) override;
-	//void OnCollisionStay(GameObject* _oher) override;
-	//void OnCollisionExit(GameObject* _oher) override;
+	void OnCollisionEnter(ComponentBase* _oher) override;
+	void OnCollisionStay(ComponentBase* _oher) override;
+	void OnCollisionExit(ComponentBase* _oher) override;
 };
 

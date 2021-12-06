@@ -161,6 +161,7 @@
     <ClCompile Include="source\game\scene\scene_base.cpp" />
     <ClCompile Include="source\game\scene\maingame_scene.cpp" />
     <ClCompile Include="source\game\scene\title_scene.cpp" />
+    <ClCompile Include="source\game\state\state.cpp" />
     <ClCompile Include="source\system\dx11\CDirectXGraphics.cpp" />
     <ClCompile Include="source\system\dx11\DDSTextureLoader.cpp" />
     <ClCompile Include="source\system\dx11\dx11mathutil.cpp" />
@@ -229,6 +230,7 @@
     <ClInclude Include="source\game\scene\scene_base.h" />
     <ClInclude Include="source\game\scene\maingame_scene.h" />
     <ClInclude Include="source\game\scene\title_scene.h" />
+    <ClInclude Include="source\game\state\state.h" />
     <ClInclude Include="source\macro.h" />
     <ClInclude Include="source\Memory.h" />
     <ClInclude Include="source\system\dx11\CDirectInput.h" />

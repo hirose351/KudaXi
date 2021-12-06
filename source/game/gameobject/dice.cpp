@@ -18,99 +18,112 @@ void Dice::ObjectInit()
 	// 初期値を入れる
 	mTransform.angle = { 0,0,0 };
 	mDirection = DIRECTION::NEUTRAL;
-	mCrrentRotCnt = 0;
+	mSts = DICESTATUS::NORMAL;
+	Up();
 }
 
 void Dice::ObjectUpdate()
 {
-	//ニュートラル以外で落ちていない場合
-	if (mDirection != DIRECTION::NEUTRAL)
+	////ニュートラル以外で落ちていない場合
+	//if (mDirection != DIRECTION::NEUTRAL)
+	//{
+	if (mSts == DICESTATUS::ROLL)
 	{
-		if (mSts == DICESTATUS::ROLL)
+		//行列を作成(ワールドの軸を中心に回転)
+		DX11MtxMultiply(mTransform.worldMtx, mTransform.worldMtx, mMtxFrame);
+
+		//半径を計算
+		const static float radius = static_cast<float>((DICESCALE / 2.0f)*sqrt(2));		// DICESCALE*ルート2/2＝DICESCALE/2.0f*ルート2
+
+		//45度から回転角度を足し算
+		float nowcenterposy = radius * sin(ToRad(45 + mRotAnglePerFrame * mCrrentRotCnt));
+
+		//移動量の計算
+		Float3 pos = { mRotateStartPos.x,0.0f,mRotateStartPos.z };
+		Float3 endpos;
+		float t;
+
+		if (mDirection == DIRECTION::RIGHT)
 		{
-			//行列を作成(ワールドの軸を中心に回転)
-			DX11MtxMultiply(mTransform.worldMtx, mTransform.worldMtx, mMtxFrame);
-
-			//半径を計算
-			const static float radius = static_cast<float>((DICESCALE / 2.0f)*sqrt(2));		// DICESCALE*ルート2/2＝DICESCALE/2.0f*ルート2
-
-			//45度から回転角度を足し算
-			float nowcenterposy = radius * sin(ToRad(45 + mRotAnglePerFrame * mCrrentRotCnt));
-
-			//移動量の計算
-			Float3 pos = { mRotateStartPos.x,0.0f,mRotateStartPos.z };
-			Float3 endpos;
-			float t;
-
-			if (mDirection == DIRECTION::RIGHT)
-			{
-				//割合を計算
-				t = static_cast<float>(mCrrentRotCnt + 1) / static_cast<float>(mRotCnt);
-				//終了位置を計算
-				endpos.x = mRotateStartPos.x + DICESCALE;
-				//線形補間の式でX座標を計算
-				pos.x = mRotateStartPos.x *(1.0f - t) + endpos.x*t;
-			}
-
-			if (mDirection == DIRECTION::LEFT)
-			{
-				//割合を計算
-				t = static_cast<float>(mCrrentRotCnt + 1) / static_cast<float>(mRotCnt);
-				//終了位置を計算
-				endpos.x = mRotateStartPos.x - DICESCALE;
-				//線形補間の式でX座標を計算
-				pos.x = mRotateStartPos.x *(1.0f - t) + endpos.x*t;
-			}
-
-			if (mDirection == DIRECTION::UP)
-			{
-				//割合を計算
-				t = static_cast<float>(mCrrentRotCnt + 1) / static_cast<float>(mRotCnt);
-				//終了位置を計算
-				endpos.z = mRotateStartPos.z + DICESCALE;
-				//線形補間の式でX座標を計算
-				pos.z = mRotateStartPos.z *(1.0f - t) + endpos.z*t;
-			}
-
-			if (mDirection == DIRECTION::DOWN)
-			{
-				//割合を計算
-				t = static_cast<float>(mCrrentRotCnt + 1) / static_cast<float>(mRotCnt);
-				//終了位置を計算
-				endpos.z = mRotateStartPos.z - DICESCALE;
-				//線形補間の式でX座標を計算
-				pos.z = mRotateStartPos.z *(1.0f - t) + endpos.z*t;
-			}
-
-			//原点の位置を補正
-			mTransform.worldMtx._41 = pos.x;
-			mTransform.worldMtx._42 = nowcenterposy - DICESCALE / 2.0f;
-			mTransform.worldMtx._43 = pos.z;
-
-			//回転数をカウントアップ
-			mCrrentRotCnt++;
-
-			// 回転が終わったら元の状態に戻す
-			if (mCrrentRotCnt >= mRotCnt)
-			{
-				//PlaySound(SOUND_LABEL_SE_DICE);
-				mDirection = DIRECTION::NEUTRAL;
-				mCrrentRotCnt = 0;
-				// 回転後の面に設定
-				mTopDiceType = OverPlane();
-				/// 接しているブロックと面が同じかチェック
-				/// ステップ数減らす
-			}
+			//割合を計算
+			t = static_cast<float>(mCrrentRotCnt + 1) / static_cast<float>(mRotCnt);
+			//終了位置を計算
+			endpos.x = mRotateStartPos.x + DICESCALE;
+			//線形補間の式でX座標を計算
+			pos.x = mRotateStartPos.x *(1.0f - t) + endpos.x*t;
 		}
-		else if (mSts == DICESTATUS::PUSH)
+
+		if (mDirection == DIRECTION::LEFT)
 		{
-			mTransform.AddPosition();
-			mTransform.CreateMtx();
-			mCrrentPushCnt++;
-			if (mCrrentPushCnt >= mRotCnt)
-			{
-				mDirection = DIRECTION::NEUTRAL;
-			}
+			//割合を計算
+			t = static_cast<float>(mCrrentRotCnt + 1) / static_cast<float>(mRotCnt);
+			//終了位置を計算
+			endpos.x = mRotateStartPos.x - DICESCALE;
+			//線形補間の式でX座標を計算
+			pos.x = mRotateStartPos.x *(1.0f - t) + endpos.x*t;
+		}
+
+		if (mDirection == DIRECTION::UP)
+		{
+			//割合を計算
+			t = static_cast<float>(mCrrentRotCnt + 1) / static_cast<float>(mRotCnt);
+			//終了位置を計算
+			endpos.z = mRotateStartPos.z + DICESCALE;
+			//線形補間の式でX座標を計算
+			pos.z = mRotateStartPos.z *(1.0f - t) + endpos.z*t;
+		}
+
+		if (mDirection == DIRECTION::DOWN)
+		{
+			//割合を計算
+			t = static_cast<float>(mCrrentRotCnt + 1) / static_cast<float>(mRotCnt);
+			//終了位置を計算
+			endpos.z = mRotateStartPos.z - DICESCALE;
+			//線形補間の式でX座標を計算
+			pos.z = mRotateStartPos.z *(1.0f - t) + endpos.z*t;
+		}
+
+		//原点の位置を補正
+		mTransform.worldMtx._41 = pos.x;
+		mTransform.worldMtx._42 = nowcenterposy - DICESCALE / 2.0f;
+		mTransform.worldMtx._43 = pos.z;
+
+		//回転数をカウントアップ
+		mCrrentRotCnt++;
+
+		// 回転が終わったら元の状態に戻す
+		if (mCrrentRotCnt >= mRotCnt)
+		{
+			//PlaySound(SOUND_LABEL_SE_DICE);
+			mDirection = DIRECTION::NEUTRAL;
+			mSts = DICESTATUS::NORMAL;
+			mCrrentRotCnt = 0;
+			// 回転後の面に設定
+			mTopDiceType = OverPlane();
+			/// 接しているブロックと面が同じかチェック
+			/// ステップ数減らす
+		}
+	}
+	else if (mSts == DICESTATUS::PUSH)
+	{
+		mTransform.AddPosition();
+		mTransform.CreateMtx();
+		mCrrentPushCnt++;
+		if (mCrrentPushCnt >= mRotCnt)
+		{
+			mDirection = DIRECTION::NEUTRAL;
+			mSts = DICESTATUS::NORMAL;
+		}
+	}
+	else if (mSts == DICESTATUS::UP)
+	{
+		mTransform.AddPosition();
+		mTransform.CreateMtx();
+		mCrrentPushCnt++;
+		if (mCrrentPushCnt >= mUpCnt)
+		{
+			mDirection = DIRECTION::NEUTRAL;
+			mSts = DICESTATUS::NORMAL;
 		}
 	}
 }
@@ -232,6 +245,12 @@ void Dice::SetRollDirection(DIRECTION _direction)
 	}
 }
 
+void Dice::Up()
+{
+	mTransform.move.y = mUpPisitionPerFrame;
+	mSts = DICESTATUS::UP;
+}
+
 //増した方向の面を特定
 DICETYPE Dice::OverPlane() {
 	Float3 underaxis = { 0,-1,0 };
@@ -279,14 +298,14 @@ DICETYPE Dice::OverPlane() {
 	return DICETYPE::APPLE;
 }
 
-//void Dice::OnCollisionEnter(GameObject* _oher)
-//{
-//}
-//
-//void Dice::OnCollisionStay(GameObject* _oher)
-//{
-//}
-//
-//void Dice::OnCollisionExit(GameObject* _oher)
-//{
-//}
+void Dice::OnCollisionEnter(ComponentBase* _oher)
+{
+}
+
+void Dice::OnCollisionStay(ComponentBase* _oher)
+{
+}
+
+void Dice::OnCollisionExit(ComponentBase* _oher)
+{
+}
