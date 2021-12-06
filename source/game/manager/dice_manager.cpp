@@ -80,8 +80,8 @@ bool DiceManager::CanPush(Dice* _dice, DIRECTION _dire)
 
 	if (diceMap[afterPos.z][afterPos.x] <= 0)
 	{
-		diceMap[_dice->GetMapPos().z][_dice->GetMapPos().x] = -1;
 		diceMap[afterPos.z][afterPos.x] = diceMap[_dice->GetMapPos().z][_dice->GetMapPos().x];
+		diceMap[_dice->GetMapPos().z][_dice->GetMapPos().x] = 0;
 		_dice->SetMapPos(afterPos);
 		return true;
 	}

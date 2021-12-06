@@ -13,6 +13,8 @@ class ComponentBase;
 class GameObject
 {
 protected:
+	//GameObject		mParent;
+
 	Transform		mTransform;		// 位置回転大きさ
 	std::string		mName;			// 名前
 	unsigned int	mObjectID;		// オブジェクトID番号

@@ -111,5 +111,8 @@ public:
 	void OnCollisionEnter(ComponentBase* _oher) override;
 	void OnCollisionStay(ComponentBase* _oher) override;
 	void OnCollisionExit(ComponentBase* _oher) override;
+
+	float GetmPushPositionPerFrame() { return mPushPisitionPerFrame; }
+	bool GetPush() { return mCrrentPushCnt == mRotCnt; }
 };
 

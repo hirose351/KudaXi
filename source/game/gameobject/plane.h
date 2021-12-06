@@ -16,7 +16,7 @@ private:
 	ComPtr<ID3D11PixelShader>  mpPixelShader;	// ピクセルシェーダー
 	ComPtr<ID3D11InputLayout>  mpVertexLayout;	// 頂点レイアウト
 
-	Float3 mScale = (DICESCALE - 0.6f, 0, DICESCALE - 0.6f);
+	Float3 mScale = (DICESCALE - 0.8f, 0, DICESCALE - 0.8f);
 
 	// 平面チップ
 	Vertex mVartex[4] = {
@@ -37,7 +37,7 @@ private:
 	};
 
 public:
-	Plane() :mScale((DICESCALE - 0.6f, 0, DICESCALE - 0.6f)), GameObject(("Plane"), ObjectType::Obstracle) { };
+	Plane() :mScale((DICESCALE - 0.8f, 0, DICESCALE - 0.8f)), GameObject(("Plane"), ObjectType::Obstracle) { };
 	Plane(Float3 mScale) :mScale(mScale), GameObject(("Plane"), ObjectType::Obstracle) { };
 	~Plane() { /*delete[] mTexInfo;*/ };
 
