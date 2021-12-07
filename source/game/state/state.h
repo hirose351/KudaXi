@@ -3,11 +3,18 @@
 #include	"../../system/util/dixsmartptr.h"
 
 
-enum Pstate {
-	eStop,
+enum Pstate
+{
+	eStop,	// é¿ç€ÇÕïKóvÇ»Ç¢
 	eMove,
 	ePush,
 	eRoll,
+};
+
+enum class Foot
+{
+	eFloor,
+	eDice
 };
 
 class State

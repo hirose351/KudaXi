@@ -2,25 +2,16 @@
 
 void Stage::ObjectInit()
 {
-	//for (int cnt = 0; cnt<;i++;)
-	//{
-	//	// 座標指定
-	//	(*plane)->GetTransform()->SetPosition(mCurrentStageData.mFloorMap[cnt%mCurrentStageData.mMapSizeWidth][cnt]);
-
-	//	plane++;
-	//}
-
 	/// Todo:現在のステージを取得する処理を加える
+
+	/// Todo:ゲーム開始時にカメラを移動できるように
+
 
 	mPlane.Init();
 }
 
 void Stage::ObjectDraw()
 {
-	//for (auto plane : planeList)
-	//{
-	//	(*plane).Draw();
-	//}
 	for (int z = 0; z < mCurrentStageData.mMapSizeHeight; z++)
 	{
 		for (int x = 0; x < mCurrentStageData.mMapSizeWidth; x++)

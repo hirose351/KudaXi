@@ -32,6 +32,9 @@ namespace Component {
 
 		void ColUpdate();
 
+		// éÛÇØéÊÇ¡ÇΩç¿ïWÇ©ÇÁç≈Ç‡ãﬂÇ¢DiceÇï‘Ç∑
+		GameObject* GetNearestDice(Float3 _pos);
+
 		void SetHitObj(Component::CollisionComponent* _hitobj);
 		void SetLocalScale(Float3 _scale) { mPrim.hl = _scale; };
 		void SetLocalPos(Float3 _localPos) { mLocalPos = _localPos; };

@@ -1,8 +1,10 @@
 #pragma once
 #include	<directxmath.h>
 #include	"../../Memory.h"
+#include	"../../system/util/uncopyable.h"
+#include	"../../system/util/vector.h"
 
-class CCamera {
+class CCamera :Uncopyable {
 private:
 	CCamera() {	}
 	DirectX::XMFLOAT4X4		mProjection;
@@ -17,11 +19,6 @@ private:
 	float			mFov;
 	float			mFar;
 public:
-	CCamera(const CCamera&) = delete;
-	CCamera& operator=(const CCamera&) = delete;
-	CCamera(CCamera&&) = delete;
-	CCamera& operator=(CCamera&&) = delete;
-
 	static CCamera* GetInstance() {
 		static CCamera instance;
 		return &instance;
@@ -35,21 +32,13 @@ public:
 		SetCamera(eye, lookat, up);
 	}
 
-	void SetNear(float nearclip) {
-		mNear = nearclip;
-	}
+	void CreateCameraMatrix();
+	void CreateProjectionMatrix();
 
-	void SetFar(float farclip) {
-		mFar = farclip;
-	}
-
-	void SetFov(float fov) {
-		mFov = fov;
-	}
-
-	void SetAspect(float width, float height) {
-		mAspect = width / height;
-	}
+	void SetNear(float nearclip) { mNear = nearclip; }
+	void SetFar(float farclip) { mFar = farclip; }
+	void SetFov(float fov) { mFov = fov; }
+	void SetAspect(float width, float height) { mAspect = width / height; }
 
 	void SetProjection(float nearclip, float farclip, float fov, float width, float height) {
 		SetNear(nearclip);
@@ -67,43 +56,14 @@ public:
 		CreateCameraMatrix();
 	}
 
-	void SetEye(const DirectX::XMFLOAT3& eye) {
-		mEye = eye;
-	}
+	void SetEye(const DirectX::XMFLOAT3& eye) { mEye = eye; }
+	void SetLookat(const DirectX::XMFLOAT3& lookat) { mLookat = lookat; }
+	void SetUp(const DirectX::XMFLOAT3& _up) { mUp = _up; }
 
-	void SetLookat(const DirectX::XMFLOAT3& lookat) {
-		mLookat = lookat;
-	}
-
-	void SetUp(const DirectX::XMFLOAT3& _up) {
-		mUp = _up;
-	}
-
-	void CreateCameraMatrix();
-
-	void CreateProjectionMatrix();
-
-	const DirectX::XMFLOAT4X4& GetCameraMatrix() {
-		return mCamera;
-	}
-
-	const DirectX::XMFLOAT4X4& GetProjectionMatrix() {
-		return mProjection;
-	}
-
-	float GetFov() const {
-		return mFov;
-	}
-
-	const DirectX::XMFLOAT3& GetEye() const {
-		return mEye;
-	}
-
-	const DirectX::XMFLOAT3& GetLookat() const {
-		return mLookat;
-	}
-
-	const DirectX::XMFLOAT3& GetUp() const {
-		return mUp;
-	}
+	float GetFov() const { return mFov; }
+	const DirectX::XMFLOAT4X4& GetCameraMatrix() { return mCamera; }
+	const DirectX::XMFLOAT4X4& GetProjectionMatrix() { return mProjection; }
+	const DirectX::XMFLOAT3& GetEye() const { return mEye; }
+	const DirectX::XMFLOAT3& GetLookat() const { return mLookat; }
+	const DirectX::XMFLOAT3& GetUp() const { return mUp; }
 };

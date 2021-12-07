@@ -2,58 +2,42 @@
 #include	"gameobject.h"
 #include	"../../system/model/ModelMgr.h"
 #include	"../component/allcomponents.h"
-#include	"../../system/util/INT3.h"
+#include	"../state/dice_state.h"
 
 using Microsoft::WRL::ComPtr;
-
-// サイコロの面の種類
-enum class DICETYPE {
-	PEACH,
-	MELON,
-	BLUEBERRY,
-	BANANA,
-	APPLE,
-	ORANGE,
-	DICETYPE_MAX,
-};
-
-// サイコロの状態
-enum class DICESTATUS {
-	NORMAL,		// 通常
-	ROLL,		// 回転
-	PUSH,		// 押す
-	DOWN,		// 沈む
-	HALFDOWN,	// 半分沈む
-	UP,	// 半分沈む
-};
 
 class Dice : public GameObject
 {
 private:
-	INT3 mMapPos;
+	INT3 mMapPos;										// マップ上の位置
 	DICETYPE mTopDiceType;								// 上面
-	DICESTATUS mSts;	// 生存状態
+	DICESTATUS mSts;									// 状態
 	Direction mDirection = Direction::eNeutral;			// サイコロの移動方向	
 
 	DirectX::XMFLOAT4X4 mMtxFrame;						// 1フレームでの変化を表す行列	
-	Float3 mRotateStartPos;									// キー入力された際の開始位置	
+	Float3 mRotateStartPos;								// キー入力された際の開始位置	
 
-	const int mMoveCnt = 12;							// 90度回転、押されるのに必要な更新回数
+	const int mMoveCnt = 16;							// 90度回転、押されるのに必要な更新回数
 	int mCrrentRotCnt = 0;								// 今の回転回数	
 	const float mRotAnglePerFrame = 90.0f / mMoveCnt;	// 1回当たりの回転角度	
 
 	int mCrrentPushCnt = 0;								// 今の回転回数
-	const float mPushPisitionPerFrame = DICE_SCALE / mMoveCnt;
+	const float mPushPositionPerFrame = DICE_SCALE / mMoveCnt;
 
 	const int mUpCnt = 150;
-	const float mUpPisitionPerFrame = DICE_SCALE / mUpCnt;
+	const float mUpPositionPerFrame = DICE_SCALE / mUpCnt;
 
 	// 上の面を特定
 	DICETYPE OverPlane();
 	// 回転移動セット
 	void SetRollDirection(Direction _direction);
+	void StartUpPosition();
 
-	void Up();
+	// 移動する
+	void Push();
+	// 回転する
+	void Roll();
+
 public:
 	Dice() :GameObject(("Dice"), ObjectType::eDice) {
 		bool sts = ModelMgr::GetInstance().LoadModel(
@@ -64,10 +48,10 @@ public:
 		{
 			MessageBox(nullptr, "Diceモデル 読み込みエラー", "error", MB_OK);
 		}
-		//mTransform.SetScale(15.0f);
 		AddComponent<Component::ModelComponent>()->SetModel(ModelMgr::GetInstance().GetModelPtr("assets/model/dice/Dice.fbx"));
-		AddComponent<Component::CollisionComponent>()->SetInitState(ObjectTag::DiceTop, Float3(0, 7, 0), Float3(8.5f, 8.5f*0.2f, 8.5f), DirectX::XMFLOAT4(0, 1, 0, 0.3f));
-		AddComponent<Component::CollisionComponent>()->SetInitState(ObjectTag::Dice, Float3(0, -2, 0), Float3(8.5f, 8.5f*0.8f, 8.5f), DirectX::XMFLOAT4(0, 0, 1, 0.3f));
+		//AddComponent<Component::CollisionComponent>()->SetInitState(ObjectTag::DiceTop, Float3(0, 7.65f, 0), Float3(8.5f, 1.7f, 8.5f), DirectX::XMFLOAT4(0, 1, 0, 0.3f));
+		//AddComponent<Component::CollisionComponent>()->SetInitState(ObjectTag::Dice, Float3(0, -0.85f, 0), Float3(8.5f, 6.8f, 8.5f), DirectX::XMFLOAT4(0, 0, 1, 0.3f));
+		AddComponent<Component::CollisionComponent>()->SetInitState(ObjectTag::Dice, Float3(0, 0, 0), Float3(DICE_SCALE_HALF), DirectX::XMFLOAT4(0, 0, 1, 0.3f));
 		ObjectInit();
 	}
 	~Dice()override;
@@ -75,6 +59,7 @@ public:
 	void ObjectInit() override;
 	void ObjectUpdate()override;
 	void ObjectDraw()override;
+	void ObjectImguiDraw()override {};
 	void Uninit()override;
 
 	// 初期面セット
@@ -83,9 +68,9 @@ public:
 	}
 
 	// 指定方向に移動
-	bool Push(Direction _direction);
+	bool SetPushAction(Direction _direction);
 	// 指定方向に回転
-	bool Roll(Direction _direction);
+	bool SetRollAction(Direction _direction);
 
 	// 上面取得
 	DICETYPE GetTopDiceType() {
@@ -111,7 +96,9 @@ public:
 	void OnCollisionStay(ComponentBase* _oher) override;
 	void OnCollisionExit(ComponentBase* _oher) override;
 
-	float GetmPushPositionPerFrame() { return mPushPisitionPerFrame; }
+	float GetmPushPositionPerFrame() { return mPushPositionPerFrame; }
+	float GetmRollmRotAnglePerFrame() { return mRotAnglePerFrame; }
 	bool GetPush() { return mCrrentPushCnt == mMoveCnt; }
+	bool GetRoll() { return mCrrentRotCnt >= mMoveCnt - 1; }
 };
 

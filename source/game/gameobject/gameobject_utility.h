@@ -1,8 +1,10 @@
 #pragma once
 #define	DICE_SCALE			(16.2f)
+#define	DICE_SCALE_HALF		(DICE_SCALE/2.0f)
 
 // ˆÚ“®•ûŒü
-enum class Direction {
+enum class Direction
+{
 	eNeutral,			// –³‚µ
 	eUp,				// ã
 	eDown,				// ‰º

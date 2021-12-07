@@ -42,6 +42,7 @@ public:
 	virtual void ObjectInit() = 0;
 	virtual void ObjectUpdate() = 0;
 	virtual void ObjectDraw() = 0;
+	virtual void ObjectImguiDraw() = 0;
 	virtual void Uninit() = 0;
 
 	virtual void OnCollisionEnter(ComponentBase* _oher) {};

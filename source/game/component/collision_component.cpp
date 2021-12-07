@@ -97,6 +97,40 @@ void CollisionComponent::ColUpdate()
 	mHitColList.shrink_to_fit();
 }
 
+GameObject* CollisionComponent::GetNearestDice(Float3 _pos)
+{
+	CollisionComponent* colData = nullptr;
+	float shortDistance = 0;
+	float distance = 0;
+
+	// リストに存在するオブジェクトがDiceであれば受け取った座標との距離を測る
+	for (auto obj = mHitColList.begin(); obj != mHitColList.end(); obj++)
+	{
+		if ((*obj)->col->GetTag() != ObjectTag::Dice)
+			continue;
+		if (colData == nullptr)
+		{
+			colData = (*obj)->col;
+			DX11p2pLength(_pos, colData->GetPrim()->p, shortDistance);
+			continue;
+		}
+		DX11p2pLength(_pos, (*obj)->col->GetPrim()->p, distance);
+		if (distance < shortDistance)
+		{
+			colData = (*obj)->col;
+			shortDistance = distance;
+		}
+	}
+	if (colData == nullptr)
+		return nullptr;
+
+	std::cout << "保持Dice基準Y補正\n";
+	mOwner->GetTransform()->SetPositionY(colData->GetPrim()->p.y + colData->GetPrim()->hl.y + mPrim.hl.y - 0.5f);
+	//mOwner->GetTransform()->CreateMtx();
+	//mOwner->Update();
+	return colData->GetOwner();
+}
+
 void CollisionComponent::SetHitObj(CollisionComponent* _hitobj)
 {
 	// リストに存在するオブジェクトか
@@ -111,7 +145,6 @@ void CollisionComponent::SetHitObj(CollisionComponent* _hitobj)
 			(*obj)->isHit = true;
 			return;
 		}
-
 	}
 	// リストに新規で入れる
 	sp<CollisionData> colData;

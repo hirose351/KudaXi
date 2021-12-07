@@ -1,5 +1,6 @@
 #pragma once
 #include	"../manager/SceneManager.h"
+#include	"../../system/util/vector.h"
 #include	"XAudio2.h"
 
 class SceneManager;
@@ -13,6 +14,10 @@ private:
 
 	Quad2D		mQuadfadein;
 	Quad2D		mQuadfadeout;
+
+protected:
+	Float3 mCameraLookat;			// ƒJƒƒ‰‚Ì’‹“_
+
 public:
 	SceneBase();
 	void SetSceneManager(SceneManager* _sm) {

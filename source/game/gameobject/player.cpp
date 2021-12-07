@@ -25,7 +25,7 @@ void Player::ObjectInit()
 {
 	mTransform.ReSetValue();
 
-	mTransform.SetPosition(Float3(mInitMapPos.x*DICE_SCALE, -DICE_SCALE / 2.0f, -mInitMapPos.z*DICE_SCALE));
+	mTransform.SetPosition(Float3(mInitMapPos.x*DICE_SCALE, DICE_SCALE / 2.0f, -mInitMapPos.z*DICE_SCALE));
 	mTransform.CreateMtx();
 
 	mDirection = Direction::eDown;
@@ -46,9 +46,13 @@ void Player::ObjectUpdate()
 		{
 			mStartCount--;
 		}
+		break;
 	case eMove:
+		// 重力仮
+		//mTransform.PositionCorrectionY(-1);
 		Move();
-		break;;
+		CheckRoll();
+		break;
 	case ePush:
 		Push();
 		break;
@@ -56,6 +60,25 @@ void Player::ObjectUpdate()
 		Roll();
 		break;
 	}
+
+	if (mpOperationDice == nullptr)
+		return;
+	// 最も近いサイコロを検索
+	SetNearestDice();
+}
+
+void Player::ObjectImguiDraw()
+{
+	std::string str;
+	if (mpOperationDice == nullptr)
+	{
+		str = "null";
+	}
+	else
+	{
+		str = mpOperationDice->GetName();
+	}
+	ImGui::Text(str.c_str());
 }
 
 void Player::Uninit()
@@ -66,7 +89,7 @@ void Player::OnCollisionEnter(ComponentBase* _oher)
 {
 	std::cout << "OnCollisionEnter　ObjectName:" + _oher->GetOwner()->GetName() + "\n";
 
-	if (_oher->GetTag() == ObjectTag::Dice && !mIsDiceOperation)
+	if ((_oher->GetTag() == ObjectTag::Dice || _oher->GetTag() == ObjectTag::DiceTop))
 	{
 		OnColEnterObj(dynamic_cast<Dice*>(_oher->GetOwner()));
 	}
@@ -75,7 +98,7 @@ void Player::OnCollisionEnter(ComponentBase* _oher)
 void Player::OnCollisionStay(ComponentBase* _oher)
 {
 	std::cout << "OnCollisionStay　ObjectName:" + _oher->GetOwner()->GetName() + "\n";
-	if (_oher->GetTag() == ObjectTag::Dice)
+	if (_oher->GetTag() == ObjectTag::Dice || _oher->GetTag() == ObjectTag::DiceTop)
 	{
 		OnColStayObj(dynamic_cast<Dice*>(_oher->GetOwner()));
 	}
@@ -84,7 +107,7 @@ void Player::OnCollisionStay(ComponentBase* _oher)
 void Player::OnCollisionExit(ComponentBase* _oher)
 {
 	std::cout << "OnCollisionExit　ObjectName:" + _oher->GetOwner()->GetName() + "\n";
-	if (_oher->GetTag() == ObjectTag::Dice && mIsDiceOperation)
+	if ((_oher->GetTag() == ObjectTag::Dice || _oher->GetTag() == ObjectTag::DiceTop) && mIsDiceOperation)
 	{
 		OnColExitObj(dynamic_cast<Dice*>(_oher->GetOwner()));
 	}
@@ -92,25 +115,31 @@ void Player::OnCollisionExit(ComponentBase* _oher)
 
 void Player::OnColEnterObj(Dice* _other)
 {
-	mOperationDice = _other;
-	mIsDiceOperation = true;
+	//mpOperationDice = _other;
+	//mIsDiceOperation = true;
 	if (mPstate != eMove)
 		return;
-	if (_other->Push(mDirection))
-	{
-		// 状態を変える
-		mPstate = ePush;
-	}
+	if (mTransform.GetPosition().y > DICE_SCALE / 2.0f)
+		return;
+	if (_other->SetPushAction(mDirection))
+		mPstate = ePush;	// 状態を変える
 }
 
 void Player::OnColStayObj(Dice* _other)
 {
+	// 最も近いサイコロを検索
+	SetNearestDice();
+
+	//if (mpOperationDice != nullptr)
+	//	return;
+	//mpOperationDice = _other;
 }
 
 void Player::OnColExitObj(Dice* _other)
 {
-	if (mOperationDice == _other)
+	if (mpOperationDice == _other && DICE_SCALE / 2.0f > mTransform.position.y)
 	{
+		mpOperationDice = nullptr;
 		mIsDiceOperation = false;
 	}
 }
@@ -198,11 +227,12 @@ void Player::Move()
 
 void Player::Roll()
 {
-}
-
-void Player::Push()
-{
-	if (mOperationDice->GetPush())
+	if (mpOperationDice == nullptr)
+	{
+		mPstate = eMove;
+		return;
+	}
+	if (mpOperationDice->GetRoll())
 	{
 		mPstate = eMove;
 		mTransform.move = mTransform.move * -1.0f;
@@ -212,7 +242,8 @@ void Player::Push()
 		return;
 	}
 
-	float movePos = mOperationDice->GetmPushPositionPerFrame();
+	mTransform.move = 0;
+	float movePos = mpOperationDice->GetmPushPositionPerFrame() / 1.5f;
 
 	switch (mDirection)
 	{
@@ -239,4 +270,88 @@ void Player::Push()
 
 	mTransform.AddPosition();
 	mTransform.CreateMtx();
+}
+
+void Player::Push()
+{
+	if (mpOperationDice->GetPush())
+	{
+		mPstate = eMove;
+		mTransform.move = mTransform.move * -1.0f;
+		mTransform.AddPosition();
+		mTransform.CreateMtx();
+		mTransform.move = 0;
+		return;
+	}
+
+	float movePos = 1;
+
+	switch (mDirection)
+	{
+	case Direction::eNeutral:
+		mPstate = eMove;
+		return;
+	case Direction::eUp:
+		std::cout << "上強制移動\n";
+		mTransform.move = { 0, 0, movePos };
+		break;
+	case Direction::eDown:
+		std::cout << "下強制移動\n";
+		mTransform.move = { 0, 0, -movePos };
+		break;
+	case Direction::eLeft:
+		std::cout << "左強制移動\n";
+		mTransform.move = { -movePos, 0, 0 };
+		break;
+	case Direction::eRight:
+		std::cout << "右強制移動\n";
+		mTransform.move = { movePos, 0, 0 };
+		break;
+	}
+
+	mTransform.AddPosition();
+	mTransform.CreateMtx();
+}
+
+void Player::CheckRoll()
+{
+	if (mpOperationDice == nullptr)
+		return;
+
+	Float3 basePoint = mpOperationDice->GetTransform()->GetPosition();	// 基準点
+
+	switch (mDirection)
+	{
+	case Direction::eNeutral:
+		return;
+	case Direction::eUp:
+		if (basePoint.z + DICE_SCALE_HALF >= mTransform.position.z)
+			return;
+		break;
+	case Direction::eDown:
+		if (basePoint.z - DICE_SCALE_HALF <= mTransform.position.z)
+			return;
+		break;
+	case Direction::eLeft:
+		if (basePoint.x - DICE_SCALE_HALF <= mTransform.position.x)
+			return;
+		break;
+	case Direction::eRight:
+		if (basePoint.x + DICE_SCALE_HALF >= mTransform.position.x)
+			return;
+		break;
+	}
+
+	// 回転可能位置にいたら
+	if (mpOperationDice->SetRollAction(mDirection))
+		mPstate = eRoll;// 状態を変える
+}
+
+bool Player::SetNearestDice()
+{
+	mpOperationDice = dynamic_cast<Dice*>(GetComponent<Component::CollisionComponent>()->GetNearestDice(mTransform.position));
+
+	if (mpOperationDice == nullptr)
+		return false;
+	return true;
 }

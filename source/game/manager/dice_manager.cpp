@@ -1,6 +1,5 @@
 #include	"dice_manager.h"
 #include	"stagedata_manager.h"
-#include	"../../system/util/INT3.h"
 
 void DiceManager::DiceCreate()
 {
@@ -13,6 +12,7 @@ void DiceManager::DiceCreate()
 			if (mCurrentStageData.mMap[z][x] > 0)
 			{
 				Dice* dice = new Dice;
+				dice->GetTransform()->ReSetValue();
 				dice->GetTransform()->SetPosition(Float3(DICE_SCALE*x, -DICE_SCALE / 2.0f, -DICE_SCALE * z));
 				dice->GetTransform()->CreateMtx();
 				dice->SetMapPos(INT3(x, 0, z));
@@ -47,7 +47,7 @@ void DiceManager::Uninit()
 	}
 }
 
-bool DiceManager::CanPush(Dice* _dice, Direction _dire)
+bool DiceManager::CanDiceMove(Dice* _dice, Direction _dire)
 {
 	/// Todo:方向とINT3を連携させる何かを作る
 
@@ -75,16 +75,15 @@ bool DiceManager::CanPush(Dice* _dice, Direction _dire)
 	// 行き先が穴なら移動しない
 	if (afterPos.z < 0 || afterPos.x < 0 || afterPos.z >= mCurrentStageData.mMapSizeHeight || afterPos.x >= mCurrentStageData.mMapSizeWidth)
 		return false;
+	// ステージ外なら移動しない
 	if (mCurrentStageData.mFloorMap[afterPos.z][afterPos.x] <= 0)
 		return false;
+	// サイコロがあれば移動しない
+	if (mDiceMap[afterPos.z][afterPos.x] > 0)
+		return false;
 
-	if (mDiceMap[afterPos.z][afterPos.x] <= 0)
-	{
-		mDiceMap[afterPos.z][afterPos.x] = mDiceMap[_dice->GetMapPos().z][_dice->GetMapPos().x];
-		mDiceMap[_dice->GetMapPos().z][_dice->GetMapPos().x] = 0;
-		_dice->SetMapPos(afterPos);
-		return true;
-	}
-
-	return false;
+	mDiceMap[afterPos.z][afterPos.x] = mDiceMap[_dice->GetMapPos().z][_dice->GetMapPos().x];
+	mDiceMap[_dice->GetMapPos().z][_dice->GetMapPos().x] = 0;
+	_dice->SetMapPos(afterPos);
+	return true;
 }

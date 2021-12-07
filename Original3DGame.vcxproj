@@ -158,7 +158,9 @@
     <ClCompile Include="source\game\manager\stagedata_manager.cpp" />
     <ClCompile Include="source\game\scene\scene_base.cpp" />
     <ClCompile Include="source\game\scene\maingame_scene.cpp" />
+    <ClCompile Include="source\game\scene\stagecreate_scene.cpp" />
     <ClCompile Include="source\game\scene\title_scene.cpp" />
+    <ClCompile Include="source\game\state\dice_state.cpp" />
     <ClCompile Include="source\game\state\state.cpp" />
     <ClCompile Include="source\system\dx11\CDirectXGraphics.cpp" />
     <ClCompile Include="source\system\dx11\DDSTextureLoader.cpp" />
@@ -184,7 +186,6 @@
     <ClCompile Include="source\system\util\BoundingSphere.cpp" />
     <ClCompile Include="source\system\util\CBillboard.cpp" />
     <ClCompile Include="source\system\util\drawaxis.cpp" />
-    <ClCompile Include="source\system\util\INT3.cpp" />
     <ClCompile Include="source\system\util\line.cpp" />
     <ClCompile Include="source\system\util\quad2d.cpp" />
     <ClCompile Include="source\system\util\Sphere.cpp" />
@@ -226,7 +227,9 @@
     <ClInclude Include="source\game\manager\stagedata_manager.h" />
     <ClInclude Include="source\game\scene\scene_base.h" />
     <ClInclude Include="source\game\scene\maingame_scene.h" />
+    <ClInclude Include="source\game\scene\stagecreate_scene.h" />
     <ClInclude Include="source\game\scene\title_scene.h" />
+    <ClInclude Include="source\game\state\dice_state.h" />
     <ClInclude Include="source\game\state\state.h" />
     <ClInclude Include="source\macro.h" />
     <ClInclude Include="source\Memory.h" />
@@ -257,7 +260,6 @@
     <ClInclude Include="source\system\util\CBillboard.h" />
     <ClInclude Include="source\system\util\dixsmartptr.h" />
     <ClInclude Include="source\system\util\drawaxis.h" />
-    <ClInclude Include="source\system\util\INT3.h" />
     <ClInclude Include="source\system\util\line.h" />
     <ClInclude Include="source\system\util\quad2d.h" />
     <ClInclude Include="source\system\util\resource.h" />

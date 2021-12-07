@@ -39,31 +39,24 @@ void CollisionManager::Update()
 			(*itA)->SetHitObj((*itB).GetPtr());
 			(*itB)->SetHitObj((*itA).GetPtr());
 
-			if ((*itA).GetPtr()->GetOwner()->GetObjectType() == ObjectType::ePlayer)
+			/*if ((*itA).GetPtr()->GetOwner()->GetObjectType() == ObjectType::ePlayer)
 			{
-				if ((*itB).GetPtr()->GetTag() == ObjectTag::DiceTop)
+				if (ans.x < ans.y&&ans.x < ans.z)
 				{
-					(*itA).GetPtr()->GetOwner()->GetTransform()->SetPositionY(b.p.y + b.hl.y + a.hl.y);
+					std::cout << "X•â³\n";
+					(*itA).GetPtr()->GetOwner()->GetTransform()->PositionCorrectionX(hosei(a.hl.x, a.p.x, b.hl.x, b.p.x));
+				}
+				else if (ans.y < ans.z)
+				{
+					std::cout << "Y•â³\n";
+					(*itA).GetPtr()->GetOwner()->GetTransform()->SetPositionY(b.p.y + b.hl.y + a.hl.y - 0.5f);
 					(*itA).GetPtr()->GetOwner()->GetTransform()->CreateMtx();
 					(*itA).GetPtr()->Update();
 				}
 				else
 				{
-					if (ans.x < ans.y&&ans.x < ans.z)
-					{
-						std::cout << "X•â³\n";
-						(*itA).GetPtr()->GetOwner()->GetTransform()->PositionCorrectionX(hosei(a.hl.x, a.p.x, b.hl.x, b.p.x));
-					}
-					else if (ans.y < ans.z)
-					{
-						std::cout << "Y•â³\n";
-						(*itA).GetPtr()->GetOwner()->GetTransform()->PositionCorrectionY(hosei(a.hl.y, a.p.y, b.hl.y, b.p.y));
-					}
-					else
-					{
-						std::cout << "Z•â³\n";
-						(*itA).GetPtr()->GetOwner()->GetTransform()->PositionCorrectionZ(hosei(a.hl.z, a.p.z, b.hl.z, b.p.z));
-					}
+					std::cout << "Z•â³\n";
+					(*itA).GetPtr()->GetOwner()->GetTransform()->PositionCorrectionZ(hosei(a.hl.z, a.p.z, b.hl.z, b.p.z));
 				}
 				(*itA).GetPtr()->GetOwner()->GetTransform()->CreateMtx();
 			}
@@ -85,7 +78,7 @@ void CollisionManager::Update()
 					(*itB).GetPtr()->GetOwner()->GetTransform()->PositionCorrectionZ(hosei(a.hl.z, a.p.z, b.hl.z, b.p.z));
 				}
 				(*itB).GetPtr()->GetOwner()->GetTransform()->CreateMtx();
-			}
+			}*/
 		}
 	}
 

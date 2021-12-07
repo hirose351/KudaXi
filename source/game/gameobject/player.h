@@ -7,7 +7,7 @@
 
 using Microsoft::WRL::ComPtr;
 
-class Player :public GameObject/*, CollisionInterface*/
+class Player :public GameObject
 {
 private:
 	Direction mDiceMoveDirection;				// サイコロを回転させる方向
@@ -18,17 +18,23 @@ private:
 	Direction				mMoveKeySts;		// 押されている移動キー
 
 	bool mIsDiceOperation = false;				// サイコロを操作しているか
-	Dice* mOperationDice;						// 操作中のサイコロ
+	Dice* mpOperationDice;						// 操作中のサイコロ
 
 	Pstate mPstate = eStop;
 
-	Float3 mInitMapPos = (2.0f, 0, 1.0f);
+	Float3 mInitMapPos = (2.0f, 0, 1.0f);		// 初期マップ位置
 
-	int mStartCount = 150;
+	Foot mfoot = Foot::eDice;					// 足元
+
+	int mStartCount = 150;						// 開始時の停止時間(実際は上がってるサイコロの状態で移動制限されるので必要ない)
 
 	void Move();
 	void Roll();
 	void Push();
+	void CheckRoll();
+
+	// 最も近いサイコロを登録
+	bool SetNearestDice();
 
 public:
 	Player() : GameObject(("Player"), ObjectType::ePlayer) {
@@ -50,6 +56,7 @@ public:
 	void ObjectInit() override;
 	void ObjectUpdate()override;
 	void ObjectDraw()override {};
+	void ObjectImguiDraw()override;
 	void Uninit() override;
 
 	void OnCollisionEnter(ComponentBase* _oher) override;

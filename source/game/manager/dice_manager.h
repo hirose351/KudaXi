@@ -27,7 +27,7 @@ public:
 	void Update();
 	void Uninit();
 
-	// ‚»‚Ìƒ}ƒX‚ÉDice‚ª‘¶İ‚·‚é‚©
-	bool CanPush(Dice* _dice, Direction _dire);
+	// Dice‚ğˆÚ“®‚·‚é–‚ª‰Â”\‚©
+	bool CanDiceMove(Dice* _dice, Direction _dire);
 };
 

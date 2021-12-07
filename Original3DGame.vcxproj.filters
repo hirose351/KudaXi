@@ -106,8 +106,17 @@
     <Filter Include="ソース ファイル\game\gameobject\stage">
       <UniqueIdentifier>{498f6ac7-8290-4d56-8715-fbcc922458cf}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\game\state">
+    <Filter Include="ソース ファイル\game\manager\game">
+      <UniqueIdentifier>{e4efe162-cf26-4ce5-bc02-95a4617514a3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\game\gameobject\camera">
+      <UniqueIdentifier>{3eb226dc-5dd8-4b2a-a978-881ed6534489}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\game\gameobject\state">
       <UniqueIdentifier>{20a5849b-c6fb-4f0d-8a0b-6354cde63573}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\game\scene\stagecreate">
+      <UniqueIdentifier>{d2f7b879-cb6b-4c3a-bf64-8a6d72bc317f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -276,26 +285,29 @@
     <ClCompile Include="source\game\manager\stagedata_manager.cpp">
       <Filter>ソース ファイル\game\manager\stage</Filter>
     </ClCompile>
-    <ClCompile Include="source\game\manager\game_manager.cpp">
-      <Filter>ソース ファイル\game\manager\not used</Filter>
-    </ClCompile>
     <ClCompile Include="source\game\manager\SelectManager.cpp">
       <Filter>ソース ファイル\game\manager\not used</Filter>
     </ClCompile>
     <ClCompile Include="source\application.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="source\game\gameobject\CCamera.cpp">
-      <Filter>ソース ファイル\game\gameobject\util</Filter>
-    </ClCompile>
     <ClCompile Include="source\game\gameobject\stage.cpp">
       <Filter>ソース ファイル\game\gameobject\stage</Filter>
     </ClCompile>
-    <ClCompile Include="source\system\util\INT3.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="source\game\state\state.cpp">
-      <Filter>ソース ファイル\game\state</Filter>
+      <Filter>ソース ファイル\game\gameobject\state</Filter>
+    </ClCompile>
+    <ClCompile Include="source\game\state\dice_state.cpp">
+      <Filter>ソース ファイル\game\gameobject\state</Filter>
+    </ClCompile>
+    <ClCompile Include="source\game\manager\game_manager.cpp">
+      <Filter>ソース ファイル\game\manager\game</Filter>
+    </ClCompile>
+    <ClCompile Include="source\game\gameobject\CCamera.cpp">
+      <Filter>ソース ファイル\game\gameobject\camera</Filter>
+    </ClCompile>
+    <ClCompile Include="source\game\scene\stagecreate_scene.cpp">
+      <Filter>ソース ファイル\game\scene\stagecreate</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -440,9 +452,6 @@
     <ClInclude Include="source\game\gameobject\dice.h">
       <Filter>ソース ファイル\game\gameobject\dice</Filter>
     </ClInclude>
-    <ClInclude Include="source\game\gameobject\CCamera.h">
-      <Filter>ソース ファイル\game\gameobject\util</Filter>
-    </ClInclude>
     <ClInclude Include="source\game\gameobject\CLight.h">
       <Filter>ソース ファイル\game\gameobject\util</Filter>
     </ClInclude>
@@ -497,9 +506,6 @@
     <ClInclude Include="source\game\manager\stagedata_manager.h">
       <Filter>ソース ファイル\game\manager\stage</Filter>
     </ClInclude>
-    <ClInclude Include="source\game\manager\game_manager.h">
-      <Filter>ソース ファイル\game\manager\not used</Filter>
-    </ClInclude>
     <ClInclude Include="source\game\manager\IGameManager.h">
       <Filter>ソース ファイル\game\manager\not used</Filter>
     </ClInclude>
@@ -512,11 +518,20 @@
     <ClInclude Include="source\game\gameobject\stage.h">
       <Filter>ソース ファイル\game\gameobject\stage</Filter>
     </ClInclude>
-    <ClInclude Include="source\system\util\INT3.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="source\game\state\state.h">
-      <Filter>ソース ファイル\game\state</Filter>
+      <Filter>ソース ファイル\game\gameobject\state</Filter>
+    </ClInclude>
+    <ClInclude Include="source\game\state\dice_state.h">
+      <Filter>ソース ファイル\game\gameobject\state</Filter>
+    </ClInclude>
+    <ClInclude Include="source\game\manager\game_manager.h">
+      <Filter>ソース ファイル\game\manager\game</Filter>
+    </ClInclude>
+    <ClInclude Include="source\game\gameobject\CCamera.h">
+      <Filter>ソース ファイル\game\gameobject\camera</Filter>
+    </ClInclude>
+    <ClInclude Include="source\game\scene\stagecreate_scene.h">
+      <Filter>ソース ファイル\game\scene\stagecreate</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

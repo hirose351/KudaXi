@@ -54,6 +54,7 @@ void GameObject::ImguiDraw()
 			ImGui::DragFloat("z", &mTransform.position.z, 0.5f);
 			ImGui::TreePop();
 		}
+		ObjectImguiDraw();
 		for (auto& component : mComponentList)
 		{
 			component->ImguiDraw();

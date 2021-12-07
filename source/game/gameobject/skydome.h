@@ -2,7 +2,6 @@
 #include	"gameobject.h"
 #include	"../../system/model/ModelMgr.h"
 #include	"../component/allcomponents.h"
-#include	"../../system/util/INT3.h"
 
 class Skydome : public GameObject {
 private:
@@ -33,6 +32,7 @@ public:
 	void ObjectInit() override;
 	void ObjectUpdate()override;
 	void ObjectDraw()override;
+	void ObjectImguiDraw()override {};
 	void Uninit()override;
 
 	void SetType(Type _type);
