@@ -118,6 +118,9 @@
     <Filter Include="ソース ファイル\game\scene\stagecreate">
       <UniqueIdentifier>{d2f7b879-cb6b-4c3a-bf64-8a6d72bc317f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\game\data\stage">
+      <UniqueIdentifier>{ff6d0673-af85-40d2-b220-4f44d4a2f326}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\game.cpp">
@@ -308,6 +311,9 @@
     </ClCompile>
     <ClCompile Include="source\game\scene\stagecreate_scene.cpp">
       <Filter>ソース ファイル\game\scene\stagecreate</Filter>
+    </ClCompile>
+    <ClCompile Include="source\game\data\saveload.cpp">
+      <Filter>ソース ファイル\game\data</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -532,6 +538,9 @@
     </ClInclude>
     <ClInclude Include="source\game\scene\stagecreate_scene.h">
       <Filter>ソース ファイル\game\scene\stagecreate</Filter>
+    </ClInclude>
+    <ClInclude Include="source\game\data\saveload.h">
+      <Filter>ソース ファイル\game\data</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

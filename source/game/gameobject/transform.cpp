@@ -20,6 +20,14 @@ void Transform::AddPosition()
 	position += move;
 }
 
+void Transform::MovePosition()
+{
+	position += move;
+	worldMtx._41 += move.x;
+	worldMtx._42 += move.y;
+	worldMtx._43 += move.z;
+}
+
 void Transform::AddRotation()
 {
 }
@@ -27,11 +35,19 @@ void Transform::AddRotation()
 void Transform::CreateScaleMtx()
 {
 	DirectX::XMFLOAT4X4 mScaleMtx;
-	DX11MtxScale(7.0f, 7.0f, 7.0f, mScaleMtx);
+	DX11MtxScale(scale.x, scale.y, scale.z, mScaleMtx);
 	DX11MtxMultiply(worldMtx, mScaleMtx, worldMtx);
 }
 
 void Transform::CreateMtx()
 {
 	DX11MakeWorldMatrix(worldMtx, angle, position);
+}
+
+void Transform::SetPositionMove(const Float3 & _pos)
+{
+	position = _pos;
+	worldMtx._41 = _pos.x;
+	worldMtx._42 = _pos.y;
+	worldMtx._43 = _pos.z;
 }

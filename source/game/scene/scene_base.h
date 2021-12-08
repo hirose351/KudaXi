@@ -28,6 +28,8 @@ public:
 
 	// リストに追加
 	void AddGameObject(GameObject* _object);
+	// リストから削除
+	void AddGameObject(GameObject* _object);
 
 	// オブジェクト初期化
 	bool Init();

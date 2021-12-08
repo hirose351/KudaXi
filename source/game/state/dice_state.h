@@ -2,7 +2,7 @@
 #include	"state.h"
 
 // ƒTƒCƒRƒ‚Ì–Ê‚Ìí—Ş
-enum class DICETYPE {
+enum class DICEFRUIT {
 	PEACH,
 	MELON,
 	BLUEBERRY,

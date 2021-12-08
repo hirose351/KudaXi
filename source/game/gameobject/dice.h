@@ -10,7 +10,8 @@ class Dice : public GameObject
 {
 private:
 	INT3 mMapPos;										// マップ上の位置
-	DICETYPE mTopDiceType;								// 上面
+	DICEFRUIT mTopDiceTypeFruit;								// 上面の果物
+	int mTopDiceTypeNum;								// 上面の数字
 	DICESTATUS mSts;									// 状態
 	Direction mDirection = Direction::eNeutral;			// サイコロの移動方向	
 
@@ -28,15 +29,18 @@ private:
 	const float mUpPositionPerFrame = DICE_SCALE / mUpCnt;
 
 	// 上の面を特定
-	DICETYPE OverPlane();
+	void SetOverPlane();
 	// 回転移動セット
 	void SetRollDirection(Direction _direction);
-	void StartUpPosition();
 
 	// 移動する
 	void Push();
 	// 回転する
 	void Roll();
+	// 上がる
+	void Up();
+	// 揃った時下がる
+	void Down();
 
 public:
 	Dice() :GameObject(("Dice"), ObjectType::eDice) {
@@ -64,8 +68,11 @@ public:
 
 	// 初期面セット
 	void SetInitType() {
-		mTopDiceType = OverPlane();
+		SetOverPlane();
 	}
+
+	void SetStartUpPosition();
+	void SetDownPosition();
 
 	// 指定方向に移動
 	bool SetPushAction(Direction _direction);
@@ -73,8 +80,12 @@ public:
 	bool SetRollAction(Direction _direction);
 
 	// 上面取得
-	DICETYPE GetTopDiceType() {
-		return mTopDiceType;
+	DICEFRUIT GetTopDiceType() {
+		return mTopDiceTypeFruit;
+	}
+	// 上面取得
+	int GetTopDiceTypeNum() {
+		return mTopDiceTypeNum;
 	}
 
 	// モデルの状態を取得する(沈んでいるか)

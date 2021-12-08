@@ -9,6 +9,7 @@ GameObject::~GameObject()
 	}
 	mComponentList.clear();
 	mComponentList.shrink_to_fit();
+	//SceneManager::GetInstance()->GetAddScene()->removeob(this);
 }
 
 void GameObject::Init()

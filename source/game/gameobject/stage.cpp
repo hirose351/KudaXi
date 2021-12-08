@@ -4,6 +4,8 @@ void Stage::ObjectInit()
 {
 	/// Todo:現在のステージを取得する処理を加える
 
+	mCurrentStageData.SetStageData(StageDataManager::GetInstance().GetCurrentStage());
+
 	/// Todo:ゲーム開始時にカメラを移動できるように
 
 

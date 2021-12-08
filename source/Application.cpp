@@ -174,9 +174,9 @@ unsigned long Application::MainLoop()
 
 		last_time = current_time;
 
-		GameInput(delta_time);		// ｹﾞｰﾑ入力	
-		GameUpdate(delta_time);		// ｹﾞｰﾑ更新
-		GameRender(delta_time);		// ｹﾞｰﾑ描画
+		GameInput(delta_time);		// ゲーム入力	
+		GameUpdate(delta_time);		// ゲーム更新
+		GameRender(delta_time);		// ゲーム描画
 
 		int64_t sleep_time = 16666 - delta_time;
 
@@ -185,7 +185,7 @@ unsigned long Application::MainLoop()
 			float tt = sleep_time / 1000.0f;
 			//			printf("sleep:%f \n", tt);
 			std::this_thread::sleep_for(std::chrono::milliseconds(static_cast<int>(tt)));
-			//指定した相対時間だけ現スレッドをブロックする (function template)
+			// 指定した相対時間だけ現スレッドをブロックする (function template)
 		}
 	}
 

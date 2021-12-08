@@ -23,6 +23,8 @@ struct Transform
 	void ReSetValue();
 	// ˆÚ“®—Ê‰ÁZ
 	void AddPosition();
+	// ˆÚ“®—Ê‰ÁZˆÚ“®
+	void MovePosition();
 	// ˆÚ“®—Ê‰ÁZ
 	void AddRotation();
 	// Šg‘ås—ñì¬
@@ -31,10 +33,11 @@ struct Transform
 	void CreateMtx();
 
 	void SetPosition(const Float3& _pos) { position = _pos; }
+	void SetPositionMove(const Float3& _pos);
 	void SetRotation(const Float3& _rot) { rotation = _rot; }
 	void SetScale(const Float3& _sc) { scale = _sc; }
 	void SetAngle(const Float3& _ang) { angle = _ang; }
-	void SetMtx(const DirectX::XMFLOAT4X4 _mtx) { worldMtx = _mtx; }
+	void SetWordMtx(const DirectX::XMFLOAT4X4 _mtx) { worldMtx = _mtx; }
 	void PositionCorrectionX(float _pos) {
 		worldMtx._41 += _pos;
 		position.x += _pos;

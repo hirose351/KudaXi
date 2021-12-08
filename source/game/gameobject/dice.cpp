@@ -10,35 +10,39 @@ Dice::~Dice()
 void Dice::ObjectInit()
 {
 	mDirection = Direction::eNeutral;
-	StartUpPosition();
+	SetStartUpPosition();
+	SetOverPlane();
 }
 
 void Dice::ObjectUpdate()
 {
-	if (mSts == DICESTATUS::ROLL)
+	switch (mSts)
 	{
+		//case DICESTATUS::NORMAL:
+		//	break;
+	case DICESTATUS::UP:
+		Up();
+		break;
+	case DICESTATUS::HALF_UP:
+		Up();
+		break;
+	case DICESTATUS::ROLL:
 		Roll();
-	}
-	else if (mSts == DICESTATUS::PUSH)
-	{
+		break;
+	case DICESTATUS::PUSH:
 		Push();
+		break;
+	case DICESTATUS::DOWN:
+		Down();
+		break;
+	case DICESTATUS::HALFDOWN:
+		Down();
+		break;
+	default:
+		break;
 	}
-	else if (mSts == DICESTATUS::UP || mSts == DICESTATUS::HALF_UP)
-	{
-		mTransform.AddPosition();
-		mTransform.CreateMtx();
-		mCrrentPushCnt++;
-		if (mCrrentPushCnt >= mUpCnt)
-		{
-			mDirection = Direction::eNeutral;
-			mSts = DICESTATUS::NORMAL;
-		}
-		else if (mCrrentPushCnt >= mUpCnt / 2)
-		{
-			mDirection = Direction::eNeutral;
-			mSts = DICESTATUS::UP;
-		}
-	}
+
+
 }
 
 void Dice::ObjectDraw()
@@ -157,10 +161,17 @@ void Dice::SetRollDirection(Direction _direction)
 	}
 }
 
-void Dice::StartUpPosition()
+void Dice::SetStartUpPosition()
 {
 	mTransform.move.y = mUpPositionPerFrame;
 	mSts = DICESTATUS::UP;
+}
+
+void Dice::SetDownPosition()
+{
+	mTransform.move = 0;
+	mTransform.move.y = -mUpPositionPerFrame;
+	mSts = DICESTATUS::DOWN;
 }
 
 void Dice::Push()
@@ -235,20 +246,53 @@ void Dice::Roll()
 	// 回転が終わったら元の状態に戻す
 	if (mCrrentRotCnt >= mMoveCnt)
 	{
+		// 回転後の面に設定
+		SetOverPlane();
 		//PlaySound(SOUND_LABEL_SE_DICE);
 		mTransform.worldMtx._42 = mTransform.position.y = DICE_SCALE_HALF;
 		mDirection = Direction::eNeutral;
 		mSts = DICESTATUS::NORMAL;
 		mCrrentRotCnt = 0;
-		// 回転後の面に設定
-		mTopDiceType = OverPlane();
 		/// 接しているブロックと面が同じかチェック
+		DiceManager::GetInstance()->CheckAligned(this);
 		/// ステップ数減らす
 	}
 }
 
+void Dice::Up()
+{
+	mTransform.MovePosition();
+	//mTransform.CreateMtx();
+	mCrrentPushCnt++;
+	if (mCrrentPushCnt >= mUpCnt)
+	{
+		mDirection = Direction::eNeutral;
+		mSts = DICESTATUS::NORMAL;
+	}
+	else if (mCrrentPushCnt >= mUpCnt / 2)
+	{
+		mDirection = Direction::eNeutral;
+		mSts = DICESTATUS::UP;
+	}
+}
+
+void Dice::Down()
+{
+	mTransform.AddPosition();
+	mTransform.CreateMtx();
+	if (mTransform.position.y < -DICE_SCALE_HALF)
+	{
+		///  Todo:消す
+	}
+	else if (mTransform.position.y < 0)
+	{
+		mDirection = Direction::eNeutral;
+		mSts = DICESTATUS::HALFDOWN;
+	}
+}
+
 //増した方向の面を特定
-DICETYPE Dice::OverPlane() {
+void Dice::SetOverPlane() {
 	Float3 underaxis(0.0f, -1.0f, 0.0f);
 	Float3 axis;
 	bool sts[6];
@@ -261,38 +305,38 @@ DICETYPE Dice::OverPlane() {
 	DX11Vec3Dot(dot, axis, underaxis);
 
 	// 一定の幅を持たせて値の比較を行う
-	sts[0] = floatcheck(dot, 7.0f, 0.001f);
+	sts[0] = floatcheck(dot, 1.0f, 0.001f);
 
 	// Y軸取得
 	axis = { mTransform.worldMtx._21, mTransform.worldMtx._22, mTransform.worldMtx._23 };
 	DX11Vec3Dot(dot, axis, underaxis);
-	sts[1] = floatcheck(dot, 7.0f, 0.001f);
+	sts[1] = floatcheck(dot, 1.0f, 0.001f);
 	// Z軸取得
 	axis = { mTransform.worldMtx._31, mTransform.worldMtx._32, mTransform.worldMtx._33 };
 	DX11Vec3Dot(dot, axis, underaxis);
-	sts[2] = floatcheck(dot, 7.0f, 0.001f);
+	sts[2] = floatcheck(dot, 1.0f, 0.001f);
 	// -X軸取得
 	axis = { -mTransform.worldMtx._11, -mTransform.worldMtx._12, -mTransform.worldMtx._13 };
 	DX11Vec3Dot(dot, axis, underaxis);
-	sts[3] = floatcheck(dot, 7.0f, 0.001f);
+	sts[3] = floatcheck(dot, 1.0f, 0.001f);
 	// -Y軸取得
 	axis = { -mTransform.worldMtx._21, -mTransform.worldMtx._22, -mTransform.worldMtx._23 };
 	DX11Vec3Dot(dot, axis, underaxis);
-	sts[4] = floatcheck(dot, 7.0f, 0.001f);
+	sts[4] = floatcheck(dot, 1.0f, 0.001f);
 	// -Z軸取得
 	axis = { -mTransform.worldMtx._31, -mTransform.worldMtx._32, -mTransform.worldMtx._33 };
 	DX11Vec3Dot(dot, axis, underaxis);
-	sts[5] = floatcheck(dot, 7.0f, 0.001f);
+	sts[5] = floatcheck(dot, 1.0f, 0.001f);
 
 	for (int i = 0; i < 6; i++)
 	{
 		if (sts[i])
 		{
-			return static_cast<DICETYPE>(i);
+			mTopDiceTypeFruit = static_cast<DICEFRUIT>(i);
+			mTopDiceTypeNum = diceNum[i];
 			break;
 		}
 	}
-	return DICETYPE::APPLE;
 }
 
 void Dice::OnCollisionEnter(ComponentBase* _oher)
