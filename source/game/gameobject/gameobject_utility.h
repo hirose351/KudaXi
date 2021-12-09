@@ -27,6 +27,16 @@ enum class ObjectState
 	eDead
 };
 
+enum class Foot
+{
+	eNomal,
+	eFloor,
+	eDice
+};
+
+static const char *FootStr[] =
+{ "Nomal", "Floor", "Dice" };
+
 enum class ObjectTag
 {
 	Floor,

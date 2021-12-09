@@ -88,14 +88,56 @@ bool DiceManager::CanDiceMove(Dice* _dice, Direction _dire)
 	// ステージ外なら移動しない
 	if (mCurrentStageData.mFloorMap[afterPos.z][afterPos.x] <= 0)
 		return false;
-	// サイコロがあれば移動しない
+
+	//// サイコロがあれば移動しない
+	//if (mDiceMap[afterPos.z][afterPos.x] > -1)
+	//	return false;
+
+	// サイコロがあるとき
 	if (mDiceMap[afterPos.z][afterPos.x] > -1)
-		return false;
+	{
+		DICESTATUS dSts = mDiceList[mDiceMap[afterPos.z][afterPos.x]]->GetDiceStatus();
+		// 半分以上存在しているサイコロなら移動しない
+		if (dSts == DICESTATUS::NORMAL || dSts == DICESTATUS::DOWN || dSts == DICESTATUS::HALF_UP)
+			return false;
+		// 半分以下のサイコロならそのサイコロを消す
+		//SetRemoveDice(mDiceList[mDiceMap[afterPos.z][afterPos.x]]);
+	}
 
 	mDiceMap[afterPos.z][afterPos.x] = mDiceMap[_dice->GetMapPos().z][_dice->GetMapPos().x];
 	mDiceMap[_dice->GetMapPos().z][_dice->GetMapPos().x] = -1;
 	_dice->SetMapPos(afterPos);
 	return true;
+}
+
+bool DiceManager::CanDiceMoveCheak(Dice * _dice, Direction _dire)
+{
+	INT3 afterPos;
+	switch (_dire)
+	{
+	case Direction::eUp:
+		afterPos = { _dice->GetMapPos().x, 0, _dice->GetMapPos().z - 1 };
+		break;
+	case Direction::eDown:
+		afterPos = { _dice->GetMapPos().x, 0, _dice->GetMapPos().z + 1 };
+		break;
+	case Direction::eLeft:
+		afterPos = { _dice->GetMapPos().x - 1, 0, _dice->GetMapPos().z };
+		break;
+	case Direction::eRight:
+		afterPos = { _dice->GetMapPos().x + 1, 0, _dice->GetMapPos().z };
+		break;
+	default:
+		return false;
+	}
+
+	// 行き先が穴なら移動しない
+	if (afterPos.z < 0 || afterPos.x < 0 || afterPos.z >= mCurrentStageData.mMapSizeHeight || afterPos.x >= mCurrentStageData.mMapSizeWidth)
+		return true;
+	// ステージ外なら移動しない
+	if (mCurrentStageData.mFloorMap[afterPos.z][afterPos.x] <= 0)
+		return true;
+	return false;
 }
 
 void DiceManager::CheckAligned(Dice* _dice)

@@ -24,9 +24,6 @@ private:
 	Pstate mPstate = eStop;
 
 	Float3 mInitMapPos = (2.0f, 0, 1.0f);		// 初期マップ位置
-
-	Foot mfoot = Foot::eDice;					// 足元
-
 	int mStartCount = 150;						// 開始時の停止時間(実際は上がってるサイコロの状態で移動制限されるので必要ない)
 	StageData stageData;
 	void Move();

@@ -115,7 +115,7 @@ GameObject* CollisionComponent::GetNearestDice(Float3 _pos)
 	// リストに存在するオブジェクトがDiceであれば受け取った座標との距離を測る
 	for (auto obj = mHitColList.begin(); obj != mHitColList.end(); obj++)
 	{
-		if ((*obj)->col->GetTag() != ObjectTag::Dice)
+		if ((*obj)->col->GetTag() != ObjectTag::Dice && !(*obj)->isHit && !(*obj)->beforeHit)
 			continue;
 		if (colData == nullptr)
 		{
@@ -133,8 +133,8 @@ GameObject* CollisionComponent::GetNearestDice(Float3 _pos)
 	if (colData == nullptr)
 		return nullptr;
 
-	std::cout << "保持Dice基準Y補正\n";
-	mOwner->GetTransform()->SetPositionY(colData->GetPrim()->p.y + colData->GetPrim()->hl.y + mPrim.hl.y - 0.5f);
+	//std::cout << "保持Dice基準Y補正\n";
+	//mOwner->GetTransform()->SetPositionY(colData->GetPrim()->p.y + colData->GetPrim()->hl.y + mPrim.hl.y - 0.5f);
 	//mOwner->GetTransform()->CreateMtx();
 	//mOwner->Update();
 	return colData->GetOwner();

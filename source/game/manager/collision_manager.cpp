@@ -1,7 +1,5 @@
 #include "collision_manager.h"
 
-//using namespace Component;
-
 CollisionManager::~CollisionManager()
 {
 	mColList.clear();
@@ -46,46 +44,40 @@ void CollisionManager::Update()
 			(*itA)->SetHitObj(*itB);
 			(*itB)->SetHitObj(*itA);
 
-			/*if ((*itA).GetPtr()->GetOwner()->GetObjectType() == ObjectType::ePlayer)
+			if ((*itA)->GetOwner()->GetObjectType() == ObjectType::ePlayer && (*itA)->GetOwner()->GetFoot() == Foot::eFloor)
 			{
-				if (ans.x < ans.y&&ans.x < ans.z)
+				if ((*itB)->GetPrim()->p.y <= DICE_SCALE_HALF)
+					continue;
+
+				if (ans.x < ans.z)
 				{
 					std::cout << "X•â³\n";
-					(*itA).GetPtr()->GetOwner()->GetTransform()->PositionCorrectionX(hosei(a.hl.x, a.p.x, b.hl.x, b.p.x));
-				}
-				else if (ans.y < ans.z)
-				{
-					std::cout << "Y•â³\n";
-					(*itA).GetPtr()->GetOwner()->GetTransform()->SetPositionY(b.p.y + b.hl.y + a.hl.y - 0.5f);
-					(*itA).GetPtr()->GetOwner()->GetTransform()->CreateMtx();
-					(*itA).GetPtr()->Update();
+					(*itA)->GetOwner()->GetTransform()->PositionCorrectionX(hosei(a.hl.x, a.p.x, b.hl.x, b.p.x));
 				}
 				else
 				{
 					std::cout << "Z•â³\n";
-					(*itA).GetPtr()->GetOwner()->GetTransform()->PositionCorrectionZ(hosei(a.hl.z, a.p.z, b.hl.z, b.p.z));
+					(*itA)->GetOwner()->GetTransform()->PositionCorrectionZ(hosei(a.hl.z, a.p.z, b.hl.z, b.p.z));
 				}
-				(*itA).GetPtr()->GetOwner()->GetTransform()->CreateMtx();
+				(*itA)->GetOwner()->GetTransform()->CreateMtx();
 			}
-			else if ((*itB).GetPtr()->GetOwner()->GetObjectType() == ObjectType::ePlayer)
+			else if ((*itB)->GetOwner()->GetObjectType() == ObjectType::ePlayer && (*itA)->GetOwner()->GetFoot() == Foot::eFloor)
 			{
-				if (ans.x < ans.y&&ans.x < ans.z)
+				if ((*itA)->GetPrim()->p.y <= DICE_SCALE_HALF)
+					continue;
+
+				if (ans.x < ans.z)
 				{
 					std::cout << "X•â³\n";
-					(*itB).GetPtr()->GetOwner()->GetTransform()->PositionCorrectionX(hosei(a.hl.x, a.p.x, b.hl.x, b.p.x));
-				}
-				else if (ans.y < ans.z)
-				{
-					std::cout << "Y•â³\n";
-					(*itB).GetPtr()->GetOwner()->GetTransform()->PositionCorrectionY(hosei(a.hl.y, a.p.y, b.hl.y, b.p.y));
+					(*itB)->GetOwner()->GetTransform()->PositionCorrectionX(hosei(a.hl.x, a.p.x, b.hl.x, b.p.x));
 				}
 				else
 				{
 					std::cout << "Z•â³\n";
-					(*itB).GetPtr()->GetOwner()->GetTransform()->PositionCorrectionZ(hosei(a.hl.z, a.p.z, b.hl.z, b.p.z));
+					(*itB)->GetOwner()->GetTransform()->PositionCorrectionZ(hosei(a.hl.z, a.p.z, b.hl.z, b.p.z));
 				}
-				(*itB).GetPtr()->GetOwner()->GetTransform()->CreateMtx();
-			}*/
+				(*itB)->GetOwner()->GetTransform()->CreateMtx();
+			}
 		}
 	}
 

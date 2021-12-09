@@ -78,6 +78,8 @@ public:
 	bool SetPushAction(Direction _direction);
 	// 指定方向に回転
 	bool SetRollAction(Direction _direction);
+	// 指定方向にサイコロがあるか
+	bool CheckDiceDirection(Direction _direction);
 
 	// 上面取得
 	DICEFRUIT GetTopDiceType() {

@@ -11,12 +11,6 @@ enum Pstate
 	eRoll,
 };
 
-enum class Foot
-{
-	eFloor,
-	eDice
-};
-
 class State
 {
 	Dix::wp<Transform> mTramsform;

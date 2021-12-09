@@ -25,13 +25,15 @@ void Player::ObjectInit()
 {
 	mTransform.ReSetValue();
 
-	mTransform.SetPosition(Float3(mInitMapPos.x*DICE_SCALE, DICE_SCALE_HALF, -mInitMapPos.z*DICE_SCALE));
-	mTransform.CreateMtx();
-
+	mFoot = Foot::eFloor;
 	mDirection = Direction::eDown;
 
 	mIsDiceMove = false;
 	stageData.SetStageData(StageDataManager::GetInstance().GetCurrentStage());
+
+	mTransform.SetPosition(Float3(1 * DICE_SCALE, DICE_SCALE_HALF, -1 * DICE_SCALE));
+	//mTransform.SetPosition(Float3(stageData.mPlayerPos.x*DICE_SCALE, DICE_SCALE_HALF, -stageData.mPlayerPos.z*DICE_SCALE));
+	mTransform.CreateMtx();
 }
 
 void Player::ObjectUpdate()
@@ -75,12 +77,15 @@ void Player::ObjectImguiDraw()
 	std::string str;
 	if (mpOperationDice == nullptr)
 	{
-		str = "null";
+		str = "HaveDice:null";
 	}
 	else
 	{
-		str = mpOperationDice->GetName();
+		str = "HaveDice:" + mpOperationDice->GetName();
 	}
+	ImGui::Text(str.c_str());
+
+	str = FootStr[static_cast<int>(mFoot)];
 	ImGui::Text(str.c_str());
 }
 
@@ -118,14 +123,17 @@ void Player::OnCollisionExit(ComponentBase* _oher)
 
 void Player::OnColEnterObj(Dice* _other)
 {
-	//mpOperationDice = _other;
-	//mIsDiceOperation = true;
-	if (mPstate != eMove)
+	// 最も近いサイコロを検索
+	SetNearestDice();
+
+	if (mPstate != eMove || mFoot != Foot::eFloor)
 		return;
-	if (mTransform.GetPosition().y > DICE_SCALE_HALF)
+	//if (mTransform.GetPosition().y > DICE_SCALE_HALF)
+	//	return;
+	if (!_other->SetPushAction(mDirection))
 		return;
-	if (_other->SetPushAction(mDirection))
-		mPstate = ePush;	// 状態を変える
+	mpOperationDice = _other;
+	mPstate = ePush;	// 状態を変える
 }
 
 void Player::OnColStayObj(Dice* _other)
@@ -280,10 +288,10 @@ void Player::Push()
 	if (mpOperationDice->GetPushEnd())
 	{
 		mPstate = eMove;
-		mTransform.move = mTransform.move * -1.0f;
+		//mTransform.move = mTransform.move * -1.0f;
 		mTransform.AddPosition();
 		mTransform.CreateMtx();
-		mTransform.move = 0;
+		//mTransform.move = 0;
 		return;
 	}
 
@@ -318,9 +326,10 @@ void Player::Push()
 
 void Player::CheckRoll()
 {
-	if (mpOperationDice == nullptr)
+	if (mpOperationDice == nullptr || mFoot != Foot::eDice)
 		return;
-
+	if (mpOperationDice->GetDiceStatus() != DICESTATUS::NORMAL)
+		return;
 	Float3 basePoint = mpOperationDice->GetTransform()->GetPosition();	// 基準点
 
 	switch (mDirection)
@@ -347,32 +356,73 @@ void Player::CheckRoll()
 
 	// 回転可能位置にいたら
 	if (mpOperationDice->SetRollAction(mDirection))
-		mPstate = eRoll;// 状態を変える
+	{
+		mPstate = eRoll;	// 状態を変える
+	}
+	// 回転出来なければ
+	else
+	{
+		/// Todo:行き先が穴だった時の移動制限
+		if (!mpOperationDice->CheckDiceDirection(mDirection))
+			return;
+		switch (mDirection)
+		{
+		case Direction::eUp:
+			mTransform.SetPositionZ(basePoint.z + DICE_SCALE_HALF);
+			break;
+		case Direction::eDown:
+			mTransform.SetPositionZ(basePoint.z - DICE_SCALE_HALF);
+			break;
+		case Direction::eLeft:
+			mTransform.SetPositionX(basePoint.x - DICE_SCALE_HALF);
+			break;
+		case Direction::eRight:
+			mTransform.SetPositionX(basePoint.x + DICE_SCALE_HALF);
+			break;
+		}
+	}
 }
 
 void Player::StageHitCorrection()
 {
-	// 壁の処理
-	if (stageData.mMapSizeHeight*-DICE_SCALE - DICE_SCALE_HALF > mTransform.position.z)
-		mTransform.SetPositionZ(stageData.mMapSizeHeight*-DICE_SCALE - DICE_SCALE_HALF);
+	// 上下左右壁の処理
+	if (stageData.mMapSizeHeight*-DICE_SCALE + DICE_SCALE_HALF > mTransform.position.z)
+		mTransform.SetPositionZ(stageData.mMapSizeHeight*-DICE_SCALE + DICE_SCALE_HALF);
 	if (0 + DICE_SCALE_HALF < mTransform.position.z)
 		mTransform.SetPositionZ(0 + DICE_SCALE_HALF);
 	if (stageData.mMapSizeWidth*DICE_SCALE - DICE_SCALE_HALF < mTransform.position.x)
 		mTransform.SetPositionX(stageData.mMapSizeWidth*DICE_SCALE - DICE_SCALE_HALF);
 	if (0 - DICE_SCALE_HALF > mTransform.position.x)
 		mTransform.SetPositionX(0 - DICE_SCALE_HALF);
-
-	// サイコロの処理
-
 }
 
 bool Player::SetNearestDice()
 {
+	if (mPstate == ePush)
+		return false;
+
 	mpOperationDice = dynamic_cast<Dice*>(GetComponent<Component::CollisionComponent>()->GetNearestDice(mTransform.position));
 
 	if (mpOperationDice == nullptr)
+	{
+		mFoot = Foot::eFloor;
 		return false;
-	//std::cout << "保持Dice基準Y補正\n";
-	//mTransform.SetPositionY(mpOperationDice->GetTransform()->GetPosition().y + DICE_SCALE_HALF + 4 - 0.5f);
+	}
+	if (mpOperationDice->GetTransform()->GetPosition().y < mTransform.position.y)
+		mFoot = Foot::eDice;
+
+	if (mFoot == Foot::eFloor)
+	{
+		if (mpOperationDice->GetDiceStatus() != DICESTATUS::NORMAL)
+		{
+			std::cout << "保持Dice基準Y補正\n";
+			mTransform.SetPositionY(mpOperationDice->GetTransform()->GetPosition().y + DICE_SCALE_HALF + 6 - 0.5f);
+		}
+	}
+	else if (mFoot == Foot::eDice)
+	{
+		std::cout << "保持Dice基準Y補正\n";
+		mTransform.SetPositionY(mpOperationDice->GetTransform()->GetPosition().y + DICE_SCALE_HALF + 6 - 0.5f);
+	}
 	return true;
 }

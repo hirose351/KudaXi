@@ -20,11 +20,12 @@ protected:
 	ObjectType		mObjectType;	// オブジェクトタイプ
 	bool			mIsExist;		// 生存可否
 	ObjectState		mObjectState;	// 状態;
+	Foot mFoot = Foot::eNomal;		// 足元
 
 	std::vector<ComponentBase*> mComponentList;
 
 public:
-	GameObject() :mName("NoName"), mObjectType(ObjectType::eObstracle)
+	GameObject() :mName("NoName"), mObjectType(ObjectType::eObstracle), mFoot(Foot::eNomal)
 	{
 		SceneManager::GetInstance()->GetAddScene()->AddGameObject(this);
 	}
@@ -60,6 +61,9 @@ public:
 
 	void SetObjectState(ObjectState _state) { mObjectState = _state; }
 	ObjectState GetObjectState() { return mObjectState; }
+
+	void SetFoot(Foot _foot) { mFoot = _foot; }
+	Foot GetFoot() { return mFoot; }
 
 	Transform* GetTransform() { return &mTransform; }
 

@@ -35,6 +35,9 @@ public:
 	// Dice‚ğˆÚ“®‚·‚é–‚ª‰Â”\‚©
 	bool CanDiceMove(Dice* _dice, Direction _dire);
 
+	// Dice‚ªˆÚ“®‚µ‚½æ‚ªs‚«~‚Ü‚è‚©
+	bool CanDiceMoveCheak(Dice* _dice, Direction _dire);
+
 	// ‘µ‚Á‚Ä‚¢‚é‚©
 	void CheckAligned(Dice* _dice);
 

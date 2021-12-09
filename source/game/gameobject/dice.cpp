@@ -139,6 +139,11 @@ bool Dice::SetRollAction(Direction _direction)
 	return true;
 }
 
+bool Dice::CheckDiceDirection(Direction _direction)
+{
+	return DiceManager::GetInstance()->CanDiceMoveCheak(this, _direction);
+}
+
 void Dice::SetRollDirection(Direction _direction)
 {
 	//ニュートラルの時だけキー入力を認める
@@ -175,6 +180,7 @@ void Dice::SetStartUpPosition()
 
 void Dice::SetDownPosition()
 {
+	//if()
 	mTransform.move = 0;
 	mTransform.move.y = -mUpPositionPerFrame;
 	mSts = DICESTATUS::DOWN;
@@ -182,8 +188,7 @@ void Dice::SetDownPosition()
 
 void Dice::Push()
 {
-	mTransform.AddPosition();
-	mTransform.CreateMtx();
+	mTransform.MovePosition();
 	mCrrentPushCnt++;
 	if (mCrrentPushCnt >= mMoveCnt)
 	{
