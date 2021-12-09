@@ -18,7 +18,7 @@ private:
 	DirectX::XMFLOAT4X4 mMtxFrame;						// 1フレームでの変化を表す行列	
 	Float3 mRotateStartPos;								// キー入力された際の開始位置	
 
-	const int mMoveCnt = 16;							// 90度回転、押されるのに必要な更新回数
+	const int mMoveCnt = 14;							// 90度回転、押されるのに必要な更新回数
 	int mCrrentRotCnt = 0;								// 今の回転回数	
 	const float mRotAnglePerFrame = 90.0f / mMoveCnt;	// 1回当たりの回転角度	
 

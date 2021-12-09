@@ -101,7 +101,7 @@ bool DiceManager::CanDiceMove(Dice* _dice, Direction _dire)
 		if (dSts == DICESTATUS::NORMAL || dSts == DICESTATUS::DOWN || dSts == DICESTATUS::HALF_UP)
 			return false;
 		// 半分以下のサイコロならそのサイコロを消す
-		//SetRemoveDice(mDiceList[mDiceMap[afterPos.z][afterPos.x]]);
+		SetRemoveDice(mDiceList[mDiceMap[afterPos.z][afterPos.x]]);
 	}
 
 	mDiceMap[afterPos.z][afterPos.x] = mDiceMap[_dice->GetMapPos().z][_dice->GetMapPos().x];
@@ -186,10 +186,23 @@ void DiceManager::CheckAligned(Dice* _dice)
 
 void DiceManager::SetRemoveDice(Dice* _dice)
 {
+	//auto itDice = std::find(mDiceList.begin(), mDiceList.end(), _dice);
+	int num = mDiceMap[_dice->GetMapPos().z][_dice->GetMapPos().x];
+
 	auto itDice = std::find(mDiceList.begin(), mDiceList.end(), _dice);
-	mDiceMap[(*itDice)->GetMapPos().z][(*itDice)->GetMapPos().x] = -1;
-	/// Todo:参照している添え字が合わなくなるので消せない。修正方法考える
-	//mDiceList.erase(itDice);
+	//mDiceList.erase(mDiceList.begin() + num);
+	_dice->SetObjectState(ObjectState::eDead);
+	mDiceList.erase(itDice);
+	mDiceList.shrink_to_fit();
+	mDiceMap[_dice->GetMapPos().z][_dice->GetMapPos().x] = -1;
+	for (int z = 0; z < mCurrentStageData.mMapSizeHeight; z++)
+	{
+		for (int x = 0; x < mCurrentStageData.mMapSizeWidth; x++)
+		{
+			if (mDiceMap[z][x] > num)
+				mDiceMap[z][x] = mDiceMap[z][x] - 1;
+		}
+	}
 }
 
 void DiceManager::CheckDiceAlign(INT3 _mapPos, DICEFRUIT _diceType)

@@ -5,7 +5,7 @@
 Dice::~Dice()
 {
 	//Finalize();
-	DiceManager::GetInstance()->SetRemoveDice(this);
+	//DiceManager::GetInstance()->SetRemoveDice(this);
 }
 
 void Dice::ObjectInit()
@@ -294,7 +294,8 @@ void Dice::Down()
 	if (mTransform.position.y < -DICE_SCALE_HALF)
 	{
 		///  Todo:Á‚·
-		mObjectState = ObjectState::eDead;
+		//mObjectState = ObjectState::eDead;
+		DiceManager::GetInstance()->SetRemoveDice(this);
 	}
 	else if (mTransform.position.y < 0)
 	{
