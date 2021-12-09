@@ -11,10 +11,14 @@ private:
 	SceneManager*	mManager;
 
 	std::vector<GameObject*> mObjectList;	// ゲームオブジェクトを全部まとめて管理できるオブジェクトリスト
+	// 待ち状態のアクター群
+	std::vector<GameObject*> mPendingActors;
 
 	Quad2D		mQuadfadein;
 	Quad2D		mQuadfadeout;
 
+	// アクターを更新しているかどうか
+	bool mUpdatingActors;
 protected:
 	Float3 mCameraLookat;			// カメラの注視点
 
@@ -29,7 +33,7 @@ public:
 	// リストに追加
 	void AddGameObject(GameObject* _object);
 	// リストから削除
-	void AddGameObject(GameObject* _object);
+	void RemoveGameObject(GameObject* _object);
 
 	// オブジェクト初期化
 	bool Init();

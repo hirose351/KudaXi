@@ -2,14 +2,18 @@
 
 GameObject::~GameObject()
 {
+	SceneManager::GetInstance()->GetAddScene()->RemoveGameObject(this);
+
 	mName.clear();
 	for (auto &component : mComponentList)
 	{
-		mComponentList.pop_back();
+		if (component != nullptr)
+		{
+			delete(component);
+		}
 	}
 	mComponentList.clear();
 	mComponentList.shrink_to_fit();
-	//SceneManager::GetInstance()->GetAddScene()->removeob(this);
 }
 
 void GameObject::Init()

@@ -58,6 +58,9 @@ public:
 	void SetObjectType(ObjectType newType) { mObjectType = newType; }
 	ObjectType GetObjectType() { return mObjectType; }
 
+	void SetObjectState(ObjectState _state) { mObjectState = _state; }
+	ObjectState GetObjectState() { return mObjectState; }
+
 	Transform* GetTransform() { return &mTransform; }
 
 	//コンポーネントシステム関係

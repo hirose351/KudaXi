@@ -100,9 +100,11 @@ bool DiceManager::CanDiceMove(Dice* _dice, Direction _dire)
 
 void DiceManager::CheckAligned(Dice* _dice)
 {
+	if (_dice->GetTopDiceTypeNum() == 1)
+		return;
+
 	// 現在のブロック位置をチェック用配列にコピー
 	memcpy((void *)mCheckMap, (void *)mDiceMap, sizeof(mDiceMap));
-
 
 	// 揃っているブロックの存在確認用配列初期化
 	for (int z = 0; z < mCurrentStageData.mMapSizeHeight; z++)
@@ -120,105 +122,111 @@ void DiceManager::CheckAligned(Dice* _dice)
 	mDiceAlignCnt = 1;
 	CheckDiceAlign(_dice->GetMapPos(), _dice->GetTopDiceType());
 
+	if (mDiceAlignCnt < _dice->GetTopDiceTypeNum())
+		return;
 	// 数あればブロックを下げる関数を呼ぶ
-	if (mDiceAlignCnt >= _dice->GetTopDiceTypeNum())
+	for (int z = 0; z < mCurrentStageData.mMapSizeHeight; z++)
 	{
-		for (int z = 0; z < mCurrentStageData.mMapSizeHeight; z++)
+		for (int x = 0; x < mCurrentStageData.mMapSizeWidth; x++)
 		{
-			for (int x = 0; x < mCurrentStageData.mMapSizeWidth; x++)
+			if (mCheckboolMap[z][x])
 			{
-				if (mCheckboolMap[z][x])
+				if (mDiceMap[z][x] != -1)
 				{
-					if (mDiceMap[z][x] != -1)
-					{
-						// Diceを落とす
-						mDiceList[mDiceMap[z][x]]->SetDownPosition();
-					}
+					// Diceを落とす
+					mDiceList[mDiceMap[z][x]]->SetDownPosition();
 				}
 			}
 		}
 	}
+
 }
 
 void DiceManager::CheckDiceAlign(INT3 _mapPos, DICEFRUIT _diceType)
 {
+	INT3 ans;
+
 	// 上確認
 	if (_mapPos.z > 0)
 	{
+		ans = { _mapPos.x ,0, _mapPos.z - 1 };
 		// ブロックが存在してチェックされていないマスなら
-		if (mCheckMap[_mapPos.z - 1][_mapPos.x] > -1)
+		if (mCheckMap[ans.z][ans.x] > -1)
 		{
 			// チェック済みにする
-			mCheckMap[_mapPos.z - 1][_mapPos.x] = -1;
+			mCheckMap[ans.z][ans.x] = -1;
 			// ブロックの面が同じか配列に入れる
-			mCheckboolMap[_mapPos.z - 1][_mapPos.x] = (mDiceList[mDiceMap[_mapPos.z - 1][_mapPos.x]]->GetTopDiceType() == _diceType);
+			mCheckboolMap[ans.z][ans.x] = (mDiceList[mDiceMap[ans.z][ans.x]]->GetTopDiceType() == _diceType);
 			// 面が同じだったら
-			if (mCheckboolMap[_mapPos.z - 1][_mapPos.x])
+			if (mCheckboolMap[ans.z][ans.x])
 			{
 				// サイコロのカウントを1足す
 				mDiceAlignCnt++;
 				// 揃っているブロックを基準にチェックする
-				CheckDiceAlign(INT3(_mapPos.x, _mapPos.y, _mapPos.z - 1), _diceType);
+				CheckDiceAlign(ans, _diceType);
 			}
 		}
 	}
 	// 下確認
 	if (_mapPos.z < mCurrentStageData.mMapSizeHeight - 1)
 	{
+		ans = { _mapPos.x ,0, _mapPos.z + 1 };
 		// ブロックが存在してチェックされていないマスなら
-		if (mCheckMap[_mapPos.z + 1][_mapPos.x] > -1)
+		if (mCheckMap[ans.z][ans.x] > -1)
 		{
 			// チェック済みにする
-			mCheckMap[_mapPos.z + 1][_mapPos.x] = -1;
+			mCheckMap[ans.z][ans.x] = -1;
 			// ブロックの面が同じか配列に入れる
-			mCheckboolMap[_mapPos.z + 1][_mapPos.x] = (mDiceList[mDiceMap[_mapPos.z + 1][_mapPos.x]]->GetTopDiceType() == _diceType);
+			mCheckboolMap[ans.z][ans.x] = (mDiceList[mDiceMap[ans.z][ans.x]]->GetTopDiceType() == _diceType);
 			// 面が同じだったら
-			if (mCheckboolMap[_mapPos.z + 1][_mapPos.x])
+			if (mCheckboolMap[ans.z][ans.x])
 			{
 				// サイコロのカウントを1足す
 				mDiceAlignCnt++;
 				// 揃っているブロックを基準にチェックする
-				CheckDiceAlign(INT3(_mapPos.x, _mapPos.y, _mapPos.z + 1), _diceType);
+				CheckDiceAlign(ans, _diceType);
 			}
 		}
 	}
 	// 左確認
 	if (_mapPos.x > 0)
 	{
+		ans = { _mapPos.x - 1 ,0, _mapPos.z };
 		// ブロックが存在してチェックされていないマスなら
-		if (mCheckMap[_mapPos.z][_mapPos.x - 1] > -1)
+		if (mCheckMap[ans.z][ans.x] > -1)
 		{
 			// チェック済みにする
-			mCheckMap[_mapPos.z][_mapPos.x - 1] = -1;
+			mCheckMap[ans.z][ans.x] = -1;
 			// ブロックの面が同じか配列に入れる
-			mCheckboolMap[_mapPos.z][_mapPos.x - 1] = (mDiceList[mDiceMap[_mapPos.z][_mapPos.x - 1]]->GetTopDiceType() == _diceType);
+			mCheckboolMap[ans.z][ans.x] = (mDiceList[mDiceMap[ans.z][ans.x]]->GetTopDiceType() == _diceType);
 			// 面が同じだったら
-			if (mCheckboolMap[_mapPos.z][_mapPos.x - 1])
+			if (mCheckboolMap[ans.z][ans.x])
 			{
 				// サイコロのカウントを1足す
 				mDiceAlignCnt++;
 				// 揃っているブロックを基準にチェックする
-				CheckDiceAlign(INT3(_mapPos.x - 1, _mapPos.y, _mapPos.z), _diceType);
+				CheckDiceAlign(ans, _diceType);
 			}
 		}
 	}
 	// 右確認
 	if (_mapPos.x < mCurrentStageData.mMapSizeWidth - 1)
 	{
+		ans = { _mapPos.x + 1  ,0, _mapPos.z };
 		// ブロックが存在してチェックされていないマスなら
-		if (mCheckMap[_mapPos.z][_mapPos.x + 1] > -1)
+		if (mCheckMap[ans.z][ans.x] > -1)
 		{
 			// チェック済みにする
-			mCheckMap[_mapPos.z][_mapPos.x + 1] = -1;
+			mCheckMap[ans.z][ans.x] = -1;
 			// ブロックの面が同じか配列に入れる
-			mCheckboolMap[_mapPos.z][_mapPos.x + 1] = (mDiceList[mDiceMap[_mapPos.z][_mapPos.x + 1]]->GetTopDiceType() == _diceType);
+			mCheckboolMap[ans.z][ans.x] = (mDiceList[mDiceMap[ans.z][ans.x]]->GetTopDiceType() == _diceType);
 			// 面が同じだったら
-			if (mCheckboolMap[_mapPos.z][_mapPos.x + 1])
+			if (mCheckboolMap[ans.z][ans.x])
 			{
 				// サイコロのカウントを1足す
 				mDiceAlignCnt++;
 				// 揃っているブロックを基準にチェックする
-				CheckDiceAlign(INT3(_mapPos.x + 1, _mapPos.y, _mapPos.z), _diceType);
+				CheckDiceAlign(ans, _diceType);
 			}
 		}
 	}

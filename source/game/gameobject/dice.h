@@ -58,7 +58,7 @@ public:
 		AddComponent<Component::CollisionComponent>()->SetInitState(ObjectTag::Dice, Float3(0, 0, 0), Float3(DICE_SCALE_HALF), DirectX::XMFLOAT4(0, 0, 1, 0.3f));
 		ObjectInit();
 	}
-	~Dice()override;
+	~Dice();
 
 	void ObjectInit() override;
 	void ObjectUpdate()override;
@@ -109,7 +109,7 @@ public:
 
 	float GetmPushPositionPerFrame() { return mPushPositionPerFrame; }
 	float GetmRollmRotAnglePerFrame() { return mRotAnglePerFrame; }
-	bool GetPush() { return mCrrentPushCnt == mMoveCnt; }
-	bool GetRoll() { return mCrrentRotCnt >= mMoveCnt - 1; }
+	bool GetPushEnd() { return mCrrentPushCnt == mMoveCnt; }
+	bool GetRollEnd() { return mCrrentRotCnt >= mMoveCnt - 1; }
 };
 

@@ -9,14 +9,14 @@ class Component::CollisionComponent;
 class CollisionManager : public Uncopyable
 {
 private:
-	std::vector<Dix::sp<class Component::CollisionComponent>> mColList;
+	std::vector<class Component::CollisionComponent*> mColList;
 
 public:
 	static CollisionManager& GetInstance() {
 		static CollisionManager Instance;
 		return Instance;
 	}
-	virtual ~CollisionManager() {}
+	~CollisionManager();
 
 	// ’Ç‰Á
 	void AddCollision(Component::CollisionComponent *_col);

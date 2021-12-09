@@ -278,11 +278,12 @@ void Dice::Up()
 
 void Dice::Down()
 {
-	mTransform.AddPosition();
-	mTransform.CreateMtx();
+	mTransform.MovePosition();
+	//mTransform.CreateMtx();
 	if (mTransform.position.y < -DICE_SCALE_HALF)
 	{
 		///  Todo:Á‚·
+		mObjectState = ObjectState::eDead;
 	}
 	else if (mTransform.position.y < 0)
 	{

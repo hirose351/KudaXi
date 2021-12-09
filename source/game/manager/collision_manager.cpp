@@ -2,6 +2,12 @@
 
 //using namespace Component;
 
+CollisionManager::~CollisionManager()
+{
+	mColList.clear();
+	mColList.shrink_to_fit();
+}
+
 void CollisionManager::AddCollision(Component::CollisionComponent *_col)
 {
 	mColList.emplace_back(_col);
@@ -9,7 +15,8 @@ void CollisionManager::AddCollision(Component::CollisionComponent *_col)
 
 void CollisionManager::RemoveCollision(Component::CollisionComponent *_col)
 {
-	//mColList.erase(_col);
+	auto it = std::find(mColList.begin(), mColList.end(), _col);
+	mColList.erase(it);
 }
 
 float hosei(float aHl, float aP, float bHl, float bP)
@@ -36,8 +43,8 @@ void CollisionManager::Update()
 			if (ans.y < 0)continue;
 			if (ans.z < 0)continue;
 
-			(*itA)->SetHitObj((*itB).GetPtr());
-			(*itB)->SetHitObj((*itA).GetPtr());
+			(*itA)->SetHitObj(*itB);
+			(*itB)->SetHitObj(*itA);
 
 			/*if ((*itA).GetPtr()->GetOwner()->GetObjectType() == ObjectType::ePlayer)
 			{

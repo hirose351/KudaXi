@@ -14,7 +14,36 @@ SceneBase::~SceneBase()
 
 void SceneBase::AddGameObject(GameObject* _object)
 {
-	mObjectList.emplace_back(_object);
+	// アクターが更新中なら待ち群に追加
+	if (mUpdatingActors)
+	{
+		mPendingActors.emplace_back(_object);
+	}
+	else
+	{
+		mObjectList.emplace_back(_object);
+	}
+}
+
+void SceneBase::RemoveGameObject(GameObject* _object)
+{
+	// 保留中のアクターかどうか
+	auto iter = std::find(mPendingActors.begin(), mPendingActors.end(), _object);
+	if (iter != mPendingActors.end())
+	{
+		// ベクトルの最後までワップしてポップオフします（コピーの消去は避けてください）
+		std::iter_swap(iter, mPendingActors.end() - 1);
+		mPendingActors.pop_back();
+	}
+
+	// 存在するアクターかどうか
+	iter = std::find(mObjectList.begin(), mObjectList.end(), _object);
+	if (iter != mObjectList.end())
+	{
+		// ベクトルの最後までワップしてポップオフします（コピーの消去は避けてください）
+		std::iter_swap(iter, mObjectList.end() - 1);
+		mObjectList.pop_back();
+	}
 }
 
 bool SceneBase::Init()
@@ -28,11 +57,41 @@ bool SceneBase::Init()
 
 void SceneBase::Update()
 {
+
+	// すべてのアクターを更新
+	mUpdatingActors = true;
 	for (auto &obj : mObjectList)
 	{
 		obj->Update();
 	}
+	mUpdatingActors = false;
+
+	// 待ちになっていたアクターをm_actorsに移動
+	for (auto pending : mPendingActors)
+	{
+		mObjectList.emplace_back(pending);
+	}
+	mPendingActors.clear();
+
 	SceneUpdate();
+
+	// 死んだアクターを一時配列に追加
+	std::vector<GameObject*> deadObjcts;
+	for (auto obj : mObjectList)
+	{
+		if (obj->GetObjectState() == ObjectState::eDead)
+		{
+			deadObjcts.emplace_back(obj);
+		}
+	}
+
+	// 死んだアクターを消す（m_actorsから削除）
+	for (auto obj : deadObjcts)
+	{
+		delete obj;
+	}
+
+	mObjectList.shrink_to_fit();
 }
 
 void SceneBase::Render()

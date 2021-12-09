@@ -22,7 +22,7 @@ namespace Component {
 
 	public:
 		CollisionComponent();
-		virtual ~CollisionComponent();
+		~CollisionComponent();
 		void Awake()override {};
 		void Init()override;
 		void Update()override;
@@ -34,6 +34,9 @@ namespace Component {
 
 		// 受け取った座標から最も近いDiceを返す
 		GameObject* GetNearestDice(Float3 _pos);
+
+		// 指定されたコンポーネントが入ったデータを削除
+		void RemoveCollisionData(CollisionComponent* _col);
 
 		void SetHitObj(Component::CollisionComponent* _hitobj);
 		void SetLocalScale(Float3 _scale) { mPrim.hl = _scale; };

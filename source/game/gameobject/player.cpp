@@ -232,7 +232,7 @@ void Player::Roll()
 		mPstate = eMove;
 		return;
 	}
-	if (mpOperationDice->GetRoll())
+	if (mpOperationDice->GetRollEnd())
 	{
 		mPstate = eMove;
 		mTransform.move = mTransform.move * -1.0f;
@@ -274,7 +274,7 @@ void Player::Roll()
 
 void Player::Push()
 {
-	if (mpOperationDice->GetPush())
+	if (mpOperationDice->GetPushEnd())
 	{
 		mPstate = eMove;
 		mTransform.move = mTransform.move * -1.0f;

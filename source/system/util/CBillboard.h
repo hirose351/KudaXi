@@ -38,15 +38,11 @@ protected:
 	XMFLOAT4X4 mMatrixWorld;					//ワールド変換行列
 
 	ComPtr <ID3D11Buffer> mpVetexBuffer = nullptr;				//頂点バッファ
-
 	ComPtr <ID3D11Resource> mpTexRes = nullptr;					//テクスチャ情報
 	ComPtr <ID3D11ShaderResourceView> mpTexSRV = nullptr;
-
 	ComPtr <ID3D11Buffer> mpConstantBuffer = nullptr;			//定数バッファ
 
 	bool mShouldErase = false;		//消すべきか
-
-
 public:
 	CBillboard();
 	virtual ~CBillboard() = default;

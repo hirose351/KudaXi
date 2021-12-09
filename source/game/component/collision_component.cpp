@@ -73,8 +73,16 @@ void CollisionComponent::ColUpdate()
 	}
 
 	/// Todo:ゲームオブジェクトがぬるの時の処理
-	for (auto obj = mHitColList.begin(); obj != mHitColList.end(); obj++)
+	for (auto obj = mHitColList.begin(); obj != mHitColList.end();)
 	{
+		// 登録されたオブジェクトが削除されていた時の処理
+		if ((*obj)->col->GetOwner()->GetObjectState() == ObjectState::eDead)
+		{
+			mOwner->OnCollisionExit((*obj)->col);
+			obj = mHitColList.erase(obj);
+			continue;
+		}
+
 		// 当たった関数呼び出し
 		if ((*obj)->isHit && (*obj)->beforeHit)
 		{
@@ -93,6 +101,7 @@ void CollisionComponent::ColUpdate()
 		(*obj)->beforeHit = (*obj)->isHit;
 		(*obj)->isHit = false;
 
+		obj++;
 	}
 	mHitColList.shrink_to_fit();
 }
@@ -129,6 +138,19 @@ GameObject* CollisionComponent::GetNearestDice(Float3 _pos)
 	//mOwner->GetTransform()->CreateMtx();
 	//mOwner->Update();
 	return colData->GetOwner();
+}
+
+void CollisionComponent::RemoveCollisionData(CollisionComponent* _col)
+{
+	// リストに存在するオブジェクトか
+	for (auto obj = mHitColList.begin(); obj != mHitColList.end(); obj++)
+	{
+		if ((*obj)->col != _col)
+			continue;
+		// 存在すれば消す
+		mHitColList.erase(obj);
+		return;
+	}
 }
 
 void CollisionComponent::SetHitObj(CollisionComponent* _hitobj)

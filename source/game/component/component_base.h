@@ -12,7 +12,7 @@ protected:
 public:
 	ComponentBase() :mOwner(nullptr), mIsActive(true) {}
 	ComponentBase(GameObject* mOwner) :mOwner(mOwner) {}
-	~ComponentBase() { Uninit(); mOwner = nullptr; }
+	virtual ~ComponentBase() { Uninit(); mOwner = nullptr; }
 
 	GameObject* GetOwner() { return mOwner; }
 	void SetOwner(GameObject* newowner) { mOwner = newowner; }
