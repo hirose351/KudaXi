@@ -5,6 +5,7 @@
 Dice::~Dice()
 {
 	//Finalize();
+	DiceManager::GetInstance()->SetRemoveDice(this);
 }
 
 void Dice::ObjectInit()
@@ -18,27 +19,32 @@ void Dice::ObjectUpdate()
 {
 	switch (mSts)
 	{
-		//case DICESTATUS::NORMAL:
-		//	break;
 	case DICESTATUS::UP:
+		GetComponent<Component::CollisionComponent>()->SetColor(XMFLOAT4(1, 1, 1, 0));
 		Up();
 		break;
 	case DICESTATUS::HALF_UP:
+		GetComponent<Component::CollisionComponent>()->SetColor(XMFLOAT4(1, 1, 1, 0.5f));
 		Up();
 		break;
 	case DICESTATUS::ROLL:
+		GetComponent<Component::CollisionComponent>()->SetColor(XMFLOAT4(1, 1, 1, 0));
 		Roll();
 		break;
 	case DICESTATUS::PUSH:
+		GetComponent<Component::CollisionComponent>()->SetColor(XMFLOAT4(1, 1, 1, 0));
 		Push();
 		break;
 	case DICESTATUS::DOWN:
+		GetComponent<Component::CollisionComponent>()->SetColor(XMFLOAT4(1, 0, 0, 0.5f));
 		Down();
 		break;
 	case DICESTATUS::HALFDOWN:
+		GetComponent<Component::CollisionComponent>()->SetColor(XMFLOAT4(1, 0, 0, 0.3f));
 		Down();
 		break;
 	default:
+		GetComponent<Component::CollisionComponent>()->SetColor(XMFLOAT4(1, 1, 1, 0));
 		break;
 	}
 
@@ -75,9 +81,9 @@ void Dice::MoveDiceScale(Direction _direction)
 
 bool Dice::SetPushAction(Direction _direction)
 {
-	if (!DiceManager::GetInstance()->CanDiceMove(this, _direction))
+	if (mSts != DICESTATUS::NORMAL)
 		return false;
-	if (mDirection != Direction::eNeutral)
+	if (!DiceManager::GetInstance()->CanDiceMove(this, _direction))
 		return false;
 
 	mTransform.move = 0;
@@ -104,9 +110,9 @@ bool Dice::SetPushAction(Direction _direction)
 
 bool Dice::SetRollAction(Direction _direction)
 {
-	if (!DiceManager::GetInstance()->CanDiceMove(this, _direction))
+	if (mSts != DICESTATUS::NORMAL)
 		return false;
-	if (mDirection != Direction::eNeutral)
+	if (!DiceManager::GetInstance()->CanDiceMove(this, _direction))
 		return false;
 
 	mTransform.angle = 0;
@@ -164,7 +170,7 @@ void Dice::SetRollDirection(Direction _direction)
 void Dice::SetStartUpPosition()
 {
 	mTransform.move.y = mUpPositionPerFrame;
-	mSts = DICESTATUS::UP;
+	mSts = DICESTATUS::HALF_UP;
 }
 
 void Dice::SetDownPosition()
@@ -297,6 +303,7 @@ void Dice::SetOverPlane() {
 	Float3 underaxis(0.0f, -1.0f, 0.0f);
 	Float3 axis;
 	bool sts[6];
+	float range = 0.001f;
 	int diceNum[6] = { 4,6,2,3,1,5 };
 	float dot;
 
@@ -306,28 +313,28 @@ void Dice::SetOverPlane() {
 	DX11Vec3Dot(dot, axis, underaxis);
 
 	// àÍíËÇÃïùÇéùÇΩÇπÇƒílÇÃî‰ärÇçsÇ§
-	sts[0] = floatcheck(dot, 1.0f, 0.001f);
+	sts[0] = floatcheck(dot, 1.0f, range);
 
 	// Yé≤éÊìæ
 	axis = { mTransform.worldMtx._21, mTransform.worldMtx._22, mTransform.worldMtx._23 };
 	DX11Vec3Dot(dot, axis, underaxis);
-	sts[1] = floatcheck(dot, 1.0f, 0.001f);
+	sts[1] = floatcheck(dot, 1.0f, range);
 	// Zé≤éÊìæ
 	axis = { mTransform.worldMtx._31, mTransform.worldMtx._32, mTransform.worldMtx._33 };
 	DX11Vec3Dot(dot, axis, underaxis);
-	sts[2] = floatcheck(dot, 1.0f, 0.001f);
+	sts[2] = floatcheck(dot, 1.0f, range);
 	// -Xé≤éÊìæ
 	axis = { -mTransform.worldMtx._11, -mTransform.worldMtx._12, -mTransform.worldMtx._13 };
 	DX11Vec3Dot(dot, axis, underaxis);
-	sts[3] = floatcheck(dot, 1.0f, 0.001f);
+	sts[3] = floatcheck(dot, 1.0f, range);
 	// -Yé≤éÊìæ
 	axis = { -mTransform.worldMtx._21, -mTransform.worldMtx._22, -mTransform.worldMtx._23 };
 	DX11Vec3Dot(dot, axis, underaxis);
-	sts[4] = floatcheck(dot, 1.0f, 0.001f);
+	sts[4] = floatcheck(dot, 1.0f, range);
 	// -Zé≤éÊìæ
 	axis = { -mTransform.worldMtx._31, -mTransform.worldMtx._32, -mTransform.worldMtx._33 };
 	DX11Vec3Dot(dot, axis, underaxis);
-	sts[5] = floatcheck(dot, 1.0f, 0.001f);
+	sts[5] = floatcheck(dot, 1.0f, range);
 
 	for (int i = 0; i < 6; i++)
 	{

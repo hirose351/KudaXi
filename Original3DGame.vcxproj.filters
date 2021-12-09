@@ -243,9 +243,6 @@
     <ClCompile Include="source\game\gameobject\transform.cpp">
       <Filter>ソース ファイル\game\gameobject\util</Filter>
     </ClCompile>
-    <ClCompile Include="source\game\data\stage_data.cpp">
-      <Filter>ソース ファイル\game\data</Filter>
-    </ClCompile>
     <ClCompile Include="source\system\util\quad2d.cpp">
       <Filter>ソース ファイル\system\texture</Filter>
     </ClCompile>
@@ -314,6 +311,9 @@
     </ClCompile>
     <ClCompile Include="source\game\data\saveload.cpp">
       <Filter>ソース ファイル\game\data</Filter>
+    </ClCompile>
+    <ClCompile Include="source\game\data\stage_data.cpp">
+      <Filter>ソース ファイル\game\data\stage</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -467,9 +467,6 @@
     <ClInclude Include="source\game\gameobject\transform.h">
       <Filter>ソース ファイル\game\gameobject\util</Filter>
     </ClInclude>
-    <ClInclude Include="source\game\data\stage_data.h">
-      <Filter>ソース ファイル\game\data</Filter>
-    </ClInclude>
     <ClInclude Include="source\system\util\quad2d.h">
       <Filter>ソース ファイル\system\texture</Filter>
     </ClInclude>
@@ -541,6 +538,9 @@
     </ClInclude>
     <ClInclude Include="source\game\data\saveload.h">
       <Filter>ソース ファイル\game\data</Filter>
+    </ClInclude>
+    <ClInclude Include="source\game\data\stage_data.h">
+      <Filter>ソース ファイル\game\data\stage</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

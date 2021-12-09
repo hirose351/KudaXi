@@ -45,5 +45,7 @@ public:
 	void Update(const Primitive::AABB& _aabb);
 	// •`‰æ
 	void Draw(DirectX::XMFLOAT4X4 _mtx);
+
+	void SetColor(const XMFLOAT4& _color);
 };
 

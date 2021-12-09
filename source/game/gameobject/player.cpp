@@ -25,12 +25,13 @@ void Player::ObjectInit()
 {
 	mTransform.ReSetValue();
 
-	mTransform.SetPosition(Float3(mInitMapPos.x*DICE_SCALE, DICE_SCALE / 2.0f, -mInitMapPos.z*DICE_SCALE));
+	mTransform.SetPosition(Float3(mInitMapPos.x*DICE_SCALE, DICE_SCALE_HALF, -mInitMapPos.z*DICE_SCALE));
 	mTransform.CreateMtx();
 
 	mDirection = Direction::eDown;
 
 	mIsDiceMove = false;
+	stageData.SetStageData(StageDataManager::GetInstance().GetCurrentStage());
 }
 
 void Player::ObjectUpdate()
@@ -65,6 +66,8 @@ void Player::ObjectUpdate()
 		return;
 	// 最も近いサイコロを検索
 	SetNearestDice();
+	// ステージに合わせて位置修正
+	StageHitCorrection();
 }
 
 void Player::ObjectImguiDraw()
@@ -119,7 +122,7 @@ void Player::OnColEnterObj(Dice* _other)
 	//mIsDiceOperation = true;
 	if (mPstate != eMove)
 		return;
-	if (mTransform.GetPosition().y > DICE_SCALE / 2.0f)
+	if (mTransform.GetPosition().y > DICE_SCALE_HALF)
 		return;
 	if (_other->SetPushAction(mDirection))
 		mPstate = ePush;	// 状態を変える
@@ -137,7 +140,7 @@ void Player::OnColStayObj(Dice* _other)
 
 void Player::OnColExitObj(Dice* _other)
 {
-	if (mpOperationDice == _other && DICE_SCALE / 2.0f > mTransform.position.y)
+	if (mpOperationDice == _other && DICE_SCALE_HALF > mTransform.position.y)
 	{
 		mpOperationDice = nullptr;
 		mIsDiceOperation = false;
@@ -347,11 +350,29 @@ void Player::CheckRoll()
 		mPstate = eRoll;// 状態を変える
 }
 
+void Player::StageHitCorrection()
+{
+	// 壁の処理
+	if (stageData.mMapSizeHeight*-DICE_SCALE - DICE_SCALE_HALF > mTransform.position.z)
+		mTransform.SetPositionZ(stageData.mMapSizeHeight*-DICE_SCALE - DICE_SCALE_HALF);
+	if (0 + DICE_SCALE_HALF < mTransform.position.z)
+		mTransform.SetPositionZ(0 + DICE_SCALE_HALF);
+	if (stageData.mMapSizeWidth*DICE_SCALE - DICE_SCALE_HALF < mTransform.position.x)
+		mTransform.SetPositionX(stageData.mMapSizeWidth*DICE_SCALE - DICE_SCALE_HALF);
+	if (0 - DICE_SCALE_HALF > mTransform.position.x)
+		mTransform.SetPositionX(0 - DICE_SCALE_HALF);
+
+	// サイコロの処理
+
+}
+
 bool Player::SetNearestDice()
 {
 	mpOperationDice = dynamic_cast<Dice*>(GetComponent<Component::CollisionComponent>()->GetNearestDice(mTransform.position));
 
 	if (mpOperationDice == nullptr)
 		return false;
+	//std::cout << "保持Dice基準Y補正\n";
+	//mTransform.SetPositionY(mpOperationDice->GetTransform()->GetPosition().y + DICE_SCALE_HALF + 4 - 0.5f);
 	return true;
 }

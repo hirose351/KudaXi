@@ -41,9 +41,10 @@ namespace Component {
 		void SetHitObj(Component::CollisionComponent* _hitobj);
 		void SetLocalScale(Float3 _scale) { mPrim.hl = _scale; };
 		void SetLocalPos(Float3 _localPos) { mLocalPos = _localPos; };
-		void SetColor(DirectX::XMFLOAT4 _color) { mColor = _color; };
+		void SetColor(DirectX::XMFLOAT4 _color) { mColor = _color; mQube.SetColor(mColor); };
 
 		void SetInitState(ObjectTag _tag, Float3 _localPos, Float3 _scale, DirectX::XMFLOAT4 _color);
+
 
 		Primitive::AABB* GetPrim() { Update(); return &mPrim; }
 	};

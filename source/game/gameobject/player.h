@@ -4,6 +4,7 @@
 #include	"../../system/model/ModelMgr.h"
 #include	"../component/allcomponents.h"
 #include	"../state/state.h"
+#include	"../manager/stagedata_manager.h"
 
 using Microsoft::WRL::ComPtr;
 
@@ -27,15 +28,15 @@ private:
 	Foot mfoot = Foot::eDice;					// 足元
 
 	int mStartCount = 150;						// 開始時の停止時間(実際は上がってるサイコロの状態で移動制限されるので必要ない)
-
+	StageData stageData;
 	void Move();
 	void Roll();
 	void Push();
 	void CheckRoll();
+	void StageHitCorrection();
 
 	// 最も近いサイコロを登録
 	bool SetNearestDice();
-
 public:
 	Player() : GameObject(("Player"), ObjectType::ePlayer) {
 		bool sts = ModelMgr::GetInstance().LoadModel(

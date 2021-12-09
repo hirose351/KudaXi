@@ -37,5 +37,8 @@ public:
 
 	// 揃っているか
 	void CheckAligned(Dice* _dice);
+
+	// 対象のサイコロのマップ上のデータを消す
+	void SetRemoveDice(Dice* _dice);
 };
 

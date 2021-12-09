@@ -24,7 +24,7 @@ void DiceManager::DiceCreate()
 			dice->GetTransform()->SetScale(1.0f / 7.0f);
 			dice->GetTransform()->CreateScaleMtx();
 
-			dice->GetTransform()->SetPositionMove(Float3(DICE_SCALE*x, -DICE_SCALE / 2.0f, -DICE_SCALE * z));
+			dice->GetTransform()->SetPositionMove(Float3(DICE_SCALE*x, -DICE_SCALE_HALF, -DICE_SCALE * z));
 			//dice->GetTransform()->CreateMtx();
 			dice->SetMapPos(INT3(x, 0, z));
 			// オブジェクトの名前に添え字を加える
@@ -122,30 +122,37 @@ void DiceManager::CheckAligned(Dice* _dice)
 	mDiceAlignCnt = 1;
 	CheckDiceAlign(_dice->GetMapPos(), _dice->GetTopDiceType());
 
+	// 出目の数以上なければ返す
 	if (mDiceAlignCnt < _dice->GetTopDiceTypeNum())
 		return;
-	// 数あればブロックを下げる関数を呼ぶ
+
+	// 対象のサイコロの下げる関数を呼ぶ
 	for (int z = 0; z < mCurrentStageData.mMapSizeHeight; z++)
 	{
 		for (int x = 0; x < mCurrentStageData.mMapSizeWidth; x++)
 		{
-			if (mCheckboolMap[z][x])
+			if (mCheckboolMap[z][x] && mDiceMap[z][x] != -1)
 			{
-				if (mDiceMap[z][x] != -1)
-				{
-					// Diceを落とす
-					mDiceList[mDiceMap[z][x]]->SetDownPosition();
-				}
+				// Diceを落とす
+
+				mDiceList[mDiceMap[z][x]]->SetDownPosition();
+
 			}
 		}
 	}
+}
 
+void DiceManager::SetRemoveDice(Dice* _dice)
+{
+	auto itDice = std::find(mDiceList.begin(), mDiceList.end(), _dice);
+	mDiceMap[(*itDice)->GetMapPos().z][(*itDice)->GetMapPos().x] = -1;
+	/// Todo:参照している添え字が合わなくなるので消せない。修正方法考える
+	//mDiceList.erase(itDice);
 }
 
 void DiceManager::CheckDiceAlign(INT3 _mapPos, DICEFRUIT _diceType)
 {
 	INT3 ans;
-
 	// 上確認
 	if (_mapPos.z > 0)
 	{

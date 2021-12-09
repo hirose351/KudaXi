@@ -29,17 +29,18 @@ void MaingameScene::SceneInit()
 	//mCameraLookat.z = { -StageDataManager::GetInstance().GetCurrentStage()->mMapSizeHeight*DICE_SCALE / 2.0f };
 
 
+	StageDataManager::GetInstance().SetCurrentStage("test");
+	StageData stageData;
+	stageData.SetStageData(StageDataManager::GetInstance().GetCurrentStage());
+
 	Player* player = new Player;
 	Stage* stage = new Stage;
 	Skydome* skydome = new Skydome;
 
-	StageDataManager::GetInstance().SetCurrentStage("test");
 
-	StageData stageData;
-	stageData.SetStageData(StageDataManager::GetInstance().GetCurrentStage());
-	mCameraLookat.x = stageData.mMapSizeWidth*DICE_SCALE / 2.0f;
+	mCameraLookat.x = stageData.mMapSizeWidth*DICE_SCALE_HALF;
 	mCameraLookat.y = { 0 };
-	mCameraLookat.z = { -stageData.mMapSizeHeight*DICE_SCALE / 2.0f };
+	mCameraLookat.z = { -stageData.mMapSizeHeight*DICE_SCALE_HALF };
 	CCamera::GetInstance()->SetLookat(mCameraLookat);
 	CCamera::GetInstance()->CreateCameraMatrix();
 

@@ -47,6 +47,30 @@ void Qube::CreateVertex() {
 	}
 }
 
+void Qube::SetColor(const XMFLOAT4& _color)
+{
+	mColor = _color;
+	if (mVertex.empty())
+		return;
+	for (auto &v : mVertex)
+	{
+		v.Color = mColor;				// 頂点カラー
+	}
+	ID3D11Device* device = GetDX11Device();
+	// 頂点バッファ作成
+	bool sts = CreateVertexBufferWrite(
+		device,
+		sizeof(Vertex),						// １頂点当たりバイト数
+		static_cast<unsigned int>(mVertex.size()),					// 頂点数
+		mVertex.data(),					// 頂点データ格納メモリ先頭アドレス
+		mpVertexBuffer.GetAddressOf());	// 頂点バッファ
+	if (!sts)
+	{
+		MessageBox(NULL, "CreateBuffer(vertex buffer) error", "Error", MB_OK);
+	}
+
+}
+
 bool Qube::Init(const Primitive::AABB& _aabb, const XMFLOAT4& color) {
 	ID3D11Device* device = GetDX11Device();
 	bool sts;
