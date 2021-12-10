@@ -76,8 +76,6 @@ void Player::ObjectUpdate()
 	StageHitCorrection();
 	// Å‚à‹ß‚¢ƒTƒCƒRƒ‚ðŒŸõ
 	//SetNearestDice();
-	if (mpOperationDice == nullptr)
-		return;
 }
 
 void Player::ObjectImguiDraw()
@@ -152,7 +150,7 @@ void Player::OnColStayObj(Dice* _other)
 
 void Player::OnColExitObj(Dice* _other)
 {
-	if (mpOperationDice == _other && DICE_SCALE_HALF > mTransform.position.y)
+	if (mpOperationDice == _other && DICE_SCALE_HALF > mTransform.position.y&&mPstate != ePush)
 	{
 		mpOperationDice = nullptr;
 	}
@@ -457,14 +455,6 @@ bool Player::SetNearestDice()
 		}
 		std::cout << "•ÛŽDiceŠî€Y•â³\n";
 		mTransform.SetPositionY(mpOperationDice->GetTransform()->GetPosition().y + DICE_SCALE_HALF + 6 - 0.5f);
-
-		//if (!hitcheck(mTransform.position, mpOperationDice->GetTransform()->GetPosition(), DICE_SCALE + 4, DICE_SCALE + 4))
-		//{
-		//	mpOperationDice = nullptr;
-		//	mFoot = Foot::eFloor;
-		//	return false;
-		//}
-
 	}
 	return true;
 }

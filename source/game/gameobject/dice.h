@@ -3,12 +3,15 @@
 #include	"../../system/model/ModelMgr.h"
 #include	"../component/allcomponents.h"
 #include	"../state/dice_state.h"
+#include	"../../system/util/CBillboard.h"
 
 using Microsoft::WRL::ComPtr;
 
 class Dice : public GameObject
 {
 private:
+	float mThundera = 1.0f;								// 雷α値
+	CBillboard mThunder;								// 生成時雷
 	INT3 mMapPos;										// マップ上の位置
 	DICEFRUIT mTopDiceTypeFruit;						// 上面の果物
 	int mTopDiceTypeNum;								// 上面の数字

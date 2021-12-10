@@ -10,6 +10,13 @@ Dice::~Dice()
 
 void Dice::ObjectInit()
 {
+	/// Todo:óãÉNÉâÉXçÏÇÈ(ëºéÌóﬁÇ‡çÏÇËÇΩÇ¢ÇΩÇﬂ)
+	mThunder.LoadTexture("assets/image/effect/thunder/thunder_yellow.png");
+	mThunder.SetPos(Float3(mTransform.position.x, mTransform.position.y, mTransform.position.z));
+	mThunder.SetScale(XMFLOAT2(100.0f, 200.0f));
+	mThunder.SetDivUV(XMFLOAT2(2, 1));
+	mThunder.SetUV(XMFLOAT2(0, 0));
+
 	mDirection = Direction::eNeutral;
 	SetStartUpPosition();
 	SetOverPlane();
@@ -47,12 +54,16 @@ void Dice::ObjectUpdate()
 		GetComponent<Component::CollisionComponent>()->SetColor(XMFLOAT4(1, 1, 1, 0));
 		break;
 	}
-
-
 }
 
 void Dice::ObjectDraw()
 {
+
+	if (mThundera > 0.0f)
+	{
+		mThunder.Update();
+		mThunder.Render();
+	}
 }
 
 void Dice::Uninit()
@@ -293,6 +304,16 @@ void Dice::Up()
 	{
 		mDirection = Direction::eNeutral;
 		mSts = DICESTATUS::UP;
+	}
+
+	if (mThundera == 0.5f)
+	{
+		mThunder.SetUV(XMFLOAT2(1, 0));
+	}
+	if (mThundera > 0.0f)
+	{
+		mThunder.SetColor(XMFLOAT4(1, 1, 1, mThundera));
+		mThundera -= 0.025f;
 	}
 }
 

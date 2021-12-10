@@ -267,18 +267,18 @@ void DiceManager::SetRemoveDice(Dice* _dice)
 	}
 }
 
-Dice* DiceManager::GetNearestDice(Float3 _pos)
-{
-	Dice* dice = nullptr;
-
-	int x = _pos.x / DICE_SCALE;
-	int z = _pos.z / DICE_SCALE * -1;
-
-	if (mDiceMap[z][x] == -1)
-		return nullptr;
-
-	return mDiceList[mDiceMap[z][x]];
-}
+//Dice* DiceManager::GetNearestDice(Float3 _pos)
+//{
+//	Dice* dice = nullptr;
+//
+//	int x = _pos.x / DICE_SCALE;
+//	int z = _pos.z / DICE_SCALE * -1;
+//
+//	if (mDiceMap[z][x] == -1)
+//		return nullptr;
+//
+//	return mDiceList[mDiceMap[z][x]];
+//}
 
 void DiceManager::CheckDiceAlign(INT3 _mapPos, DICEFRUIT _diceType)
 {

@@ -47,5 +47,5 @@ public:
 	void SetRemoveDice(Dice* _dice);
 
 	// 操作可能なサイコロのアドレスを返す
-	Dice* GetNearestDice(Float3 _pos);
+	//Dice* GetNearestDice(Float3 _pos);
 };
