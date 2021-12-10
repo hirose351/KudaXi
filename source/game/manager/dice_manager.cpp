@@ -1,5 +1,6 @@
 #include	"dice_manager.h"
 #include	"stagedata_manager.h"
+#include	<random>
 
 void DiceManager::DiceCreate()
 {
@@ -44,6 +45,47 @@ void DiceManager::Init()
 
 void DiceManager::Update()
 {
+	if (mCurrentStageData.mMapSizeWidth*mCurrentStageData.mMapSizeHeight <= mDiceList.size())
+		return;
+	// ランダム生成
+	static int cnt = 0;
+	cnt++;
+
+	if (cnt == 200)
+	{
+		std::mt19937 mt(rnd());     //  メルセンヌ・ツイスタの32ビット版、引数は初期シード値
+		std::uniform_int_distribution<> rand100(0, mCurrentStageData.mMapSizeWidth*mCurrentStageData.mMapSizeHeight);        // [0, 99] 範囲の一様乱数
+		cnt = 0;
+		while (true)
+		{
+			int num = rand100(mt);
+			for (int z = 0; z < mCurrentStageData.mMapSizeHeight; z++)
+			{
+				for (int x = 0; x < mCurrentStageData.mMapSizeWidth; x++)
+				{
+					if (num == z * x + x && mDiceMap[z][x] == -1)
+					{
+						mDiceMap[z][x] = static_cast<int>(mDiceList.size());
+						Dice* dice = new Dice;
+						dice->GetTransform()->ReSetValue();
+						dice->GetTransform()->SetPositionMove(Float3(DICE_SCALE*x, -DICE_SCALE_HALF, -DICE_SCALE * z));
+						dice->GetTransform()->CreateMtx();
+						dice->SetMapPos(INT3(x, 0, z));
+						// オブジェクトの名前に添え字を加える
+						std::string nameNum;
+						nameNum = ("Dice" + std::to_string(mDiceMap[z][x]));
+						dice->SetName(nameNum);
+						dice->Init();
+						// vector配列に追加
+						mDiceList.emplace_back(dice);
+						return;
+					}
+				}
+			}
+
+		}
+	}
+
 }
 
 void DiceManager::Uninit()
@@ -88,17 +130,12 @@ bool DiceManager::CanDiceMove(Dice* _dice, Direction _dire)
 	// ステージ外なら移動しない
 	if (mCurrentStageData.mFloorMap[afterPos.z][afterPos.x] <= 0)
 		return false;
-
-	//// サイコロがあれば移動しない
-	//if (mDiceMap[afterPos.z][afterPos.x] > -1)
-	//	return false;
-
 	// サイコロがあるとき
 	if (mDiceMap[afterPos.z][afterPos.x] > -1)
 	{
 		DICESTATUS dSts = mDiceList[mDiceMap[afterPos.z][afterPos.x]]->GetDiceStatus();
 		// 半分以上存在しているサイコロなら移動しない
-		if (dSts == DICESTATUS::NORMAL || dSts == DICESTATUS::DOWN || dSts == DICESTATUS::HALF_UP)
+		if (dSts == DICESTATUS::NORMAL || dSts == DICESTATUS::DOWN || dSts == DICESTATUS::UP)
 			return false;
 		// 半分以下のサイコロならそのサイコロを消す
 		SetRemoveDice(mDiceList[mDiceMap[afterPos.z][afterPos.x]]);
@@ -182,6 +219,31 @@ void DiceManager::CheckAligned(Dice* _dice)
 			}
 		}
 	}
+
+	// 現在のブロック位置をチェック用配列にコピー
+	memcpy((void *)mCheckMap, (void *)mDiceMap, sizeof(mDiceMap));
+
+	// 揃っているブロックの存在確認用配列初期化
+	for (int z = 0; z < mCurrentStageData.mMapSizeHeight; z++)
+	{
+		for (int x = 0; x < mCurrentStageData.mMapSizeWidth; x++)
+		{
+			mCheckboolMap[z][x] = false;
+		}
+	}
+
+	// 探索基準のマスをチェック済みにする
+	mCheckMap[_dice->GetMapPos().z][_dice->GetMapPos().x] = -1;
+	mCheckboolMap[_dice->GetMapPos().z][_dice->GetMapPos().x] = true;
+
+	mDiceAlignCnt = 1;
+	CheckDiceAlign(_dice->GetMapPos(), DICEFRUIT::APPLE);
+	if (mDiceAlignCnt < 2)
+		return;
+	for (auto d : mDiceList)
+	{
+		d->SetHappyOne();
+	}
 }
 
 void DiceManager::SetRemoveDice(Dice* _dice)
@@ -205,9 +267,23 @@ void DiceManager::SetRemoveDice(Dice* _dice)
 	}
 }
 
+Dice* DiceManager::GetNearestDice(Float3 _pos)
+{
+	Dice* dice = nullptr;
+
+	int x = _pos.x / DICE_SCALE;
+	int z = _pos.z / DICE_SCALE * -1;
+
+	if (mDiceMap[z][x] == -1)
+		return nullptr;
+
+	return mDiceList[mDiceMap[z][x]];
+}
+
 void DiceManager::CheckDiceAlign(INT3 _mapPos, DICEFRUIT _diceType)
 {
 	INT3 ans;
+
 	// 上確認
 	if (_mapPos.z > 0)
 	{
@@ -292,4 +368,32 @@ void DiceManager::CheckDiceAlign(INT3 _mapPos, DICEFRUIT _diceType)
 			}
 		}
 	}
+	//std::vector<INT3> ans;
+	//ans[0] = (_mapPos.x, 0, _mapPos.z - 1);
+	//ans[1] = (_mapPos.x, 0, _mapPos.z + 1);
+	//ans[2] = (_mapPos.x - 1, 0, _mapPos.z);
+	//ans[3] = (_mapPos.x + 1, 0, _mapPos.z);
+	//for (auto it : ans)
+	//{
+	//	if (ans.z > 0 && _mapPos.z < mCurrentStageData.mMapSizeHeight - 1)
+	//		return;
+	//	if (_mapPos.x > 0 && _mapPos.x < mCurrentStageData.mMapSizeWidth - 1)
+	//		return;
+	//	// ブロックが存在してチェックされていないマスなら
+	//	if (mCheckMap[it.z][it.x] > -1)
+	//	{
+	//		// チェック済みにする
+	//		mCheckMap[it.z][it.x] = -1;
+	//		// ブロックの面が同じか配列に入れる
+	//		mCheckboolMap[it.z][it.x] = (mDiceList[mDiceMap[it.z][it.x]]->GetTopDiceType() == _diceType);
+	//		// 面が同じだったら
+	//		if (mCheckboolMap[it.z][it.x])
+	//		{
+	//			// サイコロのカウントを1足す
+	//			mDiceAlignCnt++;
+	//			// 揃っているブロックを基準にチェックする
+	//			CheckDiceAlign(it, _diceType);
+	//		}
+	//	}
+	//}
 }

@@ -29,7 +29,7 @@ void MaingameScene::SceneInit()
 	//mCameraLookat.z = { -StageDataManager::GetInstance().GetCurrentStage()->mMapSizeHeight*DICE_SCALE / 2.0f };
 
 
-	StageDataManager::GetInstance().SetCurrentStage("test");
+	StageDataManager::GetInstance().SetCurrentStage("puzzle/10");
 	StageData stageData;
 	stageData.SetStageData(StageDataManager::GetInstance().GetCurrentStage());
 
@@ -55,6 +55,7 @@ void MaingameScene::SceneUpdate()
 	}
 
 	CollisionManager::GetInstance().Update();
+	DiceManager::GetInstance()->Update();
 }
 
 void MaingameScene::SceneRender()

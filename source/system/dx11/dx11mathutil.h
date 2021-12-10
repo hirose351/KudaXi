@@ -53,3 +53,4 @@ void MtxAddPos(DirectX::XMFLOAT4X4& _mtx, DirectX::XMFLOAT3 _pos);
 bool floatcheck(float checvalue, float value, float minimum);
 //ƒ‰ƒWƒAƒ“‚É•ÏŠ·‚·‚é
 float ToRad(float degree);
+float DX11p2pLengthXZ(const DirectX::XMFLOAT3& p1, const DirectX::XMFLOAT3& p2);

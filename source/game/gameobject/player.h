@@ -18,7 +18,6 @@ private:
 	Float3					mDestrot;			// 目標姿勢
 	Direction				mMoveKeySts;		// 押されている移動キー
 
-	bool mIsDiceOperation = false;				// サイコロを操作しているか
 	Dice* mpOperationDice;						// 操作中のサイコロ
 
 	Pstate mPstate = eStop;

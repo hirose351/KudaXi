@@ -59,6 +59,15 @@ void Dice::Uninit()
 {
 }
 
+void Dice::SetHappyOne()
+{
+	// o–Ú‚Ì”‚ª1‚Å‚È‚¯‚ê‚Î•Ô‚·
+	if (mTopDiceTypeNum != 1)
+		return;
+	// 1‚Å‚ ‚ê‚Î—‚Æ‚·
+	SetDownPosition();
+}
+
 void Dice::MoveDiceScale(Direction _direction)
 {
 	switch (_direction)

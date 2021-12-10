@@ -120,9 +120,11 @@ GameObject* CollisionComponent::GetNearestDice(Float3 _pos)
 		if (colData == nullptr)
 		{
 			colData = (*obj)->col;
+			// ‚±‚±‚ªŠÔˆá‚Á‚Ä‚é
 			DX11p2pLength(_pos, colData->GetPrim()->p, shortDistance);
 			continue;
 		}
+		// ‚±‚±‚ªŠÔˆá‚Á‚Ä‚é
 		DX11p2pLength(_pos, (*obj)->col->GetPrim()->p, distance);
 		if (distance < shortDistance)
 		{

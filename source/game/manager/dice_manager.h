@@ -3,6 +3,7 @@
 #include	"../gameobject/gameobject.h"
 #include	"../../system/util/dixsmartptr.h"
 #include	"../manager/stagedata_manager.h"
+#include	<random>
 
 class DiceManager :Uncopyable
 {
@@ -19,6 +20,7 @@ private:
 	// 受け取ったマップ位置と面を基準にサイコロが揃ったかチェックして配列を書き換える
 	void CheckDiceAlign(INT3 _mapPos, DICEFRUIT _diceType);
 
+	std::random_device rnd;     // 非決定的な乱数生成器を生成
 public:
 	static DiceManager* GetInstance() {
 		static DiceManager Instance;
@@ -43,5 +45,7 @@ public:
 
 	// 対象のサイコロのマップ上のデータを消す
 	void SetRemoveDice(Dice* _dice);
-};
 
+	// 操作可能なサイコロのアドレスを返す
+	Dice* GetNearestDice(Float3 _pos);
+};

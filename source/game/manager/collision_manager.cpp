@@ -46,8 +46,8 @@ void CollisionManager::Update()
 
 			if ((*itA)->GetOwner()->GetObjectType() == ObjectType::ePlayer && (*itA)->GetOwner()->GetFoot() == Foot::eFloor)
 			{
-				if ((*itB)->GetPrim()->p.y <= DICE_SCALE_HALF)
-					continue;
+				//if ((*itB)->GetPrim()->p.y <= DICE_SCALE_HALF)
+				//	continue;
 
 				if (ans.x < ans.z)
 				{
@@ -63,8 +63,8 @@ void CollisionManager::Update()
 			}
 			else if ((*itB)->GetOwner()->GetObjectType() == ObjectType::ePlayer && (*itA)->GetOwner()->GetFoot() == Foot::eFloor)
 			{
-				if ((*itA)->GetPrim()->p.y <= DICE_SCALE_HALF)
-					continue;
+				//if ((*itA)->GetPrim()->p.y <= DICE_SCALE_HALF)
+				//	continue;
 
 				if (ans.x < ans.z)
 				{

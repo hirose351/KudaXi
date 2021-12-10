@@ -10,7 +10,7 @@ class Dice : public GameObject
 {
 private:
 	INT3 mMapPos;										// マップ上の位置
-	DICEFRUIT mTopDiceTypeFruit;								// 上面の果物
+	DICEFRUIT mTopDiceTypeFruit;						// 上面の果物
 	int mTopDiceTypeNum;								// 上面の数字
 	DICESTATUS mSts;									// 状態
 	Direction mDirection = Direction::eNeutral;			// サイコロの移動方向	
@@ -98,6 +98,9 @@ public:
 	Direction GetDirection() {
 		return mDirection;
 	}
+
+	// ハッピーワン呼び出し
+	void SetHappyOne();
 
 	// 1マス分移動
 	void MoveDiceScale(Direction _direction);

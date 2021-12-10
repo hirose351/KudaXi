@@ -724,3 +724,11 @@ bool floatcheck(float checvalue, float value, float minimum) {
 float ToRad(float degree) {
 	return (degree * DirectX::XM_PI / 180.0f);
 }
+
+/*------------------------
+XZã‚Ì‚Q“_ŠÔ‚Ì‹——£‚ğ‹‚ß‚é
+--------------------------*/
+float DX11p2pLengthXZ(const DirectX::XMFLOAT3 & p1, const DirectX::XMFLOAT3 & p2)
+{
+	return std::sqrt((p2.x - p1.x) * (p2.x - p1.x) + (p2.z - p1.z) * (p2.y - p1.z));
+}
