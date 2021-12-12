@@ -13,13 +13,13 @@ class ComponentBase;
 class GameObject
 {
 protected:
-	//GameObject		mParent;
+	GameObject*		mParent;
 	Transform		mTransform;		// 位置回転大きさ
 	std::string		mName;			// 名前
 	unsigned int	mObjectID;		// オブジェクトID番号
 	ObjectType		mObjectType;	// オブジェクトタイプ
 	bool			mIsExist;		// 生存可否
-	ObjectState		mObjectState;	// 状態;
+	ObjectState		mObjectState;	// 状態
 	Foot mFoot = Foot::eNomal;		// 足元
 
 	std::vector<ComponentBase*> mComponentList;

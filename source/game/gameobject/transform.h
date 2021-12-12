@@ -46,6 +46,11 @@ struct Transform
 		worldMtx._42 += _pos;
 		position.y += _pos;
 	}
+	void SetPositionXYZ(const Float3& _pos) {
+		SetPositionX(_pos.x);
+		SetPositionY(_pos.y);
+		SetPositionZ(_pos.z);
+	}
 	void SetPositionX(float _pos) {
 		worldMtx._41 = _pos;
 		position.x = _pos;

@@ -10,7 +10,7 @@ using Microsoft::WRL::ComPtr;
 class Dice : public GameObject
 {
 private:
-	float mThundera = 1.0f;								// 雷α値
+	float mThunderAlha = 1.0f;							// 雷α値
 	CBillboard mThunder;								// 生成時雷
 	INT3 mMapPos;										// マップ上の位置
 	DICEFRUIT mTopDiceTypeFruit;						// 上面の果物
@@ -40,7 +40,7 @@ private:
 	void Push();
 	// 回転する
 	void Roll();
-	// 上がる
+	// 生成時上がる
 	void Up();
 	// 揃った時下がる
 	void Down();
@@ -56,8 +56,6 @@ public:
 			MessageBox(nullptr, "Diceモデル 読み込みエラー", "error", MB_OK);
 		}
 		AddComponent<Component::ModelComponent>()->SetModel(ModelMgr::GetInstance().GetModelPtr("assets/model/dice/Dice.fbx"));
-		//AddComponent<Component::CollisionComponent>()->SetInitState(ObjectTag::DiceTop, Float3(0, 7.65f, 0), Float3(8.5f, 1.7f, 8.5f), DirectX::XMFLOAT4(0, 1, 0, 0.3f));
-		//AddComponent<Component::CollisionComponent>()->SetInitState(ObjectTag::Dice, Float3(0, -0.85f, 0), Float3(8.5f, 6.8f, 8.5f), DirectX::XMFLOAT4(0, 0, 1, 0.3f));
 		AddComponent<Component::CollisionComponent>()->SetInitState(ObjectTag::Dice, Float3(0, 0, 0), Float3(DICE_SCALE_HALF), DirectX::XMFLOAT4(0, 0, 1, 0.3f));
 		ObjectInit();
 	}

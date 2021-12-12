@@ -309,11 +309,11 @@
     <ClCompile Include="source\game\scene\stagecreate_scene.cpp">
       <Filter>ソース ファイル\game\scene\stagecreate</Filter>
     </ClCompile>
-    <ClCompile Include="source\game\data\saveload.cpp">
-      <Filter>ソース ファイル\game\data</Filter>
-    </ClCompile>
     <ClCompile Include="source\game\data\stage_data.cpp">
       <Filter>ソース ファイル\game\data\stage</Filter>
+    </ClCompile>
+    <ClCompile Include="source\game\data\saveload.cpp">
+      <Filter>ソース ファイル\game\data</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -536,11 +536,11 @@
     <ClInclude Include="source\game\scene\stagecreate_scene.h">
       <Filter>ソース ファイル\game\scene\stagecreate</Filter>
     </ClInclude>
-    <ClInclude Include="source\game\data\saveload.h">
-      <Filter>ソース ファイル\game\data</Filter>
-    </ClInclude>
     <ClInclude Include="source\game\data\stage_data.h">
       <Filter>ソース ファイル\game\data\stage</Filter>
+    </ClInclude>
+    <ClInclude Include="source\game\data\saveload.h">
+      <Filter>ソース ファイル\game\data</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

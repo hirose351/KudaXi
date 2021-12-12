@@ -20,10 +20,7 @@ private:
 
 	Dice* mpOperationDice;						// 操作中のサイコロ
 
-	Pstate mPstate = eStop;
-
-	Float3 mInitMapPos = (2.0f, 0, 1.0f);		// 初期マップ位置
-	int mStartCount = 150;						// 開始時の停止時間(実際は上がってるサイコロの状態で移動制限されるので必要ない)
+	Pstate mPstate;
 	StageData stageData;
 	void Move();
 	void Roll();
@@ -45,7 +42,7 @@ public:
 		}
 		AddComponent<Component::ModelComponent>()->SetModel(ModelMgr::GetInstance().GetModelPtr("assets/model/player/player.fbx"));
 		AddComponent<Component::CollisionComponent>()->SetLocalScale(Float3(4, 6, 4));
-		GetComponent<Component::CollisionComponent>()->SetColor(DirectX::XMFLOAT4(1, 0, 0, 0.3f));
+		GetComponent<Component::CollisionComponent>()->SetColor(DirectX::XMFLOAT4(0.1f, 0.1f, 0.1f, 0.01f));
 		ObjectInit();
 	};
 	~Player();

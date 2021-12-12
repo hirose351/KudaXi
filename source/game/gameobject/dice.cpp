@@ -4,8 +4,6 @@
 
 Dice::~Dice()
 {
-	//Finalize();
-	//DiceManager::GetInstance()->SetRemoveDice(this);
 }
 
 void Dice::ObjectInit()
@@ -58,12 +56,10 @@ void Dice::ObjectUpdate()
 
 void Dice::ObjectDraw()
 {
-
-	if (mThundera > 0.0f)
-	{
-		mThunder.Update();
-		mThunder.Render();
-	}
+	if (mThunderAlha <= 0.0f)
+		return;
+	mThunder.Update();
+	mThunder.Render();
 }
 
 void Dice::Uninit()
@@ -97,7 +93,6 @@ void Dice::MoveDiceScale(Direction _direction)
 		break;
 	}
 }
-
 
 bool Dice::SetPushAction(Direction _direction)
 {
@@ -200,7 +195,6 @@ void Dice::SetStartUpPosition()
 
 void Dice::SetDownPosition()
 {
-	//if()
 	mTransform.move = 0;
 	mTransform.move.y = -mUpPositionPerFrame;
 	mSts = DICESTATUS::DOWN;
@@ -214,6 +208,9 @@ void Dice::Push()
 	{
 		mDirection = Direction::eNeutral;
 		mSts = DICESTATUS::NORMAL;
+		/// 接しているブロックと面が同じかチェック
+		DiceManager::GetInstance()->CheckAligned(this);
+		/// ステップ数減らす
 	}
 }
 
@@ -229,48 +226,35 @@ void Dice::Roll()
 	float nowcenterposy = radius * sin(ToRad(45 + mRotAnglePerFrame * mCrrentRotCnt));
 
 	//移動量の計算
-	Float3 pos = { mRotateStartPos.x,0.0f,mRotateStartPos.z };
+	Float3 pos = { mRotateStartPos.x,nowcenterposy,mRotateStartPos.z };
 	Float3 endpos;
 	//割合を計算
 	float t = static_cast<float>(mCrrentRotCnt + 1) / static_cast<float>(mMoveCnt);
 
-	if (mDirection == Direction::eRight)
+	switch (mDirection)
 	{
-		//終了位置を計算
-		endpos.x = mRotateStartPos.x + DICE_SCALE;
-		//線形補間の式でX座標を計算
-		pos.x = mRotateStartPos.x *(1.0f - t) + endpos.x*t;
-	}
-
-	if (mDirection == Direction::eLeft)
-	{
-		//終了位置を計算
-		endpos.x = mRotateStartPos.x - DICE_SCALE;
-		//線形補間の式でX座標を計算
-		pos.x = mRotateStartPos.x *(1.0f - t) + endpos.x*t;
-	}
-
-	if (mDirection == Direction::eUp)
-	{
+	case Direction::eUp:
 		//終了位置を計算
 		endpos.z = mRotateStartPos.z + DICE_SCALE;
 		//線形補間の式でX座標を計算
 		pos.z = mRotateStartPos.z *(1.0f - t) + endpos.z*t;
-	}
-
-	if (mDirection == Direction::eDown)
-	{
-		//終了位置を計算
+		break;
+	case Direction::eDown:
 		endpos.z = mRotateStartPos.z - DICE_SCALE;
-		//線形補間の式でX座標を計算
 		pos.z = mRotateStartPos.z *(1.0f - t) + endpos.z*t;
+		break;
+	case Direction::eLeft:
+		endpos.x = mRotateStartPos.x - DICE_SCALE;
+		pos.x = mRotateStartPos.x *(1.0f - t) + endpos.x*t;
+		break;
+	case Direction::eRight:
+		endpos.x = mRotateStartPos.x + DICE_SCALE;
+		pos.x = mRotateStartPos.x *(1.0f - t) + endpos.x*t;
+		break;
 	}
 
 	//原点の位置を補正
-	mTransform.worldMtx._41 = mTransform.position.x = pos.x;
-	mTransform.worldMtx._42 = mTransform.position.y = nowcenterposy;
-	mTransform.worldMtx._43 = mTransform.position.z = pos.z;
-
+	mTransform.SetPositionXYZ(pos);
 	//回転数をカウントアップ
 	mCrrentRotCnt++;
 
@@ -279,7 +263,6 @@ void Dice::Roll()
 	{
 		// 回転後の面に設定
 		SetOverPlane();
-		//PlaySound(SOUND_LABEL_SE_DICE);
 		mTransform.worldMtx._42 = mTransform.position.y = DICE_SCALE_HALF;
 		mDirection = Direction::eNeutral;
 		mSts = DICESTATUS::NORMAL;
@@ -293,7 +276,6 @@ void Dice::Roll()
 void Dice::Up()
 {
 	mTransform.MovePosition();
-	//mTransform.CreateMtx();
 	mCrrentPushCnt++;
 	if (mCrrentPushCnt >= mUpCnt)
 	{
@@ -306,25 +288,22 @@ void Dice::Up()
 		mSts = DICESTATUS::UP;
 	}
 
-	if (mThundera == 0.5f)
+	if (mThunderAlha == 0.5f)
 	{
 		mThunder.SetUV(XMFLOAT2(1, 0));
 	}
-	if (mThundera > 0.0f)
+	if (mThunderAlha > 0.0f)
 	{
-		mThunder.SetColor(XMFLOAT4(1, 1, 1, mThundera));
-		mThundera -= 0.025f;
+		mThunder.SetColor(XMFLOAT4(1, 1, 1, mThunderAlha));
+		mThunderAlha -= 0.025f;
 	}
 }
 
 void Dice::Down()
 {
 	mTransform.MovePosition();
-	//mTransform.CreateMtx();
 	if (mTransform.position.y < -DICE_SCALE_HALF)
 	{
-		///  Todo:消す
-		//mObjectState = ObjectState::eDead;
 		DiceManager::GetInstance()->SetRemoveDice(this);
 	}
 	else if (mTransform.position.y < 0)
@@ -350,7 +329,6 @@ void Dice::SetOverPlane() {
 
 	// 一定の幅を持たせて値の比較を行う
 	sts[0] = floatcheck(dot, 1.0f, range);
-
 	// Y軸取得
 	axis = { mTransform.worldMtx._21, mTransform.worldMtx._22, mTransform.worldMtx._23 };
 	DX11Vec3Dot(dot, axis, underaxis);

@@ -3,11 +3,7 @@
 #include	<string>
 #include	"../../system/dx11/CDirectInput.h"
 #include	"../../system/dx11/DX11Settransform.h"
-
 #include	"../component/allcomponents.h"
-#include	"../manager/dice_manager.h"
-
-#include	<iostream>
 
 //*****************************************************************************
 // マクロ定義
@@ -42,6 +38,7 @@ void Player::ObjectInit()
 	mTransform.SetPosition(Float3(1 * DICE_SCALE, DICE_SCALE_HALF, -1 * DICE_SCALE));
 	//mTransform.SetPosition(Float3(stageData.mPlayerPos.x*DICE_SCALE, DICE_SCALE_HALF, -stageData.mPlayerPos.z*DICE_SCALE));
 	mTransform.CreateMtx();
+	mPstate = eMove;
 }
 
 void Player::ObjectUpdate()
@@ -49,14 +46,6 @@ void Player::ObjectUpdate()
 	switch (mPstate)
 	{
 	case eStop:
-		//if (mStartCount < 0)
-		//{
-		mPstate = eMove;
-		//}
-		//else
-		//{
-		//	mStartCount--;
-		//}
 		break;
 	case eMove:
 		// 重力仮
@@ -74,8 +63,6 @@ void Player::ObjectUpdate()
 
 	// ステージに合わせて位置修正
 	StageHitCorrection();
-	// 最も近いサイコロを検索
-	//SetNearestDice();
 }
 
 void Player::ObjectImguiDraw()
@@ -99,33 +86,6 @@ void Player::Uninit()
 {
 }
 
-void Player::OnCollisionEnter(ComponentBase* _oher)
-{
-	std::cout << "OnCollisionEnter　ObjectName:" + _oher->GetOwner()->GetName() + "\n";
-
-	if ((_oher->GetTag() == ObjectTag::Dice || _oher->GetTag() == ObjectTag::DiceTop))
-	{
-		OnColEnterObj(dynamic_cast<Dice*>(_oher->GetOwner()));
-	}
-}
-
-void Player::OnCollisionStay(ComponentBase* _oher)
-{
-	std::cout << "OnCollisionStay　ObjectName:" + _oher->GetOwner()->GetName() + "\n";
-	if (_oher->GetTag() == ObjectTag::Dice || _oher->GetTag() == ObjectTag::DiceTop)
-	{
-		OnColStayObj(dynamic_cast<Dice*>(_oher->GetOwner()));
-	}
-}
-
-void Player::OnCollisionExit(ComponentBase* _oher)
-{
-	std::cout << "OnCollisionExit　ObjectName:" + _oher->GetOwner()->GetName() + "\n";
-	if ((_oher->GetTag() == ObjectTag::Dice || _oher->GetTag() == ObjectTag::DiceTop))
-	{
-		OnColExitObj(dynamic_cast<Dice*>(_oher->GetOwner()));
-	}
-}
 
 void Player::OnColEnterObj(Dice* _other)
 {
@@ -406,13 +366,15 @@ bool Player::SetNearestDice()
 		return false;
 
 	mpOperationDice = dynamic_cast<Dice*>(GetComponent<Component::CollisionComponent>()->GetNearestDice(mTransform.position));
-	//mpOperationDice = DiceManager::GetInstance()->GetNearestDice(mTransform.position);
 
 	if (mpOperationDice == nullptr)
 	{
 		mFoot = Foot::eFloor;
 		return false;
 	}
+
+	if (mTransform.GetPosition().y <= DICE_SCALE_HALF)
+		mFoot = Foot::eFloor;
 
 	if (mpOperationDice->GetTransform()->GetPosition().y < mTransform.position.y)
 		mFoot = Foot::eDice;
@@ -431,8 +393,11 @@ bool Player::SetNearestDice()
 		switch (mpOperationDice->GetDiceStatus())
 		{
 		case DICESTATUS::UP:
+			std::cout << "保持Dice基準Y補正\n";
+			mTransform.SetPositionY(mpOperationDice->GetTransform()->GetPosition().y + DICE_SCALE_HALF + 6 - 0.5f);
 			break;
 		case DICESTATUS::HALF_UP:
+			// 移動制限
 			if (dicePos.x + DICE_SCALE_HALF - 2 < mTransform.GetPosition().x)
 				mTransform.SetPositionX(dicePos.x + DICE_SCALE_HALF - 2);
 			if (dicePos.x - DICE_SCALE_HALF + 2 > mTransform.GetPosition().x)
@@ -441,20 +406,60 @@ bool Player::SetNearestDice()
 				mTransform.SetPositionZ(dicePos.z + DICE_SCALE_HALF - 2);
 			if (dicePos.z - DICE_SCALE_HALF + 2 > mTransform.GetPosition().z)
 				mTransform.SetPositionZ(dicePos.z - DICE_SCALE_HALF + 2);
+			std::cout << "保持Dice基準Y補正\n";
+			mTransform.SetPositionY(mpOperationDice->GetTransform()->GetPosition().y + DICE_SCALE_HALF + 6 - 0.5f);
 			break;
 		case DICESTATUS::ROLL:
+			std::cout << "保持Dice基準Y補正\n";
+			mTransform.SetPositionY(mpOperationDice->GetTransform()->GetPosition().y + DICE_SCALE_HALF + 20);
 			break;
 		case DICESTATUS::PUSH:
+			std::cout << "保持Dice基準Y補正\n";
+			mTransform.SetPositionY(mpOperationDice->GetTransform()->GetPosition().y + DICE_SCALE_HALF + 6 - 0.5f);
 			break;
 		case DICESTATUS::DOWN:
+			std::cout << "保持Dice基準Y補正\n";
+			mTransform.SetPositionY(mpOperationDice->GetTransform()->GetPosition().y + DICE_SCALE_HALF + 6 - 0.5f);
 			break;
 		case DICESTATUS::HALFDOWN:
+			std::cout << "保持Dice基準Y補正\n";
+			mTransform.SetPositionY(mpOperationDice->GetTransform()->GetPosition().y + DICE_SCALE_HALF + 6 - 0.5f);
 			break;
 		default:
+			std::cout << "保持Dice基準Y補正\n";
+			mTransform.SetPositionY(mpOperationDice->GetTransform()->GetPosition().y + DICE_SCALE_HALF + 6 - 0.5f);
 			break;
 		}
-		std::cout << "保持Dice基準Y補正\n";
-		mTransform.SetPositionY(mpOperationDice->GetTransform()->GetPosition().y + DICE_SCALE_HALF + 6 - 0.5f);
+		//std::cout << "保持Dice基準Y補正\n";
+		//mTransform.SetPositionY(mpOperationDice->GetTransform()->GetPosition().y + DICE_SCALE_HALF + 6 - 0.5f);
 	}
 	return true;
+}
+
+void Player::OnCollisionEnter(ComponentBase* _oher)
+{
+	std::cout << "OnCollisionEnter　ObjectName:" + _oher->GetOwner()->GetName() + "\n";
+
+	if ((_oher->GetTag() == ObjectTag::Dice || _oher->GetTag() == ObjectTag::DiceTop))
+	{
+		OnColEnterObj(dynamic_cast<Dice*>(_oher->GetOwner()));
+	}
+}
+
+void Player::OnCollisionStay(ComponentBase* _oher)
+{
+	std::cout << "OnCollisionStay　ObjectName:" + _oher->GetOwner()->GetName() + "\n";
+	if (_oher->GetTag() == ObjectTag::Dice || _oher->GetTag() == ObjectTag::DiceTop)
+	{
+		OnColStayObj(dynamic_cast<Dice*>(_oher->GetOwner()));
+	}
+}
+
+void Player::OnCollisionExit(ComponentBase* _oher)
+{
+	std::cout << "OnCollisionExit　ObjectName:" + _oher->GetOwner()->GetName() + "\n";
+	if ((_oher->GetTag() == ObjectTag::Dice || _oher->GetTag() == ObjectTag::DiceTop))
+	{
+		OnColExitObj(dynamic_cast<Dice*>(_oher->GetOwner()));
+	}
 }

@@ -33,7 +33,6 @@ void DiceManager::DiceCreate()
 			dice->SetName(nameNum);
 			// vector配列に追加
 			mDiceList.emplace_back(dice);
-			//mDiceMap[z][x] = mCurrentStageData.mMap[z][x];
 		}
 	}
 }
@@ -53,7 +52,7 @@ void DiceManager::Update()
 
 	if (cnt == 200)
 	{
-		std::mt19937 mt(rnd());     //  メルセンヌ・ツイスタの32ビット版、引数は初期シード値
+		std::mt19937 mt(rnd());     // メルセンヌ・ツイスタの32ビット版、引数は初期シード値
 		std::uniform_int_distribution<> rand100(0, mCurrentStageData.mMapSizeWidth*mCurrentStageData.mMapSizeHeight);        // [0, 99] 範囲の一様乱数
 		cnt = 0;
 		while (true)
@@ -65,10 +64,12 @@ void DiceManager::Update()
 				{
 					if (num == z * x + x && mDiceMap[z][x] == -1)
 					{
+						// Dice生成
 						mDiceMap[z][x] = static_cast<int>(mDiceList.size());
 						Dice* dice = new Dice;
 						dice->GetTransform()->ReSetValue();
 						dice->GetTransform()->SetPositionMove(Float3(DICE_SCALE*x, -DICE_SCALE_HALF, -DICE_SCALE * z));
+						dice->GetTransform()->SetAngle(randAngle[(rnd()) % 6]);
 						dice->GetTransform()->CreateMtx();
 						dice->SetMapPos(INT3(x, 0, z));
 						// オブジェクトの名前に添え字を加える
@@ -179,8 +180,77 @@ bool DiceManager::CanDiceMoveCheak(Dice * _dice, Direction _dire)
 
 void DiceManager::CheckAligned(Dice* _dice)
 {
+	/// ハッピーワンチェック ////////////////////////////////////////////////
 	if (_dice->GetTopDiceTypeNum() == 1)
+	{
+		INT3 ans;
+		INT3 mapPos = _dice->GetMapPos();
+		if (mapPos.z > 0)
+		{
+			ans = { mapPos.x ,0, mapPos.z - 1 };
+			if (mDiceMap[ans.z][ans.x] > -1)
+			{
+				if (mDiceList[mDiceMap[ans.z][ans.x]]->GetDiceStatus() == DICESTATUS::DOWN || mDiceList[mDiceMap[ans.z][ans.x]]->GetDiceStatus() == DICESTATUS::HALFDOWN)
+				{
+					for (auto d : mDiceList)
+					{
+						d->SetHappyOne();
+					}
+					return;
+				}
+			}
+		}
+		// 下確認
+		if (mapPos.z < mCurrentStageData.mMapSizeHeight - 1)
+		{
+			ans = { mapPos.x ,0, mapPos.z + 1 };
+			if (mDiceMap[ans.z][ans.x] > -1)
+			{
+				if (mDiceList[mDiceMap[ans.z][ans.x]]->GetDiceStatus() == DICESTATUS::DOWN || mDiceList[mDiceMap[ans.z][ans.x]]->GetDiceStatus() == DICESTATUS::HALFDOWN)
+				{
+					for (auto d : mDiceList)
+					{
+						d->SetHappyOne();
+					}
+					return;
+				}
+			}
+		}
+		// 左確認
+		if (mapPos.x > 0)
+		{
+			ans = { mapPos.x - 1 ,0, mapPos.z };
+			if (mDiceMap[ans.z][ans.x] > -1)
+			{
+				if (mDiceList[mDiceMap[ans.z][ans.x]]->GetDiceStatus() == DICESTATUS::DOWN || mDiceList[mDiceMap[ans.z][ans.x]]->GetDiceStatus() == DICESTATUS::HALFDOWN)
+				{
+					for (auto d : mDiceList)
+					{
+						d->SetHappyOne();
+					}
+					return;
+				}
+			}
+		}
+		// 右確認
+		if (mapPos.x < mCurrentStageData.mMapSizeWidth - 1)
+		{
+			ans = { mapPos.x + 1  ,0, mapPos.z };
+			if (mDiceMap[ans.z][ans.x] > -1)
+			{
+				if (mDiceList[mDiceMap[ans.z][ans.x]]->GetDiceStatus() == DICESTATUS::DOWN || mDiceList[mDiceMap[ans.z][ans.x]]->GetDiceStatus() == DICESTATUS::HALFDOWN)
+				{
+					for (auto d : mDiceList)
+					{
+						d->SetHappyOne();
+					}
+					return;
+				}
+			}
+		}
 		return;
+	}
+	/// ハッピーワンチェック ////////////////////////////////////////////////
 
 	// 現在のブロック位置をチェック用配列にコピー
 	memcpy((void *)mCheckMap, (void *)mDiceMap, sizeof(mDiceMap));
@@ -220,6 +290,8 @@ void DiceManager::CheckAligned(Dice* _dice)
 		}
 	}
 
+	/// ハッピーワンチェック ////////////////////////////////////////////////
+
 	// 現在のブロック位置をチェック用配列にコピー
 	memcpy((void *)mCheckMap, (void *)mDiceMap, sizeof(mDiceMap));
 
@@ -244,17 +316,20 @@ void DiceManager::CheckAligned(Dice* _dice)
 	{
 		d->SetHappyOne();
 	}
+	/// ハッピーワンチェック ////////////////////////////////////////////////
 }
 
 void DiceManager::SetRemoveDice(Dice* _dice)
 {
-	//auto itDice = std::find(mDiceList.begin(), mDiceList.end(), _dice);
 	int num = mDiceMap[_dice->GetMapPos().z][_dice->GetMapPos().x];
 
 	auto itDice = std::find(mDiceList.begin(), mDiceList.end(), _dice);
-	//mDiceList.erase(mDiceList.begin() + num);
 	_dice->SetObjectState(ObjectState::eDead);
-	mDiceList.erase(itDice);
+	if (itDice != mDiceList.end())
+	{
+		mDiceList.erase(itDice);
+	}
+
 	mDiceList.shrink_to_fit();
 	mDiceMap[_dice->GetMapPos().z][_dice->GetMapPos().x] = -1;
 	for (int z = 0; z < mCurrentStageData.mMapSizeHeight; z++)
@@ -266,19 +341,6 @@ void DiceManager::SetRemoveDice(Dice* _dice)
 		}
 	}
 }
-
-//Dice* DiceManager::GetNearestDice(Float3 _pos)
-//{
-//	Dice* dice = nullptr;
-//
-//	int x = _pos.x / DICE_SCALE;
-//	int z = _pos.z / DICE_SCALE * -1;
-//
-//	if (mDiceMap[z][x] == -1)
-//		return nullptr;
-//
-//	return mDiceList[mDiceMap[z][x]];
-//}
 
 void DiceManager::CheckDiceAlign(INT3 _mapPos, DICEFRUIT _diceType)
 {

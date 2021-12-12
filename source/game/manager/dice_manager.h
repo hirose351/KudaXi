@@ -21,6 +21,7 @@ private:
 	void CheckDiceAlign(INT3 _mapPos, DICEFRUIT _diceType);
 
 	std::random_device rnd;     // 非決定的な乱数生成器を生成
+	Float3 randAngle[6] = { { 90.0f,0,0},{-90.0f,0,0},{180.0f,0,0} ,{0,90.0f,0} ,{0,180.0f,90.0f },{90.0f,90.0f,0} };
 public:
 	static DiceManager* GetInstance() {
 		static DiceManager Instance;
@@ -45,7 +46,4 @@ public:
 
 	// 対象のサイコロのマップ上のデータを消す
 	void SetRemoveDice(Dice* _dice);
-
-	// 操作可能なサイコロのアドレスを返す
-	//Dice* GetNearestDice(Float3 _pos);
 };
