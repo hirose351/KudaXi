@@ -315,6 +315,12 @@
     <ClCompile Include="source\game\data\saveload.cpp">
       <Filter>ソース ファイル\game\data</Filter>
     </ClCompile>
+    <ClCompile Include="source\system\util\easing.cpp">
+      <Filter>ソース ファイル\system\util</Filter>
+    </ClCompile>
+    <ClCompile Include="source\game\interface\moving_interface.cpp">
+      <Filter>ソース ファイル\game</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\system\model\assimpscene.h">
@@ -541,6 +547,12 @@
     </ClInclude>
     <ClInclude Include="source\game\data\saveload.h">
       <Filter>ソース ファイル\game\data</Filter>
+    </ClInclude>
+    <ClInclude Include="source\system\util\easing.h">
+      <Filter>ソース ファイル\system\util</Filter>
+    </ClInclude>
+    <ClInclude Include="source\game\interface\moving_interface.h">
+      <Filter>ソース ファイル\game</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

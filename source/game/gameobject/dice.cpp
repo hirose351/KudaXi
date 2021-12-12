@@ -1,6 +1,7 @@
 #include	"dice.h"
 #include	"../manager/dice_manager.h"
 //#include	"../../system/util/XAudio2.h"
+#include	"../../system/util/easing.h"
 
 Dice::~Dice()
 {
@@ -129,27 +130,28 @@ bool Dice::SetRollAction(Direction _direction)
 		return false;
 	if (!DiceManager::GetInstance()->CanDiceMove(this, _direction))
 		return false;
-
+	//mStopwatch.restart();
 	mTransform.angle = 0;
-	switch (_direction)
-	{
-	case Direction::eUp:
-		mTransform.angle.x = mRotAnglePerFrame;
-		break;
-	case Direction::eDown:
-		mTransform.angle.x = -mRotAnglePerFrame;
-		break;
-	case Direction::eLeft:
-		mTransform.angle.z = mRotAnglePerFrame;
-		break;
-	case Direction::eRight:
-		mTransform.angle.z = -mRotAnglePerFrame;
-		break;
-	}
+	tt = 90;
+	//switch (_direction)
+	//{
+	//case Direction::eUp:
+	//	mTransform.angle.x = mRotAnglePerFrame;
+	//	break;
+	//case Direction::eDown:
+	//	mTransform.angle.x = -mRotAnglePerFrame;
+	//	break;
+	//case Direction::eLeft:
+	//	mTransform.angle.z = mRotAnglePerFrame;
+	//	break;
+	//case Direction::eRight:
+	//	mTransform.angle.z = -mRotAnglePerFrame;
+	//	break;
+	//}
 	mSts = DICESTATUS::ROLL;
 	mDirection = _direction;
 	mCrrentRotCnt = 0;
-	DX11MakeWorldMatrix(mMtxFrame, mTransform.angle, XMFLOAT3(0, 0, 0));
+	//DX11MakeWorldMatrix(mMtxFrame, mTransform.angle, XMFLOAT3(0, 0, 0));
 	mRotateStartPos = { mTransform.worldMtx._41, mTransform.worldMtx._42,mTransform.worldMtx._43 };
 	return true;
 }
@@ -164,24 +166,27 @@ void Dice::SetRollDirection(Direction _direction)
 	//ニュートラルの時だけキー入力を認める
 	if (mDirection == Direction::eNeutral)
 	{
+		mStopwatch.restart();
+
 		mDirection = _direction;
-		switch (_direction)
-		{
-		case Direction::eUp:
-			mTransform.angle.x = mRotAnglePerFrame;
-			break;
-		case Direction::eDown:
-			mTransform.angle.x = -mRotAnglePerFrame;
-			break;
-		case Direction::eLeft:
-			mTransform.angle.z = mRotAnglePerFrame;
-			break;
-		case Direction::eRight:
-			mTransform.angle.z = -mRotAnglePerFrame;
-			break;
-		}
-		mCrrentRotCnt = 0;
-		DX11MakeWorldMatrix(mMtxFrame, mTransform.angle, XMFLOAT3(0, 0, 0));
+
+		//switch (_direction)
+		//{
+		//case Direction::eUp:
+		//	mTransform.angle.x = mRotAnglePerFrame;
+		//	break;
+		//case Direction::eDown:
+		//	mTransform.angle.x = -mRotAnglePerFrame;
+		//	break;
+		//case Direction::eLeft:
+		//	mTransform.angle.z = mRotAnglePerFrame;
+		//	break;
+		//case Direction::eRight:
+		//	mTransform.angle.z = -mRotAnglePerFrame;
+		//	break;
+		//}
+		//mCrrentRotCnt = 0;
+		//DX11MakeWorldMatrix(mMtxFrame, mTransform.angle, XMFLOAT3(0, 0, 0));
 		//開始位置を保存
 		mRotateStartPos = { mTransform.worldMtx._41, mTransform.worldMtx._42,mTransform.worldMtx._43 };
 	}
@@ -216,54 +221,88 @@ void Dice::Push()
 
 void Dice::Roll()
 {
-	//行列を作成(ワールドの軸を中心に回転)
-	DX11MtxMultiply(mTransform.worldMtx, mTransform.worldMtx, mMtxFrame);
 
 	//半径を計算
 	const static float radius = static_cast<float>(DICE_SCALE_HALF*sqrt(2));		// DICESCALE*ルート2/2＝DICESCALE/2.0f*ルート2
 
 	//45度から回転角度を足し算
-	float nowcenterposy = radius * sin(ToRad(45 + mRotAnglePerFrame * mCrrentRotCnt));
+	float nowcenterposy = DICE_SCALE_HALF;
+	//float nowcenterposy = radius * sin(ToRad(45 + mRotAnglePerFrame * mCrrentRotCnt));
 
 	//移動量の計算
 	Float3 pos = { mRotateStartPos.x,nowcenterposy,mRotateStartPos.z };
-	Float3 endpos;
+	Float3 endpos = pos;
+	//float	mTransitionTimeMillisec = 500;
+	// 経過時間を取得
+	//double elapsed = mStopwatch.msF();
 	//割合を計算
-	float t = static_cast<float>(mCrrentRotCnt + 1) / static_cast<float>(mMoveCnt);
+	float t = Easing::Linear(mCrrentRotCnt, mMoveCnt + 1, 0.0f, DICE_SCALE);
+
+	float a = Easing::QuintIn(mCrrentRotCnt, mMoveCnt + 1, 0.0f, 45.0f);
+
+	if (mCrrentRotCnt >= mMoveCnt)
+	{
+		a = tt;
+	}
 
 	switch (mDirection)
 	{
 	case Direction::eUp:
-		//終了位置を計算
+		////DX11MtxRotationX(-a, mMtxFrame);
+		mTransform.angle.x = a;
+
+		//DX11MtxRotationAxis(Float3(1, 0, 0), a, mMtxFrame);
+		////終了位置を計算
 		endpos.z = mRotateStartPos.z + DICE_SCALE;
 		//線形補間の式でX座標を計算
-		pos.z = mRotateStartPos.z *(1.0f - t) + endpos.z*t;
+		pos.z = mRotateStartPos.z + t;
 		break;
 	case Direction::eDown:
+		//DX11MtxRotationX(a, mMtxFrame);
+		mTransform.angle.x = -a;
+		//DX11MtxRotationAxis(Float3(1, 0, 0), -a, mMtxFrame);
 		endpos.z = mRotateStartPos.z - DICE_SCALE;
-		pos.z = mRotateStartPos.z *(1.0f - t) + endpos.z*t;
+		pos.z = mRotateStartPos.z - t;
 		break;
 	case Direction::eLeft:
+		//DX11MtxRotationZ(a, mMtxFrame);
+		mTransform.angle.z = a;
+		//DX11MtxRotationAxis(Float3(0, 0, 1), -a, mMtxFrame);
 		endpos.x = mRotateStartPos.x - DICE_SCALE;
-		pos.x = mRotateStartPos.x *(1.0f - t) + endpos.x*t;
+		pos.x = mRotateStartPos.x - t;
 		break;
 	case Direction::eRight:
+		//DX11MtxRotationZ(-a, mMtxFrame);
+		mTransform.angle.z = -a;
+		//DX11MtxRotationAxis(Float3(0, 0, 1), a, mMtxFrame);
 		endpos.x = mRotateStartPos.x + DICE_SCALE;
-		pos.x = mRotateStartPos.x *(1.0f - t) + endpos.x*t;
+		pos.x = mRotateStartPos.x + t;
 		break;
 	}
 
+	tt -= a;
+
+	std::cout << "angle" + std::to_string(a) + "\n";
+	std::cout << "time" + std::to_string(mCrrentRotCnt) + "\n";
+
+	DX11MakeWorldMatrix(mMtxFrame, mTransform.angle, XMFLOAT3(0, 0, 0));
+	//行列を作成(ワールドの軸を中心に回転)
+	DX11MtxMultiply(mTransform.worldMtx, mTransform.worldMtx, mMtxFrame);
+
+	////行列を作成(ワールドの軸を中心に回転)
+	//DX11MtxMultiply(mTransform.worldMtx, mTransform.worldMtx, mMtxFrame);
 	//原点の位置を補正
 	mTransform.SetPositionXYZ(pos);
-	//回転数をカウントアップ
-	mCrrentRotCnt++;
 
 	// 回転が終わったら元の状態に戻す
+	//if (mTransitionTimeMillisec <= elapsed)
 	if (mCrrentRotCnt >= mMoveCnt)
 	{
+		mStopwatch.pause();
 		// 回転後の面に設定
 		SetOverPlane();
-		mTransform.worldMtx._42 = mTransform.position.y = DICE_SCALE_HALF;
+		mTransform.SetPositionXYZ(endpos);
+		//mTransform.worldMtx._42 = mTransform.position.y = DICE_SCALE_HALF;
 		mDirection = Direction::eNeutral;
 		mSts = DICESTATUS::NORMAL;
 		mCrrentRotCnt = 0;
@@ -271,6 +310,8 @@ void Dice::Roll()
 		DiceManager::GetInstance()->CheckAligned(this);
 		/// ステップ数減らす
 	}
+	//回転数をカウントアップ
+	mCrrentRotCnt++;
 }
 
 void Dice::Up()

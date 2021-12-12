@@ -4,12 +4,16 @@
 #include	"../component/allcomponents.h"
 #include	"../state/dice_state.h"
 #include	"../../system/util/CBillboard.h"
+#include	"../../system/util/StopWatch.h"
 
 using Microsoft::WRL::ComPtr;
 
 class Dice : public GameObject
 {
 private:
+	float tt = 0;
+	Stopwatch mStopwatch;								// ストップウォッチ
+
 	float mThunderAlha = 1.0f;							// 雷α値
 	CBillboard mThunder;								// 生成時雷
 	INT3 mMapPos;										// マップ上の位置
