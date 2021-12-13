@@ -210,7 +210,7 @@ void Player::Roll()
 	if (mpOperationDice->GetRollEnd())
 	{
 		mPstate = eMove;
-		mTransform.move = /*mTransform.move **/ -1.0f;
+		//mTransform.move = /*mTransform.move **/ -1.0f;
 		mTransform.AddPosition();
 		mTransform.CreateMtx();
 		mTransform.move = 0;
@@ -410,8 +410,6 @@ bool Player::SetNearestDice()
 			mTransform.SetPositionY(mpOperationDice->GetTransform()->GetPosition().y + DICE_SCALE_HALF + 6 - 0.5f);
 			break;
 		case DICESTATUS::ROLL:
-			//std::cout << "•ÛŽDiceŠî€Y•â³\n";
-			mTransform.SetPositionY(mpOperationDice->GetTransform()->GetPosition().y + DICE_SCALE_HALF + 20);
 			break;
 		case DICESTATUS::PUSH:
 			//std::cout << "•ÛŽDiceŠî€Y•â³\n";
@@ -430,8 +428,6 @@ bool Player::SetNearestDice()
 			mTransform.SetPositionY(mpOperationDice->GetTransform()->GetPosition().y + DICE_SCALE_HALF + 6 - 0.5f);
 			break;
 		}
-		//std::cout << "•ÛŽDiceŠî€Y•â³\n";
-		//mTransform.SetPositionY(mpOperationDice->GetTransform()->GetPosition().y + DICE_SCALE_HALF + 6 - 0.5f);
 	}
 	return true;
 }

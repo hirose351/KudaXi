@@ -227,16 +227,11 @@ void Dice::Roll()
 
 	//45度から回転角度を足し算
 	float nowcenterposy = DICE_SCALE_HALF;
-	//float nowcenterposy = radius * sin(ToRad(45 + mRotAnglePerFrame * mCrrentRotCnt));
-
 	//移動量の計算
 	Float3 pos = { mRotateStartPos.x,nowcenterposy,mRotateStartPos.z };
 	Float3 endpos = pos;
-	//float	mTransitionTimeMillisec = 500;
-	// 経過時間を取得
-	//double elapsed = mStopwatch.msF();
 	//割合を計算
-	float t = Easing::Linear(mCrrentRotCnt, mMoveCnt + 1, 0.0f, DICE_SCALE);
+	float t = Easing::QuintIn(mCrrentRotCnt, mMoveCnt + 1, 0.0f, DICE_SCALE);
 
 	float a = Easing::QuintIn(mCrrentRotCnt, mMoveCnt + 1, 0.0f, 45.0f);
 
@@ -248,33 +243,24 @@ void Dice::Roll()
 	switch (mDirection)
 	{
 	case Direction::eUp:
-		////DX11MtxRotationX(-a, mMtxFrame);
 		mTransform.angle.x = a;
-
-		//DX11MtxRotationAxis(Float3(1, 0, 0), a, mMtxFrame);
-		////終了位置を計算
+		// 終了位置を計算
 		endpos.z = mRotateStartPos.z + DICE_SCALE;
-		//線形補間の式でX座標を計算
+		// 線形補間の式でX座標を計算
 		pos.z = mRotateStartPos.z + t;
 		break;
 	case Direction::eDown:
-		//DX11MtxRotationX(a, mMtxFrame);
 		mTransform.angle.x = -a;
-		//DX11MtxRotationAxis(Float3(1, 0, 0), -a, mMtxFrame);
 		endpos.z = mRotateStartPos.z - DICE_SCALE;
 		pos.z = mRotateStartPos.z - t;
 		break;
 	case Direction::eLeft:
-		//DX11MtxRotationZ(a, mMtxFrame);
 		mTransform.angle.z = a;
-		//DX11MtxRotationAxis(Float3(0, 0, 1), -a, mMtxFrame);
 		endpos.x = mRotateStartPos.x - DICE_SCALE;
 		pos.x = mRotateStartPos.x - t;
 		break;
 	case Direction::eRight:
-		//DX11MtxRotationZ(-a, mMtxFrame);
 		mTransform.angle.z = -a;
-		//DX11MtxRotationAxis(Float3(0, 0, 1), a, mMtxFrame);
 		endpos.x = mRotateStartPos.x + DICE_SCALE;
 		pos.x = mRotateStartPos.x + t;
 		break;
@@ -288,21 +274,16 @@ void Dice::Roll()
 	DX11MakeWorldMatrix(mMtxFrame, mTransform.angle, XMFLOAT3(0, 0, 0));
 	//行列を作成(ワールドの軸を中心に回転)
 	DX11MtxMultiply(mTransform.worldMtx, mTransform.worldMtx, mMtxFrame);
-
-	////行列を作成(ワールドの軸を中心に回転)
-	//DX11MtxMultiply(mTransform.worldMtx, mTransform.worldMtx, mMtxFrame);
 	//原点の位置を補正
 	mTransform.SetPositionXYZ(pos);
 
 	// 回転が終わったら元の状態に戻す
-	//if (mTransitionTimeMillisec <= elapsed)
 	if (mCrrentRotCnt >= mMoveCnt)
 	{
 		mStopwatch.pause();
 		// 回転後の面に設定
 		SetOverPlane();
 		mTransform.SetPositionXYZ(endpos);
-		//mTransform.worldMtx._42 = mTransform.position.y = DICE_SCALE_HALF;
 		mDirection = Direction::eNeutral;
 		mSts = DICESTATUS::NORMAL;
 		mCrrentRotCnt = 0;
