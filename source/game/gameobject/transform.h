@@ -67,7 +67,7 @@ struct Transform
 		worldMtx._43 += _pos;
 		position.z += _pos;
 	}
-	Float3 GetPosition() { return position; }
+	Float3 GetPosition() { return Float3(worldMtx._41, worldMtx._42, worldMtx._43); }
 	Float3 GetRotation() { return rotation; }
 	Float3 GetScale() { return scale; }
 	Float3 GetAngle() { return angle; }

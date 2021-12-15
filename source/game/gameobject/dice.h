@@ -11,8 +11,8 @@ using Microsoft::WRL::ComPtr;
 class Dice : public GameObject
 {
 private:
-	float mBeforeFramePos = 0;										// 
-
+	float ang = 0;
+	float mBeforeFramePos = 0;							// 
 	float mThunderAlha = 1.0f;							// 雷α値
 	CBillboard mThunder;								// 生成時雷
 	INT3 mMapPos;										// マップ上の位置
@@ -21,7 +21,8 @@ private:
 	DiceStatus mSts;									// 状態
 	Direction mDirection = Direction::eNeutral;			// サイコロの移動方向	
 
-	DirectX::XMFLOAT4X4 mMtxFrame;						// 1フレームでの変化を表す行列	
+	DirectX::XMFLOAT4X4 mFrameMtx;						// 1フレームでの変化を表す行列	
+	DirectX::XMFLOAT4X4 mTargetMtx;						// 1回転での変化を表す行列
 	Float3 mRotateStartPos;								// キー入力された際の開始位置	
 
 	const int mMoveCnt = 15;							// 90度回転、押されるのに必要な更新回数
@@ -119,6 +120,6 @@ public:
 	float GetmPushPositionPerFrame() { return mPushPositionPerFrame; }
 	float GetmRollmRotAnglePerFrame() { return mRotAnglePerFrame; }
 	bool GetPushEnd() { return mCrrentPushCnt == mMoveCnt; }
-	bool GetRollEnd() { return mCrrentRotCnt >= mMoveCnt - 1; }
+	bool GetRollEnd() { return mCrrentRotCnt >= mMoveCnt; }
 };
 

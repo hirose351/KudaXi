@@ -47,8 +47,6 @@ void Player::ObjectUpdate()
 	case eStop:
 		break;
 	case eMove:
-		// 重力仮
-		mTransform.PositionCorrectionY(-1);
 		Move();
 		CheckRoll();
 		break;
@@ -191,6 +189,8 @@ void Player::Move()
 	// 回転を反映、平行移動を反映
 	mTransform.angle = ((mTransform.rotation* 180.0f) / XM_PI);
 
+	// 重力仮
+	mTransform.PositionCorrectionY(-1);
 	if (mTransform.position.y < DICE_SCALE_HALF - 3)
 	{
 		mTransform.position.y = DICE_SCALE_HALF - 3;
@@ -206,17 +206,13 @@ void Player::Roll()
 		mPstate = eMove;
 		return;
 	}
-	if (mpOperationDice->GetRollEnd())
-	{
-		mPstate = eMove;
-		mTransform.AddPosition();
-		mTransform.CreateMtx();
-		mTransform.move = 0;
-		return;
-	}
 
 	mTransform.move = 0;
 	float movePos = mpOperationDice->GetmPushPositionPerFrame() / 1.5f;
+
+	Float3 a = mpOperationDice->GetTransform()->GetPosition();
+
+	int sss = DICE_SCALE_HALF;
 
 	switch (mDirection)
 	{
@@ -225,24 +221,32 @@ void Player::Roll()
 		return;
 	case Direction::eUp:
 		//std::cout << "上強制移動\n";
-		mTransform.move = { 0, 0, movePos };
+		mTransform.position.z = a.z + sss;
 		break;
 	case Direction::eDown:
 		//std::cout << "下強制移動\n";
-		mTransform.move = { 0, 0, -movePos };
+		mTransform.position.z = a.z - sss;
 		break;
 	case Direction::eLeft:
 		//std::cout << "左強制移動\n";
-		mTransform.move = { -movePos, 0, 0 };
+		mTransform.position.x = a.x - sss;
 		break;
 	case Direction::eRight:
 		//std::cout << "右強制移動\n";
-		mTransform.move = { movePos, 0, 0 };
+		mTransform.position.x = a.x + sss;
 		break;
 	}
+	//mTransform.position.y = DICE_SCALE + DICE_SCALE_HALF;
 
-	mTransform.AddPosition();
+	//mTransform.AddPosition();
 	mTransform.CreateMtx();
+
+	if (mpOperationDice->GetDiceStatus() != DiceStatus::eRoll)
+	{
+		mPstate = eMove;
+		mDirection = Direction::eNeutral;
+		mTransform.move = 0;
+	}
 }
 
 void Player::Push()
@@ -320,6 +324,7 @@ void Player::CheckRoll()
 	if (mpOperationDice->SetRollAction(mDirection))
 	{
 		mPstate = eRoll;	// 状態を変える
+		mTransform.SetPositionY(mpOperationDice->GetTransform()->GetPosition().y + DICE_SCALE_HALF + 6 - 0.5f);
 	}
 	// 回転出来なければ
 	else
@@ -411,7 +416,6 @@ bool Player::SetNearestDice()
 			break;
 		case DiceStatus::ePush:
 			//std::cout << "保持Dice基準Y補正\n";
-			mTransform.SetPositionY(mpOperationDice->GetTransform()->GetPosition().y + DICE_SCALE_HALF + 6 - 0.5f);
 			break;
 		case DiceStatus::eDown:
 			//std::cout << "保持Dice基準Y補正\n";
@@ -426,6 +430,7 @@ bool Player::SetNearestDice()
 			mTransform.SetPositionY(mpOperationDice->GetTransform()->GetPosition().y + DICE_SCALE_HALF + 6 - 0.5f);
 			break;
 		}
+		mTransform.SetPositionY(mpOperationDice->GetTransform()->GetPosition().y + DICE_SCALE_HALF + 6 - 0.5f);
 	}
 	return true;
 }

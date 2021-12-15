@@ -130,28 +130,30 @@ bool Dice::SetRollAction(Direction _direction)
 		return false;
 	if (!DiceManager::GetInstance()->CanDiceMove(this, _direction))
 		return false;
-	//mStopwatch.restart();
 	mTransform.angle = 0;
 	mBeforeFramePos = 90;
-	//switch (_direction)
-	//{
-	//case Direction::eUp:
-	//	mTransform.angle.x = mRotAnglePerFrame;
-	//	break;
-	//case Direction::eDown:
-	//	mTransform.angle.x = -mRotAnglePerFrame;
-	//	break;
-	//case Direction::eLeft:
-	//	mTransform.angle.z = mRotAnglePerFrame;
-	//	break;
-	//case Direction::eRight:
-	//	mTransform.angle.z = -mRotAnglePerFrame;
-	//	break;
-	//}
+	ang = 0;
+	switch (_direction)
+	{
+	case Direction::eUp:
+		mTransform.angle.x = 90.0f;
+		break;
+	case Direction::eDown:
+		mTransform.angle.x = -90.0f;
+		break;
+	case Direction::eLeft:
+		mTransform.angle.z = 90.0f;
+		break;
+	case Direction::eRight:
+		mTransform.angle.z = -90.0f;
+		break;
+	}
 	mSts = DiceStatus::eRoll;
 	mDirection = _direction;
 	mCrrentRotCnt = 0;
-	//DX11MakeWorldMatrix(mMtxFrame, mTransform.angle, XMFLOAT3(0, 0, 0));
+	DX11MakeWorldMatrix(mTargetMtx, mTransform.angle, XMFLOAT3(0, 0, 0));
+	// 行列を作成(ワールドの軸を中心に回転)
+	DX11MtxMultiply(mTargetMtx, mTransform.worldMtx, mTargetMtx);
 	mRotateStartPos = { mTransform.worldMtx._41, mTransform.worldMtx._42,mTransform.worldMtx._43 };
 	return true;
 }
@@ -222,14 +224,17 @@ void Dice::Roll()
 	// 半径を計算
 	const static float radius = static_cast<float>(DICE_SCALE_HALF*sqrt(2));		// DICESCALE*ルート2/2＝DICESCALE/2.0f*ルート2
 
-	// 45度から回転角度を足し算
-	float nowcenterposy = DICE_SCALE_HALF;
-	// 移動量の計算
-	Float3 pos = { mRotateStartPos.x,nowcenterposy,mRotateStartPos.z };
-	Float3 endpos = pos;
 	// 割合を計算
 	float frameAngle = Easing::QuintIn(static_cast<float>(mCrrentRotCnt), static_cast<float>(mMoveCnt + 1), 0.0f, DICE_SCALE);
 	float framePos = Easing::QuintIn(static_cast<float>(mCrrentRotCnt), static_cast<float>(mMoveCnt + 1), 0.0f, 45.0f);
+
+	ang += frameAngle;
+
+	// 45度から回転角度を足し算
+	float nowcenterposy = radius * sin(ToRad(45 + frameAngle));
+	// 移動量の計算
+	Float3 pos = { mRotateStartPos.x,nowcenterposy,mRotateStartPos.z };
+	Float3 endpos = pos;
 
 	if (mCrrentRotCnt >= mMoveCnt)
 	{
@@ -242,7 +247,6 @@ void Dice::Roll()
 		mTransform.angle.x = framePos;
 		//  終了位置を計算
 		endpos.z = mRotateStartPos.z + DICE_SCALE;
-		//  線形補間の式でX座標を計算
 		pos.z = mRotateStartPos.z + frameAngle;
 		break;
 	case Direction::eDown:
@@ -267,9 +271,9 @@ void Dice::Roll()
 	std::cout << "angle" + std::to_string(framePos) + "\n";
 	std::cout << "time" + std::to_string(mCrrentRotCnt) + "\n";
 
-	DX11MakeWorldMatrix(mMtxFrame, mTransform.angle, XMFLOAT3(0, 0, 0));
+	DX11MakeWorldMatrix(mFrameMtx, mTransform.angle, XMFLOAT3(0, 0, 0));
 	// 行列を作成(ワールドの軸を中心に回転)
-	DX11MtxMultiply(mTransform.worldMtx, mTransform.worldMtx, mMtxFrame);
+	DX11MtxMultiply(mTransform.worldMtx, mTransform.worldMtx, mFrameMtx);
 	// 原点の位置を補正
 	mTransform.SetPositionXYZ(pos);
 
@@ -278,13 +282,14 @@ void Dice::Roll()
 	{
 		// 回転後の面に設定
 		SetOverPlane();
+		mTransform.worldMtx = mTargetMtx;
+		endpos.y = DICE_SCALE_HALF;
 		mTransform.SetPositionXYZ(endpos);
 		mDirection = Direction::eNeutral;
 		mSts = DiceStatus::eNormal;
-		mCrrentRotCnt = 0;
 		/// 接しているブロックと面が同じかチェック
 		DiceManager::GetInstance()->CheckAligned(this);
-		/// ステップ数減らす
+		/// Todo:ステップ数減らす
 	}
 	// 回転数をカウントアップ
 	mCrrentRotCnt++;
