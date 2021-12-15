@@ -11,21 +11,20 @@ using Microsoft::WRL::ComPtr;
 class Dice : public GameObject
 {
 private:
-	float tt = 0;
-	Stopwatch mStopwatch;								// ストップウォッチ
+	float mBeforeFramePos = 0;										// 
 
 	float mThunderAlha = 1.0f;							// 雷α値
 	CBillboard mThunder;								// 生成時雷
 	INT3 mMapPos;										// マップ上の位置
-	DICEFRUIT mTopDiceTypeFruit;						// 上面の果物
+	DiceFruit mTopDiceTypeFruit;						// 上面の果物
 	int mTopDiceTypeNum;								// 上面の数字
-	DICESTATUS mSts;									// 状態
+	DiceStatus mSts;									// 状態
 	Direction mDirection = Direction::eNeutral;			// サイコロの移動方向	
 
 	DirectX::XMFLOAT4X4 mMtxFrame;						// 1フレームでの変化を表す行列	
 	Float3 mRotateStartPos;								// キー入力された際の開始位置	
 
-	const int mMoveCnt = 14;							// 90度回転、押されるのに必要な更新回数
+	const int mMoveCnt = 15;							// 90度回転、押されるのに必要な更新回数
 	int mCrrentRotCnt = 0;								// 今の回転回数	
 	const float mRotAnglePerFrame = 90.0f / mMoveCnt;	// 1回当たりの回転角度	
 
@@ -60,7 +59,7 @@ public:
 			MessageBox(nullptr, "Diceモデル 読み込みエラー", "error", MB_OK);
 		}
 		AddComponent<Component::ModelComponent>()->SetModel(ModelMgr::GetInstance().GetModelPtr("assets/model/dice/Dice.fbx"));
-		AddComponent<Component::CollisionComponent>()->SetInitState(ObjectTag::Dice, Float3(0, 0, 0), Float3(DICE_SCALE_HALF), DirectX::XMFLOAT4(0, 0, 1, 0.3f));
+		AddComponent<Component::CollisionComponent>()->SetInitState(ObjectTag::eDice, Float3(0, 0, 0), Float3(DICE_SCALE_HALF), DirectX::XMFLOAT4(0, 0, 1, 0.3f));
 		ObjectInit();
 	}
 	~Dice();
@@ -87,7 +86,7 @@ public:
 	bool CheckDiceDirection(Direction _direction);
 
 	// 上面取得
-	DICEFRUIT GetTopDiceType() {
+	DiceFruit GetTopDiceType() {
 		return mTopDiceTypeFruit;
 	}
 	// 上面取得
@@ -96,7 +95,7 @@ public:
 	}
 
 	// モデルの状態を取得する(沈んでいるか)
-	DICESTATUS GetDiceStatus() {
+	DiceStatus GetDiceStatus() {
 		return mSts;
 	}
 

@@ -164,7 +164,7 @@ void CBillboard::Render(void)
 	devicecontext->VSSetConstantBuffers(3, 1, mpConstantBuffer.GetAddressOf());
 	devicecontext->PSSetConstantBuffers(3, 1, mpConstantBuffer.GetAddressOf());
 
-	DX11SetTransform::GetInstance()->SetTransform(DX11SetTransform::TYPE::WORLD, mMatrixWorld);
+	DX11SetTransform::GetInstance()->SetTransform(DX11SetTransform::TYPE::eWorld, mMatrixWorld);
 
 	// デバイスコンテキストに頂点データを流し込む
 	devicecontext->Draw(

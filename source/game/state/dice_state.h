@@ -2,25 +2,25 @@
 #include	"state.h"
 
 // サイコロの面の種類
-enum class DICEFRUIT {
-	PEACH,
-	MELON,
-	BLUEBERRY,
-	BANANA,
-	APPLE,
-	ORANGE,
-	DICETYPE_MAX,
+enum class DiceFruit {
+	ePeach,
+	eMelon,
+	eBlueberry,
+	eBanana,
+	eApple,
+	eOrange,
+	eDiceFruitMax,
 };
 
 // サイコロの状態
-enum class DICESTATUS {
-	NORMAL,		// 通常
-	UP,			// 上がる
-	HALF_UP,	// 上がる
-	ROLL,		// 回転
-	PUSH,		// 押す
-	DOWN,		// 沈む
-	HALFDOWN,	// 半分沈む
+enum class DiceStatus {
+	eNormal,		// 通常
+	eUp,			// 上がる
+	eHalfUp,	// 上がる
+	eRoll,		// 回転
+	ePush,		// 押す
+	eDown,		// 沈む
+	eHalfDown,	// 半分沈む
 };
 
 class DiceState : public State

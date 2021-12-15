@@ -20,11 +20,11 @@ private:
 	// 遷移方法定義列挙クラス
 	enum class TransitionState
 	{
-		None,
-		FadeIn,
-		Active,
-		FadeOut,
-		FadeInOut,
+		eNone,
+		eFadeIn,
+		eActive,
+		eFadeOut,
+		eFadeInOut,
 	};
 
 	// シーン保管
@@ -35,7 +35,7 @@ private:
 	std::string mAddkey;					// 追加シーン
 
 	// 画面遷移法
-	TransitionState mTransitionState = TransitionState::None;
+	TransitionState mTransitionState = TransitionState::eNone;
 
 	int32_t	mTransitionTimeMillisec = 1000;							// 遷移時間（デフォルト：１０００ミリ秒）
 
@@ -102,7 +102,7 @@ void SceneManager::add(std::string key) {
 	mScenefactories[key].get()->Init();
 	mScenefactories[key].get()->SetSceneManager(this);
 
-	SetTransitionState(SceneManager::TransitionState::Active);
+	SetTransitionState(SceneManager::TransitionState::eActive);
 }
 
 // シーンを変更する
@@ -164,14 +164,14 @@ bool SceneManager::changeScene(std::string key, int32_t transitionTimeMillisec, 
 	{
 		// 遷移時間をメンバ変数にセット
 		mTransitionTimeMillisec = transitionTimeMillisec;
-		mTransitionState = TransitionState::FadeInOut;
+		mTransitionState = TransitionState::eFadeInOut;
 		mStopwatch.restart();
 	}
 	else
 	{
 		//　フェードアウト後にフェードインなので遷移時間を2で割る
 		mTransitionTimeMillisec = (transitionTimeMillisec / 2);
-		mTransitionState = TransitionState::FadeOut;
+		mTransitionState = TransitionState::eFadeOut;
 		mStopwatch.restart();
 	}
 	return true;

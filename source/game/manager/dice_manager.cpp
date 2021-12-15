@@ -134,9 +134,9 @@ bool DiceManager::CanDiceMove(Dice* _dice, Direction _dire)
 	// サイコロがあるとき
 	if (mDiceMap[afterPos.z][afterPos.x] > -1)
 	{
-		DICESTATUS dSts = mDiceList[mDiceMap[afterPos.z][afterPos.x]]->GetDiceStatus();
+		DiceStatus dSts = mDiceList[mDiceMap[afterPos.z][afterPos.x]]->GetDiceStatus();
 		// 半分以上存在しているサイコロなら移動しない
-		if (dSts == DICESTATUS::NORMAL || dSts == DICESTATUS::DOWN || dSts == DICESTATUS::UP)
+		if (dSts == DiceStatus::eNormal || dSts == DiceStatus::eDown || dSts == DiceStatus::eUp)
 			return false;
 		// 半分以下のサイコロならそのサイコロを消す
 		SetRemoveDice(mDiceList[mDiceMap[afterPos.z][afterPos.x]]);
@@ -190,7 +190,7 @@ void DiceManager::CheckAligned(Dice* _dice)
 			ans = { mapPos.x ,0, mapPos.z - 1 };
 			if (mDiceMap[ans.z][ans.x] > -1)
 			{
-				if (mDiceList[mDiceMap[ans.z][ans.x]]->GetDiceStatus() == DICESTATUS::DOWN || mDiceList[mDiceMap[ans.z][ans.x]]->GetDiceStatus() == DICESTATUS::HALFDOWN)
+				if (mDiceList[mDiceMap[ans.z][ans.x]]->GetDiceStatus() == DiceStatus::eDown || mDiceList[mDiceMap[ans.z][ans.x]]->GetDiceStatus() == DiceStatus::eHalfDown)
 				{
 					for (auto d : mDiceList)
 					{
@@ -206,7 +206,7 @@ void DiceManager::CheckAligned(Dice* _dice)
 			ans = { mapPos.x ,0, mapPos.z + 1 };
 			if (mDiceMap[ans.z][ans.x] > -1)
 			{
-				if (mDiceList[mDiceMap[ans.z][ans.x]]->GetDiceStatus() == DICESTATUS::DOWN || mDiceList[mDiceMap[ans.z][ans.x]]->GetDiceStatus() == DICESTATUS::HALFDOWN)
+				if (mDiceList[mDiceMap[ans.z][ans.x]]->GetDiceStatus() == DiceStatus::eDown || mDiceList[mDiceMap[ans.z][ans.x]]->GetDiceStatus() == DiceStatus::eHalfDown)
 				{
 					for (auto d : mDiceList)
 					{
@@ -222,7 +222,7 @@ void DiceManager::CheckAligned(Dice* _dice)
 			ans = { mapPos.x - 1 ,0, mapPos.z };
 			if (mDiceMap[ans.z][ans.x] > -1)
 			{
-				if (mDiceList[mDiceMap[ans.z][ans.x]]->GetDiceStatus() == DICESTATUS::DOWN || mDiceList[mDiceMap[ans.z][ans.x]]->GetDiceStatus() == DICESTATUS::HALFDOWN)
+				if (mDiceList[mDiceMap[ans.z][ans.x]]->GetDiceStatus() == DiceStatus::eDown || mDiceList[mDiceMap[ans.z][ans.x]]->GetDiceStatus() == DiceStatus::eHalfDown)
 				{
 					for (auto d : mDiceList)
 					{
@@ -238,7 +238,7 @@ void DiceManager::CheckAligned(Dice* _dice)
 			ans = { mapPos.x + 1  ,0, mapPos.z };
 			if (mDiceMap[ans.z][ans.x] > -1)
 			{
-				if (mDiceList[mDiceMap[ans.z][ans.x]]->GetDiceStatus() == DICESTATUS::DOWN || mDiceList[mDiceMap[ans.z][ans.x]]->GetDiceStatus() == DICESTATUS::HALFDOWN)
+				if (mDiceList[mDiceMap[ans.z][ans.x]]->GetDiceStatus() == DiceStatus::eDown || mDiceList[mDiceMap[ans.z][ans.x]]->GetDiceStatus() == DiceStatus::eHalfDown)
 				{
 					for (auto d : mDiceList)
 					{
@@ -309,7 +309,7 @@ void DiceManager::CheckAligned(Dice* _dice)
 	mCheckboolMap[_dice->GetMapPos().z][_dice->GetMapPos().x] = true;
 
 	mDiceAlignCnt = 1;
-	CheckDiceAlign(_dice->GetMapPos(), DICEFRUIT::APPLE);
+	CheckDiceAlign(_dice->GetMapPos(), DiceFruit::eApple);
 	if (mDiceAlignCnt < 2)
 		return;
 	for (auto d : mDiceList)
@@ -342,7 +342,7 @@ void DiceManager::SetRemoveDice(Dice* _dice)
 	}
 }
 
-void DiceManager::CheckDiceAlign(INT3 _mapPos, DICEFRUIT _diceType)
+void DiceManager::CheckDiceAlign(INT3 _mapPos, DiceFruit _diceType)
 {
 	INT3 ans;
 

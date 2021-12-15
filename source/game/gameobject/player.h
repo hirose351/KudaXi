@@ -12,10 +12,9 @@ class Player :public GameObject
 {
 private:
 	Direction mDiceMoveDirection;				// サイコロを回転させる方向
-	bool mIsDiceMove = false;					// サイコロが回転しているか
 	Direction mDirection;						// プレイヤーの方向(キー参照)
 
-	Float3					mDestrot;			// 目標姿勢
+	Float3					mDestrot;		// 目標姿勢
 	Direction				mMoveKeySts;		// 押されている移動キー
 
 	Dice* mpOperationDice;						// 操作中のサイコロ
@@ -25,9 +24,10 @@ private:
 	void Move();
 	void Roll();
 	void Push();
+	// 回転できるか確認
 	void CheckRoll();
+	// ステージ外に出ないよう調整
 	void StageHitCorrection();
-
 	// 最も近いサイコロを登録
 	bool SetNearestDice();
 public:

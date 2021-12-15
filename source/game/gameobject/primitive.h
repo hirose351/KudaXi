@@ -58,7 +58,6 @@ namespace Primitive {
 		}
 	};
 
-
 	// ’¼ü
 	struct Line {
 		Point p;
@@ -107,26 +106,6 @@ namespace Primitive {
 		Capsule(const Point &p1, const Point &p2, float r) : s(p1, p2), r(r) {}
 		~Capsule() {}
 	};
-
-	//// AABB
-	//struct AABB :public PrimitiveBase {
-	//	Point p;	// ’†S“_
-	//	Float3 hl;	// Še²‚Ì•Ó‚Ì’·‚³‚Ì”¼•ª
-	//	AABB() {}
-	//	AABB(const Point &p, const Float3 &hl) : p(p), hl(hl) {}
-
-	//	// •Ó‚Ì’·‚³‚ğæ“¾
-	//	float lenX() const { return hl.x * 2.0f; };
-	//	float lenY() const { return hl.y * 2.0f; };
-	//	float lenZ() const { return hl.z * 2.0f; };
-	//	float len(int i) {
-	//		return *((&hl.x) + i) * 2.0f;
-	//	}
-
-	//	PrimitiveBase* Get() override {
-	//		return this;
-	//	}
-	//};
 
 	// AABB
 	struct AABB {

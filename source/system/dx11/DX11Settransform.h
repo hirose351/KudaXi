@@ -34,9 +34,9 @@ public:
 	};
 
 	enum class TYPE {
-		WORLD,
-		VIEW,
-		PROJECTION
+		eWorld,
+		eView,
+		eProjection
 	};
 
 	void Uninit() {
@@ -104,19 +104,19 @@ public:
 
 		switch (type)
 		{
-		case TYPE::WORLD:
+		case TYPE::eWorld:
 			mCbWorld.World = XMMatrixTranspose(mat);
 			devicecontext->UpdateSubresource(mpConstantBufferWorld, 0, nullptr, &mCbWorld, 0, 0);
 			devicecontext->VSSetConstantBuffers(0, 1, &mpConstantBufferWorld);
 			devicecontext->PSSetConstantBuffers(0, 1, &mpConstantBufferWorld);
 			break;
-		case TYPE::VIEW:
+		case TYPE::eView:
 			mCbView.View = XMMatrixTranspose(mat);
 			devicecontext->UpdateSubresource(mpConstantBufferView, 0, nullptr, &mCbView, 0, 0);
 			devicecontext->VSSetConstantBuffers(1, 1, &mpConstantBufferView);
 			devicecontext->PSSetConstantBuffers(1, 1, &mpConstantBufferView);
 			break;
-		case TYPE::PROJECTION:
+		case TYPE::eProjection:
 			mCbProjection.Projection = XMMatrixTranspose(mat);
 			devicecontext->UpdateSubresource(mpConstantBufferProjection, 0, nullptr, &mCbProjection, 0, 0);
 			devicecontext->VSSetConstantBuffers(2, 1, &mpConstantBufferProjection);

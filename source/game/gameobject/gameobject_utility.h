@@ -39,9 +39,9 @@ static const char *FootStr[] =
 
 enum class ObjectTag
 {
-	Floor,
-	DiceTop,
-	Dice,
+	eFloor,
+	eDiceTop,
+	eDice,
 };
 
 static const char *ObjectTagStr[] =

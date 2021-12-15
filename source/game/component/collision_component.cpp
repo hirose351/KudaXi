@@ -115,7 +115,7 @@ GameObject* CollisionComponent::GetNearestDice(Float3 _pos)
 	// リストに存在するオブジェクトがDiceであれば受け取った座標との距離を測る
 	for (auto obj = mHitColList.begin(); obj != mHitColList.end(); obj++)
 	{
-		if ((*obj)->col->GetTag() != ObjectTag::Dice && !(*obj)->isHit && !(*obj)->beforeHit)
+		if ((*obj)->col->GetTag() != ObjectTag::eDice && !(*obj)->isHit && !(*obj)->beforeHit)
 			continue;
 		if (colData == nullptr)
 		{

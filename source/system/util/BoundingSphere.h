@@ -81,7 +81,7 @@ public:
 		ID3D11DeviceContext* device;
 		device = GetDX11DeviceContext();
 		// ƒ[ƒ‹ƒh•ÏŠ·s—ñ
-		DX11SetTransform::GetInstance()->SetTransform(DX11SetTransform::TYPE::WORLD, mMatrix);
+		DX11SetTransform::GetInstance()->SetTransform(DX11SetTransform::TYPE::eWorld, mMatrix);
 		mSphereMesh.Draw(device);
 	}
 

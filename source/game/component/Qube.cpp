@@ -181,7 +181,7 @@ void Qube::Draw(DirectX::XMFLOAT4X4 _mtx) {
 	deviceContext->PSSetShader(mpPixelShader.Get(), nullptr, 0);			// ピクセルシェーダーをセット
 
 	// ワールド変換行列セット
-	DX11SetTransform::GetInstance()->SetTransform(DX11SetTransform::TYPE::WORLD, _mtx);
+	DX11SetTransform::GetInstance()->SetTransform(DX11SetTransform::TYPE::eWorld, _mtx);
 
 	deviceContext->DrawIndexed(
 		static_cast<unsigned int>(mFace.size() * 3),		// 描画するインデックス数（面数×３）

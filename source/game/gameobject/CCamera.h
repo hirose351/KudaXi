@@ -6,7 +6,6 @@
 
 class CCamera :Uncopyable {
 private:
-	CCamera() {	}
 	DirectX::XMFLOAT4X4		mProjection;
 	DirectX::XMFLOAT4X4		mCamera;
 
@@ -24,8 +23,7 @@ public:
 		return &instance;
 	}
 
-	void Init(float nearclip, float farclip, float fov,
-			  float width, float height,
+	void Init(float nearclip, float farclip, float fov, float width, float height,
 			  DirectX::XMFLOAT3 eye, DirectX::XMFLOAT3 lookat, DirectX::XMFLOAT3 up) {
 
 		SetProjection(nearclip, farclip, fov, width, height);

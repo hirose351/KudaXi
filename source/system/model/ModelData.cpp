@@ -172,7 +172,7 @@ void ModelData::Draw(ID3D11DeviceContext * devcon, XMFLOAT4X4& mtxworld)
 	for (int i = 0; i < mMeshes.size(); i++)
 	{
 		// ワールド変換行列
-		DX11SetTransform::GetInstance()->SetTransform(DX11SetTransform::TYPE::WORLD, mtxworld);
+		DX11SetTransform::GetInstance()->SetTransform(DX11SetTransform::TYPE::eWorld, mtxworld);
 		// 定数バッファセット処理
 		mMeshes[i].Draw(devcon);
 	}

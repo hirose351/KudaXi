@@ -7,7 +7,7 @@ void SceneManager::UpdateSingle()
 	double elapsed = mStopwatch.msF();
 
 	// フェードアウト遷移　and 経過時間が遷移時間をオーバーしたとき
-	if (mTransitionState == TransitionState::FadeOut
+	if (mTransitionState == TransitionState::eFadeOut
 		&& elapsed >= mTransitionTimeMillisec)
 	{
 		// 次のシーンの更新処理を実行
@@ -17,7 +17,7 @@ void SceneManager::UpdateSingle()
 		mCurrentscenekey = mNextscenekey;
 
 		// 遷移ステートをフェードインにする
-		mTransitionState = TransitionState::FadeIn;
+		mTransitionState = TransitionState::eFadeIn;
 
 		// ストップウォッチを再スタート
 		mStopwatch.restart();
@@ -27,26 +27,26 @@ void SceneManager::UpdateSingle()
 	}
 
 	// フェードイン遷移　and 経過時間が遷移時間をオーバーしたとき
-	if (mTransitionState == TransitionState::FadeIn &&
+	if (mTransitionState == TransitionState::eFadeIn &&
 		elapsed >= mTransitionTimeMillisec)
 	{
 		// ストップウォッチをリセット
 		mStopwatch.reset();
 
 		// 遷移時間をＡＣＴＩＶＥにする
-		mTransitionState = TransitionState::Active;
+		mTransitionState = TransitionState::eActive;
 	}
 
 	switch (mTransitionState)
 	{
-	case TransitionState::FadeIn:
+	case TransitionState::eFadeIn:
 		assert(mTransitionTimeMillisec);
 		mScenefactories[mCurrentscenekey]->UpdateFadeIn(elapsed / mTransitionTimeMillisec);
 		return;
-	case TransitionState::Active:
+	case TransitionState::eActive:
 		mScenefactories[mCurrentscenekey]->Update();
 		return;
-	case TransitionState::FadeOut:
+	case TransitionState::eFadeOut:
 		assert(mTransitionTimeMillisec);
 		mScenefactories[mCurrentscenekey]->UpdateFadeOut(elapsed / mTransitionTimeMillisec);
 		return;
@@ -61,7 +61,7 @@ void SceneManager::UpdateCross()
 	const double elapsed = mStopwatch.msF();
 
 	// 遷移方法がクロスフェードの場合
-	if (mTransitionState == TransitionState::FadeInOut)
+	if (mTransitionState == TransitionState::eFadeInOut)
 	{
 		if (elapsed >= mTransitionTimeMillisec)
 		{
@@ -69,11 +69,11 @@ void SceneManager::UpdateCross()
 
 			mStopwatch.reset();
 
-			mTransitionState = TransitionState::Active;
+			mTransitionState = TransitionState::eActive;
 		}
 	}
 
-	if (mTransitionState == TransitionState::Active)
+	if (mTransitionState == TransitionState::eActive)
 	{
 		mScenefactories[mCurrentscenekey]->Update();
 
@@ -130,7 +130,7 @@ void SceneManager::DrawScene()
 	}
 
 	// アクティブかつ遷移時間が０なら現在シーンを描画
-	if (mTransitionState == TransitionState::Active ||
+	if (mTransitionState == TransitionState::eActive ||
 		!mTransitionTimeMillisec)
 	{
 		mScenefactories[mCurrentscenekey]->Render();
@@ -139,7 +139,7 @@ void SceneManager::DrawScene()
 	// 経過時間を取得
 	const double elapsed = mStopwatch.msF();
 	// 遷移フェードインなら
-	if (mTransitionState == TransitionState::FadeIn)
+	if (mTransitionState == TransitionState::eFadeIn)
 	{
 		// フェードイン描画
 
@@ -148,7 +148,7 @@ void SceneManager::DrawScene()
 		//		TurnOnZbuffer();
 	}
 	// 遷移フェードアウトなら
-	else if (mTransitionState == TransitionState::FadeOut)
+	else if (mTransitionState == TransitionState::eFadeOut)
 	{
 		// フェードアウト描画
 //		TurnOffZbuffer();
@@ -156,7 +156,7 @@ void SceneManager::DrawScene()
 		//		TurnOnZbuffer();
 	}
 	// 遷移クロスフェードなら
-	else if (mTransitionState == TransitionState::FadeInOut)
+	else if (mTransitionState == TransitionState::eFadeInOut)
 	{
 		// フェードアウト描画
 //		TurnOffZbuffer();

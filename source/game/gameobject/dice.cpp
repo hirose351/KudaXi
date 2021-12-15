@@ -25,27 +25,27 @@ void Dice::ObjectUpdate()
 {
 	switch (mSts)
 	{
-	case DICESTATUS::UP:
+	case DiceStatus::eUp:
 		GetComponent<Component::CollisionComponent>()->SetColor(XMFLOAT4(1, 1, 1, 0));
 		Up();
 		break;
-	case DICESTATUS::HALF_UP:
+	case DiceStatus::eHalfUp:
 		GetComponent<Component::CollisionComponent>()->SetColor(XMFLOAT4(1, 1, 1, 0.5f));
 		Up();
 		break;
-	case DICESTATUS::ROLL:
+	case DiceStatus::eRoll:
 		GetComponent<Component::CollisionComponent>()->SetColor(XMFLOAT4(1, 1, 1, 0));
 		Roll();
 		break;
-	case DICESTATUS::PUSH:
+	case DiceStatus::ePush:
 		GetComponent<Component::CollisionComponent>()->SetColor(XMFLOAT4(1, 1, 1, 0));
 		Push();
 		break;
-	case DICESTATUS::DOWN:
+	case DiceStatus::eDown:
 		GetComponent<Component::CollisionComponent>()->SetColor(XMFLOAT4(1, 0, 0, 0.5f));
 		Down();
 		break;
-	case DICESTATUS::HALFDOWN:
+	case DiceStatus::eHalfDown:
 		GetComponent<Component::CollisionComponent>()->SetColor(XMFLOAT4(1, 0, 0, 0.3f));
 		Down();
 		break;
@@ -97,7 +97,7 @@ void Dice::MoveDiceScale(Direction _direction)
 
 bool Dice::SetPushAction(Direction _direction)
 {
-	if (mSts != DICESTATUS::NORMAL)
+	if (mSts != DiceStatus::eNormal)
 		return false;
 	if (!DiceManager::GetInstance()->CanDiceMove(this, _direction))
 		return false;
@@ -118,7 +118,7 @@ bool Dice::SetPushAction(Direction _direction)
 		mTransform.move.x = mPushPositionPerFrame;
 		break;
 	}
-	mSts = DICESTATUS::PUSH;
+	mSts = DiceStatus::ePush;
 	mDirection = _direction;
 	mCrrentPushCnt = 0;
 	return true;
@@ -126,13 +126,13 @@ bool Dice::SetPushAction(Direction _direction)
 
 bool Dice::SetRollAction(Direction _direction)
 {
-	if (mSts != DICESTATUS::NORMAL)
+	if (mSts != DiceStatus::eNormal)
 		return false;
 	if (!DiceManager::GetInstance()->CanDiceMove(this, _direction))
 		return false;
 	//mStopwatch.restart();
 	mTransform.angle = 0;
-	tt = 90;
+	mBeforeFramePos = 90;
 	//switch (_direction)
 	//{
 	//case Direction::eUp:
@@ -148,7 +148,7 @@ bool Dice::SetRollAction(Direction _direction)
 	//	mTransform.angle.z = -mRotAnglePerFrame;
 	//	break;
 	//}
-	mSts = DICESTATUS::ROLL;
+	mSts = DiceStatus::eRoll;
 	mDirection = _direction;
 	mCrrentRotCnt = 0;
 	//DX11MakeWorldMatrix(mMtxFrame, mTransform.angle, XMFLOAT3(0, 0, 0));
@@ -166,8 +166,6 @@ void Dice::SetRollDirection(Direction _direction)
 	//ニュートラルの時だけキー入力を認める
 	if (mDirection == Direction::eNeutral)
 	{
-		mStopwatch.restart();
-
 		mDirection = _direction;
 
 		//switch (_direction)
@@ -195,14 +193,14 @@ void Dice::SetRollDirection(Direction _direction)
 void Dice::SetStartUpPosition()
 {
 	mTransform.move.y = mUpPositionPerFrame;
-	mSts = DICESTATUS::HALF_UP;
+	mSts = DiceStatus::eHalfUp;
 }
 
 void Dice::SetDownPosition()
 {
 	mTransform.move = 0;
 	mTransform.move.y = -mUpPositionPerFrame;
-	mSts = DICESTATUS::DOWN;
+	mSts = DiceStatus::eDown;
 }
 
 void Dice::Push()
@@ -212,7 +210,7 @@ void Dice::Push()
 	if (mCrrentPushCnt >= mMoveCnt)
 	{
 		mDirection = Direction::eNeutral;
-		mSts = DICESTATUS::NORMAL;
+		mSts = DiceStatus::eNormal;
 		/// 接しているブロックと面が同じかチェック
 		DiceManager::GetInstance()->CheckAligned(this);
 		/// ステップ数減らす
@@ -221,77 +219,74 @@ void Dice::Push()
 
 void Dice::Roll()
 {
-
-	//半径を計算
+	// 半径を計算
 	const static float radius = static_cast<float>(DICE_SCALE_HALF*sqrt(2));		// DICESCALE*ルート2/2＝DICESCALE/2.0f*ルート2
 
-	//45度から回転角度を足し算
+	// 45度から回転角度を足し算
 	float nowcenterposy = DICE_SCALE_HALF;
-	//移動量の計算
+	// 移動量の計算
 	Float3 pos = { mRotateStartPos.x,nowcenterposy,mRotateStartPos.z };
 	Float3 endpos = pos;
-	//割合を計算
-	float t = Easing::QuintIn(mCrrentRotCnt, mMoveCnt + 1, 0.0f, DICE_SCALE);
-
-	float a = Easing::QuintIn(mCrrentRotCnt, mMoveCnt + 1, 0.0f, 45.0f);
+	// 割合を計算
+	float frameAngle = Easing::QuintIn(static_cast<float>(mCrrentRotCnt), static_cast<float>(mMoveCnt + 1), 0.0f, DICE_SCALE);
+	float framePos = Easing::QuintIn(static_cast<float>(mCrrentRotCnt), static_cast<float>(mMoveCnt + 1), 0.0f, 45.0f);
 
 	if (mCrrentRotCnt >= mMoveCnt)
 	{
-		a = tt;
+		framePos = mBeforeFramePos;
 	}
 
 	switch (mDirection)
 	{
 	case Direction::eUp:
-		mTransform.angle.x = a;
-		// 終了位置を計算
+		mTransform.angle.x = framePos;
+		//  終了位置を計算
 		endpos.z = mRotateStartPos.z + DICE_SCALE;
-		// 線形補間の式でX座標を計算
-		pos.z = mRotateStartPos.z + t;
+		//  線形補間の式でX座標を計算
+		pos.z = mRotateStartPos.z + frameAngle;
 		break;
 	case Direction::eDown:
-		mTransform.angle.x = -a;
+		mTransform.angle.x = -framePos;
 		endpos.z = mRotateStartPos.z - DICE_SCALE;
-		pos.z = mRotateStartPos.z - t;
+		pos.z = mRotateStartPos.z - frameAngle;
 		break;
 	case Direction::eLeft:
-		mTransform.angle.z = a;
+		mTransform.angle.z = framePos;
 		endpos.x = mRotateStartPos.x - DICE_SCALE;
-		pos.x = mRotateStartPos.x - t;
+		pos.x = mRotateStartPos.x - frameAngle;
 		break;
 	case Direction::eRight:
-		mTransform.angle.z = -a;
+		mTransform.angle.z = -framePos;
 		endpos.x = mRotateStartPos.x + DICE_SCALE;
-		pos.x = mRotateStartPos.x + t;
+		pos.x = mRotateStartPos.x + frameAngle;
 		break;
 	}
 
-	tt -= a;
+	mBeforeFramePos -= framePos;
 
-	std::cout << "angle" + std::to_string(a) + "\n";
+	std::cout << "angle" + std::to_string(framePos) + "\n";
 	std::cout << "time" + std::to_string(mCrrentRotCnt) + "\n";
 
 	DX11MakeWorldMatrix(mMtxFrame, mTransform.angle, XMFLOAT3(0, 0, 0));
-	//行列を作成(ワールドの軸を中心に回転)
+	// 行列を作成(ワールドの軸を中心に回転)
 	DX11MtxMultiply(mTransform.worldMtx, mTransform.worldMtx, mMtxFrame);
-	//原点の位置を補正
+	// 原点の位置を補正
 	mTransform.SetPositionXYZ(pos);
 
 	// 回転が終わったら元の状態に戻す
 	if (mCrrentRotCnt >= mMoveCnt)
 	{
-		mStopwatch.pause();
 		// 回転後の面に設定
 		SetOverPlane();
 		mTransform.SetPositionXYZ(endpos);
 		mDirection = Direction::eNeutral;
-		mSts = DICESTATUS::NORMAL;
+		mSts = DiceStatus::eNormal;
 		mCrrentRotCnt = 0;
 		/// 接しているブロックと面が同じかチェック
 		DiceManager::GetInstance()->CheckAligned(this);
 		/// ステップ数減らす
 	}
-	//回転数をカウントアップ
+	// 回転数をカウントアップ
 	mCrrentRotCnt++;
 }
 
@@ -302,12 +297,12 @@ void Dice::Up()
 	if (mCrrentPushCnt >= mUpCnt)
 	{
 		mDirection = Direction::eNeutral;
-		mSts = DICESTATUS::NORMAL;
+		mSts = DiceStatus::eNormal;
 	}
 	else if (mCrrentPushCnt >= mUpCnt / 2)
 	{
 		mDirection = Direction::eNeutral;
-		mSts = DICESTATUS::UP;
+		mSts = DiceStatus::eUp;
 	}
 
 	if (mThunderAlha == 0.5f)
@@ -331,7 +326,7 @@ void Dice::Down()
 	else if (mTransform.position.y < 0)
 	{
 		mDirection = Direction::eNeutral;
-		mSts = DICESTATUS::HALFDOWN;
+		mSts = DiceStatus::eHalfDown;
 	}
 }
 
@@ -376,7 +371,7 @@ void Dice::SetOverPlane() {
 	{
 		if (sts[i])
 		{
-			mTopDiceTypeFruit = static_cast<DICEFRUIT>(i);
+			mTopDiceTypeFruit = static_cast<DiceFruit>(i);
 			mTopDiceTypeNum = diceNum[i];
 			break;
 		}

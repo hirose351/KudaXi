@@ -8,6 +8,9 @@
 class DiceManager :Uncopyable
 {
 private:
+	std::random_device rnd;     // 非決定的な乱数生成器を生成
+	// 生成するサイコロの角度パターン
+	Float3 randAngle[6] = { { 90.0f,0,0},{-90.0f,0,0},{180.0f,0,0} ,{0,90.0f,0} ,{0,180.0f,90.0f },{90.0f,90.0f,0} };
 	std::vector<Dice*> mDiceList;
 	StageData mCurrentStageData;
 	int mDiceMap[STAGESIZEMAX][STAGESIZEMAX];		   // ブロック更新用マップ配列(-1:無し　0以上:ブロックあり,番号は生成された順)
@@ -18,10 +21,8 @@ private:
 	// Dice生成
 	void DiceCreate();
 	// 受け取ったマップ位置と面を基準にサイコロが揃ったかチェックして配列を書き換える
-	void CheckDiceAlign(INT3 _mapPos, DICEFRUIT _diceType);
+	void CheckDiceAlign(INT3 _mapPos, DiceFruit _diceType);
 
-	std::random_device rnd;     // 非決定的な乱数生成器を生成
-	Float3 randAngle[6] = { { 90.0f,0,0},{-90.0f,0,0},{180.0f,0,0} ,{0,90.0f,0} ,{0,180.0f,90.0f },{90.0f,90.0f,0} };
 public:
 	static DiceManager* GetInstance() {
 		static DiceManager Instance;
@@ -32,7 +33,9 @@ public:
 
 	// 初期化
 	void Init();
+	// 更新
 	void Update();
+	// 
 	void Uninit();
 
 	// Diceを移動する事が可能か

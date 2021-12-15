@@ -1041,6 +1041,11 @@ static const ImWchar glyphRangesJapanese[] = {
 
 };
 
+// imguiの色などカスタム
+void imguiCustom() {
+
+}
+
 // 初期化
 void imguiInit() {
 

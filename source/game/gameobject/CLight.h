@@ -14,10 +14,11 @@ class CLight {
 	};
 
 	enum class LightType {
-		DIRECTIONAL,
-		POINT,
-		SPOT
+		eDirectional,
+		ePoint,
+		eSpot
 	};
+
 	LightType			mType;
 	XMFLOAT3			mEyepos;
 	XMFLOAT4			mLightpos;		// w=0の時は方向 w=1の時は位置
@@ -27,7 +28,7 @@ public:
 	bool Init(DirectX::XMFLOAT3 _eyepos, DirectX::XMFLOAT4 lightpos) {
 		mLightpos = lightpos;
 		mEyepos = _eyepos;
-		mType = LightType::DIRECTIONAL;
+		mType = LightType::eDirectional;
 
 		// コンスタントバッファ作成
 		bool sts = CreateConstantBuffer(

@@ -70,7 +70,7 @@ void Plane::ObjectDraw()
 
 	// ワールド変換行列セット
 	mTransform.CreateMtx();
-	DX11SetTransform::GetInstance()->SetTransform(DX11SetTransform::TYPE::WORLD, mTransform.worldMtx);
+	DX11SetTransform::GetInstance()->SetTransform(DX11SetTransform::TYPE::eWorld, mTransform.worldMtx);
 
 	// テクスチャセット
 	/// このテクスチャの配列の添え字を変えることで画像を変更できる

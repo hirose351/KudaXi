@@ -159,9 +159,6 @@
     <ClCompile Include="source\system\imgui\imgui_widgets.cpp">
       <Filter>ソース ファイル\system\imgui</Filter>
     </ClCompile>
-    <ClCompile Include="source\system\dx11\CDirectXGraphics.cpp">
-      <Filter>ソース ファイル\system\dx11</Filter>
-    </ClCompile>
     <ClCompile Include="source\system\dx11\Shader.cpp">
       <Filter>ソース ファイル\system\dx11</Filter>
     </ClCompile>
@@ -288,9 +285,6 @@
     <ClCompile Include="source\game\manager\SelectManager.cpp">
       <Filter>ソース ファイル\game\manager\not used</Filter>
     </ClCompile>
-    <ClCompile Include="source\application.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="source\game\gameobject\stage.cpp">
       <Filter>ソース ファイル\game\gameobject\stage</Filter>
     </ClCompile>
@@ -320,6 +314,12 @@
     </ClCompile>
     <ClCompile Include="source\game\interface\moving_interface.cpp">
       <Filter>ソース ファイル\game</Filter>
+    </ClCompile>
+    <ClCompile Include="source\system\dx11\CDirectXGraphics.cpp">
+      <Filter>ソース ファイル\system\dx11\util</Filter>
+    </ClCompile>
+    <ClCompile Include="source\application.cpp">
+      <Filter>ソース ファイル\system\texture</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

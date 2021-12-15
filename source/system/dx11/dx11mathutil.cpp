@@ -654,10 +654,10 @@ void transScreenToWorld(XMFLOAT3 * out, int sx, int sy, float z)
 {
 	// ビュー変換行列
 	XMFLOAT4X4 view = CCamera::GetInstance()->GetCameraMatrix();
-	DX11SetTransform::GetInstance()->SetTransform(DX11SetTransform::TYPE::VIEW, view);
+	DX11SetTransform::GetInstance()->SetTransform(DX11SetTransform::TYPE::eView, view);
 	// プロジェクション変換行列
 	XMFLOAT4X4 proj = CCamera::GetInstance()->GetProjectionMatrix();
-	DX11SetTransform::GetInstance()->SetTransform(DX11SetTransform::TYPE::PROJECTION, proj);
+	DX11SetTransform::GetInstance()->SetTransform(DX11SetTransform::TYPE::eProjection, proj);
 
 	// ビューポート行列を作成
 	XMFLOAT4X4 vpMat;

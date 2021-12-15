@@ -97,11 +97,11 @@ void GameRender(uint64_t dt) {
 
 	// プロジェクション変換行列取得
 	mtx = CCamera::GetInstance()->GetProjectionMatrix();
-	DX11SetTransform::GetInstance()->SetTransform(DX11SetTransform::TYPE::PROJECTION, mtx);
+	DX11SetTransform::GetInstance()->SetTransform(DX11SetTransform::TYPE::eProjection, mtx);
 
 	// ビュー変換行列を取得
 	mtx = CCamera::GetInstance()->GetCameraMatrix();
-	DX11SetTransform::GetInstance()->SetTransform(DX11SetTransform::TYPE::VIEW, mtx);
+	DX11SetTransform::GetInstance()->SetTransform(DX11SetTransform::TYPE::eView, mtx);
 
 	SceneManager::GetInstance()->Render();
 

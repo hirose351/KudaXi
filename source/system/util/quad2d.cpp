@@ -117,7 +117,7 @@ void Quad2D::Draw() {
 	ID3D11DeviceContext* devcontext = CDirectXGraphics::GetInstance()->GetImmediateContext();
 
 	// 座標変換用の行列をセット
-	DX11SetTransform::GetInstance()->SetTransform(DX11SetTransform::TYPE::WORLD, mWorldmtx);
+	DX11SetTransform::GetInstance()->SetTransform(DX11SetTransform::TYPE::eWorld, mWorldmtx);
 
 	unsigned int stride = sizeof(Quad2D::Vertex);	// ストライドをセット（１頂点当たりのバイト数）
 	unsigned  offset = 0;						// オフセット値をセット
