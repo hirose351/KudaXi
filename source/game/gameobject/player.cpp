@@ -206,13 +206,7 @@ void Player::Roll()
 		mPstate = eMove;
 		return;
 	}
-
-	mTransform.move = 0;
-	float movePos = mpOperationDice->GetmPushPositionPerFrame() / 1.5f;
-
-	Float3 a = mpOperationDice->GetTransform()->GetPosition();
-
-	int sss = DICE_SCALE_HALF;
+	Float3 dicePos = mpOperationDice->GetTransform()->GetPosition();
 
 	switch (mDirection)
 	{
@@ -221,24 +215,21 @@ void Player::Roll()
 		return;
 	case Direction::eUp:
 		//std::cout << "ã‹­§ˆÚ“®\n";
-		mTransform.position.z = a.z + sss;
+		mTransform.position.z = dicePos.z + DICE_SCALE_HALF;
 		break;
 	case Direction::eDown:
 		//std::cout << "‰º‹­§ˆÚ“®\n";
-		mTransform.position.z = a.z - sss;
+		mTransform.position.z = dicePos.z - DICE_SCALE_HALF;
 		break;
 	case Direction::eLeft:
 		//std::cout << "¶‹­§ˆÚ“®\n";
-		mTransform.position.x = a.x - sss;
+		mTransform.position.x = dicePos.x - DICE_SCALE_HALF;
 		break;
 	case Direction::eRight:
 		//std::cout << "‰E‹­§ˆÚ“®\n";
-		mTransform.position.x = a.x + sss;
+		mTransform.position.x = dicePos.x + DICE_SCALE_HALF;
 		break;
 	}
-	//mTransform.position.y = DICE_SCALE + DICE_SCALE_HALF;
-
-	//mTransform.AddPosition();
 	mTransform.CreateMtx();
 
 	if (mpOperationDice->GetDiceStatus() != DiceStatus::eRoll)

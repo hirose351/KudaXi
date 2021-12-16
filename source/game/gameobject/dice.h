@@ -11,7 +11,7 @@ using Microsoft::WRL::ComPtr;
 class Dice : public GameObject
 {
 private:
-	float ang = 0;
+	float mBeforeFrameAng = 0;
 	float mBeforeFramePos = 0;							// 
 	float mThunderAlha = 1.0f;							// 雷α値
 	CBillboard mThunder;								// 生成時雷
@@ -25,9 +25,8 @@ private:
 	DirectX::XMFLOAT4X4 mTargetMtx;						// 1回転での変化を表す行列
 	Float3 mRotateStartPos;								// キー入力された際の開始位置	
 
-	const int mMoveCnt = 15;							// 90度回転、押されるのに必要な更新回数
+	const int mMoveCnt = 16;							// 90度回転、押されるのに必要な更新回数
 	int mCrrentRotCnt = 0;								// 今の回転回数	
-	const float mRotAnglePerFrame = 90.0f / mMoveCnt;	// 1回当たりの回転角度	
 
 	int mCrrentPushCnt = 0;								// 今の回転回数
 	const float mPushPositionPerFrame = DICE_SCALE / mMoveCnt;
@@ -116,9 +115,6 @@ public:
 	void OnCollisionEnter(ComponentBase* _oher) override;
 	void OnCollisionStay(ComponentBase* _oher) override;
 	void OnCollisionExit(ComponentBase* _oher) override;
-
-	float GetmPushPositionPerFrame() { return mPushPositionPerFrame; }
-	float GetmRollmRotAnglePerFrame() { return mRotAnglePerFrame; }
 	bool GetPushEnd() { return mCrrentPushCnt == mMoveCnt; }
 	bool GetRollEnd() { return mCrrentRotCnt >= mMoveCnt; }
 };

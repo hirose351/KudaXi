@@ -131,8 +131,8 @@ bool Dice::SetRollAction(Direction _direction)
 	if (!DiceManager::GetInstance()->CanDiceMove(this, _direction))
 		return false;
 	mTransform.angle = 0;
-	mBeforeFramePos = 90;
-	ang = 0;
+	mBeforeFramePos = 0;
+	mBeforeFrameAng = 0;
 	switch (_direction)
 	{
 	case Direction::eUp:
@@ -225,10 +225,8 @@ void Dice::Roll()
 	const static float radius = static_cast<float>(DICE_SCALE_HALF*sqrt(2));		// DICESCALE*ルート2/2＝DICESCALE/2.0f*ルート2
 
 	// 割合を計算
-	float frameAngle = Easing::QuintIn(static_cast<float>(mCrrentRotCnt), static_cast<float>(mMoveCnt + 1), 0.0f, DICE_SCALE);
-	float framePos = Easing::QuintIn(static_cast<float>(mCrrentRotCnt), static_cast<float>(mMoveCnt + 1), 0.0f, 45.0f);
-
-	ang += frameAngle;
+	float frameAngle = Easing::SineOut(static_cast<float>(mCrrentRotCnt), static_cast<float>(mMoveCnt + 1), 0.0f, 45.0f);
+	float framePos = Easing::SineOut(static_cast<float>(mCrrentRotCnt), static_cast<float>(mMoveCnt + 1), 0.0f, DICE_SCALE);
 
 	// 45度から回転角度を足し算
 	float nowcenterposy = radius * sin(ToRad(45 + frameAngle));
@@ -236,39 +234,37 @@ void Dice::Roll()
 	Float3 pos = { mRotateStartPos.x,nowcenterposy,mRotateStartPos.z };
 	Float3 endpos = pos;
 
-	if (mCrrentRotCnt >= mMoveCnt)
-	{
-		framePos = mBeforeFramePos;
-	}
-
 	switch (mDirection)
 	{
 	case Direction::eUp:
-		mTransform.angle.x = framePos;
+		mTransform.angle.x = frameAngle - mBeforeFrameAng;
 		//  終了位置を計算
 		endpos.z = mRotateStartPos.z + DICE_SCALE;
-		pos.z = mRotateStartPos.z + frameAngle;
+		pos.z = mRotateStartPos.z + framePos - mBeforeFramePos;
 		break;
 	case Direction::eDown:
-		mTransform.angle.x = -framePos;
+		mTransform.angle.x = -frameAngle + mBeforeFrameAng;
 		endpos.z = mRotateStartPos.z - DICE_SCALE;
-		pos.z = mRotateStartPos.z - frameAngle;
+		pos.z = mRotateStartPos.z - framePos + mBeforeFramePos;
 		break;
 	case Direction::eLeft:
-		mTransform.angle.z = framePos;
+		mTransform.angle.z = frameAngle - mBeforeFrameAng;
 		endpos.x = mRotateStartPos.x - DICE_SCALE;
-		pos.x = mRotateStartPos.x - frameAngle;
+		pos.x = mRotateStartPos.x - framePos + mBeforeFramePos;
 		break;
 	case Direction::eRight:
-		mTransform.angle.z = -framePos;
+		mTransform.angle.z = -frameAngle + mBeforeFrameAng;
 		endpos.x = mRotateStartPos.x + DICE_SCALE;
-		pos.x = mRotateStartPos.x + frameAngle;
+		pos.x = mRotateStartPos.x + framePos - mBeforeFramePos;
 		break;
 	}
 
-	mBeforeFramePos -= framePos;
+	std::cout << "beforeangle" + std::to_string(mBeforeFrameAng) + "\n";
 
-	std::cout << "angle" + std::to_string(framePos) + "\n";
+	mBeforeFramePos = framePos;
+	mBeforeFrameAng = frameAngle;
+
+	std::cout << "angle" + std::to_string(frameAngle) + "\n";
 	std::cout << "time" + std::to_string(mCrrentRotCnt) + "\n";
 
 	DX11MakeWorldMatrix(mFrameMtx, mTransform.angle, XMFLOAT3(0, 0, 0));
@@ -280,13 +276,13 @@ void Dice::Roll()
 	// 回転が終わったら元の状態に戻す
 	if (mCrrentRotCnt >= mMoveCnt)
 	{
-		// 回転後の面に設定
-		SetOverPlane();
 		mTransform.worldMtx = mTargetMtx;
 		endpos.y = DICE_SCALE_HALF;
 		mTransform.SetPositionXYZ(endpos);
 		mDirection = Direction::eNeutral;
 		mSts = DiceStatus::eNormal;
+		// 回転後の面に設定
+		SetOverPlane();
 		/// 接しているブロックと面が同じかチェック
 		DiceManager::GetInstance()->CheckAligned(this);
 		/// Todo:ステップ数減らす
