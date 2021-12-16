@@ -11,7 +11,7 @@ using Microsoft::WRL::ComPtr;
 class Dice : public GameObject
 {
 private:
-	float mBeforeFrameAng = 0;
+	float mBeforeFrameAng = 0;							// 
 	float mBeforeFramePos = 0;							// 
 	float mThunderAlha = 1.0f;							// 雷α値
 	CBillboard mThunder;								// 生成時雷
@@ -21,7 +21,7 @@ private:
 	DiceStatus mSts;									// 状態
 	Direction mDirection = Direction::eNeutral;			// サイコロの移動方向	
 
-	DirectX::XMFLOAT4X4 mFrameMtx;						// 1フレームでの変化を表す行列	
+	DirectX::XMFLOAT4X4 mStartMtx;						// 1フレームでの変化を表す行列	
 	DirectX::XMFLOAT4X4 mTargetMtx;						// 1回転での変化を表す行列
 	Float3 mRotateStartPos;								// キー入力された際の開始位置	
 

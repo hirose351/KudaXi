@@ -360,6 +360,6 @@ namespace Easing
 	static float Linear(float t, float totaltime, float min, float max)
 	{
 		Assert(totaltime);
-		//return (max - min) * t / totaltime + min;
+		return (max - min) * t / totaltime + min;
 	}
 }

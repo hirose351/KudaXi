@@ -151,6 +151,7 @@ bool Dice::SetRollAction(Direction _direction)
 	mSts = DiceStatus::eRoll;
 	mDirection = _direction;
 	mCrrentRotCnt = 0;
+	mStartMtx = mTransform.worldMtx;
 	DX11MakeWorldMatrix(mTargetMtx, mTransform.angle, XMFLOAT3(0, 0, 0));
 	// 行列を作成(ワールドの軸を中心に回転)
 	DX11MtxMultiply(mTargetMtx, mTransform.worldMtx, mTargetMtx);
@@ -225,8 +226,8 @@ void Dice::Roll()
 	const static float radius = static_cast<float>(DICE_SCALE_HALF*sqrt(2));		// DICESCALE*ルート2/2＝DICESCALE/2.0f*ルート2
 
 	// 割合を計算
-	float frameAngle = Easing::SineOut(static_cast<float>(mCrrentRotCnt), static_cast<float>(mMoveCnt + 1), 0.0f, 45.0f);
-	float framePos = Easing::SineOut(static_cast<float>(mCrrentRotCnt), static_cast<float>(mMoveCnt + 1), 0.0f, DICE_SCALE);
+	float frameAngle = Easing::CircOut(static_cast<float>(mCrrentRotCnt), static_cast<float>(mMoveCnt + 1), 0.0f, 90.0f);
+	float framePos = Easing::CircOut(static_cast<float>(mCrrentRotCnt), static_cast<float>(mMoveCnt + 1), 0.0f, DICE_SCALE);
 
 	// 45度から回転角度を足し算
 	float nowcenterposy = radius * sin(ToRad(45 + frameAngle));
@@ -237,39 +238,42 @@ void Dice::Roll()
 	switch (mDirection)
 	{
 	case Direction::eUp:
-		mTransform.angle.x = frameAngle - mBeforeFrameAng;
+		mTransform.angle.x = frameAngle;
 		//  終了位置を計算
 		endpos.z = mRotateStartPos.z + DICE_SCALE;
-		pos.z = mRotateStartPos.z + framePos - mBeforeFramePos;
+		pos.z = mRotateStartPos.z + framePos;
 		break;
 	case Direction::eDown:
-		mTransform.angle.x = -frameAngle + mBeforeFrameAng;
+		mTransform.angle.x = -frameAngle;
 		endpos.z = mRotateStartPos.z - DICE_SCALE;
-		pos.z = mRotateStartPos.z - framePos + mBeforeFramePos;
+		pos.z = mRotateStartPos.z - framePos;
 		break;
 	case Direction::eLeft:
-		mTransform.angle.z = frameAngle - mBeforeFrameAng;
+		mTransform.angle.z = frameAngle;
 		endpos.x = mRotateStartPos.x - DICE_SCALE;
-		pos.x = mRotateStartPos.x - framePos + mBeforeFramePos;
+		pos.x = mRotateStartPos.x - framePos;
 		break;
 	case Direction::eRight:
-		mTransform.angle.z = -frameAngle + mBeforeFrameAng;
+		mTransform.angle.z = -frameAngle;
 		endpos.x = mRotateStartPos.x + DICE_SCALE;
-		pos.x = mRotateStartPos.x + framePos - mBeforeFramePos;
+		pos.x = mRotateStartPos.x + framePos;
 		break;
 	}
 
-	std::cout << "beforeangle" + std::to_string(mBeforeFrameAng) + "\n";
+	std::cout << "time　" + std::to_string(mCrrentRotCnt) + "\n";
+	std::cout << "beforeangle　" + std::to_string(mBeforeFrameAng) + "\n";
+	std::cout << "angle　" + std::to_string(frameAngle - mBeforeFrameAng) + "\n";
 
 	mBeforeFramePos = framePos;
 	mBeforeFrameAng = frameAngle;
 
-	std::cout << "angle" + std::to_string(frameAngle) + "\n";
-	std::cout << "time" + std::to_string(mCrrentRotCnt) + "\n";
+	std::cout << "frameAngle　" + std::to_string(frameAngle) + "\n";
 
-	DX11MakeWorldMatrix(mFrameMtx, mTransform.angle, XMFLOAT3(0, 0, 0));
+	XMFLOAT4X4 a;
+
+	DX11MakeWorldMatrix(a, mTransform.angle, XMFLOAT3(0, 0, 0));
 	// 行列を作成(ワールドの軸を中心に回転)
-	DX11MtxMultiply(mTransform.worldMtx, mTransform.worldMtx, mFrameMtx);
+	DX11MtxMultiply(mTransform.worldMtx, mStartMtx, a);
 	// 原点の位置を補正
 	mTransform.SetPositionXYZ(pos);
 
