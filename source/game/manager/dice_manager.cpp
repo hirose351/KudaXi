@@ -342,6 +342,13 @@ void DiceManager::SetRemoveDice(Dice* _dice)
 	}
 }
 
+Dice* DiceManager::GetDice(INT3 _mapPos)
+{
+	if (mDiceMap[_mapPos.z][_mapPos.x] != -1)
+		return mDiceList[mDiceMap[_mapPos.z][_mapPos.x]];
+	return nullptr;
+}
+
 void DiceManager::CheckDiceAlign(INT3 _mapPos, DiceFruit _diceType)
 {
 	INT3 ans;

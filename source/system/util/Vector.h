@@ -93,6 +93,12 @@ struct INT3 {
 		this->y = _i3.y;
 		this->z = _i3.z;
 	}
+	INT3(const Float3& _f3)
+	{
+		this->x = static_cast<int>(_f3.x);
+		this->y = static_cast<int>(_f3.y);
+		this->z = static_cast<int>(_f3.z);
+	}
 	INT3 operator+(const INT3& _i3)
 	{
 		INT3 v3;

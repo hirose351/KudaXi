@@ -49,4 +49,7 @@ public:
 
 	// 対象のサイコロのマップ上のデータを消す
 	void SetRemoveDice(Dice* _dice);
+
+	// 渡されたマップ上にあるDiceのポインタを返す
+	Dice* GetDice(INT3 _mapPos);
 };

@@ -13,19 +13,20 @@ class Player :public GameObject
 private:
 	Direction mDiceMoveDirection;				// サイコロを回転させる方向
 	Direction mDirection;						// プレイヤーの方向(キー参照)
-
-	Float3					mDestrot;		// 目標姿勢
+	Float3					mDestrot;			// 目標姿勢
 	Direction				mMoveKeySts;		// 押されている移動キー
-
-	Dice* mpOperationDice;						// 操作中のサイコロ
-
+	Dice*	mpOperationDice;						// 操作中のサイコロ
+	INT3 mMapPos;								// マップ上の位置
 	Pstate mPstate;
 	StageData stageData;
+
 	void Move();
 	void Roll();
 	void Push();
 	// 回転できるか確認
 	void CheckRoll();
+	// 押せるか確認
+	void CheckPush();
 	// ステージ外に出ないよう調整
 	void StageHitCorrection();
 	// 最も近いサイコロを登録
@@ -40,8 +41,9 @@ public:
 		{
 			MessageBox(nullptr, "Playerモデル 読み込みエラー", "error", MB_OK);
 		}
+		mTransform.scale = (Float3(4, 6, 4));
 		AddComponent<Component::ModelComponent>()->SetModel(ModelMgr::GetInstance().GetModelPtr("assets/model/player/player.fbx"));
-		AddComponent<Component::CollisionComponent>()->SetLocalScale(Float3(4, 6, 4));
+		AddComponent<Component::CollisionComponent>()->SetLocalScale(mTransform.scale);
 		GetComponent<Component::CollisionComponent>()->SetColor(DirectX::XMFLOAT4(0.1f, 0.1f, 0.1f, 0.01f));
 		ObjectInit();
 	};
@@ -52,6 +54,9 @@ public:
 	void ObjectDraw()override {};
 	void ObjectImguiDraw()override;
 	void Uninit() override;
+
+	void SetMapPos(INT3 _i3) { mMapPos = _i3; };
+	INT3 GetMapPos() { return mMapPos; };
 
 	void OnCollisionEnter(ComponentBase* _oher) override;
 	void OnCollisionStay(ComponentBase* _oher) override;
