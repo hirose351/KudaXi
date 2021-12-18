@@ -344,9 +344,14 @@ void DiceManager::SetRemoveDice(Dice* _dice)
 
 Dice* DiceManager::GetDice(INT3 _mapPos)
 {
-	if (mDiceMap[_mapPos.z][_mapPos.x] != -1)
-		return mDiceList[mDiceMap[_mapPos.z][_mapPos.x]];
-	return nullptr;
+	// ステージ外かDiceがなければnullptrを返す
+	if (_mapPos.z < 0 || _mapPos.z >= mCurrentStageData.mMapSizeHeight)
+		return nullptr;
+	if (_mapPos.x < 0 || _mapPos.x >= mCurrentStageData.mMapSizeWidth)
+		return nullptr;
+	if (mDiceMap[_mapPos.z][_mapPos.x] == -1)
+		return nullptr;
+	return mDiceList[mDiceMap[_mapPos.z][_mapPos.x]];
 }
 
 void DiceManager::CheckDiceAlign(INT3 _mapPos, DiceFruit _diceType)

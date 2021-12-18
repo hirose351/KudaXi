@@ -73,24 +73,14 @@ void Player::ObjectImguiDraw()
 	str += std::to_string(mMapPos.z);
 	ImGui::Text(str.c_str());
 
-	if (mpOperationDice == nullptr)
-	{
-		str = "HaveDice:null";
-	}
-	else
-	{
-		str = "HaveDice:" + mpOperationDice->GetName();
-	}
-	ImGui::Text(str.c_str());
-
 	str = FootStr[static_cast<int>(mFoot)];
 	ImGui::Text(str.c_str());
 }
 
 void Player::Uninit()
 {
-}
 
+}
 
 void Player::OnColEnterObj(Dice* _other)
 {
@@ -343,11 +333,18 @@ void Player::CheckRoll()
 			break;
 		}
 	}
-
 }
 
 void Player::CheckPush()
 {
+	mMapPos.x = (mTransform.position.x + DICE_SCALE_HALF) / DICE_SCALE;
+	mMapPos.z = (mTransform.position.z - DICE_SCALE_HALF) / DICE_SCALE * -1;
+
+	if (mMapPos.x < 0)
+		mMapPos.x = 0;
+	if (mMapPos.z < 0)
+		mMapPos.z = 0;
+
 	if (mFoot != Foot::eFloor)
 		return;
 
@@ -359,22 +356,22 @@ void Player::CheckPush()
 	case Direction::eNeutral:
 		return;
 	case Direction::eUp:
-		if (-mMapPos.z*DICE_SCALE + DICE_SCALE_HALF > mTransform.position.z)
+		if (-mMapPos.z*DICE_SCALE + DICE_SCALE_HALF - mTransform.scale.z > mTransform.position.z)
 			return;
 		checkMapPos = INT3(mMapPos.x, 0, mMapPos.z - 1);
 		break;
 	case Direction::eDown:
-		if (-mMapPos.z*DICE_SCALE - DICE_SCALE_HALF < mTransform.position.z)
+		if (-mMapPos.z*DICE_SCALE - DICE_SCALE_HALF + mTransform.scale.z < mTransform.position.z)
 			return;
-		checkMapPos = INT3(mMapPos.x, 0, mMapPos.z);
+		checkMapPos = INT3(mMapPos.x, 0, mMapPos.z + 1);
 		break;
 	case Direction::eLeft:
-		if (mMapPos.x*DICE_SCALE - DICE_SCALE_HALF < mTransform.position.x)
+		if (mMapPos.x*DICE_SCALE - DICE_SCALE_HALF + mTransform.scale.z < mTransform.position.x)
 			return;
 		checkMapPos = INT3(mMapPos.x - 1, 0, mMapPos.z);
 		break;
 	case Direction::eRight:
-		if (mMapPos.x*DICE_SCALE + DICE_SCALE_HALF > mTransform.position.x)
+		if (mMapPos.x*DICE_SCALE + DICE_SCALE_HALF - mTransform.scale.z > mTransform.position.x)
 			return;
 		checkMapPos = INT3(mMapPos.x + 1, 0, mMapPos.z);
 		break;
@@ -385,59 +382,37 @@ void Player::CheckPush()
 
 	if (mpOperationDice == nullptr)
 	{
-		switch (mDirection)
-		{
-		case Direction::eUp:
-			mMapPos.z--;
-			break;
-		case Direction::eDown:
-			mMapPos.z++;
-			break;
-		case Direction::eLeft:
-			mMapPos.x--;
-			break;
-		case Direction::eRight:
-			mMapPos.x++;
-			break;
-		}
 		return;
 	}
 
-	if (mpOperationDice->SetPushAction(mDirection))
+	if (mpOperationDice->GetDiceStatus() == DiceStatus::eNormal)
 	{
-		switch (mDirection)
+		// Dice‚Ìó‘Ô‚ª’Êí‚È‚ç‰Ÿ‚·
+		if (mpOperationDice->SetPushAction(mDirection))
 		{
-		case Direction::eUp:
-			mMapPos.z--;
-			break;
-		case Direction::eDown:
-			mMapPos.z++;
-			break;
-		case Direction::eLeft:
-			mMapPos.x--;
-			break;
-		case Direction::eRight:
-			mMapPos.x++;
-			break;
+			mPstate = ePush;	// ó‘Ô‚ð•Ï‚¦‚é
+			return;
 		}
-		mPstate = ePush;	// ó‘Ô‚ð•Ï‚¦‚é
-		return;
 	}
 
 	// ˆÚ“®§ŒÀ
 	switch (mDirection)
 	{
 	case Direction::eUp:
-		mTransform.position.z = -mMapPos.z*DICE_SCALE + DICE_SCALE_HALF;
+		mTransform.position.z = -mMapPos.z*DICE_SCALE + DICE_SCALE_HALF - mTransform.scale.z / 2.0f;
+		mTransform.SetPositionZ(-mMapPos.z*DICE_SCALE + DICE_SCALE_HALF - mTransform.scale.z);
 		break;
 	case Direction::eDown:
-		mTransform.position.z = -mMapPos.z*DICE_SCALE - DICE_SCALE_HALF;
+		mTransform.position.z = -mMapPos.z*DICE_SCALE - DICE_SCALE_HALF + mTransform.scale.z / 2.0f;
+		mTransform.SetPositionZ(-mMapPos.z*DICE_SCALE - DICE_SCALE_HALF + mTransform.scale.z);
 		break;
 	case Direction::eLeft:
-		mTransform.position.x = mMapPos.x*DICE_SCALE - DICE_SCALE_HALF;
+		mTransform.position.x = mMapPos.x*DICE_SCALE - DICE_SCALE_HALF + mTransform.scale.x / 2.0f;
+		mTransform.SetPositionX(mMapPos.x*DICE_SCALE - DICE_SCALE_HALF + mTransform.scale.x);
 		break;
 	case Direction::eRight:
-		mTransform.position.x = mMapPos.x*DICE_SCALE + DICE_SCALE_HALF;
+		mTransform.position.x = mMapPos.x*DICE_SCALE + DICE_SCALE_HALF - mTransform.scale.x / 2.0f;
+		mTransform.SetPositionX(mMapPos.x*DICE_SCALE + DICE_SCALE_HALF - mTransform.scale.x);
 		break;
 	}
 	return;
@@ -446,14 +421,14 @@ void Player::CheckPush()
 void Player::StageHitCorrection()
 {
 	// ã‰º¶‰E•Ç‚Ìˆ—
-	if (stageData.mMapSizeHeight*-DICE_SCALE + DICE_SCALE_HALF > mTransform.position.z)
-		mTransform.SetPositionZ(stageData.mMapSizeHeight*-DICE_SCALE + DICE_SCALE_HALF);
-	if (0 + DICE_SCALE_HALF < mTransform.position.z)
-		mTransform.SetPositionZ(0 + DICE_SCALE_HALF);
-	if (stageData.mMapSizeWidth*DICE_SCALE - DICE_SCALE_HALF < mTransform.position.x)
-		mTransform.SetPositionX(stageData.mMapSizeWidth*DICE_SCALE - DICE_SCALE_HALF);
-	if (0 - DICE_SCALE_HALF > mTransform.position.x)
-		mTransform.SetPositionX(0 - DICE_SCALE_HALF);
+	if (-stageData.mMapSizeHeight*DICE_SCALE + DICE_SCALE_HALF + mTransform.scale.z > mTransform.position.z)
+		mTransform.SetPositionZ(-stageData.mMapSizeHeight*DICE_SCALE + DICE_SCALE_HALF + mTransform.scale.z);
+	if (0 + DICE_SCALE_HALF - mTransform.scale.z < mTransform.position.z)
+		mTransform.SetPositionZ(0 + DICE_SCALE_HALF - mTransform.scale.z);
+	if (stageData.mMapSizeWidth*DICE_SCALE - DICE_SCALE_HALF - mTransform.scale.x < mTransform.position.x)
+		mTransform.SetPositionX(stageData.mMapSizeWidth*DICE_SCALE - DICE_SCALE_HALF - mTransform.scale.x);
+	if (0 - DICE_SCALE_HALF + mTransform.scale.x > mTransform.position.x)
+		mTransform.SetPositionX(0 - DICE_SCALE_HALF + mTransform.scale.x);
 }
 
 bool Player::SetNearestDice()
@@ -468,9 +443,12 @@ bool Player::SetNearestDice()
 		mFoot = Foot::eFloor;
 		return false;
 	}
-
-	if (mTransform.GetPosition().y <= DICE_SCALE_HALF)
-		mFoot = Foot::eFloor;
+	else
+	{
+		mFoot = Foot::eDice;
+	}
+	//if (mTransform.GetPosition().y <= DICE_SCALE_HALF)
+	//	mFoot = Foot::eFloor;
 
 	if (mpOperationDice->GetTransform()->GetPosition().y < mTransform.position.y)
 		mFoot = Foot::eDice;
