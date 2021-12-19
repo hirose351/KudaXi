@@ -11,7 +11,7 @@ void Dice::ObjectInit()
 {
 	/// Todo:雷クラス作る(他種類も作りたいため)
 	mThunder.LoadTexture("assets/image/effect/thunder/thunder_yellow.png");
-	mThunder.SetPos(Float3(mTransform.position.x, mTransform.position.y, mTransform.position.z));
+	mThunder.SetPos(Float3(mTransform->position.x, mTransform->position.y, mTransform->position.z));
 	mThunder.SetScale(XMFLOAT2(100.0f, 200.0f));
 	mThunder.SetDivUV(XMFLOAT2(2, 1));
 	mThunder.SetUV(XMFLOAT2(0, 0));
@@ -81,16 +81,16 @@ void Dice::MoveDiceScale(Direction _direction)
 	switch (_direction)
 	{
 	case Direction::eUp:
-		mTransform.worldMtx._43 += DICE_SCALE;
+		mTransform->worldMtx._43 += DICE_SCALE;
 		break;
 	case Direction::eDown:
-		mTransform.worldMtx._43 -= DICE_SCALE;
+		mTransform->worldMtx._43 -= DICE_SCALE;
 		break;
 	case Direction::eLeft:
-		mTransform.worldMtx._41 -= DICE_SCALE;
+		mTransform->worldMtx._41 -= DICE_SCALE;
 		break;
 	case Direction::eRight:
-		mTransform.worldMtx._41 += DICE_SCALE;
+		mTransform->worldMtx._41 += DICE_SCALE;
 		break;
 	}
 }
@@ -102,20 +102,20 @@ bool Dice::SetPushAction(Direction _direction)
 	if (!DiceManager::GetInstance()->CanDiceMove(this, _direction))
 		return false;
 
-	mTransform.move = 0;
+	mTransform->move = 0;
 	switch (_direction)
 	{
 	case Direction::eUp:
-		mTransform.move.z = mPushPositionPerFrame;
+		mTransform->move.z = mPushPositionPerFrame;
 		break;
 	case Direction::eDown:
-		mTransform.move.z = -mPushPositionPerFrame;
+		mTransform->move.z = -mPushPositionPerFrame;
 		break;
 	case Direction::eLeft:
-		mTransform.move.x = -mPushPositionPerFrame;
+		mTransform->move.x = -mPushPositionPerFrame;
 		break;
 	case Direction::eRight:
-		mTransform.move.x = mPushPositionPerFrame;
+		mTransform->move.x = mPushPositionPerFrame;
 		break;
 	}
 	mSts = DiceStatus::ePush;
@@ -130,32 +130,32 @@ bool Dice::SetRollAction(Direction _direction)
 		return false;
 	if (!DiceManager::GetInstance()->CanDiceMove(this, _direction))
 		return false;
-	mTransform.angle = 0;
+	mTransform->angle = 0;
 	mBeforeFramePos = 0;
 	mBeforeFrameAng = 0;
 	switch (_direction)
 	{
 	case Direction::eUp:
-		mTransform.angle.x = 90.0f;
+		mTransform->angle.x = 90.0f;
 		break;
 	case Direction::eDown:
-		mTransform.angle.x = -90.0f;
+		mTransform->angle.x = -90.0f;
 		break;
 	case Direction::eLeft:
-		mTransform.angle.z = 90.0f;
+		mTransform->angle.z = 90.0f;
 		break;
 	case Direction::eRight:
-		mTransform.angle.z = -90.0f;
+		mTransform->angle.z = -90.0f;
 		break;
 	}
 	mSts = DiceStatus::eRoll;
 	mDirection = _direction;
 	mCrrentRotCnt = 0;
-	mStartMtx = mTransform.worldMtx;
-	DX11MakeWorldMatrix(mTargetMtx, mTransform.angle, XMFLOAT3(0, 0, 0));
+	mStartMtx = mTransform->worldMtx;
+	DX11MakeWorldMatrix(mTargetMtx, mTransform->angle, XMFLOAT3(0, 0, 0));
 	// 行列を作成(ワールドの軸を中心に回転)
-	DX11MtxMultiply(mTargetMtx, mTransform.worldMtx, mTargetMtx);
-	mRotateStartPos = { mTransform.worldMtx._41, mTransform.worldMtx._42,mTransform.worldMtx._43 };
+	DX11MtxMultiply(mTargetMtx, mTransform->worldMtx, mTargetMtx);
+	mRotateStartPos = { mTransform->worldMtx._41, mTransform->worldMtx._42,mTransform->worldMtx._43 };
 	return true;
 }
 
@@ -189,26 +189,26 @@ void Dice::SetRollDirection(Direction _direction)
 		//mCrrentRotCnt = 0;
 		//DX11MakeWorldMatrix(mMtxFrame, mTransform.angle, XMFLOAT3(0, 0, 0));
 		//開始位置を保存
-		mRotateStartPos = { mTransform.worldMtx._41, mTransform.worldMtx._42,mTransform.worldMtx._43 };
+		mRotateStartPos = { mTransform->worldMtx._41, mTransform->worldMtx._42,mTransform->worldMtx._43 };
 	}
 }
 
 void Dice::SetStartUpPosition()
 {
-	mTransform.move.y = mUpPositionPerFrame;
+	mTransform->move.y = mUpPositionPerFrame;
 	mSts = DiceStatus::eHalfUp;
 }
 
 void Dice::SetDownPosition()
 {
-	mTransform.move = 0;
-	mTransform.move.y = -mUpPositionPerFrame;
+	mTransform->move = 0;
+	mTransform->move.y = -mUpPositionPerFrame;
 	mSts = DiceStatus::eDown;
 }
 
 void Dice::Push()
 {
-	mTransform.MovePosition();
+	mTransform->MovePosition();
 	mCrrentPushCnt++;
 	if (mCrrentPushCnt >= mMoveCnt)
 	{
@@ -238,23 +238,23 @@ void Dice::Roll()
 	switch (mDirection)
 	{
 	case Direction::eUp:
-		mTransform.angle.x = frameAngle;
+		mTransform->angle.x = frameAngle;
 		//  終了位置を計算
 		endpos.z = mRotateStartPos.z + DICE_SCALE;
 		pos.z = mRotateStartPos.z + framePos;
 		break;
 	case Direction::eDown:
-		mTransform.angle.x = -frameAngle;
+		mTransform->angle.x = -frameAngle;
 		endpos.z = mRotateStartPos.z - DICE_SCALE;
 		pos.z = mRotateStartPos.z - framePos;
 		break;
 	case Direction::eLeft:
-		mTransform.angle.z = frameAngle;
+		mTransform->angle.z = frameAngle;
 		endpos.x = mRotateStartPos.x - DICE_SCALE;
 		pos.x = mRotateStartPos.x - framePos;
 		break;
 	case Direction::eRight:
-		mTransform.angle.z = -frameAngle;
+		mTransform->angle.z = -frameAngle;
 		endpos.x = mRotateStartPos.x + DICE_SCALE;
 		pos.x = mRotateStartPos.x + framePos;
 		break;
@@ -271,18 +271,18 @@ void Dice::Roll()
 
 	XMFLOAT4X4 a;
 
-	DX11MakeWorldMatrix(a, mTransform.angle, XMFLOAT3(0, 0, 0));
+	DX11MakeWorldMatrix(a, mTransform->angle, XMFLOAT3(0, 0, 0));
 	// 行列を作成(ワールドの軸を中心に回転)
-	DX11MtxMultiply(mTransform.worldMtx, mStartMtx, a);
+	DX11MtxMultiply(mTransform->worldMtx, mStartMtx, a);
 	// 原点の位置を補正
-	mTransform.SetPositionXYZ(pos);
+	mTransform->SetPositionXYZ(pos);
 
 	// 回転が終わったら元の状態に戻す
 	if (mCrrentRotCnt >= mMoveCnt)
 	{
-		mTransform.worldMtx = mTargetMtx;
+		mTransform->worldMtx = mTargetMtx;
 		endpos.y = DICE_SCALE_HALF;
-		mTransform.SetPositionXYZ(endpos);
+		mTransform->SetPositionXYZ(endpos);
 		mDirection = Direction::eNeutral;
 		mSts = DiceStatus::eNormal;
 		// 回転後の面に設定
@@ -297,7 +297,7 @@ void Dice::Roll()
 
 void Dice::Up()
 {
-	mTransform.MovePosition();
+	mTransform->MovePosition();
 	mCrrentPushCnt++;
 	if (mCrrentPushCnt >= mUpCnt)
 	{
@@ -323,12 +323,12 @@ void Dice::Up()
 
 void Dice::Down()
 {
-	mTransform.MovePosition();
-	if (mTransform.position.y < -DICE_SCALE_HALF)
+	mTransform->MovePosition();
+	if (mTransform->position.y < -DICE_SCALE_HALF)
 	{
 		DiceManager::GetInstance()->SetRemoveDice(this);
 	}
-	else if (mTransform.position.y < 0)
+	else if (mTransform->position.y < 0)
 	{
 		mDirection = Direction::eNeutral;
 		mSts = DiceStatus::eHalfDown;
@@ -345,30 +345,30 @@ void Dice::SetOverPlane() {
 	float dot;
 
 	// X軸取り出し
-	axis = { mTransform.worldMtx._11, mTransform.worldMtx._12, mTransform.worldMtx._13 };
+	axis = { mTransform->worldMtx._11, mTransform->worldMtx._12, mTransform->worldMtx._13 };
 	// X軸ベクトルと下向きベクトルの内積を計算
 	DX11Vec3Dot(dot, axis, underaxis);
 
 	// 一定の幅を持たせて値の比較を行う
 	sts[0] = floatcheck(dot, 1.0f, range);
 	// Y軸取得
-	axis = { mTransform.worldMtx._21, mTransform.worldMtx._22, mTransform.worldMtx._23 };
+	axis = { mTransform->worldMtx._21, mTransform->worldMtx._22, mTransform->worldMtx._23 };
 	DX11Vec3Dot(dot, axis, underaxis);
 	sts[1] = floatcheck(dot, 1.0f, range);
 	// Z軸取得
-	axis = { mTransform.worldMtx._31, mTransform.worldMtx._32, mTransform.worldMtx._33 };
+	axis = { mTransform->worldMtx._31, mTransform->worldMtx._32, mTransform->worldMtx._33 };
 	DX11Vec3Dot(dot, axis, underaxis);
 	sts[2] = floatcheck(dot, 1.0f, range);
 	// -X軸取得
-	axis = { -mTransform.worldMtx._11, -mTransform.worldMtx._12, -mTransform.worldMtx._13 };
+	axis = { -mTransform->worldMtx._11, -mTransform->worldMtx._12, -mTransform->worldMtx._13 };
 	DX11Vec3Dot(dot, axis, underaxis);
 	sts[3] = floatcheck(dot, 1.0f, range);
 	// -Y軸取得
-	axis = { -mTransform.worldMtx._21, -mTransform.worldMtx._22, -mTransform.worldMtx._23 };
+	axis = { -mTransform->worldMtx._21, -mTransform->worldMtx._22, -mTransform->worldMtx._23 };
 	DX11Vec3Dot(dot, axis, underaxis);
 	sts[4] = floatcheck(dot, 1.0f, range);
 	// -Z軸取得
-	axis = { -mTransform.worldMtx._31, -mTransform.worldMtx._32, -mTransform.worldMtx._33 };
+	axis = { -mTransform->worldMtx._31, -mTransform->worldMtx._32, -mTransform->worldMtx._33 };
 	DX11Vec3Dot(dot, axis, underaxis);
 	sts[5] = floatcheck(dot, 1.0f, range);
 

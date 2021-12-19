@@ -6,6 +6,7 @@
 #include	"../component/component_base.h"
 #include	"../../system/imgui/util/myimgui.h"
 #include	"../manager/SceneManager.h"
+#include	"../../system/util/dixsmartptr.h"
 
 class ComponentBase;
 
@@ -13,24 +14,26 @@ class ComponentBase;
 class GameObject
 {
 protected:
-	GameObject*		mParent;
-	Transform		mTransform;		// 位置回転大きさ
-	std::string		mName;			// 名前
-	unsigned int	mObjectID;		// オブジェクトID番号
-	ObjectType		mObjectType;	// オブジェクトタイプ
-	bool			mIsExist;		// 生存可否
-	ObjectState		mObjectState;	// 状態
-	Foot mFoot = Foot::eNomal;		// 足元
+	GameObject*				mParent;
+	Dix::sp<Transform>		mTransform;		// 位置回転大きさ
+	std::string				mName;			// 名前
+	unsigned int			mObjectID;		// オブジェクトID番号
+	ObjectType				mObjectType;	// オブジェクトタイプ
+	bool					mIsExist;		// 生存可否
+	ObjectState				mObjectState;	// 状態
+	Foot					mFoot;			// 足元
 
 	std::vector<ComponentBase*> mComponentList;
 
 public:
 	GameObject() :mName("NoName"), mObjectType(ObjectType::eObstracle), mFoot(Foot::eNomal)
 	{
+		mTransform.SetPtr(new Transform);
 		SceneManager::GetInstance()->GetAddScene()->AddGameObject(this);
 	}
 	GameObject(std::string mName, ObjectType mObjectType) :mName(mName), mObjectType(mObjectType)
 	{
+		mTransform.SetPtr(new Transform);
 		SceneManager::GetInstance()->GetAddScene()->AddGameObject(this);
 	}
 	virtual ~GameObject();
@@ -65,7 +68,7 @@ public:
 	void SetFoot(Foot _foot) { mFoot = _foot; }
 	Foot GetFoot() { return mFoot; }
 
-	Transform* GetTransform() { return &mTransform; }
+	Dix::wp<Transform> GetTransform() { return mTransform; }
 
 	//コンポーネントシステム関係
 	// 明示的なインスタンス化

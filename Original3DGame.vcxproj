@@ -139,6 +139,7 @@
     <ClCompile Include="source\game\component\collision_component.cpp" />
     <ClCompile Include="source\game\component\component_base.cpp" />
     <ClCompile Include="source\game\component\model_component.cpp" />
+    <ClCompile Include="source\game\component\player_controller.cpp" />
     <ClCompile Include="source\game\component\qube.cpp" />
     <ClCompile Include="source\game\data\saveload.cpp" />
     <ClCompile Include="source\game\data\stage_data.cpp" />
@@ -163,6 +164,9 @@
     <ClCompile Include="source\game\scene\stagecreate_scene.cpp" />
     <ClCompile Include="source\game\scene\title_scene.cpp" />
     <ClCompile Include="source\game\state\dice_state.cpp" />
+    <ClCompile Include="source\game\state\player_state_move.cpp" />
+    <ClCompile Include="source\game\state\player_state_push.cpp" />
+    <ClCompile Include="source\game\state\player_state_roll.cpp" />
     <ClCompile Include="source\game\state\state.cpp" />
     <ClCompile Include="source\system\dx11\CDirectXGraphics.cpp" />
     <ClCompile Include="source\system\dx11\DDSTextureLoader.cpp" />
@@ -208,6 +212,7 @@
     <ClInclude Include="source\game\component\collision_component.h" />
     <ClInclude Include="source\game\component\component_base.h" />
     <ClInclude Include="source\game\component\model_component.h" />
+    <ClInclude Include="source\game\component\player_controller.h" />
     <ClInclude Include="source\game\component\qube.h" />
     <ClInclude Include="source\game\data\saveload.h" />
     <ClInclude Include="source\game\data\stage_data.h" />
@@ -235,6 +240,9 @@
     <ClInclude Include="source\game\scene\stagecreate_scene.h" />
     <ClInclude Include="source\game\scene\title_scene.h" />
     <ClInclude Include="source\game\state\dice_state.h" />
+    <ClInclude Include="source\game\state\player_state_move.h" />
+    <ClInclude Include="source\game\state\player_state_push.h" />
+    <ClInclude Include="source\game\state\player_state_roll.h" />
     <ClInclude Include="source\game\state\state.h" />
     <ClInclude Include="source\macro.h" />
     <ClInclude Include="source\Memory.h" />

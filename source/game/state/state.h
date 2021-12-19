@@ -1,7 +1,6 @@
 #pragma once
-#include	"../gameobject/transform.h"
 #include	"../../system/util/dixsmartptr.h"
-
+#include	"../component/player_controller.h"
 
 enum Pstate
 {
@@ -11,14 +10,23 @@ enum Pstate
 	eRoll,
 };
 
+namespace Component
+{
+	class PlayerController;
+}
+
 class State
 {
+protected:
 	Dix::wp<Transform> mTramsform;
-
-	//DIRECTION mDiceMoveDirection;				// サイコロを回転させる方向
-	//bool mIsDiceMove = false;					// サイコロが回転しているか
-	//DIRECTION mDirection;						// プレイヤーの方向(キー参照)
-	//Float3					mDestrot;			// 目標姿勢
-	//DIRECTION				mMoveKeySts;		// 押されている移動キー
-
+	Dix::wp<Component::PlayerController> mHolder;
+public:
+	// 操作する変数登録
+	virtual void Start(Dix::wp<Component::PlayerController> _c);
+	// 実行
+	virtual void Exec() = 0;
+	// State変更前処理
+	virtual void BeforeChange() {}
+	// State変更後処理
+	virtual void AfterChange() {}
 };

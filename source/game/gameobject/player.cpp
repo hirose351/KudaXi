@@ -28,33 +28,21 @@ Player::~Player()
 
 void Player::ObjectInit()
 {
-	mTransform.ReSetValue();
+	mTransform->ReSetValue();
 
 	mFoot = Foot::eFloor;
 	mDirection = Direction::eDown;
 
 	stageData.SetStageData(StageDataManager::GetInstance().GetCurrentStage());
 	mMapPos = (INT3(1, 0, 1));
-	mTransform.SetPosition(Float3(1 * DICE_SCALE, DICE_SCALE_HALF, -1 * DICE_SCALE));
+	mTransform->SetPosition(Float3(1 * DICE_SCALE, DICE_SCALE_HALF, -1 * DICE_SCALE));
 	//mTransform.SetPosition(Float3(stageData.mPlayerPos.x*DICE_SCALE, DICE_SCALE_HALF, -stageData.mPlayerPos.z*DICE_SCALE));
-	mTransform.CreateMtx();
+	mTransform->CreateMtx();
 	mPstate = eMove;
 }
 
 void Player::ObjectUpdate()
 {
-	if (mPstate != ePush && mPstate != eRoll)
-	{
-
-		mMapPos.x = (mTransform.position.x + DICE_SCALE_HALF) / DICE_SCALE;
-		mMapPos.z = (mTransform.position.z - DICE_SCALE_HALF) / DICE_SCALE * -1;
-
-		if (mMapPos.x < 0)
-			mMapPos.x = 0;
-		if (mMapPos.z < 0)
-			mMapPos.z = 0;
-	}
-
 	switch (mPstate)
 	{
 	case eStop:
@@ -75,6 +63,17 @@ void Player::ObjectUpdate()
 	// ステージに合わせて位置修正
 	StageHitCorrection();
 	SetNearestDice();
+	if (mPstate != ePush && mPstate != eRoll)
+	{
+
+		mMapPos.x = static_cast<int>((mTransform->position.x + DICE_SCALE_HALF) / DICE_SCALE);
+		mMapPos.z = static_cast<int>((mTransform->position.z - DICE_SCALE_HALF) / DICE_SCALE) * -1;
+
+		if (mMapPos.x < 0)
+			mMapPos.x = 0;
+		if (mMapPos.z < 0)
+			mMapPos.z = 0;
+	}
 }
 
 void Player::ObjectImguiDraw()
@@ -102,7 +101,7 @@ void Player::OnColEnterObj(Dice* _other)
 
 	if (mPstate != eMove || mFoot != Foot::eFloor)
 		return;
-	if (mTransform.GetPosition().y > DICE_SCALE_HALF)
+	if (mTransform->GetPosition().y > DICE_SCALE_HALF)
 		return;
 	if (!_other->SetPushAction(mDirection))
 		return;
@@ -118,7 +117,7 @@ void Player::OnColStayObj(Dice* _other)
 
 void Player::OnColExitObj(Dice* _other)
 {
-	if (mpOperationDice == _other && DICE_SCALE_HALF > mTransform.position.y&&mPstate != ePush)
+	if (mpOperationDice == _other && DICE_SCALE_HALF > mTransform->position.y&&mPstate != ePush)
 	{
 		mpOperationDice = nullptr;
 	}
@@ -132,8 +131,8 @@ void Player::Move()
 	{
 		// 左移動
 		radian = rotCamera.y + XM_PI * 0.50f;
-		mTransform.move.x -= sinf(XM_PI * 0.50f) * VALUE_MOVE_MODEL;
-		mTransform.move.z -= cosf(XM_PI * 0.50f) * VALUE_MOVE_MODEL;
+		mTransform->move.x -= sinf(XM_PI * 0.50f) * VALUE_MOVE_MODEL;
+		mTransform->move.z -= cosf(XM_PI * 0.50f) * VALUE_MOVE_MODEL;
 		// 目標角度をセット
 		mDestrot.y = radian;
 		mDirection = Direction::eLeft;
@@ -142,8 +141,8 @@ void Player::Move()
 	{
 		// 右移動
 		radian = rotCamera.y - XM_PI * 0.50f;
-		mTransform.move.x -= sinf(radian) * VALUE_MOVE_MODEL;
-		mTransform.move.z -= cosf(radian) * VALUE_MOVE_MODEL;
+		mTransform->move.x -= sinf(radian) * VALUE_MOVE_MODEL;
+		mTransform->move.z -= cosf(radian) * VALUE_MOVE_MODEL;
 		// 目標角度をセット
 		mDestrot.y = radian;
 		mDirection = Direction::eRight;
@@ -151,8 +150,8 @@ void Player::Move()
 	else if (CDirectInput::GetInstance().CheckKeyBuffer(DIK_UP) || CDirectInput::GetInstance().CheckKeyBuffer(DIK_W))
 	{
 		// 前移動
-		mTransform.move.x -= sinf(XM_PI) * VALUE_MOVE_MODEL;
-		mTransform.move.z -= cosf(XM_PI) * VALUE_MOVE_MODEL;
+		mTransform->move.x -= sinf(XM_PI) * VALUE_MOVE_MODEL;
+		mTransform->move.z -= cosf(XM_PI) * VALUE_MOVE_MODEL;
 		// 目標角度をセット
 		mDestrot.y = rotCamera.y + XM_PI;
 		mDirection = Direction::eUp;
@@ -160,8 +159,8 @@ void Player::Move()
 	else if (CDirectInput::GetInstance().CheckKeyBuffer(DIK_DOWN) || CDirectInput::GetInstance().CheckKeyBuffer(DIK_S))
 	{
 		// 後移動
-		mTransform.move.x -= sinf(rotCamera.y) * VALUE_MOVE_MODEL;
-		mTransform.move.z -= cosf(rotCamera.y) * VALUE_MOVE_MODEL;
+		mTransform->move.x -= sinf(rotCamera.y) * VALUE_MOVE_MODEL;
+		mTransform->move.z -= cosf(rotCamera.y) * VALUE_MOVE_MODEL;
 		// 目標角度をセット
 		mDestrot.y = rotCamera.y;
 		mDirection = Direction::eDown;
@@ -169,10 +168,10 @@ void Player::Move()
 
 	if (CDirectInput::GetInstance().CheckKeyBuffer(DIK_RETURN))
 	{
-		mTransform.ReSetValue();
+		mTransform->ReSetValue();
 	}
 	// 目標角度と現在角度との差分を求める
-	float diffrot = mDestrot.y - mTransform.rotation.y;
+	float diffrot = mDestrot.y - mTransform->rotation.y;
 	if (diffrot > XM_PI)
 	{
 		diffrot -= XM_PI * 2.0f;
@@ -183,31 +182,31 @@ void Player::Move()
 	}
 
 	// 角度速度に慣性を付ける
-	mTransform.rotation.y += diffrot * RATE_ROTATE_MODEL;
-	if (mTransform.rotation.y > XM_PI)
+	mTransform->rotation.y += diffrot * RATE_ROTATE_MODEL;
+	if (mTransform->rotation.y > XM_PI)
 	{
-		mTransform.rotation.y -= XM_PI * 2.0f;
+		mTransform->rotation.y -= XM_PI * 2.0f;
 	}
-	if (mTransform.rotation.y < -XM_PI)
+	if (mTransform->rotation.y < -XM_PI)
 	{
-		mTransform.rotation.y += XM_PI * 2.0f;
+		mTransform->rotation.y += XM_PI * 2.0f;
 	}
 
 	// 位置移動
-	mTransform.AddPosition();
+	mTransform->AddPosition();
 	// 移動量に慣性をかける(減速慣性)
-	mTransform.move += (mTransform.move*-1.0f) * RATE_MOVE_MODEL;
+	mTransform->move += (mTransform->move*-1.0f) * RATE_MOVE_MODEL;
 	// 回転を反映、平行移動を反映
-	mTransform.angle = ((mTransform.rotation* 180.0f) / XM_PI);
+	mTransform->angle = ((mTransform->rotation* 180.0f) / XM_PI);
 
 	// 重力仮
-	mTransform.PositionCorrectionY(-1);
-	if (mTransform.position.y < DICE_SCALE_HALF - 3)
+	mTransform->PositionCorrectionY(-1);
+	if (mTransform->position.y < DICE_SCALE_HALF - 3)
 	{
-		mTransform.position.y = DICE_SCALE_HALF - 3;
+		mTransform->position.y = DICE_SCALE_HALF - 3;
 	}
 
-	mTransform.CreateMtx();
+	mTransform->CreateMtx();
 }
 
 void Player::Roll()
@@ -224,24 +223,24 @@ void Player::Roll()
 		mPstate = eMove;
 		return;
 	case Direction::eUp:
-		mTransform.SetPositionZ(dicePos.z + DICE_SCALE_HALF - mTransform.scale.z);
+		mTransform->SetPositionZ(dicePos.z + DICE_SCALE_HALF - mTransform->scale.z);
 		break;
 	case Direction::eDown:
-		mTransform.SetPositionZ(dicePos.z - DICE_SCALE_HALF + mTransform.scale.z);
+		mTransform->SetPositionZ(dicePos.z - DICE_SCALE_HALF + mTransform->scale.z);
 		break;
 	case Direction::eLeft:
-		mTransform.SetPositionX(dicePos.x - DICE_SCALE_HALF + mTransform.scale.x);
+		mTransform->SetPositionX(dicePos.x - DICE_SCALE_HALF + mTransform->scale.x);
 		break;
 	case Direction::eRight:
-		mTransform.SetPositionX(dicePos.x + DICE_SCALE_HALF - mTransform.scale.x);
+		mTransform->SetPositionX(dicePos.x + DICE_SCALE_HALF - mTransform->scale.x);
 		break;
 	}
-	mTransform.SetPositionY(mpOperationDice->GetTransform()->GetPosition().y + DICE_SCALE + mTransform.scale.y);
+	mTransform->SetPositionY(mpOperationDice->GetTransform()->GetPosition().y + DICE_SCALE + mTransform->scale.y);
 
 	if (mpOperationDice->GetDiceStatus() != DiceStatus::eRoll)
 	{
-		mMapPos.x = (mTransform.position.x + DICE_SCALE_HALF) / DICE_SCALE;
-		mMapPos.z = (mTransform.position.z - DICE_SCALE_HALF) / DICE_SCALE * -1;
+		mMapPos.x = static_cast<int>((mTransform->position.x + DICE_SCALE_HALF) / DICE_SCALE);
+		mMapPos.z = static_cast<int>((mTransform->position.z - DICE_SCALE_HALF) / DICE_SCALE) * -1;
 
 		if (mMapPos.x < 0)
 			mMapPos.x = 0;
@@ -249,7 +248,7 @@ void Player::Roll()
 			mMapPos.z = 0;
 		mPstate = eMove;
 		mDirection = Direction::eNeutral;
-		mTransform.move = 0;
+		mTransform->move = 0;
 	}
 }
 
@@ -258,10 +257,10 @@ void Player::Push()
 	if (mpOperationDice->GetPushEnd())
 	{
 		mPstate = eMove;
-		mTransform.move = mTransform.move * -1.0f;
-		mTransform.AddPosition();
-		mTransform.CreateMtx();
-		mTransform.move = 0;
+		mTransform->move = mTransform->move * -1.0f;
+		mTransform->AddPosition();
+		mTransform->CreateMtx();
+		mTransform->move = 0;
 		return;
 	}
 
@@ -274,24 +273,24 @@ void Player::Push()
 		return;
 	case Direction::eUp:
 		//std::cout << "上強制移動\n";
-		mTransform.move = { 0, 0, movePos };
+		mTransform->move = { 0, 0, movePos };
 		break;
 	case Direction::eDown:
 		//std::cout << "下強制移動\n";
-		mTransform.move = { 0, 0, -movePos };
+		mTransform->move = { 0, 0, -movePos };
 		break;
 	case Direction::eLeft:
 		//std::cout << "左強制移動\n";
-		mTransform.move = { -movePos, 0, 0 };
+		mTransform->move = { -movePos, 0, 0 };
 		break;
 	case Direction::eRight:
 		//std::cout << "右強制移動\n";
-		mTransform.move = { movePos, 0, 0 };
+		mTransform->move = { movePos, 0, 0 };
 		break;
 	}
 
-	mTransform.AddPosition();
-	mTransform.CreateMtx();
+	mTransform->AddPosition();
+	mTransform->CreateMtx();
 }
 
 void Player::CheckRoll()
@@ -308,19 +307,19 @@ void Player::CheckRoll()
 	case Direction::eNeutral:
 		return;
 	case Direction::eUp:
-		if (basePoint.z + DICE_SCALE_HALF - mTransform.scale.z >= mTransform.position.z)
+		if (basePoint.z + DICE_SCALE_HALF - mTransform->scale.z >= mTransform->position.z)
 			return;
 		break;
 	case Direction::eDown:
-		if (basePoint.z - DICE_SCALE_HALF + mTransform.scale.z <= mTransform.position.z)
+		if (basePoint.z - DICE_SCALE_HALF + mTransform->scale.z <= mTransform->position.z)
 			return;
 		break;
 	case Direction::eLeft:
-		if (basePoint.x - DICE_SCALE_HALF + mTransform.scale.x <= mTransform.position.x)
+		if (basePoint.x - DICE_SCALE_HALF + mTransform->scale.x <= mTransform->position.x)
 			return;
 		break;
 	case Direction::eRight:
-		if (basePoint.x + DICE_SCALE_HALF - mTransform.scale.x >= mTransform.position.x)
+		if (basePoint.x + DICE_SCALE_HALF - mTransform->scale.x >= mTransform->position.x)
 			return;
 		break;
 	}
@@ -329,7 +328,7 @@ void Player::CheckRoll()
 	if (mpOperationDice->SetRollAction(mDirection))
 	{
 		mPstate = eRoll;	// 状態を変える
-		mTransform.SetPositionY(mpOperationDice->GetTransform()->GetPosition().y + DICE_SCALE + mTransform.scale.y);
+		mTransform->SetPositionY(mpOperationDice->GetTransform()->GetPosition().y + DICE_SCALE + mTransform->scale.y);
 	}
 	// 回転出来なければ
 	else
@@ -340,16 +339,16 @@ void Player::CheckRoll()
 		switch (mDirection)
 		{
 		case Direction::eUp:
-			mTransform.SetPositionZ(basePoint.z + DICE_SCALE_HALF - mTransform.scale.z);
+			mTransform->SetPositionZ(basePoint.z + DICE_SCALE_HALF - mTransform->scale.z);
 			break;
 		case Direction::eDown:
-			mTransform.SetPositionZ(basePoint.z - DICE_SCALE_HALF + mTransform.scale.z);
+			mTransform->SetPositionZ(basePoint.z - DICE_SCALE_HALF + mTransform->scale.z);
 			break;
 		case Direction::eLeft:
-			mTransform.SetPositionX(basePoint.x - DICE_SCALE_HALF + mTransform.scale.x);
+			mTransform->SetPositionX(basePoint.x - DICE_SCALE_HALF + mTransform->scale.x);
 			break;
 		case Direction::eRight:
-			mTransform.SetPositionX(basePoint.x + DICE_SCALE_HALF - mTransform.scale.x);
+			mTransform->SetPositionX(basePoint.x + DICE_SCALE_HALF - mTransform->scale.x);
 			break;
 		}
 	}
@@ -368,22 +367,22 @@ void Player::CheckPush()
 	case Direction::eNeutral:
 		return;
 	case Direction::eUp:
-		if (-mMapPos.z*DICE_SCALE + DICE_SCALE_HALF - mTransform.scale.z > mTransform.position.z)
+		if (-mMapPos.z*DICE_SCALE + DICE_SCALE_HALF - mTransform->scale.z > mTransform->position.z)
 			return;
 		checkMapPos = INT3(mMapPos.x, 0, mMapPos.z - 1);
 		break;
 	case Direction::eDown:
-		if (-mMapPos.z*DICE_SCALE - DICE_SCALE_HALF + mTransform.scale.z < mTransform.position.z)
+		if (-mMapPos.z*DICE_SCALE - DICE_SCALE_HALF + mTransform->scale.z < mTransform->position.z)
 			return;
 		checkMapPos = INT3(mMapPos.x, 0, mMapPos.z + 1);
 		break;
 	case Direction::eLeft:
-		if (mMapPos.x*DICE_SCALE - DICE_SCALE_HALF + mTransform.scale.z < mTransform.position.x)
+		if (mMapPos.x*DICE_SCALE - DICE_SCALE_HALF + mTransform->scale.z < mTransform->position.x)
 			return;
 		checkMapPos = INT3(mMapPos.x - 1, 0, mMapPos.z);
 		break;
 	case Direction::eRight:
-		if (mMapPos.x*DICE_SCALE + DICE_SCALE_HALF - mTransform.scale.z > mTransform.position.x)
+		if (mMapPos.x*DICE_SCALE + DICE_SCALE_HALF - mTransform->scale.z > mTransform->position.x)
 			return;
 		checkMapPos = INT3(mMapPos.x + 1, 0, mMapPos.z);
 		break;
@@ -420,16 +419,16 @@ void Player::CheckPush()
 	switch (mDirection)
 	{
 	case Direction::eUp:
-		mTransform.SetPositionZ(-mMapPos.z*DICE_SCALE + DICE_SCALE_HALF - mTransform.scale.z);
+		mTransform->SetPositionZ(-mMapPos.z*DICE_SCALE + DICE_SCALE_HALF - mTransform->scale.z);
 		break;
 	case Direction::eDown:
-		mTransform.SetPositionZ(-mMapPos.z*DICE_SCALE - DICE_SCALE_HALF + mTransform.scale.z);
+		mTransform->SetPositionZ(-mMapPos.z*DICE_SCALE - DICE_SCALE_HALF + mTransform->scale.z);
 		break;
 	case Direction::eLeft:
-		mTransform.SetPositionX(mMapPos.x*DICE_SCALE - DICE_SCALE_HALF + mTransform.scale.x);
+		mTransform->SetPositionX(mMapPos.x*DICE_SCALE - DICE_SCALE_HALF + mTransform->scale.x);
 		break;
 	case Direction::eRight:
-		mTransform.SetPositionX(mMapPos.x*DICE_SCALE + DICE_SCALE_HALF - mTransform.scale.x);
+		mTransform->SetPositionX(mMapPos.x*DICE_SCALE + DICE_SCALE_HALF - mTransform->scale.x);
 		break;
 	}
 	return;
@@ -438,14 +437,14 @@ void Player::CheckPush()
 void Player::StageHitCorrection()
 {
 	// 上下左右壁の処理
-	if (-stageData.mMapSizeHeight*DICE_SCALE + DICE_SCALE_HALF + mTransform.scale.z > mTransform.position.z)
-		mTransform.SetPositionZ(-stageData.mMapSizeHeight*DICE_SCALE + DICE_SCALE_HALF + mTransform.scale.z);
-	if (0 + DICE_SCALE_HALF - mTransform.scale.z < mTransform.position.z)
-		mTransform.SetPositionZ(0 + DICE_SCALE_HALF - mTransform.scale.z);
-	if (stageData.mMapSizeWidth*DICE_SCALE - DICE_SCALE_HALF - mTransform.scale.x < mTransform.position.x)
-		mTransform.SetPositionX(stageData.mMapSizeWidth*DICE_SCALE - DICE_SCALE_HALF - mTransform.scale.x);
-	if (0 - DICE_SCALE_HALF + mTransform.scale.x > mTransform.position.x)
-		mTransform.SetPositionX(0 - DICE_SCALE_HALF + mTransform.scale.x);
+	if (-stageData.mMapSizeHeight*DICE_SCALE + DICE_SCALE_HALF + mTransform->scale.z > mTransform->position.z)
+		mTransform->SetPositionZ(-stageData.mMapSizeHeight*DICE_SCALE + DICE_SCALE_HALF + mTransform->scale.z);
+	if (0 + DICE_SCALE_HALF - mTransform->scale.z < mTransform->position.z)
+		mTransform->SetPositionZ(0 + DICE_SCALE_HALF - mTransform->scale.z);
+	if (stageData.mMapSizeWidth*DICE_SCALE - DICE_SCALE_HALF - mTransform->scale.x < mTransform->position.x)
+		mTransform->SetPositionX(stageData.mMapSizeWidth*DICE_SCALE - DICE_SCALE_HALF - mTransform->scale.x);
+	if (0 - DICE_SCALE_HALF + mTransform->scale.x > mTransform->position.x)
+		mTransform->SetPositionX(0 - DICE_SCALE_HALF + mTransform->scale.x);
 }
 
 bool Player::SetNearestDice()
@@ -467,7 +466,7 @@ bool Player::SetNearestDice()
 	//if (mTransform.GetPosition().y <= DICE_SCALE_HALF)
 	//	mFoot = Foot::eFloor;
 
-	if (mpOperationDice->GetTransform()->GetPosition().y < mTransform.position.y)
+	if (mpOperationDice->GetTransform()->GetPosition().y < mTransform->position.y)
 		mFoot = Foot::eDice;
 
 	if (mFoot == Foot::eFloor)
@@ -475,7 +474,7 @@ bool Player::SetNearestDice()
 		if (mpOperationDice->GetDiceStatus() != DiceStatus::eNormal)
 		{
 			//std::cout << "保持Dice基準Y補正\n";
-			mTransform.SetPositionY(mpOperationDice->GetTransform()->GetPosition().y + DICE_SCALE_HALF + mTransform.scale.y - 0.5f);
+			mTransform->SetPositionY(mpOperationDice->GetTransform()->GetPosition().y + DICE_SCALE_HALF + mTransform->scale.y - 0.5f);
 		}
 	}
 	else if (mFoot == Foot::eDice)
@@ -485,20 +484,20 @@ bool Player::SetNearestDice()
 		{
 		case DiceStatus::eUp:
 			//std::cout << "保持Dice基準Y補正\n";
-			mTransform.SetPositionY(mpOperationDice->GetTransform()->GetPosition().y + DICE_SCALE_HALF + mTransform.scale.y - 0.5f);
+			mTransform->SetPositionY(mpOperationDice->GetTransform()->GetPosition().y + DICE_SCALE_HALF + mTransform->scale.y - 0.5f);
 			break;
 		case DiceStatus::eHalfUp:
 			// 移動制限
-			if (dicePos.x + DICE_SCALE_HALF - mTransform.scale.x < mTransform.GetPosition().x)
-				mTransform.SetPositionX(dicePos.x + DICE_SCALE_HALF - mTransform.scale.x);
-			if (dicePos.x - DICE_SCALE_HALF + mTransform.scale.x > mTransform.GetPosition().x)
-				mTransform.SetPositionX(dicePos.x - DICE_SCALE_HALF + mTransform.scale.x);
-			if (dicePos.z + DICE_SCALE_HALF - mTransform.scale.z < mTransform.GetPosition().z)
-				mTransform.SetPositionZ(dicePos.z + DICE_SCALE_HALF - mTransform.scale.z);
-			if (dicePos.z - DICE_SCALE_HALF + mTransform.scale.z > mTransform.GetPosition().z)
-				mTransform.SetPositionZ(dicePos.z - DICE_SCALE_HALF + mTransform.scale.z);
+			if (dicePos.x + DICE_SCALE_HALF - mTransform->scale.x < mTransform->GetPosition().x)
+				mTransform->SetPositionX(dicePos.x + DICE_SCALE_HALF - mTransform->scale.x);
+			if (dicePos.x - DICE_SCALE_HALF + mTransform->scale.x > mTransform->GetPosition().x)
+				mTransform->SetPositionX(dicePos.x - DICE_SCALE_HALF + mTransform->scale.x);
+			if (dicePos.z + DICE_SCALE_HALF - mTransform->scale.z < mTransform->GetPosition().z)
+				mTransform->SetPositionZ(dicePos.z + DICE_SCALE_HALF - mTransform->scale.z);
+			if (dicePos.z - DICE_SCALE_HALF + mTransform->scale.z > mTransform->GetPosition().z)
+				mTransform->SetPositionZ(dicePos.z - DICE_SCALE_HALF + mTransform->scale.z);
 			//std::cout << "保持Dice基準Y補正\n";
-			mTransform.SetPositionY(mpOperationDice->GetTransform()->GetPosition().y + DICE_SCALE_HALF + mTransform.scale.y - 0.5f);
+			mTransform->SetPositionY(mpOperationDice->GetTransform()->GetPosition().y + DICE_SCALE_HALF + mTransform->scale.y - 0.5f);
 			break;
 		case DiceStatus::eRoll:
 			break;
@@ -507,18 +506,18 @@ bool Player::SetNearestDice()
 			break;
 		case DiceStatus::eDown:
 			//std::cout << "保持Dice基準Y補正\n";
-			mTransform.SetPositionY(mpOperationDice->GetTransform()->GetPosition().y + DICE_SCALE_HALF + mTransform.scale.y - 0.5f);
+			mTransform->SetPositionY(mpOperationDice->GetTransform()->GetPosition().y + DICE_SCALE_HALF + mTransform->scale.y - 0.5f);
 			break;
 		case DiceStatus::eHalfDown:
 			//std::cout << "保持Dice基準Y補正\n";
-			mTransform.SetPositionY(mpOperationDice->GetTransform()->GetPosition().y + DICE_SCALE_HALF + mTransform.scale.y - 0.5f);
+			mTransform->SetPositionY(mpOperationDice->GetTransform()->GetPosition().y + DICE_SCALE_HALF + mTransform->scale.y - 0.5f);
 			break;
 		default:
 			//std::cout << "保持Dice基準Y補正\n";
-			mTransform.SetPositionY(mpOperationDice->GetTransform()->GetPosition().y + DICE_SCALE_HALF + mTransform.scale.y - 0.5f);
+			mTransform->SetPositionY(mpOperationDice->GetTransform()->GetPosition().y + DICE_SCALE_HALF + mTransform->scale.y - 0.5f);
 			break;
 		}
-		mTransform.SetPositionY(mpOperationDice->GetTransform()->GetPosition().y + DICE_SCALE_HALF + mTransform.scale.y + 10);
+		mTransform->SetPositionY(mpOperationDice->GetTransform()->GetPosition().y + DICE_SCALE_HALF + mTransform->scale.y + 10);
 	}
 	return true;
 }

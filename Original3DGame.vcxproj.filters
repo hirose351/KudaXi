@@ -112,14 +112,20 @@
     <Filter Include="ソース ファイル\game\gameobject\camera">
       <UniqueIdentifier>{3eb226dc-5dd8-4b2a-a978-881ed6534489}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\game\gameobject\state">
-      <UniqueIdentifier>{20a5849b-c6fb-4f0d-8a0b-6354cde63573}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ソース ファイル\game\scene\stagecreate">
       <UniqueIdentifier>{d2f7b879-cb6b-4c3a-bf64-8a6d72bc317f}</UniqueIdentifier>
     </Filter>
     <Filter Include="ソース ファイル\game\data\stage">
       <UniqueIdentifier>{ff6d0673-af85-40d2-b220-4f44d4a2f326}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\game\state">
+      <UniqueIdentifier>{20a5849b-c6fb-4f0d-8a0b-6354cde63573}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\game\component\controller">
+      <UniqueIdentifier>{d36026fa-10f1-4d1d-8fbb-50ee6a654012}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\game\state\player">
+      <UniqueIdentifier>{3a9e13ad-b0d0-4c54-8f8a-486e651447fa}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -289,10 +295,10 @@
       <Filter>ソース ファイル\game\gameobject\stage</Filter>
     </ClCompile>
     <ClCompile Include="source\game\state\state.cpp">
-      <Filter>ソース ファイル\game\gameobject\state</Filter>
+      <Filter>ソース ファイル\game\state</Filter>
     </ClCompile>
     <ClCompile Include="source\game\state\dice_state.cpp">
-      <Filter>ソース ファイル\game\gameobject\state</Filter>
+      <Filter>ソース ファイル\game\state</Filter>
     </ClCompile>
     <ClCompile Include="source\game\manager\game_manager.cpp">
       <Filter>ソース ファイル\game\manager\game</Filter>
@@ -320,6 +326,18 @@
     </ClCompile>
     <ClCompile Include="source\application.cpp">
       <Filter>ソース ファイル\system\texture</Filter>
+    </ClCompile>
+    <ClCompile Include="source\game\component\player_controller.cpp">
+      <Filter>ソース ファイル\game\component\controller</Filter>
+    </ClCompile>
+    <ClCompile Include="source\game\state\player_state_move.cpp">
+      <Filter>ソース ファイル\game\state\player</Filter>
+    </ClCompile>
+    <ClCompile Include="source\game\state\player_state_push.cpp">
+      <Filter>ソース ファイル\game\state\player</Filter>
+    </ClCompile>
+    <ClCompile Include="source\game\state\player_state_roll.cpp">
+      <Filter>ソース ファイル\game\state\player</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -528,10 +546,10 @@
       <Filter>ソース ファイル\game\gameobject\stage</Filter>
     </ClInclude>
     <ClInclude Include="source\game\state\state.h">
-      <Filter>ソース ファイル\game\gameobject\state</Filter>
+      <Filter>ソース ファイル\game\state</Filter>
     </ClInclude>
     <ClInclude Include="source\game\state\dice_state.h">
-      <Filter>ソース ファイル\game\gameobject\state</Filter>
+      <Filter>ソース ファイル\game\state</Filter>
     </ClInclude>
     <ClInclude Include="source\game\manager\game_manager.h">
       <Filter>ソース ファイル\game\manager\game</Filter>
@@ -553,6 +571,18 @@
     </ClInclude>
     <ClInclude Include="source\game\interface\moving_interface.h">
       <Filter>ソース ファイル\game</Filter>
+    </ClInclude>
+    <ClInclude Include="source\game\component\player_controller.h">
+      <Filter>ソース ファイル\game\component\controller</Filter>
+    </ClInclude>
+    <ClInclude Include="source\game\state\player_state_move.h">
+      <Filter>ソース ファイル\game\state\player</Filter>
+    </ClInclude>
+    <ClInclude Include="source\game\state\player_state_push.h">
+      <Filter>ソース ファイル\game\state\player</Filter>
+    </ClInclude>
+    <ClInclude Include="source\game\state\player_state_roll.h">
+      <Filter>ソース ファイル\game\state\player</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

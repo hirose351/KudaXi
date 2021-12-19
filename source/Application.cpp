@@ -183,7 +183,7 @@ unsigned long Application::MainLoop()
 		if (sleep_time > 0)
 		{
 			float tt = sleep_time / 1000.0f;
-			std::cout << "sleep:" << tt << "\n";
+			//std::cout << "sleep:" << tt << "\n";
 			std::this_thread::sleep_for(std::chrono::milliseconds(static_cast<int>(tt)));
 			// 指定した相対時間だけ現スレッドをブロックする (function template)
 		}

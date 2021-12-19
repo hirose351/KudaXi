@@ -9,7 +9,7 @@ void Skydome::ObjectInit()
 void Skydome::ObjectUpdate()
 {
 	// Š|‚¯ŽZ
-	DX11MtxMultiply(mTransform.worldMtx, mRotationMtx, mTransform.worldMtx);
+	DX11MtxMultiply(mTransform->worldMtx, mRotationMtx, mTransform->worldMtx);
 }
 
 void Skydome::ObjectDraw()

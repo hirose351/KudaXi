@@ -16,6 +16,7 @@ struct Transform
 	DirectX::XMFLOAT4X4 beforeMtx;	// Šg‘ås—ñ
 
 	Transform();
+	virtual ~Transform() {};
 
 	/// Todo:‰ñ“]‚Æ‚©ˆÚ“®‚Æ‚©‚ÌŠÖ”ì‚é
 

@@ -80,9 +80,9 @@ namespace Dix {
 		// 参照カウンタ増加
 		/////
 		void AddRef() {
-			if ( m_pRefCnt != 0 )
+			if (m_pRefCnt != 0)
 				(*m_pRefCnt)++;
-			if ( m_pWeakCnt != 0 )
+			if (m_pWeakCnt != 0)
 				(*m_pWeakCnt)++;
 		}
 
@@ -92,10 +92,11 @@ namespace Dix {
 		void Release()
 		{
 			// 参照カウンタ減少
-			if( m_pRefCnt != 0 && ( *m_pRefCnt == 0 || --(*m_pRefCnt) == 0 ) ) {
+			if (m_pRefCnt != 0 && (*m_pRefCnt == 0 || --(*m_pRefCnt) == 0))
+			{
 
-				if ( *m_pIsAry )
-					delete[] *m_ppPtr;	// 配列メモリ削除
+				if (*m_pIsAry)
+					delete[] * m_ppPtr;	// 配列メモリ削除
 				else
 					delete *m_ppPtr;	// 単位メモリ削除
 
@@ -104,7 +105,8 @@ namespace Dix {
 			}
 
 			// ウィークカウンタチェック
-			if ( m_pWeakCnt != 0 && ( *m_pWeakCnt == 0 || --(*m_pWeakCnt) == 0 ) ) {
+			if (m_pWeakCnt != 0 && (*m_pWeakCnt == 0 || --(*m_pWeakCnt) == 0))
+			{
 				delete m_pWeakCnt;
 				delete m_pRefCnt;
 			}
@@ -112,46 +114,49 @@ namespace Dix {
 
 
 	public:
-       ///////////////////////
-	   // デフォルトコンストラクタ
-	   /////
-		explicit sp( T* src=0, int add=0 ) :
-			m_pRefCnt	( 0 ),
-			m_pWeakCnt	( 0 ),
-			m_ppPtr		( 0 )
+		///////////////////////
+		// デフォルトコンストラクタ
+		/////
+		explicit sp(T* src = 0, int add = 0) :
+			m_pRefCnt(0),
+			m_pWeakCnt(0),
+			m_ppPtr(0)
 		{
-			SetPtr( src, add );
+			SetPtr(src, add);
 		}
 
 		//////////////////////////////////////////////
 		// 配列フラグ付きデフォルトコンストラクタ
 		/////
-		sp(T* src, bool isAry, int add=0) :
-			m_pRefCnt	( 0 ),
-			m_pWeakCnt	( 0 ),
-			m_ppPtr		( 0 )
+		sp(T* src, bool isAry, int add = 0) :
+			m_pRefCnt(0),
+			m_pWeakCnt(0),
+			m_ppPtr(0)
 		{
-			SetPtr( src, isAry, add );
+			SetPtr(src, isAry, add);
 		}
 
 		//////////////////////////////////////
 		// コピーコンストラクタ（同型コピー）
 		/////
-		sp( const sp<T> &src ) :
-			m_pRefCnt	( 0 ),
-			m_pWeakCnt	( 0 ),
-			m_ppPtr		( 0 )
+		sp(const sp<T> &src) :
+			m_pRefCnt(0),
+			m_pWeakCnt(0),
+			m_ppPtr(0)
 		{
 			// 相手がNULLポインタの場合は
 			// 自分自身を空にする
-			if ( src.m_pRefCnt == 0 ) {
+			if (src.m_pRefCnt == 0)
+			{
 				Clear();
-			} else {
+			}
+			else
+			{
 				// 相手のポインタをすべてコピー
-				m_pRefCnt  = src.m_pRefCnt;
+				m_pRefCnt = src.m_pRefCnt;
 				m_pWeakCnt = src.m_pWeakCnt;
-				m_ppPtr    = src.m_ppPtr;
-				m_pIsAry   = src.getIsAryPtr();
+				m_ppPtr = src.m_ppPtr;
+				m_pIsAry = src.getIsAryPtr();
 
 				AddRef();
 			}
@@ -161,18 +166,21 @@ namespace Dix {
 		// コピーコンストラクタ（暗黙的アップキャスト）
 		/////
 		template<class T2> sp(sp<T2> &src) :
-			m_pRefCnt	( 0 ),
-			m_pWeakCnt	( 0 ),
-			m_ppPtr		( 0 )
+			m_pRefCnt(0),
+			m_pWeakCnt(0),
+			m_ppPtr(0)
 		{
 			// 相手がNULLポインタの場合は
 			// 自分自身を空にする
-			if ( src.GetRefPtr() == 0 ) {
+			if (src.GetRefPtr() == 0)
+			{
 				Clear();
-			} else {
-				m_pRefCnt  = src.GetRefPtr();
+			}
+			else
+			{
+				m_pRefCnt = src.GetRefPtr();
 				m_pWeakCnt = src.GetWeakCntPtr();
-				m_ppPtr    = (T**)src.GetPtrPtr();
+				m_ppPtr = (T**)src.GetPtrPtr();
 
 				// 型チェックコピー
 				*m_ppPtr = src.GetPtr();
@@ -188,41 +196,45 @@ namespace Dix {
 		// コピーコンストラクタ（NULL代入代用）
 		/////
 		sp(const int nullval) :
-			m_pRefCnt	( 0 ),
-			m_pWeakCnt	( 0 ),
-			m_ppPtr		( 0 ),
-			m_pIsAry	( 0 )
+			m_pRefCnt(0),
+			m_pWeakCnt(0),
+			m_ppPtr(0),
+			m_pIsAry(0)
 		{
 			// 空っぽにする
 		}
 
 
-	   ///////////////
-	   // デストラクタ
-	   /////
-		 virtual ~sp()
-		  {
-			 Release();
-		  }
-
-
-	//■■■演算子のオーバーロード■■■■■■■■■■■
-
-
-		/////////////////////////////////
-		// =代入演算子（明示的コピー）
+		///////////////
+		// デストラクタ
 		/////
-		sp<T>& operator =( const sp<T> &src )
+		virtual ~sp()
+		{
+			Release();
+		}
+
+
+		//■■■演算子のオーバーロード■■■■■■■■■■■
+
+
+			/////////////////////////////////
+			// =代入演算子（明示的コピー）
+			/////
+		sp<T>& operator =(const sp<T> &src)
 		{
 			// srcがNULLポインタの場合は
 			// 空実装にする
-			if ( src.m_pRefCnt == 0 ) {
+			if (src.m_pRefCnt == 0)
+			{
 				Clear();
-			} else {
-				if ( m_pRefCnt != 0 ) {
+			}
+			else
+			{
+				if (m_pRefCnt != 0)
+				{
 					// 同じオブジェクト同士のコピーは
 					// 意味がないので行わない。
-					if ( *src.m_ppPtr == *m_ppPtr )
+					if (*src.m_ppPtr == *m_ppPtr)
 						return (*this);
 				}
 
@@ -231,10 +243,10 @@ namespace Dix {
 				Release();
 
 				// 相手のポインタをコピー
-				m_pRefCnt  = src.m_pRefCnt;
+				m_pRefCnt = src.m_pRefCnt;
 				m_pWeakCnt = src.m_pWeakCnt;
-				m_ppPtr    = src.m_ppPtr;
-				m_pIsAry    = src.getIsAryPtr();
+				m_ppPtr = src.m_ppPtr;
+				m_pIsAry = src.getIsAryPtr();
 				AddRef();
 			}
 			return (*this);
@@ -243,17 +255,21 @@ namespace Dix {
 		/////////////////////////////////
 		// =代入演算子（明示的アップキャスト）
 		/////
-		template<class T2> sp<T>& operator =( sp<T2> &src )
+		template<class T2> sp<T>& operator =(sp<T2> &src)
 		{
 			// srcがNULLポインタの場合は
 			// 空実装にする
-			if ( src.GetRefPtr() == 0 ) {
+			if (src.GetRefPtr() == 0)
+			{
 				Clear();
-			} else {
-				if ( m_pRefCnt != 0 ) {
+			}
+			else
+			{
+				if (m_pRefCnt != 0)
+				{
 					// 同じオブジェクト同士のコピーは
 					// 意味がないので行わない。
-					if ( *src.GetPtrPtr() == *m_ppPtr )
+					if (*src.GetPtrPtr() == *m_ppPtr)
 						return (*this);
 				}
 
@@ -262,10 +278,10 @@ namespace Dix {
 				Release();
 
 				// 相手のポインタをコピー
-				m_pRefCnt  = src.GetRefPtr();
+				m_pRefCnt = src.GetRefPtr();
 				m_pWeakCnt = src.GetWeakCntPtr();
-				m_ppPtr    = (T**)src.GetPtrPtr();
-				m_pIsAry   = src.getIsAryPtr();
+				m_ppPtr = (T**)src.GetPtrPtr();
+				m_pIsAry = src.getIsAryPtr();
 
 				// 型チェックコピー
 				*m_ppPtr = src.GetPtr();
@@ -274,20 +290,20 @@ namespace Dix {
 			}
 
 			return (*this);
-		  }
+		}
 
 
 		/////////////////////////////////
 		// =代入演算子(NULL代入によるリセット）
 		/////
-		sp<T>& operator =( const int nullval )
+		sp<T>& operator =(const int nullval)
 		{
 			// 自分は空な人になってしまうので
 			// 参照カウンタを1つ減少
 			Clear();
 			return (*this);
 		}
-	   
+
 		///////////////
 		// *間接演算子
 		/////
@@ -301,7 +317,7 @@ namespace Dix {
 		//////////////////////
 		// ->メンバ選択演算子
 		/////
-		T* operator ->(){
+		T* operator ->() {
 			return *m_ppPtr;
 		}
 		T* operator ->() const {
@@ -311,22 +327,22 @@ namespace Dix {
 		/////////////////
 		// ==比較演算子
 		/////
-		bool operator ==( sp<T>& val ) const {
-			if( m_ppPtr != 0 && *m_ppPtr == val.GetPtr() )
+		bool operator ==(sp<T>& val) const {
+			if (m_ppPtr != 0 && *m_ppPtr == val.GetPtr())
 				return true;
-			if( m_ppPtr == 0 && val.GetPtr() == 0 )
-				return true;
-			return false;
-		}
-
-		bool operator ==( T *val ) const {
-			if( m_ppPtr != 0 && *m_ppPtr == val )
+			if (m_ppPtr == 0 && val.GetPtr() == 0)
 				return true;
 			return false;
 		}
 
-		bool operator ==( const int nul ) const {	// NULLとの比較専用
-			if ( m_ppPtr == 0 || *m_ppPtr == 0 )
+		bool operator ==(T *val) const {
+			if (m_ppPtr != 0 && *m_ppPtr == val)
+				return true;
+			return false;
+		}
+
+		bool operator ==(const int nul) const {	// NULLとの比較専用
+			if (m_ppPtr == 0 || *m_ppPtr == 0)
 				return true;
 			return false;
 		}
@@ -334,20 +350,20 @@ namespace Dix {
 		/////////////////
 		// !=比較演算子
 		/////
-		bool operator !=( sp<T>& val ) const {
-			if( m_ppPtr != 0 && *m_ppPtr != val.GetPtr() )
+		bool operator !=(sp<T>& val) const {
+			if (m_ppPtr != 0 && *m_ppPtr != val.GetPtr())
 				return true;
 			return false;
 		}
 
-		bool operator !=( T *val ) const {
-			if( m_ppPtr != 0 && *m_ppPtr != val )
+		bool operator !=(T *val) const {
+			if (m_ppPtr != 0 && *m_ppPtr != val)
 				return true;
 			return false;
 		}
 
-		bool operator !=( const int nul ) const {	// NULLとの比較専用
-			if ( m_ppPtr == 0 || *m_ppPtr == 0 )
+		bool operator !=(const int nul) const {	// NULLとの比較専用
+			if (m_ppPtr == 0 || *m_ppPtr == 0)
 				return false;
 			return true;
 		}
@@ -355,33 +371,36 @@ namespace Dix {
 		///////////////////
 		// 配列参照演算子
 		/////
-		T& operator[]( int elem ) const {
-			return IsAry() ? (*m_ppPtr)[ elem ] : ( *m_ppPtr )[ 0 ];
+		T& operator[](int elem) const {
+			return IsAry() ? (*m_ppPtr)[elem] : (*m_ppPtr)[0];
 		}
 
 		///////////////////
 		// ポインタ演算子
 		/////
-		T* operator+( int add ) const {
-			return IsAry() ? ( *m_ppPtr + add ) : *m_ppPtr;
+		T* operator+(int add) const {
+			return IsAry() ? (*m_ppPtr + add) : *m_ppPtr;
 		}
 
 
-	//■■■ メンバ関数 ■■■■■■■■■■■
+		//■■■ メンバ関数 ■■■■■■■■■■■
 
 	public:
 		//////////////////////////
 		// ポインタの明示的な登録
 		/////
-		void SetPtr( T* src = NULL, int add = 0 )
+		void SetPtr(T* src = nullptr, int add = 0)
 		{
 			// 参照カウンタを減らした後に再初期化
 			Release();
 
 			// Srcが無効の場合はすべてをNULLにします
-			if ( src == 0 ) {
+			if (src == 0)
+			{
 				Clear();
-			} else {
+			}
+			else
+			{
 				// Srcが有効なので参照カウンタを増加させます
 				m_pRefCnt = new unsigned int;
 				*m_pRefCnt = add;
@@ -389,23 +408,26 @@ namespace Dix {
 				*m_pWeakCnt = add;
 				m_ppPtr = new T*;
 				*m_ppPtr = src;
-				m_pIsAry = new bool( false );
+				m_pIsAry = new bool(false);
 
 				AddRef();       // 参照カウンタ増加
 			}
 		}
 
-	   ////////////////////////////////////////////
-	   // ポインタの明示的な登録（配列フラグ付き）
-	   /////
-		void SetPtr( T* src, bool isAry, int add = 0)
+		////////////////////////////////////////////
+		// ポインタの明示的な登録（配列フラグ付き）
+		/////
+		void SetPtr(T* src, bool isAry, int add = 0)
 		{
 			// 参照カウンタを減らした後に再初期化
 			Release();
 			// Srcが無効の場合はすべてをNULLにします
-			if ( src == 0 ) {
+			if (src == 0)
+			{
 				Clear();
-			} else {
+			}
+			else
+			{
 				// Srcが有効なので参照カウンタを増加させます
 				m_pRefCnt = new unsigned int;
 				*m_pRefCnt = add;
@@ -413,31 +435,32 @@ namespace Dix {
 				*m_pWeakCnt = add;
 				m_ppPtr = new T*;
 				*m_ppPtr = src;
-				m_pIsAry = new bool( false );
+				m_pIsAry = new bool(false);
 
 				AddRef();       // 参照カウンタ増加
 			}
-			if ( src ) {
+			if (src)
+			{
 				*m_pIsAry = isAry;
 			}
-	}
+		}
 
 		/////////////////////
 		// クリア
 		/////
 		void Clear() {
 			Release();
-			m_pRefCnt  = 0;
+			m_pRefCnt = 0;
 			m_pWeakCnt = 0;
-			m_ppPtr    = 0;
-			m_pIsAry   = 0;
+			m_ppPtr = 0;
+			m_pIsAry = 0;
 		}
 
 		/////////////////////
 		// ポインタの貸し出し
 		/////
-		T* GetPtr() const { 
-			if ( m_ppPtr == 0 )
+		T* GetPtr() const {
+			if (m_ppPtr == 0)
 				return 0;
 			return *m_ppPtr;
 		}
@@ -449,22 +472,22 @@ namespace Dix {
 		/////////////////////
 		// 値取得
 		/////
-		T& At( int elem = 0 ) const {
-			return IsAry() ? (*m_ppPtr)[ elem ] : ( *m_ppPtr )[ 0 ];
+		T& At(int elem = 0) const {
+			return IsAry() ? (*m_ppPtr)[elem] : (*m_ppPtr)[0];
 		}
 
 		///////////////////////////////
 		// 参照カウンタへのポインタを取得
 		/////
-		unsigned int* GetRefPtr() const { 
+		unsigned int* GetRefPtr() const {
 			return m_pRefCnt;
 		}
 
 		///////////////////////////////
 		// 参照カウンタ数を取得
 		/////
-		unsigned int GetRefNum() const { 
-			if ( m_pRefCnt == 0 ) 
+		unsigned int GetRefNum() const {
+			if (m_pRefCnt == 0)
 				return 0;
 			return *m_pRefCnt;
 		}
@@ -480,7 +503,7 @@ namespace Dix {
 		// ウィークカウンタ数を取得
 		/////
 		unsigned int GetWeakNum() const {
-			if ( m_pWeakCnt == 0 )
+			if (m_pWeakCnt == 0)
 				return 0;
 			return *m_pWeakCnt;
 		}
@@ -488,33 +511,35 @@ namespace Dix {
 		//////////////////////////
 		// ダウンキャストコピー
 		/////
-		template <class T2> bool DownCast( sp<T2> &src )
+		template <class T2> bool DownCast(sp<T2> &src)
 		{
-			if ( src.GetRefPtr() == 0 ) {
+			if (src.GetRefPtr() == 0)
+			{
 				return false;
 			}
 
 			// 引数が配列の場合は全要素をチェックできないのでダウンキャストしない
-			if ( src.IsAry() == true )
+			if (src.IsAry() == true)
 				return false;
 
 			// 引数のスマートポインタの持つポインタが、
 			// 自分の登録しているポインタに
 			// ダウンキャスト可能な場合はダウンキャストコピーを実行
-			T* castPtr = dynamic_cast<T*>( src.GetPtr() );
+			T* castPtr = dynamic_cast<T*>(src.GetPtr());
 
-			if( castPtr ){
+			if (castPtr)
+			{
 				// ダウンキャスト成功
 				// 自分は違う人になるので
 				// 既存の参照カウンタを1つ減少
 				Release();
 
 				// 新しいポインタと参照カウンタを共有
-				m_ppPtr    = (T**)src.GetPtrPtr();
-				*m_ppPtr   = castPtr;
-				m_pRefCnt  = src.GetRefPtr();
+				m_ppPtr = (T**)src.GetPtrPtr();
+				*m_ppPtr = castPtr;
+				m_pRefCnt = src.GetRefPtr();
 				m_pWeakCnt = src.GetWeakCntPtr();
-				m_pIsAry   = src.getIsAryPtr();
+				m_pIsAry = src.getIsAryPtr();
 
 				AddRef();
 				return true;
@@ -526,21 +551,21 @@ namespace Dix {
 		///////////////////////
 		// ポインタスワップ（交換）
 		///////
-		bool SwapPtr( sp<T> &src )
+		bool SwapPtr(sp<T> &src)
 		{
 			// 双方が有効ポインタである事を前提にします
-			if ( src.GetRefPtr() == 0 || GetRefPtr() == 0 )
+			if (src.GetRefPtr() == 0 || GetRefPtr() == 0)
 				return false;
 
 			// ポインタの交換
-			T* pTmp		 = src.GetPtr();
+			T* pTmp = src.GetPtr();
 			*src.m_ppPtr = *m_ppPtr;
-			*m_ppPtr	 = pTmp;
+			*m_ppPtr = pTmp;
 
 			// 配列フラグの交換
-			bool* tmp	 = src.getIsAryPtr();
+			bool* tmp = src.getIsAryPtr();
 			src.m_pIsAry = m_pIsAry;
-			m_pIsAry	 = tmp;
+			m_pIsAry = tmp;
 
 			return true;
 		}
@@ -586,7 +611,7 @@ namespace Dix {
 		// 参照カウンタ増加
 		/////
 		unsigned int AddRef() {
-			if ( m_pWeakCnt == 0 )
+			if (m_pWeakCnt == 0)
 				return 0;
 			return ++(*m_pWeakCnt);
 		}
@@ -595,8 +620,10 @@ namespace Dix {
 		// 参照カウンタ減少
 		/////
 		unsigned int Release() {
-			if ( m_pWeakCnt != 0 ) {
-				if ( --(*m_pWeakCnt) == 0 ) {
+			if (m_pWeakCnt != 0)
+			{
+				if (--(*m_pWeakCnt) == 0)
+				{
 					// ウィークカウンタ削除
 					delete m_pWeakCnt;
 					delete m_pRefCnt;
@@ -612,32 +639,32 @@ namespace Dix {
 		// コンストラクタ
 		/////
 		wp() :
-			m_ppPtr     ( 0 ),
-			m_pRefCnt   ( 0 ),
-			m_pWeakCnt  ( 0 ),
-			m_pIsAry	( 0 )
+			m_ppPtr(0),
+			m_pRefCnt(0),
+			m_pWeakCnt(0),
+			m_pIsAry(0)
 		{
 		}
 
-		wp( sp<T>& src ) {
-			m_ppPtr    = src.GetPtrPtr();
-			m_pRefCnt  = src.GetRefPtr();
+		wp(sp<T>& src) {
+			m_ppPtr = src.GetPtrPtr();
+			m_pRefCnt = src.GetRefPtr();
 			m_pWeakCnt = src.GetWeakCntPtr();
-			m_pIsAry   = src.getIsAryPtr();
-			
+			m_pIsAry = src.getIsAryPtr();
+
 			AddRef();
 		}
 
 		//////////////////////////////////////
 		// コピーコンストラクタ（同型コピー）
 		/////
-		wp( const wp<T> &src )
+		wp(const wp<T> &src)
 		{
 			// 相手のポインタをすべてコピー
-			m_pRefCnt  = src.m_pRefCnt;		// 参照カウンタポインタ
+			m_pRefCnt = src.m_pRefCnt;		// 参照カウンタポインタ
 			m_pWeakCnt = src.m_pWeakCnt;	// ウィークカウンタポインタ
-			m_ppPtr    = src.m_ppPtr;       // T型ダブルポインタ
-			m_pIsAry   = src.getIsAryPtr();
+			m_ppPtr = src.m_ppPtr;       // T型ダブルポインタ
+			m_pIsAry = src.getIsAryPtr();
 
 			// 自分自身の参照カウンタを増加
 			AddRef();
@@ -646,15 +673,15 @@ namespace Dix {
 		//////////////////////////////////////
 		// コピーコンストラクタ（暗黙的アップキャスト）
 		/////
-		template<class T2> wp( wp<T2> &src )
+		template<class T2> wp(wp<T2> &src)
 		{
 			// 相手のポインタをコピー
-			m_pRefCnt  = src.GetRefPtr();
+			m_pRefCnt = src.GetRefPtr();
 			m_pWeakCnt = src.GetWeakCntPtr();
-			m_ppPtr	   = (T**)src.GetPtrPtr();
+			m_ppPtr = (T**)src.GetPtrPtr();
 
 			// 型チェックコピー
-			if ( m_ppPtr )
+			if (m_ppPtr)
 				*m_ppPtr = src.GetPtr();
 
 			m_pIsAry = src.getIsAryPtr();
@@ -666,23 +693,27 @@ namespace Dix {
 		//////////////////////////////////////
 		// コピーコンストラクタ（スマートポインタ暗黙的アップキャスト）
 		/////
-		template<class T2> wp( sp<T2> &src ) :
-			m_ppPtr     ( 0 ),
-			m_pRefCnt   ( 0 ),
-			m_pWeakCnt  ( 0 ),
-			m_pIsAry	( 0 )
+		template<class T2> wp(sp<T2> &src) :
+			m_ppPtr(0),
+			m_pRefCnt(0),
+			m_pWeakCnt(0),
+			m_pIsAry(0)
 		{
 			// 相手がNULLポインタだった場合は
 			// 無条件で自分もNULLポインタになる
-			if ( src.GetPtr() == 0 ) {
+			if (src.GetPtr() == 0)
+			{
 				Clear();
-			} else {
-				T* p = (T*)dynamic_cast<T*>( src.GetPtr() );
-				if ( p != 0 ) {
+			}
+			else
+			{
+				T* p = (T*)dynamic_cast<T*>(src.GetPtr());
+				if (p != 0)
+				{
 					// 相手のポインタをコピー
-					m_pRefCnt  = src.GetRefPtr();
+					m_pRefCnt = src.GetRefPtr();
 					m_pWeakCnt = src.GetWeakCntPtr();
-					m_ppPtr    = (T**)src.GetPtrPtr();
+					m_ppPtr = (T**)src.GetPtrPtr();
 
 					m_pIsAry = src.getIsAryPtr();
 
@@ -695,11 +726,11 @@ namespace Dix {
 		//////////////////////////////////////
 		// コピーコンストラクタ（NULL代入代用）
 		/////
-		wp( const int nullval ) :
-			m_ppPtr     ( 0 ),
-			m_pRefCnt   ( 0 ),
-			m_pWeakCnt  ( 0 ),
-			m_pIsAry	( 0 )
+		wp(const int nullval) :
+			m_ppPtr(0),
+			m_pRefCnt(0),
+			m_pWeakCnt(0),
+			m_pIsAry(0)
 		{
 		}
 
@@ -712,22 +743,24 @@ namespace Dix {
 		}
 
 
-	//■■■演算子のオーバーロード■■■■■■■■■■■
+		//■■■演算子のオーバーロード■■■■■■■■■■■
 
 
-		/////////////////////////////////
-		// =代入演算子（明示的コピー）
-		/////
-		wp<T>& operator =( const wp<T> &src )
+			/////////////////////////////////
+			// =代入演算子（明示的コピー）
+			/////
+		wp<T>& operator =(const wp<T> &src)
 		{
 			// 自分が空でなければチェックへ
-			if ( m_pWeakCnt != 0 ) {
+			if (m_pWeakCnt != 0)
+			{
 				// スマートポインタがオブジェクトを解放していない
 				// 場合はm_ppPtrが有効なのでチェック
-				if ( src.m_pRefCnt != 0 && *src.m_pRefCnt != 0 ) {
+				if (src.m_pRefCnt != 0 && *src.m_pRefCnt != 0)
+				{
 					// 自分自身への代入は不正で意味が無いので
 					// 行わない。
-					if ( src.m_ppPtr != 0 && *src.m_ppPtr == *m_ppPtr )
+					if (src.m_ppPtr != 0 && *src.m_ppPtr == *m_ppPtr)
 						return (*this);
 				}
 
@@ -737,10 +770,10 @@ namespace Dix {
 			}
 
 			// 相手のポインタをコピー
-			m_pRefCnt  = src.m_pRefCnt;
+			m_pRefCnt = src.m_pRefCnt;
 			m_pWeakCnt = src.m_pWeakCnt;
-			m_ppPtr    = src.m_ppPtr;
-			m_pIsAry   = src.getIsAryPtr();
+			m_ppPtr = src.m_ppPtr;
+			m_pIsAry = src.getIsAryPtr();
 
 			// 新しい自分自身の参照カウンタを増加
 			AddRef();
@@ -751,15 +784,17 @@ namespace Dix {
 		/////////////////////////////////
 		// =代入演算子（明示的コピー）
 		/////
-		wp<T>& operator =( sp<T> &src )
+		wp<T>& operator =(sp<T> &src)
 		{
 			// 自分が空でなければチェックへ
-			if ( m_pWeakCnt != 0 ) {
-				if ( src.GetRefPtr() != 0 && *src.GetRefPtr() != 0 ) {
+			if (m_pWeakCnt != 0)
+			{
+				if (src.GetRefPtr() != 0 && *src.GetRefPtr() != 0)
+				{
 					// 自分自身への代入は不正で意味が無いので行わない。
 					// ただし、自分が参照しているスマートポインタの
 					// 参照カウンタが0の場合は代入を許可する。
-					if ( GetRefNum() != 0 && src.GetPtrPtr() != 0 && *src.GetPtrPtr() == *m_ppPtr )
+					if (GetRefNum() != 0 && src.GetPtrPtr() != 0 && *src.GetPtrPtr() == *m_ppPtr)
 						return (*this);
 				}
 
@@ -769,10 +804,10 @@ namespace Dix {
 			}
 
 			// 相手のポインタをコピー
-			m_pRefCnt  = src.GetRefPtr();
+			m_pRefCnt = src.GetRefPtr();
 			m_pWeakCnt = src.GetWeakCntPtr();
-			m_ppPtr    = src.GetPtrPtr();
-			m_pIsAry   = src.getIsAryPtr();
+			m_ppPtr = src.GetPtrPtr();
+			m_pIsAry = src.getIsAryPtr();
 
 			// 新しい自分自身の参照カウンタを増加
 			AddRef();
@@ -784,27 +819,33 @@ namespace Dix {
 		/////////////////////////////////
 		// =代入演算子（明示的キャスト）
 		/////
-		template<class T2> wp<T>& operator =( sp<T2> &src ) {
+		template<class T2> wp<T>& operator =(sp<T2> &src) {
 
 			// 相手がNULLポインタだった場合は
 			// 無条件で自分もNULLポインタになる
-			if ( src.GetPtr() == 0 ) {
+			if (src.GetPtr() == 0)
+			{
 				Clear();
 				return (*this);
 			}
 
-			T* p = (T*)dynamic_cast<T*>( src.GetPtr() );
-			if ( p == 0 ) {
+			T* p = (T*)dynamic_cast<T*>(src.GetPtr());
+			if (p == 0)
+			{
 				return (*this);
-			} else {
+			}
+			else
+			{
 				// 自分が空でなければチェックへ
-				if ( m_pWeakCnt != 0 ) {
+				if (m_pWeakCnt != 0)
+				{
 					// スマートポインタがオブジェクトを解放していない
 					// 場合はm_ppPtrが有効なのでチェック
-					if ( src.GetRefPtr() != 0 && *src.GetRefPtr() != 0 ) {
+					if (src.GetRefPtr() != 0 && *src.GetRefPtr() != 0)
+					{
 						// 自分自身への代入は不正で意味が無いので
 						// 行わない。
-						if ( src.GetPtrPtr() != 0 && *src.GetPtrPtr() == *m_ppPtr )
+						if (src.GetPtrPtr() != 0 && *src.GetPtrPtr() == *m_ppPtr)
 							return (*this);
 					}
 
@@ -814,10 +855,10 @@ namespace Dix {
 				}
 
 				// 相手のポインタをコピー
-				m_pRefCnt  = src.GetRefPtr();
+				m_pRefCnt = src.GetRefPtr();
 				m_pWeakCnt = src.GetWeakCntPtr();
-				m_ppPtr    = (T**)src.GetPtrPtr();
-				m_pIsAry   = src.getIsAryPtr();
+				m_ppPtr = (T**)src.GetPtrPtr();
+				m_pIsAry = src.getIsAryPtr();
 
 				// 新しい自分自身の参照カウンタを増加
 				AddRef();
@@ -829,16 +870,18 @@ namespace Dix {
 		/////////////////////////////////
 		// =代入演算子（明示的アップキャスト）
 		/////
-		template<class T2> wp<T>& operator =( wp<T2> &src )
+		template<class T2> wp<T>& operator =(wp<T2> &src)
 		{
 			// 自分が空でなければチェックへ
-			if ( m_pWeakCnt != 0 ) {
+			if (m_pWeakCnt != 0)
+			{
 				// スマートポインタがオブジェクトを解放していない
 				// 場合はm_ppPtrが有効なのでチェック
-				if ( src.m_pRefCnt != 0 && *src.m_pRefCnt != 0 ) {
+				if (src.m_pRefCnt != 0 && *src.m_pRefCnt != 0)
+				{
 					// 自分自身への代入は不正で意味が無いので
 					// 行わない。
-					if ( src.m_ppPtr != 0 && *src.m_ppPtr == *m_ppPtr )
+					if (src.m_ppPtr != 0 && *src.m_ppPtr == *m_ppPtr)
 						return (*this);
 				}
 
@@ -853,7 +896,7 @@ namespace Dix {
 			m_ppPtr = (T**)src.GetPtrPtr();
 
 			// 型チェックコピー
-			if ( m_ppPtr )
+			if (m_ppPtr)
 				*m_ppPtr = src.GetPtr();
 
 			m_pIsAry = src.getIsAryPtr();
@@ -867,40 +910,40 @@ namespace Dix {
 		/////////////////
 		// ==比較演算子
 		/////
-		bool operator ==( sp<T>& val ) const {
-			if( m_ppPtr != 0 && *m_ppPtr == val.GetPtr() )
+		bool operator ==(sp<T>& val) const {
+			if (m_ppPtr != 0 && *m_ppPtr == val.GetPtr())
 				return true;
-			if( m_ppPtr == 0 && val.GetPtr() == 0 )
-				return true;
-			return false;
-		}
-
-		template< class T2 > bool operator ==( sp<T2>& val ) const {
-			if ( m_ppPtr != 0 && *m_ppPtr == val.GetPtr() )
-				return true;
-			if ( m_ppPtr == 0 && val.GetPtr() == 0 )
+			if (m_ppPtr == 0 && val.GetPtr() == 0)
 				return true;
 			return false;
 		}
 
-		bool operator ==( wp<T>& val ) const {
-			if( m_ppPtr != 0 && *m_ppPtr == val.GetPtr() )
+		template< class T2 > bool operator ==(sp<T2>& val) const {
+			if (m_ppPtr != 0 && *m_ppPtr == val.GetPtr())
 				return true;
-			if( m_ppPtr == 0 && val.GetPtr() == 0 )
-				return true;
-			return false;
-		}
-
-		template< class T2 > bool operator ==( wp<T2>& val ) const {
-			if ( m_ppPtr != 0 && *m_ppPtr == val.GetPtr() )
-				return true;
-			if ( m_ppPtr == 0 && val.GetPtr() == 0 )
+			if (m_ppPtr == 0 && val.GetPtr() == 0)
 				return true;
 			return false;
 		}
 
-		bool operator ==( const int nul ) const {	// NULLとの比較専用
-			if ( m_ppPtr == 0 || *m_ppPtr == 0 )
+		bool operator ==(wp<T>& val) const {
+			if (m_ppPtr != 0 && *m_ppPtr == val.GetPtr())
+				return true;
+			if (m_ppPtr == 0 && val.GetPtr() == 0)
+				return true;
+			return false;
+		}
+
+		template< class T2 > bool operator ==(wp<T2>& val) const {
+			if (m_ppPtr != 0 && *m_ppPtr == val.GetPtr())
+				return true;
+			if (m_ppPtr == 0 && val.GetPtr() == 0)
+				return true;
+			return false;
+		}
+
+		bool operator ==(const int nul) const {	// NULLとの比較専用
+			if (m_ppPtr == 0 || *m_ppPtr == 0)
 				return true;
 			return false;
 		}
@@ -908,34 +951,34 @@ namespace Dix {
 		/////////////////
 		// !=比較演算子
 		/////
-		bool operator !=( sp<T>& val ) const {
-			if( m_ppPtr != 0 && *m_ppPtr != val.GetPtr() )
+		bool operator !=(sp<T>& val) const {
+			if (m_ppPtr != 0 && *m_ppPtr != val.GetPtr())
 				return true;
 			return false;
 		}
 
-		template< class T2 > bool operator !=( sp<T2>& val ) const {
-			if ( m_ppPtr != 0 && *m_ppPtr != val.GetPtr() )
+		template< class T2 > bool operator !=(sp<T2>& val) const {
+			if (m_ppPtr != 0 && *m_ppPtr != val.GetPtr())
 				return true;
 			return false;
 		}
 
-		bool operator !=( wp<T>& val ) const {
-			if( m_ppPtr != 0 && *m_ppPtr != val.GetPtr() )
+		bool operator !=(wp<T>& val) const {
+			if (m_ppPtr != 0 && *m_ppPtr != val.GetPtr())
 				return true;
 			return false;
 		}
 
-		template< class T2 > bool operator !=( wp<T2>& val ) const {
-			if ( m_ppPtr != 0 && *m_ppPtr != val.GetPtr() )
+		template< class T2 > bool operator !=(wp<T2>& val) const {
+			if (m_ppPtr != 0 && *m_ppPtr != val.GetPtr())
 				return true;
-			if ( m_ppPtr == 0 && val.GetPtr() != 0 )
+			if (m_ppPtr == 0 && val.GetPtr() != 0)
 				return true;
 			return false;
 		}
 
-		bool operator !=( const int nul ) const {	// NULLとの比較専用
-			if ( m_ppPtr == 0 || *m_ppPtr == 0 )
+		bool operator !=(const int nul) const {	// NULLとの比較専用
+			if (m_ppPtr == 0 || *m_ppPtr == 0)
 				return false;
 			return true;
 		}
@@ -943,15 +986,15 @@ namespace Dix {
 		///////////////////
 		// 配列参照演算子
 		/////
-		T& operator[]( int elem ) const {
-			return IsAry() ? (*m_ppPtr)[ elem ] : ( *m_ppPtr )[ 0 ];
+		T& operator[](int elem) const {
+			return IsAry() ? (*m_ppPtr)[elem] : (*m_ppPtr)[0];
 		}
 
 		///////////////////
 		// ポインタ演算子
 		/////
-		T* operator+( int add ) const {
-			return IsAry() ? ( *m_ppPtr + add ) : *m_ppPtr;
+		T* operator+(int add) const {
+			return IsAry() ? (*m_ppPtr + add) : *m_ppPtr;
 		}
 
 		///////////////
@@ -969,7 +1012,7 @@ namespace Dix {
 		}
 
 
-	//■■■ メンバ関数 ■■■■■■■■■■■
+		//■■■ メンバ関数 ■■■■■■■■■■■
 
 	public:
 		/////////////////////
@@ -978,7 +1021,8 @@ namespace Dix {
 		sp<T> GetSmartPtr() {
 
 			sp<T> tmp;
-			if ( m_pRefCnt == 0 || *m_pRefCnt == 0 ) {
+			if (m_pRefCnt == 0 || *m_pRefCnt == 0)
+			{
 				return tmp;
 			}
 
@@ -1009,7 +1053,7 @@ namespace Dix {
 		/////
 		T* GetPtr() const {
 			// オブジェクトがすでに削除されている場合はNULLを返す
-			if ( m_pRefCnt == 0 || *m_pRefCnt == 0 )
+			if (m_pRefCnt == 0 || *m_pRefCnt == 0)
 				return 0;
 			return *m_ppPtr;
 		}
@@ -1021,8 +1065,8 @@ namespace Dix {
 		/////////////////////
 		// 値取得
 		/////
-		T& At( int elem = 0 ) const {
-			return (*m_ppPtr)[ elem ];
+		T& At(int elem = 0) const {
+			return (*m_ppPtr)[elem];
 		}
 
 		///////////////////////////////
@@ -1050,19 +1094,20 @@ namespace Dix {
 		// ウィークカウンタ数を取得
 		/////
 		unsigned int GetWeakNum() const {
-			if ( m_pWeakCnt == 0 )
+			if (m_pWeakCnt == 0)
 				return 0;
 			return *m_pWeakCnt;
 		}
 
-	   //////////////////////////
-	   // spダウンキャストコピー
-	   /////
-		template <class T2> bool DownCast( sp<T2> &src )
+		//////////////////////////
+		// spダウンキャストコピー
+		/////
+		template <class T2> bool DownCast(sp<T2> &src)
 		{
 			// 相手がNULLポインタだった場合は
 			// 無条件で自分もNULLポインタになる
-			if ( src.GetPtr() == 0 ) {
+			if (src.GetPtr() == 0)
+			{
 				Clear();
 				return true;
 			}
@@ -1070,9 +1115,10 @@ namespace Dix {
 			// 引数のスマートポインタの持つポインタが、
 			// 自分の登録しているポインタに
 			// ダウンキャスト可能な場合はダウンキャストコピーを実行
-			T* castPtr = dynamic_cast<T*>( src.GetPtr() );
+			T* castPtr = dynamic_cast<T*>(src.GetPtr());
 
-			if( castPtr ) {
+			if (castPtr)
+			{
 
 				// ダウンキャスト成功
 				// 自分は違う人になるので
@@ -1081,7 +1127,7 @@ namespace Dix {
 
 				// 新しいポインタと参照カウンタを共有
 				m_ppPtr = (T**)src.GetPtrPtr();
-				if ( m_ppPtr )
+				if (m_ppPtr)
 					*m_ppPtr = castPtr;
 				m_pRefCnt = src.GetRefPtr();
 				m_pWeakCnt = src.GetWeakCntPtr();
@@ -1096,14 +1142,15 @@ namespace Dix {
 			return false;
 		}
 
-	   //////////////////////////
-	   // ダウンキャストコピー
-	   /////
-		template <class T2> bool DownCast( wp<T2> &src )
+		//////////////////////////
+		// ダウンキャストコピー
+		/////
+		template <class T2> bool DownCast(wp<T2> &src)
 		{
 			// 相手がNULLポインタだった場合は
 			// 無条件で自分もNULLポインタになる
-			if ( src.GetPtr() == 0 ) {
+			if (src.GetPtr() == 0)
+			{
 				Clear();
 				return true;
 			}
@@ -1111,9 +1158,10 @@ namespace Dix {
 			// 引数のウィークポインタの持つポインタが、
 			// 自分の登録しているポインタに
 			// ダウンキャスト可能な場合はダウンキャストコピーを実行
-			T* castPtr = dynamic_cast<T*>( src.GetPtr() );
+			T* castPtr = dynamic_cast<T*>(src.GetPtr());
 
-			if( castPtr ) {
+			if (castPtr)
+			{
 
 				// ダウンキャスト成功
 				// 自分は違う人になるので
@@ -1139,10 +1187,10 @@ namespace Dix {
 		///////////////////////
 		// ポインタスワップ（交換）
 		///////
-		bool SwapPtr( wp<T> &src )
+		bool SwapPtr(wp<T> &src)
 		{
 			// 双方が有効ポインタである事を前提にします
-			if ( src.IsExist() == 0 || IsExist() == 0 )
+			if (src.IsExist() == 0 || IsExist() == 0)
 				return false;
 
 			// ポインタの交換

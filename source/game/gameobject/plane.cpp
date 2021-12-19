@@ -47,8 +47,8 @@ void Plane::ObjectInit()
 	}
 	// 平行移動量を計算
 
-	DX11MtxIdentity(mTransform.worldMtx);	// 単位行列化
-	mTransform.CreateMtx();
+	DX11MtxIdentity(mTransform->worldMtx);	// 単位行列化
+	mTransform->CreateMtx();
 }
 
 void Plane::ObjectUpdate()
@@ -69,8 +69,8 @@ void Plane::ObjectDraw()
 	devcontext->PSSetShader(mpPixelShader.Get(), nullptr, 0);						// ピクセルシェーダーをセット
 
 	// ワールド変換行列セット
-	mTransform.CreateMtx();
-	DX11SetTransform::GetInstance()->SetTransform(DX11SetTransform::TYPE::eWorld, mTransform.worldMtx);
+	mTransform->CreateMtx();
+	DX11SetTransform::GetInstance()->SetTransform(DX11SetTransform::TYPE::eWorld, mTransform->worldMtx);
 
 	// テクスチャセット
 	/// このテクスチャの配列の添え字を変えることで画像を変更できる
