@@ -53,6 +53,7 @@ namespace Component {
 struct CollisionData
 {
 	CollisionData() :isHit(false), beforeHit(false) {}
+	virtual ~CollisionData() {};
 	Component::CollisionComponent* col;
 	bool isHit;
 	bool beforeHit;

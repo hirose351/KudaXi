@@ -21,6 +21,7 @@ protected:
 	Dix::wp<Transform> mTramsform;
 	Dix::wp<Component::PlayerController> mHolder;
 public:
+	virtual ~State() {};
 	// ‘€ì‚·‚é•Ï”“o˜^
 	virtual void Start(Dix::wp<Component::PlayerController> _c);
 	// Às
