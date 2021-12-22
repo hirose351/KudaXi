@@ -1,5 +1,4 @@
 #pragma once
-#include	"state.h"
 
 // ƒTƒCƒRƒ‚Ì–Ê‚Ìí—Ş
 enum class DiceFruit {
@@ -22,8 +21,3 @@ enum class DiceStatus {
 	eDown,		// ’¾‚Ş
 	eHalfDown,	// ”¼•ª’¾‚Ş
 };
-
-class DiceState : public State
-{
-};
-

@@ -62,7 +62,7 @@ public:
 		AddComponent<Component::CollisionComponent>()->SetInitState(ObjectTag::eDice, Float3(0, 0, 0), Float3(DICE_SCALE_HALF), DirectX::XMFLOAT4(0, 0, 1, 0.3f));
 		ObjectInit();
 	}
-	~Dice();
+	virtual ~Dice();
 
 	void ObjectInit() override;
 	void ObjectUpdate()override;

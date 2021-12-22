@@ -239,6 +239,7 @@
     <ClInclude Include="source\game\scene\maingame_scene.h" />
     <ClInclude Include="source\game\scene\stagecreate_scene.h" />
     <ClInclude Include="source\game\scene\title_scene.h" />
+    <ClInclude Include="source\game\state\allplayerstate.h" />
     <ClInclude Include="source\game\state\dice_state.h" />
     <ClInclude Include="source\game\state\player_state_move.h" />
     <ClInclude Include="source\game\state\player_state_push.h" />

@@ -1,7 +1,11 @@
 #include "state.h"
 
-void State::Start(Dix::wp<Component::PlayerController> _c)
+void State::Start(Component::PlayerController* _c)
 {
 	mHolder = _c;
-	mTramsform = mHolder->GetOwner()->GetTransform();
+	mTransform = mHolder->GetOwner()->GetTransform();
+	mDirection = mHolder->GetDirection();
+	mFoot = mHolder->GetFoot();
+
+	Init();
 }

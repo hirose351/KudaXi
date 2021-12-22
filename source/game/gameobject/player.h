@@ -1,36 +1,18 @@
 #pragma once
-#include	"gameobject.h"
-#include	"dice.h"
-#include	"../../system/model/ModelMgr.h"
-#include	"../component/allcomponents.h"
-#include	"../state/state.h"
-#include	"../manager/stagedata_manager.h"
+#include		"gameobject.h"
+#include		"dice.h"
+#include		"../../system/model/ModelMgr.h"
+#include		"../component/allcomponents.h"
+#include		"../manager/stagedata_manager.h"
+#include		"../component/player_controller.h"
 
 using Microsoft::WRL::ComPtr;
 
 class Player :public GameObject
 {
 private:
-	Direction mDiceMoveDirection;				// サイコロを回転させる方向
-	Direction mDirection;						// プレイヤーの方向(キー参照)
-	Float3					mDestrot;			// 目標姿勢
-	Direction				mMoveKeySts;		// 押されている移動キー
-	Dice*	mpOperationDice;						// 操作中のサイコロ
-	INT3 mMapPos;								// マップ上の位置
-	Pstate mPstate;
-	StageData stageData;
+	StageData	stageData;
 
-	void Move();
-	void Roll();
-	void Push();
-	// 回転できるか確認
-	void CheckRoll();
-	// 押せるか確認
-	void CheckPush();
-	// ステージ外に出ないよう調整
-	void StageHitCorrection();
-	// 最も近いサイコロを登録
-	bool SetNearestDice();
 public:
 	Player() : GameObject(("Player"), ObjectType::ePlayer) {
 		bool sts = ModelMgr::GetInstance().LoadModel(
@@ -44,6 +26,7 @@ public:
 		mTransform->scale = (Float3(4, 6, 4));
 		AddComponent<Component::ModelComponent>()->SetModel(ModelMgr::GetInstance().GetModelPtr("assets/model/player/player.fbx"));
 		AddComponent<Component::CollisionComponent>()->SetLocalScale(mTransform->scale);
+		AddComponent<Component::PlayerController>();
 		GetComponent<Component::CollisionComponent>()->SetColor(DirectX::XMFLOAT4(0.1f, 0.1f, 0.1f, 0.01f));
 		ObjectInit();
 	};
@@ -54,9 +37,6 @@ public:
 	void ObjectDraw()override {};
 	void ObjectImguiDraw()override;
 	void Uninit() override;
-
-	void SetMapPos(INT3 _i3) { mMapPos = _i3; };
-	INT3 GetMapPos() { return mMapPos; };
 
 	void OnCollisionEnter(ComponentBase* _oher) override;
 	void OnCollisionStay(ComponentBase* _oher) override;

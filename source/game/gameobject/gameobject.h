@@ -21,12 +21,11 @@ protected:
 	ObjectType				mObjectType;	// オブジェクトタイプ
 	bool					mIsExist;		// 生存可否
 	ObjectState				mObjectState;	// 状態
-	Foot					mFoot;			// 足元
 
 	std::vector<ComponentBase*> mComponentList;
 
 public:
-	GameObject() :mName("NoName"), mObjectType(ObjectType::eObstracle), mFoot(Foot::eNomal)
+	GameObject() :mName("NoName"), mObjectType(ObjectType::eObstracle)
 	{
 		mTransform.SetPtr(new Transform);
 		SceneManager::GetInstance()->GetAddScene()->AddGameObject(this);
@@ -64,9 +63,6 @@ public:
 
 	void SetObjectState(ObjectState _state) { mObjectState = _state; }
 	ObjectState GetObjectState() { return mObjectState; }
-
-	void SetFoot(Foot _foot) { mFoot = _foot; }
-	Foot GetFoot() { return mFoot; }
 
 	Dix::wp<Transform> GetTransform() { return mTransform; }
 
