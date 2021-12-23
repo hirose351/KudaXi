@@ -1,6 +1,6 @@
-#include "state.h"
+#include	"player_state_base.h"
 
-void State::Start(Component::PlayerController* _c)
+void PlayerStateBase::Start(Component::PlayerController* _c)
 {
 	mHolder = _c;
 	mTransform = mHolder->GetOwner()->GetTransform();

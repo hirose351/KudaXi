@@ -1,8 +1,8 @@
 #pragma once
-#include "state.h"
+#include "player_state_base.h"
 
 namespace PlayerState {
-	class Roll : public State
+	class Roll : public PlayerStateBase
 	{
 	private:
 	public:

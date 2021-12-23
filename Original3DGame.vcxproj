@@ -152,7 +152,6 @@
     <ClCompile Include="source\game\gameobject\skydome.cpp" />
     <ClCompile Include="source\game\gameobject\stage.cpp" />
     <ClCompile Include="source\game\gameobject\transform.cpp" />
-    <ClCompile Include="source\game\interface\moving_interface.cpp" />
     <ClCompile Include="source\game\manager\collision_manager.cpp" />
     <ClCompile Include="source\game\manager\dice_manager.cpp" />
     <ClCompile Include="source\game\manager\game_manager.cpp" />
@@ -164,10 +163,13 @@
     <ClCompile Include="source\game\scene\stagecreate_scene.cpp" />
     <ClCompile Include="source\game\scene\title_scene.cpp" />
     <ClCompile Include="source\game\state\dice_state.cpp" />
+    <ClCompile Include="source\game\state\gamemode_state_base.cpp" />
+    <ClCompile Include="source\game\state\gamemode_state_puzzle.cpp" />
     <ClCompile Include="source\game\state\player_state_move.cpp" />
     <ClCompile Include="source\game\state\player_state_push.cpp" />
     <ClCompile Include="source\game\state\player_state_roll.cpp" />
-    <ClCompile Include="source\game\state\state.cpp" />
+    <ClCompile Include="source\game\state\player_state_base.cpp" />
+    <ClCompile Include="source\game\state\state_base.cpp" />
     <ClCompile Include="source\system\dx11\CDirectXGraphics.cpp" />
     <ClCompile Include="source\system\dx11\DDSTextureLoader.cpp" />
     <ClCompile Include="source\system\dx11\dx11mathutil.cpp" />
@@ -227,7 +229,6 @@
     <ClInclude Include="source\game\gameobject\skydome.h" />
     <ClInclude Include="source\game\gameobject\stage.h" />
     <ClInclude Include="source\game\gameobject\transform.h" />
-    <ClInclude Include="source\game\interface\moving_interface.h" />
     <ClInclude Include="source\game\manager\collision_manager.h" />
     <ClInclude Include="source\game\manager\dice_manager.h" />
     <ClInclude Include="source\game\manager\game_manager.h" />
@@ -241,10 +242,13 @@
     <ClInclude Include="source\game\scene\title_scene.h" />
     <ClInclude Include="source\game\state\allplayerstate.h" />
     <ClInclude Include="source\game\state\dice_state.h" />
+    <ClInclude Include="source\game\state\gamemode_state_base.h" />
+    <ClInclude Include="source\game\state\gamemode_state_puzzle.h" />
     <ClInclude Include="source\game\state\player_state_move.h" />
     <ClInclude Include="source\game\state\player_state_push.h" />
     <ClInclude Include="source\game\state\player_state_roll.h" />
-    <ClInclude Include="source\game\state\state.h" />
+    <ClInclude Include="source\game\state\player_state_base.h" />
+    <ClInclude Include="source\game\state\state_base.h" />
     <ClInclude Include="source\macro.h" />
     <ClInclude Include="source\Memory.h" />
     <ClInclude Include="source\system\dx11\CDirectInput.h" />

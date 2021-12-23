@@ -1,4 +1,4 @@
-#include "player_state_move.h"
+#include	"player_state_move.h"
 #include	"../../system/dx11/CDirectInput.h"
 #include	"../manager/dice_manager.h"
 
@@ -166,7 +166,7 @@ void Move::SetMapPos()
 
 void Move::Init()
 {
-	stageSize = mHolder->GetStageSize();
+	mStageSize = mHolder->GetStageSize();
 }
 
 void Move::Exec()
@@ -260,12 +260,12 @@ void Move::Exec()
 	SetMapPos();
 
 	// ã‰º¶‰E•Ç‚Ìˆ—
-	if (-stageSize.z*DICE_SCALE + DICE_SCALE_HALF + mTransform->scale.z > mTransform->position.z)
-		mTransform->SetPositionZ(-stageSize.z*DICE_SCALE + DICE_SCALE_HALF + mTransform->scale.z);
+	if (-mStageSize.z*DICE_SCALE + DICE_SCALE_HALF + mTransform->scale.z > mTransform->position.z)
+		mTransform->SetPositionZ(-mStageSize.z*DICE_SCALE + DICE_SCALE_HALF + mTransform->scale.z);
 	if (0 + DICE_SCALE_HALF - mTransform->scale.z < mTransform->position.z)
 		mTransform->SetPositionZ(0 + DICE_SCALE_HALF - mTransform->scale.z);
-	if (stageSize.x*DICE_SCALE - DICE_SCALE_HALF - mTransform->scale.x < mTransform->position.x)
-		mTransform->SetPositionX(stageSize.x*DICE_SCALE - DICE_SCALE_HALF - mTransform->scale.x);
+	if (mStageSize.x*DICE_SCALE - DICE_SCALE_HALF - mTransform->scale.x < mTransform->position.x)
+		mTransform->SetPositionX(mStageSize.x*DICE_SCALE - DICE_SCALE_HALF - mTransform->scale.x);
 	if (0 - DICE_SCALE_HALF + mTransform->scale.x > mTransform->position.x)
 		mTransform->SetPositionX(0 - DICE_SCALE_HALF + mTransform->scale.x);
 
@@ -298,8 +298,6 @@ void Move::Exec()
 		switch (mpOperationDice->GetDiceStatus())
 		{
 		case DiceStatus::eUp:
-			// •ÛŽDiceŠî€Y•â³
-			mTransform->SetPositionY(mpOperationDice->GetTransform()->GetPosition().y + DICE_SCALE_HALF + mTransform->scale.y - 0.5f);
 			break;
 		case DiceStatus::eHalfUp:
 			// ˆÚ“®§ŒÀ
@@ -311,25 +309,12 @@ void Move::Exec()
 				mTransform->SetPositionZ(dicePos.z + DICE_SCALE_HALF - mTransform->scale.z);
 			if (dicePos.z - DICE_SCALE_HALF + mTransform->scale.z > mTransform->GetPosition().z)
 				mTransform->SetPositionZ(dicePos.z - DICE_SCALE_HALF + mTransform->scale.z);
-			//std::cout << "•ÛŽDiceŠî€Y•â³\n";
-			mTransform->SetPositionY(mpOperationDice->GetTransform()->GetPosition().y + DICE_SCALE_HALF + mTransform->scale.y - 0.5f);
 			break;
 		case DiceStatus::eRoll:
-			break;
-		case DiceStatus::ePush:
-			//std::cout << "•ÛŽDiceŠî€Y•â³\n";
-			break;
+			return;
 		case DiceStatus::eDown:
-			//std::cout << "•ÛŽDiceŠî€Y•â³\n";
-			mTransform->SetPositionY(mpOperationDice->GetTransform()->GetPosition().y + DICE_SCALE_HALF + mTransform->scale.y - 0.5f);
 			break;
 		case DiceStatus::eHalfDown:
-			//std::cout << "•ÛŽDiceŠî€Y•â³\n";
-			mTransform->SetPositionY(mpOperationDice->GetTransform()->GetPosition().y + DICE_SCALE_HALF + mTransform->scale.y - 0.5f);
-			break;
-		default:
-			//std::cout << "•ÛŽDiceŠî€Y•â³\n";
-			mTransform->SetPositionY(mpOperationDice->GetTransform()->GetPosition().y + DICE_SCALE_HALF + mTransform->scale.y - 0.5f);
 			break;
 		}
 		mTransform->SetPositionY(mpOperationDice->GetTransform()->GetPosition().y + DICE_SCALE_HALF + mTransform->scale.y + 10);

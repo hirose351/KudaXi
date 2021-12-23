@@ -1,10 +1,10 @@
 #pragma once
-#include "state.h"
+#include "player_state_base.h"
 
-class State;
+class PlayerStateBase;
 
 namespace PlayerState {
-	class Push : public State
+	class Push : public PlayerStateBase
 	{
 	private:
 	public:

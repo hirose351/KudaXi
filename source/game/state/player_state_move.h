@@ -1,12 +1,12 @@
 #pragma once
-#include "state.h"
+#include "player_state_base.h"
 
 namespace PlayerState {
-	class Move : public State
+	class Move : public PlayerStateBase
 	{
 	private:
 		Float3	mDestrot;			// ñ⁄ïWépê®
-		INT3	stageSize;
+		INT3	mStageSize;
 
 		void CheckPush();
 		void CheckRoll();

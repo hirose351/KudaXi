@@ -11,7 +11,7 @@ using Microsoft::WRL::ComPtr;
 class Player :public GameObject
 {
 private:
-	StageData	stageData;
+	StageData	mStageData;
 
 public:
 	Player() : GameObject(("Player"), ObjectType::ePlayer) {
@@ -26,8 +26,8 @@ public:
 		mTransform->scale = (Float3(4, 6, 4));
 		AddComponent<Component::ModelComponent>()->SetModel(ModelMgr::GetInstance().GetModelPtr("assets/model/player/player.fbx"));
 		AddComponent<Component::CollisionComponent>()->SetLocalScale(mTransform->scale);
-		AddComponent<Component::PlayerController>();
 		GetComponent<Component::CollisionComponent>()->SetColor(DirectX::XMFLOAT4(0.1f, 0.1f, 0.1f, 0.01f));
+		AddComponent<Component::PlayerController>();
 		ObjectInit();
 	};
 	~Player();

@@ -4,23 +4,23 @@
 #include		"../manager/stagedata_manager.h"
 #include		"../gameobject/transform.h"
 #include		"../gameobject/gameobject_utility.h"
-#include		"../state/state.h"
+#include		"../state/player_state_base.h"
 #include		<map>
 
-class State;
+class PlayerStateBase;
 class Dice;
 
 namespace Component {
 	class PlayerController :public ComponentBase
 	{
 	private:
-		std::map<int, Dix::sp<State>> mStates;
-		int mStateNum;
-		Direction mDiceMoveDirection;				// サイコロを回転させる方向
-		Dix::sp<Direction> mDirection;				// プレイヤーの方向(キー参照)
-		StageData stageData;						// ステージ情報
-		INT3			mMapPos;			// マップ上の位置
-		Foot mFoot;
+		std::map<int, Dix::sp<PlayerStateBase>> mStates;
+		int							  mStateNum;
+		Direction					  mDiceMoveDirection; // サイコロを回転させる方向
+		Dix::sp<Direction>			  mDirection;		  // プレイヤーの方向(キー参照)
+		StageData					  stageData;		  // ステージ情報
+		INT3						  mMapPos;			  // マップ上の位置
+		Foot						  mFoot;
 
 	public:
 		PlayerController();

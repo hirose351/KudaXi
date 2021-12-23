@@ -127,6 +127,30 @@
     <Filter Include="ソース ファイル\game\state\player">
       <UniqueIdentifier>{3a9e13ad-b0d0-4c54-8f8a-486e651447fa}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\game\state\mode">
+      <UniqueIdentifier>{e4075dd0-d2b5-4b9d-bfc0-07434f533dae}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\game\state\player\move">
+      <UniqueIdentifier>{580531c0-f6f4-4380-ba11-923f2d9254d1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\game\state\player\push">
+      <UniqueIdentifier>{63a96438-2dbb-487a-b81e-413d8f4aa441}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\game\state\player\roll">
+      <UniqueIdentifier>{6c454c18-5c8d-4611-bdc1-0a10cf2b2887}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\game\state\dice">
+      <UniqueIdentifier>{b4669fa8-a2e8-48c7-bc32-fb31c998155d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\game\state\mode\puzzle">
+      <UniqueIdentifier>{ba6e7a26-f45f-4123-a0ed-c0f8c9617daf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\game\state\mode\endless">
+      <UniqueIdentifier>{0a6c9c43-99f5-4353-9bcf-2f9e3f22058f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\game\state\mode\select">
+      <UniqueIdentifier>{7ef47c5d-2491-41a6-90a0-ed335fa13329}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\game.cpp">
@@ -294,12 +318,6 @@
     <ClCompile Include="source\game\gameobject\stage.cpp">
       <Filter>ソース ファイル\game\gameobject\stage</Filter>
     </ClCompile>
-    <ClCompile Include="source\game\state\state.cpp">
-      <Filter>ソース ファイル\game\state</Filter>
-    </ClCompile>
-    <ClCompile Include="source\game\state\dice_state.cpp">
-      <Filter>ソース ファイル\game\state</Filter>
-    </ClCompile>
     <ClCompile Include="source\game\manager\game_manager.cpp">
       <Filter>ソース ファイル\game\manager\game</Filter>
     </ClCompile>
@@ -318,9 +336,6 @@
     <ClCompile Include="source\system\util\easing.cpp">
       <Filter>ソース ファイル\system\util</Filter>
     </ClCompile>
-    <ClCompile Include="source\game\interface\moving_interface.cpp">
-      <Filter>ソース ファイル\game</Filter>
-    </ClCompile>
     <ClCompile Include="source\system\dx11\CDirectXGraphics.cpp">
       <Filter>ソース ファイル\system\dx11\util</Filter>
     </ClCompile>
@@ -330,14 +345,29 @@
     <ClCompile Include="source\game\component\player_controller.cpp">
       <Filter>ソース ファイル\game\component\controller</Filter>
     </ClCompile>
-    <ClCompile Include="source\game\state\player_state_move.cpp">
+    <ClCompile Include="source\game\state\state_base.cpp">
+      <Filter>ソース ファイル\game\state</Filter>
+    </ClCompile>
+    <ClCompile Include="source\game\state\player_state_base.cpp">
       <Filter>ソース ファイル\game\state\player</Filter>
+    </ClCompile>
+    <ClCompile Include="source\game\state\gamemode_state_base.cpp">
+      <Filter>ソース ファイル\game\state\mode</Filter>
+    </ClCompile>
+    <ClCompile Include="source\game\state\player_state_move.cpp">
+      <Filter>ソース ファイル\game\state\player\move</Filter>
     </ClCompile>
     <ClCompile Include="source\game\state\player_state_push.cpp">
-      <Filter>ソース ファイル\game\state\player</Filter>
+      <Filter>ソース ファイル\game\state\player\push</Filter>
     </ClCompile>
     <ClCompile Include="source\game\state\player_state_roll.cpp">
-      <Filter>ソース ファイル\game\state\player</Filter>
+      <Filter>ソース ファイル\game\state\player\roll</Filter>
+    </ClCompile>
+    <ClCompile Include="source\game\state\dice_state.cpp">
+      <Filter>ソース ファイル\game\state\dice</Filter>
+    </ClCompile>
+    <ClCompile Include="source\game\state\gamemode_state_puzzle.cpp">
+      <Filter>ソース ファイル\game\state\mode\puzzle</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -545,12 +575,6 @@
     <ClInclude Include="source\game\gameobject\stage.h">
       <Filter>ソース ファイル\game\gameobject\stage</Filter>
     </ClInclude>
-    <ClInclude Include="source\game\state\state.h">
-      <Filter>ソース ファイル\game\state</Filter>
-    </ClInclude>
-    <ClInclude Include="source\game\state\dice_state.h">
-      <Filter>ソース ファイル\game\state</Filter>
-    </ClInclude>
     <ClInclude Include="source\game\manager\game_manager.h">
       <Filter>ソース ファイル\game\manager\game</Filter>
     </ClInclude>
@@ -569,23 +593,35 @@
     <ClInclude Include="source\system\util\easing.h">
       <Filter>ソース ファイル\system\util</Filter>
     </ClInclude>
-    <ClInclude Include="source\game\interface\moving_interface.h">
-      <Filter>ソース ファイル\game</Filter>
-    </ClInclude>
     <ClInclude Include="source\game\component\player_controller.h">
       <Filter>ソース ファイル\game\component\controller</Filter>
     </ClInclude>
-    <ClInclude Include="source\game\state\player_state_move.h">
-      <Filter>ソース ファイル\game\state\player</Filter>
-    </ClInclude>
-    <ClInclude Include="source\game\state\player_state_push.h">
-      <Filter>ソース ファイル\game\state\player</Filter>
-    </ClInclude>
-    <ClInclude Include="source\game\state\player_state_roll.h">
-      <Filter>ソース ファイル\game\state\player</Filter>
-    </ClInclude>
     <ClInclude Include="source\game\state\allplayerstate.h">
       <Filter>ソース ファイル\game\state\player</Filter>
+    </ClInclude>
+    <ClInclude Include="source\game\state\state_base.h">
+      <Filter>ソース ファイル\game\state</Filter>
+    </ClInclude>
+    <ClInclude Include="source\game\state\player_state_base.h">
+      <Filter>ソース ファイル\game\state\player</Filter>
+    </ClInclude>
+    <ClInclude Include="source\game\state\gamemode_state_base.h">
+      <Filter>ソース ファイル\game\state\mode</Filter>
+    </ClInclude>
+    <ClInclude Include="source\game\state\player_state_move.h">
+      <Filter>ソース ファイル\game\state\player\move</Filter>
+    </ClInclude>
+    <ClInclude Include="source\game\state\player_state_push.h">
+      <Filter>ソース ファイル\game\state\player\push</Filter>
+    </ClInclude>
+    <ClInclude Include="source\game\state\player_state_roll.h">
+      <Filter>ソース ファイル\game\state\player\roll</Filter>
+    </ClInclude>
+    <ClInclude Include="source\game\state\dice_state.h">
+      <Filter>ソース ファイル\game\state\dice</Filter>
+    </ClInclude>
+    <ClInclude Include="source\game\state\gamemode_state_puzzle.h">
+      <Filter>ソース ファイル\game\state\mode\puzzle</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
