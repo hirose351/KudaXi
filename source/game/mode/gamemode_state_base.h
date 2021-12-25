@@ -1,5 +1,5 @@
 #pragma once
-#include	"state_base.h"
+#include	"../state/state_base.h"
 
 class GameModeBase :public StateBase
 {
