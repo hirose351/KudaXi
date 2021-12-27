@@ -154,6 +154,12 @@
     <Filter Include="ソース ファイル\game\mode\state\select">
       <UniqueIdentifier>{7ef47c5d-2491-41a6-90a0-ed335fa13329}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\game\component\draw\billbord">
+      <UniqueIdentifier>{b7b01440-90a0-4cf4-b9a8-4f356ca9aa3f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\game\component\draw\quad2d">
+      <UniqueIdentifier>{40ed87d9-b6a6-4791-80e0-93fb0cb38a1f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\game.cpp">
@@ -374,6 +380,12 @@
     </ClCompile>
     <ClCompile Include="source\game\mode\gamemode_state_base.cpp">
       <Filter>ソース ファイル\game\mode\state</Filter>
+    </ClCompile>
+    <ClCompile Include="source\game\component\billbord_component.cpp">
+      <Filter>ソース ファイル\game\component\draw\billbord</Filter>
+    </ClCompile>
+    <ClCompile Include="source\game\component\quad2d_component.cpp">
+      <Filter>ソース ファイル\game\component\draw\quad2d</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -631,6 +643,15 @@
     </ClInclude>
     <ClInclude Include="source\game\mode\gamemode_state_base.h">
       <Filter>ソース ファイル\game\mode\state</Filter>
+    </ClInclude>
+    <ClInclude Include="source\game\mode\allgamemode.h">
+      <Filter>ソース ファイル\game\mode\state</Filter>
+    </ClInclude>
+    <ClInclude Include="source\game\component\billbord_component.h">
+      <Filter>ソース ファイル\game\component\draw\billbord</Filter>
+    </ClInclude>
+    <ClInclude Include="source\game\component\quad2d_component.h">
+      <Filter>ソース ファイル\game\component\draw\quad2d</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

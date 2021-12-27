@@ -14,8 +14,8 @@ private:
 	// 待ち状態のアクター群
 	std::vector<GameObject*> mPendingActors;
 
-	Quad2D		mQuadfadein;
-	Quad2D		mQuadfadeout;
+	//Quad2D		mQuadfadein;
+	//Quad2D		mQuadfadeout;
 
 	// アクターを更新しているかどうか
 	bool mUpdatingActors;

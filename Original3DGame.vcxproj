@@ -136,10 +136,12 @@
   <ItemGroup>
     <ClCompile Include="source\application.cpp" />
     <ClCompile Include="source\game.cpp" />
+    <ClCompile Include="source\game\component\billbord_component.cpp" />
     <ClCompile Include="source\game\component\collision_component.cpp" />
     <ClCompile Include="source\game\component\component_base.cpp" />
     <ClCompile Include="source\game\component\model_component.cpp" />
     <ClCompile Include="source\game\component\player_controller.cpp" />
+    <ClCompile Include="source\game\component\quad2d_component.cpp" />
     <ClCompile Include="source\game\component\qube.cpp" />
     <ClCompile Include="source\game\data\saveload.cpp" />
     <ClCompile Include="source\game\data\stage_data.cpp" />
@@ -212,10 +214,12 @@
     <ClInclude Include="source\application.h" />
     <ClInclude Include="source\game.h" />
     <ClInclude Include="source\game\component\allcomponents.h" />
+    <ClInclude Include="source\game\component\billbord_component.h" />
     <ClInclude Include="source\game\component\collision_component.h" />
     <ClInclude Include="source\game\component\component_base.h" />
     <ClInclude Include="source\game\component\model_component.h" />
     <ClInclude Include="source\game\component\player_controller.h" />
+    <ClInclude Include="source\game\component\quad2d_component.h" />
     <ClInclude Include="source\game\component\qube.h" />
     <ClInclude Include="source\game\data\saveload.h" />
     <ClInclude Include="source\game\data\stage_data.h" />
@@ -237,6 +241,7 @@
     <ClInclude Include="source\game\manager\SceneManager.h" />
     <ClInclude Include="source\game\manager\SelectManager.h" />
     <ClInclude Include="source\game\manager\stagedata_manager.h" />
+    <ClInclude Include="source\game\mode\allgamemode.h" />
     <ClInclude Include="source\game\mode\gamemode_controller.h" />
     <ClInclude Include="source\game\mode\gamemode_state_base.h" />
     <ClInclude Include="source\game\mode\gamemode_state_puzzle.h" />

@@ -11,7 +11,7 @@ void Dice::ObjectInit()
 {
 	/// Todo:—‹ƒNƒ‰ƒXì‚é(‘¼Ží—Þ‚àì‚è‚½‚¢‚½‚ß)
 	mThunder.LoadTexture("assets/image/effect/thunder/thunder_yellow.png");
-	mThunder.SetPos(Float3(mTransform->position.x, mTransform->position.y, mTransform->position.z));
+	mThunder.SetPos(Float3(mTransform->position.x, 0, mTransform->position.z));
 	mThunder.SetScale(XMFLOAT2(100.0f, 200.0f));
 	mThunder.SetDivUV(XMFLOAT2(2, 1));
 	mThunder.SetUV(XMFLOAT2(0, 0));
@@ -310,9 +310,10 @@ void Dice::Up()
 		mSts = DiceStatus::eUp;
 	}
 
-	if (mThunderAlha == 0.5f)
+	if (mThunderAlha <= 0.8f)
 	{
 		mThunder.SetUV(XMFLOAT2(1, 0));
+		mThunder.Update();
 	}
 	if (mThunderAlha > 0.0f)
 	{

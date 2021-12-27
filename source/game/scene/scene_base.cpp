@@ -152,9 +152,9 @@ void SceneBase::DrawFadeIn(double t)
 
 	if (first)
 	{
-		mQuadfadein.Init(Application::CLIENT_WIDTH,
+		/*mQuadfadein.Init(Application::CLIENT_WIDTH,
 						 Application::CLIENT_HEIGHT,
-						 "assets/white.bmp", DirectX::XMFLOAT4(fadecolor.x, fadecolor.y, fadecolor.z, fadecolor.w));
+						 "assets/white.bmp", DirectX::XMFLOAT4(fadecolor.x, fadecolor.y, fadecolor.z, fadecolor.w));*/
 		first = false;
 	}
 
@@ -168,7 +168,7 @@ void SceneBase::DrawFadeIn(double t)
 
 	TurnOffZbuffer();
 
-	mQuadfadein.SetPosition(
+	/*mQuadfadein.SetPosition(
 		Application::CLIENT_WIDTH / 2.0f,
 		Application::CLIENT_HEIGHT / 2.0f, 0);
 
@@ -178,7 +178,7 @@ void SceneBase::DrawFadeIn(double t)
 		DirectX::XMFLOAT4(fadecolor.x, fadecolor.y, fadecolor.z, fadecolor.w));
 
 	mQuadfadein.UpdateVbuffer();
-	mQuadfadein.Draw();
+	mQuadfadein.Draw();*/
 
 	TurnOnZbuffer();
 }
@@ -197,9 +197,9 @@ void SceneBase::DrawFadeOut(double t)
 
 	if (first)
 	{
-		mQuadfadeout.Init(Application::CLIENT_WIDTH,
+		/*mQuadfadeout.Init(Application::CLIENT_WIDTH,
 						  Application::CLIENT_HEIGHT,
-						  "assets/white.bmp", DirectX::XMFLOAT4(fadecolor.x, fadecolor.y, fadecolor.z, fadecolor.w));
+						  "assets/white.bmp", DirectX::XMFLOAT4(fadecolor.x, fadecolor.y, fadecolor.z, fadecolor.w));*/
 		first = false;
 	}
 	//std::cout << "DrawFadeOut:" << t << std::endl;
@@ -213,7 +213,7 @@ void SceneBase::DrawFadeOut(double t)
 
 	fadecolor.w = static_cast<float>(t);
 
-	mQuadfadeout.UpdateVertex(
+	/*mQuadfadeout.UpdateVertex(
 		Application::CLIENT_WIDTH,
 		Application::CLIENT_HEIGHT,
 		DirectX::XMFLOAT4(fadecolor.x, fadecolor.y, fadecolor.z, fadecolor.w));
@@ -224,7 +224,7 @@ void SceneBase::DrawFadeOut(double t)
 		static_cast<float>(Application::CLIENT_WIDTH / 2),
 		static_cast<float>(Application::CLIENT_HEIGHT / 2), 0);
 
-	mQuadfadeout.Draw();
+	mQuadfadeout.Draw();*/
 
 	TurnOnZbuffer();
 }

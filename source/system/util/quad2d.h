@@ -6,6 +6,7 @@
 #include	"../dx11/dx11mathutil.h"
 #include	"shaderhashmap.h"
 #include	"texture_manager.h"
+#include	"vector.h"
 
 // comptr
 using Microsoft::WRL::ComPtr;
@@ -20,7 +21,7 @@ private:
 		DirectX::XMFLOAT2 tex;		// テクスチャ
 	};
 
-	DirectX::XMFLOAT4X4		mWorldmtx;				// ワールド変換行列
+	//DirectX::XMFLOAT4X4		mWorldmtx;				// ワールド変換行列
 	ComPtr<ID3D11Buffer>	mVertexbuffer;			// 頂点バッファ
 	ComPtr<ID3D11Buffer>	mIndexbuffer;			// インデックスバッファ
 	Quad2D::Vertex			mVertex[4];				// 矩形４頂点
@@ -40,30 +41,29 @@ public:
 	bool Init(int width, int height, const char *tex_name, const DirectX::XMFLOAT4 &color, int _u = 1, int _v = 1, float z = 0.0f);
 
 	// 描画
-	void Draw();
+	void Draw(DirectX::XMFLOAT4X4 _mtx);
 
 	// テクスチャなしで描画
 	void DrawNoTex();
 
 	// 拡大、縮小
-	void SetScale(float sx, float sy, float sz);
+	//void SetScale(Float3 _size);
 
 	// 位置をセット
-	void SetPosition(float x, float y, float z = 0.0f);
+	//void SetPosition(Float3 _pos);
 
 	// 頂点カラーセット
 	void SetColor(const XMFLOAT4 &_color);
 
 	// Z軸回転
-	void SetZRotation(float angle);
+	//void SetZRotation(float angle);
 
 	// X軸回転
-	void SetXRotation(float angle);
+	//void SetXRotation(float angle);
 
 	// ワールド変換行列をセットする
-	void SetMtx(const DirectX::XMFLOAT4X4 &mtx) {
-		mWorldmtx = mtx;
-	}
+	//void SetMtx(const DirectX::XMFLOAT4X4 &mtx) {
+	//	mWorldmtx = mtx;
 
 	// 頂点データ更新
 	void UpdateVertex(uint32_t width, uint32_t height, const DirectX::XMFLOAT4 &color, float z = 0.0f);
