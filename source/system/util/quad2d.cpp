@@ -15,7 +15,7 @@ const char* psfilename[] = {
 };
 
 // 矩形の初期化
-bool Quad2D::Init(int width, int height, const char *tex_name, const DirectX::XMFLOAT4 &color, int _u, int _v, float z) {
+bool Quad2D::Init(float width, float height, const char *tex_name, const DirectX::XMFLOAT4 &color, int _u, int _v, float z) {
 	//DX11MtxIdentity(mWorldmtx);	// 初期姿勢
 
 	// 4角形の初期化処理
@@ -26,8 +26,8 @@ bool Quad2D::Init(int width, int height, const char *tex_name, const DirectX::XM
 		{1.0f,1.0f}
 	};
 
-	mWidth = (float)width;
-	mHeight = (float)height;
+	mWidth = width;
+	mHeight = height;
 	mColor = color;
 
 	// ピクセルシェーダーを生成

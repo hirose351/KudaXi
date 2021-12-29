@@ -60,7 +60,7 @@ public:
 		}
 		AddComponent<Component::ModelComponent>()->SetModel(ModelMgr::GetInstance().GetModelPtr("assets/model/dice/Dice.fbx"));
 		AddComponent<Component::CollisionComponent>()->SetInitState(ObjectTag::eDice, Float3(0, 0, 0), Float3(DICE_SCALE_HALF), DirectX::XMFLOAT4(0, 0, 1, 0.3f));
-		ObjectInit();
+		//ObjectInit();
 	}
 	virtual ~Dice();
 

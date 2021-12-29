@@ -172,6 +172,9 @@
     <Filter Include="ソース ファイル\game\gameobject\effect">
       <UniqueIdentifier>{9a7446f8-c4f6-494f-906f-16a974c583e2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\game\component\ui">
+      <UniqueIdentifier>{e5874deb-0ced-4a4d-8378-514ab52abaff}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\game.cpp">
@@ -407,6 +410,9 @@
     </ClCompile>
     <ClCompile Include="source\game\gameobject\effect_thunder.cpp">
       <Filter>ソース ファイル\game\gameobject\effect</Filter>
+    </ClCompile>
+    <ClCompile Include="source\game\component\easing_easticout_component.cpp">
+      <Filter>ソース ファイル\game\component\ui</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -682,6 +688,9 @@
     </ClInclude>
     <ClInclude Include="source\game\gameobject\effect_thunder.h">
       <Filter>ソース ファイル\game\gameobject\effect</Filter>
+    </ClInclude>
+    <ClInclude Include="source\game\component\easing_easticout_component.h">
+      <Filter>ソース ファイル\game\component\ui</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

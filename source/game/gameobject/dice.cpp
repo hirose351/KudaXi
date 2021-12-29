@@ -2,6 +2,7 @@
 #include	"../manager/dice_manager.h"
 //#include	"../../system/util/XAudio2.h"
 #include	"../../system/util/easing.h"
+#include	"effect_thunder.h"
 
 Dice::~Dice()
 {
@@ -16,6 +17,11 @@ void Dice::ObjectInit()
 	//mThunder.SetDivUV(XMFLOAT2(2, 1));
 	//mThunder.SetUV(XMFLOAT2(0, 0));
 
+
+	Effect::Thunder* efect = new Effect::Thunder;
+	Float3 pos = { mTransform->position.x, 0, mTransform->position.z };
+	efect->SetInitPos(pos);
+	efect->Init();
 	mDirection = Direction::eNeutral;
 	SetStartUpPosition();
 	SetOverPlane();

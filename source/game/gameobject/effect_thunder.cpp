@@ -8,11 +8,16 @@ void Effect::Thunder::ObjectInit()
 	bilbord->SetScale(XMFLOAT2(100.0f, 200.0f));
 	bilbord->SetDivUV(XMFLOAT2(2, 1));
 	bilbord->SetUV(XMFLOAT2(0, 0));
+	mTransform->SetPositionXYZ(mInitPos);
 }
 
 void Effect::Thunder::ObjectUpdate()
 {
 	Component::BillbordComponent* bilbord = GetComponent<Component::BillbordComponent>();
+
+	if (bilbord == nullptr)
+		return;
+
 	if (mAlha <= 0.8f)
 	{
 		bilbord->SetUV(XMFLOAT2(1, 0));
@@ -24,6 +29,6 @@ void Effect::Thunder::ObjectUpdate()
 	}
 	else
 	{
-		bilbord->SetIsActive(false);
+		SetObjectState(ObjectState::eDead);
 	}
 }

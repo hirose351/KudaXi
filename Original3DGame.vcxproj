@@ -139,6 +139,7 @@
     <ClCompile Include="source\game\component\billbord_component.cpp" />
     <ClCompile Include="source\game\component\collision_component.cpp" />
     <ClCompile Include="source\game\component\component_base.cpp" />
+    <ClCompile Include="source\game\component\easing_easticout_component.cpp" />
     <ClCompile Include="source\game\component\model_component.cpp" />
     <ClCompile Include="source\game\component\player_controller.cpp" />
     <ClCompile Include="source\game\component\quad2d_component.cpp" />
@@ -220,6 +221,7 @@
     <ClInclude Include="source\game\component\billbord_component.h" />
     <ClInclude Include="source\game\component\collision_component.h" />
     <ClInclude Include="source\game\component\component_base.h" />
+    <ClInclude Include="source\game\component\easing_easticout_component.h" />
     <ClInclude Include="source\game\component\model_component.h" />
     <ClInclude Include="source\game\component\player_controller.h" />
     <ClInclude Include="source\game\component\quad2d_component.h" />

@@ -38,7 +38,7 @@ private:
 
 public:
 	// 矩形の初期化　(width：横描画サイズ　height：縦描画サイズ　tex_name：画像の場所と名前　color：頂点カラー　u：横の分割数　v：縦の分割数　z：奥描画サイズ)
-	bool Init(int width, int height, const char *tex_name, const DirectX::XMFLOAT4 &color, int _u = 1, int _v = 1, float z = 0.0f);
+	bool Init(float width, float height, const char *tex_name, const DirectX::XMFLOAT4 &color, int _u = 1, int _v = 1, float z = 0.0f);
 
 	// 描画
 	void Draw(DirectX::XMFLOAT4X4 _mtx);

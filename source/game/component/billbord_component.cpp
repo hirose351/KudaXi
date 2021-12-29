@@ -2,9 +2,13 @@
 
 using namespace Component;
 
-void BillbordComponent::Init()
+BillbordComponent::BillbordComponent()
 {
 	mpBillboard.SetPtr(new Billboard);
+}
+
+void BillbordComponent::Init()
+{
 }
 
 void BillbordComponent::Update()

@@ -17,6 +17,7 @@ private:
 	//Quad2D		mQuadfadeout;
 
 
+	bool mInitingActors;	// アクターを初期化しているかどうか
 	bool mUpdatingActors;	// アクターを更新しているかどうか
 
 protected:

@@ -109,9 +109,9 @@ void Billboard::Update(XMFLOAT4X4 _mtx)
 	mMatrixWorld._32 = matrixRot._32;
 	mMatrixWorld._33 = matrixRot._33;
 
-	//mMatrixWorld._41 = mPos.x;
-	//mMatrixWorld._42 = mPos.y;
-	//mMatrixWorld._43 = mPos.z;
+	mMatrixWorld._41 = _mtx._41;
+	mMatrixWorld._42 = _mtx._42;
+	mMatrixWorld._43 = _mtx._43;
 }
 
 void Billboard::Render(void)

@@ -15,7 +15,7 @@ SceneBase::~SceneBase()
 void SceneBase::AddGameObject(GameObject* _object)
 {
 	// アクターが更新中なら待ち群に追加
-	if (mUpdatingActors)
+	if (mUpdatingActors || mInitingActors)
 	{
 		mPendingObjectList.emplace_back(_object);
 	}
@@ -48,10 +48,22 @@ void SceneBase::RemoveGameObject(GameObject* _object)
 
 bool SceneBase::Init()
 {
+	// すべてのアクターを更新
+	mInitingActors = true;
 	for (auto &obj : mObjectList)
 	{
 		obj->Init();
 	}
+	mInitingActors = false;
+
+	// 待ちになっていたアクターをm_actorsに移動
+	for (auto pending : mPendingObjectList)
+	{
+		pending->Init();
+		mObjectList.emplace_back(pending);
+	}
+	mPendingObjectList.clear();
+
 	return true;
 }
 

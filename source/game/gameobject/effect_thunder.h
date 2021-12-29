@@ -6,7 +6,7 @@ namespace Effect {
 	{
 	private:
 		float mAlha = 1.0f;							// —‹ƒ¿’l
-
+		Float3 mInitPos;
 	public:
 		Thunder() :GameObject(("Thunder"), ObjectType::eObstracle) {};
 		void ObjectInit() override;
@@ -14,5 +14,7 @@ namespace Effect {
 		void ObjectDraw()override {};
 		void ObjectImguiDraw()override {};
 		void Uninit() override {};
+
+		void SetInitPos(const Float3& _pos) { mInitPos = _pos; };
 	};
 }

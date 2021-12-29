@@ -9,6 +9,7 @@ namespace Component {
 		Dix::sp<Billboard> mpBillboard;
 
 	public:
+		BillbordComponent();
 		void Init() override;
 		void Update()override;
 		void Draw()override;
