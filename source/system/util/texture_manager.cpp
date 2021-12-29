@@ -31,7 +31,7 @@ void TextureManager::Finalize()
 
 TextureManager::TextureManager()
 {
-	//mpDevice = CDirectXGraphics::GetInstance()->GetDXDevice();
+	mpDevice = CDirectXGraphics::GetInstance()->GetDXDevice();
 	//// ピクセルシェーダーを生成
 	//bool sts = ShaderHashmap::GetInstance()->SetPixelShader(psfilename[0]);
 	//if (!sts)

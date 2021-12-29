@@ -1,5 +1,4 @@
 #include	"scene_base.h"
-#include	"../gameobject/gameobject.h"
 #include	"../../system/imgui/util/myimgui.h"
 
 SceneBase::SceneBase()
@@ -17,7 +16,7 @@ void SceneBase::AddGameObject(GameObject* _object)
 	// アクターが更新中なら待ち群に追加
 	if (mUpdatingActors)
 	{
-		mPendingActors.emplace_back(_object);
+		mPendingObjectList.emplace_back(_object);
 	}
 	else
 	{
@@ -28,12 +27,12 @@ void SceneBase::AddGameObject(GameObject* _object)
 void SceneBase::RemoveGameObject(GameObject* _object)
 {
 	// 保留中のアクターかどうか
-	auto iter = std::find(mPendingActors.begin(), mPendingActors.end(), _object);
-	if (iter != mPendingActors.end())
+	auto iter = std::find(mPendingObjectList.begin(), mPendingObjectList.end(), _object);
+	if (iter != mPendingObjectList.end())
 	{
 		// ベクトルの最後までワップしてポップオフします（コピーの消去は避けてください）
-		std::iter_swap(iter, mPendingActors.end() - 1);
-		mPendingActors.pop_back();
+		std::iter_swap(iter, mPendingObjectList.end() - 1);
+		mPendingObjectList.pop_back();
 	}
 
 	// 存在するアクターかどうか
@@ -67,11 +66,11 @@ void SceneBase::Update()
 	mUpdatingActors = false;
 
 	// 待ちになっていたアクターをm_actorsに移動
-	for (auto pending : mPendingActors)
+	for (auto pending : mPendingObjectList)
 	{
 		mObjectList.emplace_back(pending);
 	}
-	mPendingActors.clear();
+	mPendingObjectList.clear();
 
 	SceneUpdate();
 

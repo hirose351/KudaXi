@@ -9,12 +9,12 @@ Dice::~Dice()
 
 void Dice::ObjectInit()
 {
-	/// Todo:雷クラス作る(他種類も作りたいため)
-	mThunder.LoadTexture("assets/image/effect/thunder/thunder_yellow.png");
-	mThunder.SetPos(Float3(mTransform->position.x, 0, mTransform->position.z));
-	mThunder.SetScale(XMFLOAT2(100.0f, 200.0f));
-	mThunder.SetDivUV(XMFLOAT2(2, 1));
-	mThunder.SetUV(XMFLOAT2(0, 0));
+	///// Todo:雷クラス作る(他種類も作りたいため)
+	//mThunder.LoadTexture("assets/image/effect/thunder/thunder_yellow.png");
+	////mThunder.SetPos(Float3(mTransform->position.x, 0, mTransform->position.z));
+	//mThunder.SetScale(XMFLOAT2(100.0f, 200.0f));
+	//mThunder.SetDivUV(XMFLOAT2(2, 1));
+	//mThunder.SetUV(XMFLOAT2(0, 0));
 
 	mDirection = Direction::eNeutral;
 	SetStartUpPosition();
@@ -57,10 +57,10 @@ void Dice::ObjectUpdate()
 
 void Dice::ObjectDraw()
 {
-	if (mThunderAlha <= 0.0f)
-		return;
-	mThunder.Update();
-	mThunder.Render();
+	//if (mThunderAlha <= 0.0f)
+	//	return;
+	////mThunder.Update();
+	//mThunder.Render();
 }
 
 void Dice::Uninit()
@@ -310,16 +310,16 @@ void Dice::Up()
 		mSts = DiceStatus::eUp;
 	}
 
-	if (mThunderAlha <= 0.8f)
-	{
-		mThunder.SetUV(XMFLOAT2(1, 0));
-		mThunder.Update();
-	}
-	if (mThunderAlha > 0.0f)
-	{
-		mThunder.SetColor(XMFLOAT4(1, 1, 1, mThunderAlha));
-		mThunderAlha -= 0.025f;
-	}
+	//if (mThunderAlha <= 0.8f)
+	//{
+	//	mThunder.SetUV(XMFLOAT2(1, 0));
+	//	//mThunder.Update();
+	//}
+	//if (mThunderAlha > 0.0f)
+	//{
+	//	mThunder.SetColor(XMFLOAT4(1, 1, 1, mThunderAlha));
+	//	mThunderAlha -= 0.025f;
+	//}
 }
 
 void Dice::Down()

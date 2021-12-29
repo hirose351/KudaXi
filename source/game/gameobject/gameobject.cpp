@@ -32,6 +32,24 @@ void GameObject::Update()
 	{
 		component->Update();
 	}
+
+	// 死んだコンポーネントを一時配列に追加
+	std::vector<ComponentBase*> deadComponents;
+	for (auto component : mComponentList)
+	{
+		if (!component->GetIsActive())
+		{
+			deadComponents.emplace_back(component);
+		}
+	}
+
+	// 死んだアクターを消す（m_actorsから削除）
+	for (auto component : deadComponents)
+	{
+		delete component;
+	}
+
+	mComponentList.shrink_to_fit();
 }
 
 void GameObject::Draw()

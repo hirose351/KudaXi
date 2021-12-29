@@ -1,11 +1,11 @@
 #pragma once
 #include	<string>
 #include	<vector>
+#include	"../manager/SceneManager.h"
 #include	"gameobject_utility.h"
 #include	"transform.h"
 #include	"../component/component_base.h"
 #include	"../../system/imgui/util/myimgui.h"
-#include	"../manager/SceneManager.h"
 #include	"../../system/util/dixsmartptr.h"
 
 class ComponentBase;

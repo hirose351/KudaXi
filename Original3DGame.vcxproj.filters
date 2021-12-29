@@ -160,6 +160,18 @@
     <Filter Include="ソース ファイル\game\component\draw\quad2d">
       <UniqueIdentifier>{40ed87d9-b6a6-4791-80e0-93fb0cb38a1f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\game\gameobject\ui">
+      <UniqueIdentifier>{faac4e45-3e45-481e-be0f-62a9b44a5383}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\game\gameobject\ui\button">
+      <UniqueIdentifier>{2abbea24-625d-42a1-bd75-5f36d38be9a0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\game\gameobject\ui\image">
+      <UniqueIdentifier>{ad6eba5c-c04a-489f-b789-e45b09b0a866}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\game\gameobject\effect">
+      <UniqueIdentifier>{9a7446f8-c4f6-494f-906f-16a974c583e2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\game.cpp">
@@ -386,6 +398,15 @@
     </ClCompile>
     <ClCompile Include="source\game\component\quad2d_component.cpp">
       <Filter>ソース ファイル\game\component\draw\quad2d</Filter>
+    </ClCompile>
+    <ClCompile Include="source\game\gameobject\ui_button.cpp">
+      <Filter>ソース ファイル\game\gameobject\ui\button</Filter>
+    </ClCompile>
+    <ClCompile Include="source\game\gameobject\ui_image.cpp">
+      <Filter>ソース ファイル\game\gameobject\ui\image</Filter>
+    </ClCompile>
+    <ClCompile Include="source\game\gameobject\effect_thunder.cpp">
+      <Filter>ソース ファイル\game\gameobject\effect</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -652,6 +673,15 @@
     </ClInclude>
     <ClInclude Include="source\game\component\quad2d_component.h">
       <Filter>ソース ファイル\game\component\draw\quad2d</Filter>
+    </ClInclude>
+    <ClInclude Include="source\game\gameobject\ui_button.h">
+      <Filter>ソース ファイル\game\gameobject\ui\button</Filter>
+    </ClInclude>
+    <ClInclude Include="source\game\gameobject\ui_image.h">
+      <Filter>ソース ファイル\game\gameobject\ui\image</Filter>
+    </ClInclude>
+    <ClInclude Include="source\game\gameobject\effect_thunder.h">
+      <Filter>ソース ファイル\game\gameobject\effect</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -7,6 +7,7 @@
 #include	"../gameobject/stage.h"
 #include	"../manager/dice_manager.h"
 #include	"../gameobject/skydome.h"
+#include	"../gameobject/ui_image.h"
 
 #include	"../../system/dx11/CDirectInput.h"
 
@@ -43,6 +44,8 @@ void MaingameScene::SceneInit()
 	mCameraLookat.z = { -stageData.mMapSizeHeight*DICE_SCALE_HALF };
 	CCamera::GetInstance()->SetLookat(mCameraLookat);
 	CCamera::GetInstance()->CreateCameraMatrix();
+
+	myUI::Image* a = new myUI::Image;
 
 	DiceManager::GetInstance()->Init();
 }

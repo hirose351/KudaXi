@@ -5,9 +5,7 @@
 #include	<unordered_map>
 #include	<string>
 
-using namespace DirectX;
-
-class CBillboard
+class Billboard
 {
 private:
 	//テクスチャ情報構造体
@@ -30,12 +28,12 @@ protected:
 
 	static std::unordered_map<std::string, TextureInfo> smTextureInfo;		//テクスチャ格納辞書
 
-	XMFLOAT3 mPos;								//ポジション
+	//XMFLOAT3 mPos;								//ポジション
 
-	XMFLOAT2 mScale, mUV0, mUV3, mDivUv;		//スケール,UV情報
-	XMFLOAT4 mColor;							//カラー
+	DirectX::XMFLOAT2 mScale, mUV0, mUV3, mDivUv;		//スケール,UV情報
+	DirectX::XMFLOAT4 mColor;							//カラー
 
-	XMFLOAT4X4 mMatrixWorld;					//ワールド変換行列
+	DirectX::XMFLOAT4X4 mMatrixWorld;					//ワールド変換行列
 
 	ComPtr <ID3D11Buffer> mpVetexBuffer = nullptr;				//頂点バッファ
 	ComPtr <ID3D11Resource> mpTexRes = nullptr;					//テクスチャ情報
@@ -44,22 +42,22 @@ protected:
 
 	bool mShouldErase = false;		//消すべきか
 public:
-	CBillboard();
-	virtual ~CBillboard() = default;
+	Billboard();
+	virtual ~Billboard() = default;
 
 	HRESULT Initialize(void);
 	HRESULT LoadTexture(const std::string pTexFileName);
 
-	virtual void Update(void);
+	virtual void Update(DirectX::XMFLOAT4X4 _mtx);
 	virtual void Render(void);
 
 	static HRESULT CreateShader(void);
 
-	const XMFLOAT3& GetPos()const {
-		return mPos;
-	}
+	//const XMFLOAT3& GetPos()const {
+	//	return mPos;
+	//}
 
-	const XMFLOAT4& GetColor()const {
+	const DirectX::XMFLOAT4& GetColor()const {
 		return mColor;
 	}
 
@@ -67,27 +65,27 @@ public:
 		return mShouldErase;
 	}
 
-	void SetPos(XMFLOAT3 pos)
-	{
-		mPos = pos;
-	}
+	//void SetPos(XMFLOAT3 pos)
+	//{
+	//	mPos = pos;
+	//}
 
-	void SetScale(XMFLOAT2 scale)
+	void SetScale(const DirectX::XMFLOAT2& scale)
 	{
 		mScale = scale;
 	}
 
-	void SetColor(XMFLOAT4 color)
+	void SetColor(const DirectX::XMFLOAT4& color)
 	{
 		mColor = color;
 	}
 
-	void SetDivUV(XMFLOAT2 _divuv)
+	void SetDivUV(const DirectX::XMFLOAT2& _divuv)
 	{
 		mDivUv = _divuv;
 	}
 
-	void SetUV(XMFLOAT2 _uv/*, int _direction*/)
+	void SetUV(const DirectX::XMFLOAT2& _uv)
 	{
 		mUV0.x = 1.0f / mDivUv.x * _uv.x;
 		mUV0.y = 1.0f / mDivUv.y * _uv.y;
@@ -95,5 +93,5 @@ public:
 		mUV3.y = 1.0f / mDivUv.y * (_uv.y + 1);
 	}
 
-	void SetRotation(XMFLOAT4X4 _mtx);
+	void SetRotation(DirectX::XMFLOAT4X4 _mtx);
 };

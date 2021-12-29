@@ -13,8 +13,8 @@ class Dice : public GameObject
 private:
 	float mBeforeFrameAng = 0;							// 
 	float mBeforeFramePos = 0;							// 
-	float mThunderAlha = 1.0f;							// 雷α値
-	CBillboard mThunder;								// 生成時雷
+	//float mThunderAlha = 1.0f;							// 雷α値
+	//Billboard mThunder;								// 生成時雷
 	INT3 mMapPos;										// マップ上の位置
 	DiceFruit mTopDiceTypeFruit;						// 上面の果物
 	int mTopDiceTypeNum;								// 上面の数字

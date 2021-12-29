@@ -5,12 +5,14 @@
 #include	"../dx11/dx11mathutil.h"
 #include	"../../game/gameobject/CCamera.h"
 
-ComPtr <ID3D11InputLayout> CBillboard::smIL = nullptr;
-ComPtr <ID3D11VertexShader> CBillboard::smVS = nullptr;
-ComPtr <ID3D11PixelShader> CBillboard::smPS = nullptr;
-std::unordered_map<std::string, CBillboard::TextureInfo> CBillboard::smTextureInfo;
+using namespace DirectX;
 
-CBillboard::CBillboard() :
+ComPtr <ID3D11InputLayout> Billboard::smIL = nullptr;
+ComPtr <ID3D11VertexShader> Billboard::smVS = nullptr;
+ComPtr <ID3D11PixelShader> Billboard::smPS = nullptr;
+std::unordered_map<std::string, Billboard::TextureInfo> Billboard::smTextureInfo;
+
+Billboard::Billboard() :
 	mScale({ 1.f,1.f }), mColor({ 1.f,1.f,1.f,1.f }),
 	mUV0({ 0.f,0.f }), mUV3({ 1.f,1.f })
 {
@@ -18,14 +20,14 @@ CBillboard::CBillboard() :
 
 	if (!ShouldInit)
 	{
-		CBillboard::CreateShader();
+		Billboard::CreateShader();
 		ShouldInit = true;
 	}
 
 	Initialize();
 }
 
-HRESULT CBillboard::Initialize(void)
+HRESULT Billboard::Initialize(void)
 {
 	ID3D11Device* device = CDirectXGraphics::GetInstance()->GetDXDevice();
 
@@ -62,7 +64,7 @@ HRESULT CBillboard::Initialize(void)
 	return S_OK;
 }
 
-HRESULT CBillboard::LoadTexture(const std::string pTexFileName)
+HRESULT Billboard::LoadTexture(const std::string pTexFileName)
 {
 	if (smTextureInfo.count(pTexFileName) == 0)
 	{
@@ -86,8 +88,9 @@ HRESULT CBillboard::LoadTexture(const std::string pTexFileName)
 	return S_OK;
 }
 
-void CBillboard::Update(void)
+void Billboard::Update(XMFLOAT4X4 _mtx)
 {
+	mMatrixWorld = _mtx;
 	XMFLOAT4X4 matrixRot;
 
 	XMStoreFloat4x4(&mMatrixWorld, XMMatrixIdentity());
@@ -106,12 +109,12 @@ void CBillboard::Update(void)
 	mMatrixWorld._32 = matrixRot._32;
 	mMatrixWorld._33 = matrixRot._33;
 
-	mMatrixWorld._41 = mPos.x;
-	mMatrixWorld._42 = mPos.y;
-	mMatrixWorld._43 = mPos.z;
+	//mMatrixWorld._41 = mPos.x;
+	//mMatrixWorld._42 = mPos.y;
+	//mMatrixWorld._43 = mPos.z;
 }
 
-void CBillboard::Render(void)
+void Billboard::Render(void)
 {
 	ID3D11DeviceContext*		 devicecontext;				// デバイスコンテキスト
 
@@ -172,7 +175,7 @@ void CBillboard::Render(void)
 		0);									// 開始頂点インデックス
 }
 
-HRESULT CBillboard::CreateShader(void)
+HRESULT Billboard::CreateShader(void)
 {
 	// デバイスを取得する
 	ID3D11Device* device = CDirectXGraphics::GetInstance()->GetDXDevice();
@@ -220,7 +223,7 @@ HRESULT CBillboard::CreateShader(void)
 	return S_OK;
 }
 
-void CBillboard::SetRotation(XMFLOAT4X4 _mtx)
+void Billboard::SetRotation(XMFLOAT4X4 _mtx)
 {
 	DX11MtxMultiply(mMatrixWorld, mMatrixWorld, _mtx);
 }

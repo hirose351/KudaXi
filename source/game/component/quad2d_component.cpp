@@ -26,5 +26,6 @@ void Quad2dComponent::Uninit()
 
 void Quad2dComponent::SetInfo(int width, int height, const char * tex_name, const DirectX::XMFLOAT4 & color, int _u, int _v, float z)
 {
+	mpQuad.SetPtr(new Quad2D);
 	mpQuad->Init(width, height, tex_name, color, _u, _v, z);
 }

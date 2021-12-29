@@ -1,6 +1,7 @@
 #pragma once
-#include	"../manager/SceneManager.h"
 #include	"../../system/util/vector.h"
+#include	"../gameobject/gameobject.h"
+#include	"../manager/SceneManager.h"
 #include	"XAudio2.h"
 
 class SceneManager;
@@ -10,15 +11,15 @@ class SceneBase : Uncopyable {
 private:
 	SceneManager*	mManager;
 
-	std::vector<GameObject*> mObjectList;	// ゲームオブジェクトを全部まとめて管理できるオブジェクトリスト
-	// 待ち状態のアクター群
-	std::vector<GameObject*> mPendingActors;
+	std::vector< GameObject*> mObjectList;			// ゲームオブジェクトを全部まとめて管理できるオブジェクトリスト
+	std::vector< GameObject*> mPendingObjectList;	// 待ち状態のオブジェクト
 
 	//Quad2D		mQuadfadein;
 	//Quad2D		mQuadfadeout;
 
-	// アクターを更新しているかどうか
-	bool mUpdatingActors;
+
+	bool mUpdatingActors;	// アクターを更新しているかどうか
+
 protected:
 	Float3 mCameraLookat;			// カメラの注視点
 
