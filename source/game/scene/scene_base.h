@@ -1,6 +1,5 @@
 #pragma once
 #include	"../../system/util/vector.h"
-#include	"../gameobject/gameobject.h"
 #include	"../manager/SceneManager.h"
 #include	"XAudio2.h"
 

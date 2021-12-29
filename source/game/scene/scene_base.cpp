@@ -1,4 +1,5 @@
 #include	"scene_base.h"
+#include	"../gameobject/gameobject.h"
 #include	"../../system/imgui/util/myimgui.h"
 
 SceneBase::SceneBase()
