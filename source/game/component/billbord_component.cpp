@@ -2,29 +2,29 @@
 
 using namespace Component;
 
-BillbordComponent::BillbordComponent()
+Billbord::Billbord()
 {
-	mpBillboard.SetPtr(new Billboard);
+	mpBillboard.SetPtr(new CBillboard);
 }
 
-void BillbordComponent::Init()
+void Billbord::Init()
 {
 }
 
-void BillbordComponent::Update()
+void Billbord::Update()
 {
 	mpBillboard->Update(mOwner->GetTransform()->worldMtx);
 }
 
-void BillbordComponent::Draw()
+void Billbord::Draw()
 {
 	mpBillboard->Render();
 }
 
-void BillbordComponent::ImguiDraw()
+void Billbord::ImguiDraw()
 {
 }
 
-void BillbordComponent::Uninit()
+void Billbord::Uninit()
 {
 }

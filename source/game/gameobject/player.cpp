@@ -14,9 +14,9 @@ Player::Player() : GameObject(("Player"), ObjectType::ePlayer) {
 		MessageBox(nullptr, "Playerƒ‚ƒfƒ‹ “Ç‚Ýž‚ÝƒGƒ‰[", "error", MB_OK);
 	}
 	mTransform->scale = (Float3(4, 6, 4));
-	AddComponent<Component::ModelComponent>()->SetModel(ModelMgr::GetInstance().GetModelPtr("assets/model/player/player.fbx"));
-	AddComponent<Component::CollisionComponent>()->SetLocalScale(mTransform->scale);
-	GetComponent<Component::CollisionComponent>()->SetColor(DirectX::XMFLOAT4(0.1f, 0.1f, 0.1f, 0.01f));
+	AddComponent<Component::Model>()->SetModel(ModelMgr::GetInstance().GetModelPtr("assets/model/player/player.fbx"));
+	AddComponent<Component::Collision>()->SetLocalScale(mTransform->scale);
+	GetComponent<Component::Collision>()->SetColor(DirectX::XMFLOAT4(0.1f, 0.1f, 0.1f, 0.01f));
 	AddComponent<Component::PlayerController>();
 	ObjectInit();
 };

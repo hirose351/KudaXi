@@ -6,12 +6,12 @@ CollisionManager::~CollisionManager()
 	mColList.shrink_to_fit();
 }
 
-void CollisionManager::AddCollision(Component::CollisionComponent *_col)
+void CollisionManager::AddCollision(Component::Collision *_col)
 {
 	mColList.emplace_back(_col);
 }
 
-void CollisionManager::RemoveCollision(Component::CollisionComponent *_col)
+void CollisionManager::RemoveCollision(Component::Collision *_col)
 {
 	auto it = std::find(mColList.begin(), mColList.end(), _col);
 	mColList.erase(it);

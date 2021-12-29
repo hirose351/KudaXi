@@ -357,9 +357,6 @@
     <ClCompile Include="source\game\data\saveload.cpp">
       <Filter>ソース ファイル\game\data</Filter>
     </ClCompile>
-    <ClCompile Include="source\system\util\easing.cpp">
-      <Filter>ソース ファイル\system\util</Filter>
-    </ClCompile>
     <ClCompile Include="source\system\dx11\CDirectXGraphics.cpp">
       <Filter>ソース ファイル\system\dx11\util</Filter>
     </ClCompile>
@@ -411,7 +408,7 @@
     <ClCompile Include="source\game\gameobject\effect_thunder.cpp">
       <Filter>ソース ファイル\game\gameobject\effect</Filter>
     </ClCompile>
-    <ClCompile Include="source\game\component\easing_easticout_component.cpp">
+    <ClCompile Include="source\game\component\easing_image_component.cpp">
       <Filter>ソース ファイル\game\component\ui</Filter>
     </ClCompile>
   </ItemGroup>
@@ -689,7 +686,7 @@
     <ClInclude Include="source\game\gameobject\effect_thunder.h">
       <Filter>ソース ファイル\game\gameobject\effect</Filter>
     </ClInclude>
-    <ClInclude Include="source\game\component\easing_easticout_component.h">
+    <ClInclude Include="source\game\component\easing_image_component.h">
       <Filter>ソース ファイル\game\component\ui</Filter>
     </ClInclude>
   </ItemGroup>

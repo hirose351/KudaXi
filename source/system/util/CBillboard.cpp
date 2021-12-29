@@ -7,12 +7,12 @@
 
 using namespace DirectX;
 
-ComPtr <ID3D11InputLayout> Billboard::smIL = nullptr;
-ComPtr <ID3D11VertexShader> Billboard::smVS = nullptr;
-ComPtr <ID3D11PixelShader> Billboard::smPS = nullptr;
-std::unordered_map<std::string, Billboard::TextureInfo> Billboard::smTextureInfo;
+ComPtr <ID3D11InputLayout> CBillboard::smIL = nullptr;
+ComPtr <ID3D11VertexShader> CBillboard::smVS = nullptr;
+ComPtr <ID3D11PixelShader> CBillboard::smPS = nullptr;
+std::unordered_map<std::string, CBillboard::TextureInfo> CBillboard::smTextureInfo;
 
-Billboard::Billboard() :
+CBillboard::CBillboard() :
 	mScale({ 1.f,1.f }), mColor({ 1.f,1.f,1.f,1.f }),
 	mUV0({ 0.f,0.f }), mUV3({ 1.f,1.f })
 {
@@ -20,14 +20,14 @@ Billboard::Billboard() :
 
 	if (!ShouldInit)
 	{
-		Billboard::CreateShader();
+		CBillboard::CreateShader();
 		ShouldInit = true;
 	}
 
 	Initialize();
 }
 
-HRESULT Billboard::Initialize(void)
+HRESULT CBillboard::Initialize(void)
 {
 	ID3D11Device* device = CDirectXGraphics::GetInstance()->GetDXDevice();
 
@@ -64,7 +64,7 @@ HRESULT Billboard::Initialize(void)
 	return S_OK;
 }
 
-HRESULT Billboard::LoadTexture(const std::string pTexFileName)
+HRESULT CBillboard::LoadTexture(const std::string pTexFileName)
 {
 	if (smTextureInfo.count(pTexFileName) == 0)
 	{
@@ -88,7 +88,7 @@ HRESULT Billboard::LoadTexture(const std::string pTexFileName)
 	return S_OK;
 }
 
-void Billboard::Update(XMFLOAT4X4 _mtx)
+void CBillboard::Update(XMFLOAT4X4 _mtx)
 {
 	mMatrixWorld = _mtx;
 	XMFLOAT4X4 matrixRot;
@@ -114,7 +114,7 @@ void Billboard::Update(XMFLOAT4X4 _mtx)
 	mMatrixWorld._43 = _mtx._43;
 }
 
-void Billboard::Render(void)
+void CBillboard::Render(void)
 {
 	ID3D11DeviceContext*		 devicecontext;				// デバイスコンテキスト
 
@@ -175,7 +175,7 @@ void Billboard::Render(void)
 		0);									// 開始頂点インデックス
 }
 
-HRESULT Billboard::CreateShader(void)
+HRESULT CBillboard::CreateShader(void)
 {
 	// デバイスを取得する
 	ID3D11Device* device = CDirectXGraphics::GetInstance()->GetDXDevice();
@@ -223,7 +223,7 @@ HRESULT Billboard::CreateShader(void)
 	return S_OK;
 }
 
-void Billboard::SetRotation(XMFLOAT4X4 _mtx)
+void CBillboard::SetRotation(XMFLOAT4X4 _mtx)
 {
 	DX11MtxMultiply(mMatrixWorld, mMatrixWorld, _mtx);
 }

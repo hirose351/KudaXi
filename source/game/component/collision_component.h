@@ -8,7 +8,7 @@ struct CollisionData;
 class ComponentBase;
 
 namespace Component {
-	class CollisionComponent : public ComponentBase
+	class Collision : public ComponentBase
 	{
 	private:
 		Primitive::AABB mPrim;
@@ -21,8 +21,8 @@ namespace Component {
 		DirectX::XMFLOAT4X4 mWorldMtx;
 
 	public:
-		CollisionComponent();
-		~CollisionComponent();
+		Collision();
+		~Collision();
 		void Awake()override {};
 		void Init()override;
 		void Update()override;
@@ -36,9 +36,9 @@ namespace Component {
 		GameObject* GetNearestDice(Float3 _pos);
 
 		// 指定されたコンポーネントが入ったデータを削除
-		void RemoveCollisionData(CollisionComponent* _col);
+		void RemoveCollisionData(Collision* _col);
 
-		void SetHitObj(Component::CollisionComponent* _hitobj);
+		void SetHitObj(Component::Collision* _hitobj);
 		void SetLocalScale(Float3 _scale) { mPrim.hl = _scale; };
 		void SetLocalPos(Float3 _localPos) { mLocalPos = _localPos; };
 		void SetColor(DirectX::XMFLOAT4 _color) { mColor = _color; mQube.SetColor(mColor); };
@@ -54,7 +54,7 @@ struct CollisionData
 {
 	CollisionData() :isHit(false), beforeHit(false) {}
 	virtual ~CollisionData() {};
-	Component::CollisionComponent* col;
+	Component::Collision* col;
 	bool isHit;
 	bool beforeHit;
 };

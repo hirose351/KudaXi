@@ -12,7 +12,7 @@ Skydome::Skydome() :GameObject(("SkyDome"), ObjectType::eDice) {
 	{
 		MessageBox(nullptr, "ColorfulSkydomeÉÇÉfÉã ì«Ç›çûÇ›ÉGÉâÅ[", "error", MB_OK);
 	}
-	AddComponent<Component::ModelComponent>()->SetModel(ModelMgr::GetInstance().GetModelPtr("assets/model/skydome/skydome_pink.fbx"));
+	AddComponent<Component::Model>()->SetModel(ModelMgr::GetInstance().GetModelPtr("assets/model/skydome/skydome_pink.fbx"));
 	ObjectInit();
 }
 
@@ -41,13 +41,13 @@ void Skydome::SetType(Type _type)
 	switch (_type)
 	{
 	case Skydome::TITLE:
-		GetComponent<Component::ModelComponent>()->SetModel(ModelMgr::GetInstance().GetModelPtr("assets/model/skydome/ColorfulSkydome.fbx"));
+		GetComponent<Component::Model>()->SetModel(ModelMgr::GetInstance().GetModelPtr("assets/model/skydome/ColorfulSkydome.fbx"));
 		break;
 	case Skydome::GAME:
-		GetComponent<Component::ModelComponent>()->SetModel(ModelMgr::GetInstance().GetModelPtr("assets/model/skydome/ColorfulSkydome.fbx"));
+		GetComponent<Component::Model>()->SetModel(ModelMgr::GetInstance().GetModelPtr("assets/model/skydome/ColorfulSkydome.fbx"));
 		break;
 	case Skydome::CLEATE:
-		GetComponent<Component::ModelComponent>()->SetModel(ModelMgr::GetInstance().GetModelPtr("assets/model/skydome/SelectSkydome.fbx"));
+		GetComponent<Component::Model>()->SetModel(ModelMgr::GetInstance().GetModelPtr("assets/model/skydome/SelectSkydome.fbx"));
 		break;
 	}
 }

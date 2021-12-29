@@ -13,8 +13,8 @@ Dice::Dice() :GameObject(("Dice"), ObjectType::eDice) {
 	{
 		MessageBox(nullptr, "Diceモデル 読み込みエラー", "error", MB_OK);
 	}
-	AddComponent<Component::ModelComponent>()->SetModel(ModelMgr::GetInstance().GetModelPtr("assets/model/dice/Dice.fbx"));
-	AddComponent<Component::CollisionComponent>()->SetInitState(ObjectTag::eDice, Float3(0, 0, 0), Float3(DICE_SCALE_HALF), DirectX::XMFLOAT4(0, 0, 1, 0.3f));
+	AddComponent<Component::Model>()->SetModel(ModelMgr::GetInstance().GetModelPtr("assets/model/dice/Dice.fbx"));
+	AddComponent<Component::Collision>()->SetInitState(ObjectTag::eDice, Float3(0, 0, 0), Float3(DICE_SCALE_HALF), DirectX::XMFLOAT4(0, 0, 1, 0.3f));
 }
 Dice::~Dice()
 {
@@ -22,14 +22,6 @@ Dice::~Dice()
 
 void Dice::ObjectInit()
 {
-	///// Todo:雷クラス作る(他種類も作りたいため)
-	//mThunder.LoadTexture("assets/image/effect/thunder/thunder_yellow.png");
-	////mThunder.SetPos(Float3(mTransform->position.x, 0, mTransform->position.z));
-	//mThunder.SetScale(XMFLOAT2(100.0f, 200.0f));
-	//mThunder.SetDivUV(XMFLOAT2(2, 1));
-	//mThunder.SetUV(XMFLOAT2(0, 0));
-
-
 	Effect::Thunder* efect = new Effect::Thunder;
 	Float3 pos = { mTransform->position.x, 0, mTransform->position.z };
 	efect->SetInitPos(pos);
@@ -44,41 +36,37 @@ void Dice::ObjectUpdate()
 	switch (mSts)
 	{
 	case DiceStatus::eUp:
-		GetComponent<Component::CollisionComponent>()->SetColor(XMFLOAT4(1, 1, 1, 0));
+		GetComponent<Component::Collision>()->SetColor(XMFLOAT4(1, 1, 1, 0));
 		Up();
 		break;
 	case DiceStatus::eHalfUp:
-		GetComponent<Component::CollisionComponent>()->SetColor(XMFLOAT4(1, 1, 1, 0.5f));
+		GetComponent<Component::Collision>()->SetColor(XMFLOAT4(1, 1, 1, 0.5f));
 		Up();
 		break;
 	case DiceStatus::eRoll:
-		GetComponent<Component::CollisionComponent>()->SetColor(XMFLOAT4(1, 1, 1, 0));
+		GetComponent<Component::Collision>()->SetColor(XMFLOAT4(1, 1, 1, 0));
 		Roll();
 		break;
 	case DiceStatus::ePush:
-		GetComponent<Component::CollisionComponent>()->SetColor(XMFLOAT4(1, 1, 1, 0));
+		GetComponent<Component::Collision>()->SetColor(XMFLOAT4(1, 1, 1, 0));
 		Push();
 		break;
 	case DiceStatus::eDown:
-		GetComponent<Component::CollisionComponent>()->SetColor(XMFLOAT4(1, 0, 0, 0.5f));
+		GetComponent<Component::Collision>()->SetColor(XMFLOAT4(1, 0, 0, 0.5f));
 		Down();
 		break;
 	case DiceStatus::eHalfDown:
-		GetComponent<Component::CollisionComponent>()->SetColor(XMFLOAT4(1, 0, 0, 0.3f));
+		GetComponent<Component::Collision>()->SetColor(XMFLOAT4(1, 0, 0, 0.3f));
 		Down();
 		break;
 	default:
-		GetComponent<Component::CollisionComponent>()->SetColor(XMFLOAT4(1, 1, 1, 0));
+		GetComponent<Component::Collision>()->SetColor(XMFLOAT4(1, 1, 1, 0));
 		break;
 	}
 }
 
 void Dice::ObjectDraw()
 {
-	//if (mThunderAlha <= 0.0f)
-	//	return;
-	////mThunder.Update();
-	//mThunder.Render();
 }
 
 void Dice::Uninit()
@@ -278,20 +266,14 @@ void Dice::Roll()
 		break;
 	}
 
-	std::cout << "time　" + std::to_string(mCrrentRotCnt) + "\n";
-	std::cout << "beforeangle　" + std::to_string(mBeforeFrameAng) + "\n";
-	std::cout << "angle　" + std::to_string(frameAngle - mBeforeFrameAng) + "\n";
-
 	mBeforeFramePos = framePos;
 	mBeforeFrameAng = frameAngle;
 
-	std::cout << "frameAngle　" + std::to_string(frameAngle) + "\n";
+	XMFLOAT4X4 rotatinMtx;
 
-	XMFLOAT4X4 a;
-
-	DX11MakeWorldMatrix(a, mTransform->angle, XMFLOAT3(0, 0, 0));
+	DX11MakeWorldMatrix(rotatinMtx, mTransform->angle, XMFLOAT3(0, 0, 0));
 	// 行列を作成(ワールドの軸を中心に回転)
-	DX11MtxMultiply(mTransform->worldMtx, mStartMtx, a);
+	DX11MtxMultiply(mTransform->worldMtx, mStartMtx, rotatinMtx);
 	// 原点の位置を補正
 	mTransform->SetPositionXYZ(pos);
 
@@ -327,17 +309,6 @@ void Dice::Up()
 		mDirection = Direction::eNeutral;
 		mSts = DiceStatus::eUp;
 	}
-
-	//if (mThunderAlha <= 0.8f)
-	//{
-	//	mThunder.SetUV(XMFLOAT2(1, 0));
-	//	//mThunder.Update();
-	//}
-	//if (mThunderAlha > 0.0f)
-	//{
-	//	mThunder.SetColor(XMFLOAT4(1, 1, 1, mThunderAlha));
-	//	mThunderAlha -= 0.025f;
-	//}
 }
 
 void Dice::Down()

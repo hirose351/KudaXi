@@ -8,7 +8,7 @@
 using Microsoft::WRL::ComPtr;
 
 namespace Component {
-	class ModelComponent : public ComponentBase
+	class Model : public ComponentBase
 	{
 	private:
 		CModel* mpModel;

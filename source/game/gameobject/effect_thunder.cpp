@@ -3,7 +3,7 @@
 
 void Effect::Thunder::ObjectInit()
 {
-	Component::BillbordComponent* bilbord = AddComponent<Component::BillbordComponent>();
+	Component::Billbord* bilbord = AddComponent<Component::Billbord>();
 	bilbord->LoadTexture("assets/image/effect/thunder/thunder_yellow.png");
 	bilbord->SetScale(XMFLOAT2(100.0f, 200.0f));
 	bilbord->SetDivUV(XMFLOAT2(2, 1));
@@ -13,7 +13,7 @@ void Effect::Thunder::ObjectInit()
 
 void Effect::Thunder::ObjectUpdate()
 {
-	Component::BillbordComponent* bilbord = GetComponent<Component::BillbordComponent>();
+	Component::Billbord* bilbord = GetComponent<Component::Billbord>();
 
 	if (bilbord == nullptr)
 		return;

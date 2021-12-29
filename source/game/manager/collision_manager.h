@@ -4,12 +4,12 @@
 #include	"../../system/util/dixsmartptr.h"
 #include	"../component/collision_component.h"
 
-class Component::CollisionComponent;
+class Component::Collision;
 
 class CollisionManager : public Uncopyable
 {
 private:
-	std::vector<class Component::CollisionComponent*> mColList;
+	std::vector<class Component::Collision*> mColList;
 
 public:
 	static CollisionManager& GetInstance() {
@@ -19,9 +19,9 @@ public:
 	~CollisionManager();
 
 	// í«â¡
-	void AddCollision(Component::CollisionComponent *_col);
+	void AddCollision(Component::Collision *_col);
 	// çÌèú
-	void RemoveCollision(Component::CollisionComponent *_col);
+	void RemoveCollision(Component::Collision *_col);
 
 	// çXêV
 	void Update();

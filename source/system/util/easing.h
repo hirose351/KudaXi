@@ -6,14 +6,8 @@
 
 namespace Easing
 {
-	static void Assert(float totaltime)
-	{
-		assert(totaltime > 0);
-		//std::cout << "totaltime‚ª0ˆÈ‰º‚Å‚·";
-	}
 	static float QuadIn(float t, float totaltime, float min, float max)
 	{
-		Assert(totaltime);
 		max -= min;
 		t /= totaltime;
 		return max * t * t + min;
@@ -21,7 +15,6 @@ namespace Easing
 
 	static float QuadOut(float t, float totaltime, float min, float max)
 	{
-		Assert(totaltime);
 		max -= min;
 		t /= totaltime;
 		return -max * t * (t - 2) + min;
@@ -29,7 +22,6 @@ namespace Easing
 
 	static float QuadInOut(float t, float totaltime, float min, float max)
 	{
-		Assert(totaltime);
 		max -= min;
 		t /= totaltime / 2;
 		if (t < 1) return max / 2 * t * t + min;
@@ -40,7 +32,6 @@ namespace Easing
 
 	static float CubicIn(float t, float totaltime, float min, float max)
 	{
-		Assert(totaltime);
 		max -= min;
 		t /= totaltime;
 		return max * t * t * t + min;
@@ -48,7 +39,6 @@ namespace Easing
 
 	static float CubicOut(float t, float totaltime, float min, float max)
 	{
-		Assert(totaltime);
 		max -= min;
 		t = t / totaltime - 1;
 		return max * (t * t * t + 1) + min;
@@ -56,7 +46,6 @@ namespace Easing
 
 	static float CubicInOut(float t, float totaltime, float min, float max)
 	{
-		Assert(totaltime);
 		max -= min;
 		t /= totaltime / 2;
 		if (t < 1) return max / 2 * t * t * t + min;
@@ -67,7 +56,6 @@ namespace Easing
 
 	static float QuartIn(float t, float totaltime, float min, float max)
 	{
-		Assert(totaltime);
 		max -= min;
 		t /= totaltime;
 		return max * t * t * t * t + min;
@@ -75,7 +63,6 @@ namespace Easing
 
 	static float QuartOut(float t, float totaltime, float min, float max)
 	{
-		Assert(totaltime);
 		max -= min;
 		t = t / totaltime - 1;
 		return -max * (t * t * t * t - 1) + min;
@@ -83,7 +70,6 @@ namespace Easing
 
 	static float QuartInOut(float t, float totaltime, float min, float max)
 	{
-		Assert(totaltime);
 		max -= min;
 		t /= totaltime / 2;
 		if (t < 1) return max / 2 * t * t * t * t + min;
@@ -94,7 +80,6 @@ namespace Easing
 
 	static float QuintIn(float t, float totaltime, float min, float max)
 	{
-		Assert(totaltime);
 		max -= min;
 		t /= totaltime;
 		return max * t * t * t * t * t + min;
@@ -102,7 +87,6 @@ namespace Easing
 
 	static float QuintOut(float t, float totaltime, float min, float max)
 	{
-		Assert(totaltime);
 		max -= min;
 		t = t / totaltime - 1;
 		return max * (t * t * t * t * t + 1) + min;
@@ -110,7 +94,6 @@ namespace Easing
 
 	static float QuintInOut(float t, float totaltime, float min, float max)
 	{
-		Assert(totaltime);
 		max -= min;
 		t /= totaltime / 2;
 		if (t < 1) return max / 2 * t * t * t * t * t + min;
@@ -121,42 +104,36 @@ namespace Easing
 
 	static float SineIn(float t, float totaltime, float min, float max)
 	{
-		Assert(totaltime);
 		max -= min;
 		return -max * cos(t * (DirectX::XM_PI * 90 / 180) / totaltime) + max + min;
 	}
 
 	static float SineOut(float t, float totaltime, float min, float max)
 	{
-		Assert(totaltime);
 		max -= min;
 		return max * sin(t * (DirectX::XM_PI * 90 / 180) / totaltime) + min;
 	}
 
 	static float SineInOut(float t, float totaltime, float min, float max)
 	{
-		Assert(totaltime);
 		max -= min;
 		return -max / 2 * (cos(t * DirectX::XM_PI / totaltime) - 1) + min;
 	}
 
 	static float ExpIn(float t, float totaltime, float min, float max)
 	{
-		Assert(totaltime);
 		max -= min;
 		return t == 0.0f ? min : static_cast<float>(max * pow(2, 10 * (t / totaltime - 1)) + min);
 	}
 
 	static float ExpOut(float t, float totaltime, float min, float max)
 	{
-		Assert(totaltime);
 		max -= min;
 		return t == totaltime ? max + min : static_cast<float>(max * (-pow(2, -10 * t / totaltime) + 1) + min);
 	}
 
 	static float ExpInOut(float t, float totaltime, float min, float max)
 	{
-		Assert(totaltime);
 		if (t == 0.0f) return min;
 		if (t == totaltime) return max;
 		max -= min;
@@ -170,7 +147,6 @@ namespace Easing
 
 	static float CircIn(float t, float totaltime, float min, float max)
 	{
-		Assert(totaltime);
 		max -= min;
 		t /= totaltime;
 		return -max * (sqrt(1 - t * t) - 1) + min;
@@ -178,7 +154,6 @@ namespace Easing
 
 	static float CircOut(float t, float totaltime, float min, float max)
 	{
-		Assert(totaltime);
 		max -= min;
 		t = t / totaltime - 1;
 		return max * sqrt(1 - t * t) + min;
@@ -186,7 +161,6 @@ namespace Easing
 
 	static float CircInOut(float t, float totaltime, float min, float max)
 	{
-		Assert(totaltime);
 		max -= min;
 		t /= totaltime / 2;
 		if (t < 1) return -max / 2 * (sqrt(1 - t * t) - 1) + min;
@@ -197,8 +171,6 @@ namespace Easing
 
 	static float ElasticIn(float t, float totaltime, float min, float max)
 	{
-		Assert(totaltime);
-
 		max -= min;
 		t /= totaltime;
 
@@ -225,8 +197,6 @@ namespace Easing
 
 	static float ElasticOut(float t, float totaltime, float min, float max)
 	{
-		Assert(totaltime);
-
 		max -= min;
 		t /= totaltime;
 
@@ -252,8 +222,6 @@ namespace Easing
 
 	static float ElasticInOut(float t, float totaltime, float min, float max)
 	{
-		Assert(totaltime);
-
 		max -= min;
 		t /= totaltime / 2;
 
@@ -286,7 +254,6 @@ namespace Easing
 
 	static float BackIn(float t, float totaltime, float min, float max, float s)
 	{
-		Assert(totaltime);
 		max -= min;
 		t /= totaltime;
 		return max * t * t * ((s + 1) * t - s) + min;
@@ -294,7 +261,6 @@ namespace Easing
 
 	static float BackOut(float t, float totaltime, float min, float max, float s)
 	{
-		Assert(totaltime);
 		max -= min;
 		t = t / totaltime - 1;
 		return max * (t * t * ((s + 1) * t + s) + 1) + min;
@@ -302,7 +268,6 @@ namespace Easing
 
 	static float BackInOut(float t, float totaltime, float min, float max, float s)
 	{
-		Assert(totaltime);
 		max -= min;
 		s *= 1.525f;
 		t /= totaltime / 2;
@@ -314,7 +279,6 @@ namespace Easing
 
 	static float BounceOut(float t, float totaltime, float min, float max)
 	{
-		Assert(totaltime);
 		max -= min;
 		t /= totaltime;
 
@@ -359,7 +323,6 @@ namespace Easing
 
 	static float Linear(float t, float totaltime, float min, float max)
 	{
-		Assert(totaltime);
 		return (max - min) * t / totaltime + min;
 	}
 }

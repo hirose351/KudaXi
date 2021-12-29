@@ -3,13 +3,13 @@
 #include	"../../system/util/CBillboard.h"
 
 namespace Component {
-	class BillbordComponent : public ComponentBase
+	class Billbord : public ComponentBase
 	{
 	private:
-		Dix::sp<Billboard> mpBillboard;
+		Dix::sp<CBillboard> mpBillboard;
 
 	public:
-		BillbordComponent();
+		Billbord();
 		void Init() override;
 		void Update()override;
 		void Draw()override;

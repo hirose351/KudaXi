@@ -12,7 +12,7 @@
 using Microsoft::WRL::ComPtr;
 
 // 矩形クラス
-class Quad2D {
+class CQuad2D {
 private:
 	// 頂点データ
 	struct Vertex {
@@ -24,10 +24,9 @@ private:
 	//DirectX::XMFLOAT4X4		mWorldmtx;				// ワールド変換行列
 	ComPtr<ID3D11Buffer>	mVertexbuffer;			// 頂点バッファ
 	ComPtr<ID3D11Buffer>	mIndexbuffer;			// インデックスバッファ
-	Quad2D::Vertex			mVertex[4];				// 矩形４頂点
+	CQuad2D::Vertex			mVertex[4];				// 矩形４頂点
 	DirectX::XMFLOAT4		mColor;					// 頂点カラー
-	float					mWidth;					// 幅
-	float					mHeight;				// 高さ
+	DirectX::XMFLOAT2		mScale;					// 大きさ
 	float					mDepth;					// 深度値
 
 	TextureInfo mTexInfo;
@@ -38,7 +37,7 @@ private:
 
 public:
 	// 矩形の初期化　(width：横描画サイズ　height：縦描画サイズ　tex_name：画像の場所と名前　color：頂点カラー　u：横の分割数　v：縦の分割数　z：奥描画サイズ)
-	bool Init(float width, float height, const char *tex_name, const DirectX::XMFLOAT4 &color, int _u = 1, int _v = 1, float z = 0.0f);
+	bool Init(DirectX::XMFLOAT2 _scale, const char *tex_name, const DirectX::XMFLOAT4 &color, int _u = 1, int _v = 1, float z = 0.0f);
 
 	// 描画
 	void Draw(DirectX::XMFLOAT4X4 _mtx);
@@ -66,7 +65,7 @@ public:
 	//	mWorldmtx = mtx;
 
 	// 頂点データ更新
-	void UpdateVertex(uint32_t width, uint32_t height, const DirectX::XMFLOAT4 &color, float z = 0.0f);
+	void UpdateVertex(DirectX::XMFLOAT2 _scale, const DirectX::XMFLOAT4 &color, float z = 0.0f);
 
 	// 頂点バッファ更新
 	void UpdateVbuffer();

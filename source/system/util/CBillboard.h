@@ -5,7 +5,7 @@
 #include	<unordered_map>
 #include	<string>
 
-class Billboard
+class CBillboard
 {
 private:
 	//テクスチャ情報構造体
@@ -42,8 +42,8 @@ protected:
 
 	bool mShouldErase = false;		//消すべきか
 public:
-	Billboard();
-	virtual ~Billboard() = default;
+	CBillboard();
+	virtual ~CBillboard() = default;
 
 	HRESULT Initialize(void);
 	HRESULT LoadTexture(const std::string pTexFileName);

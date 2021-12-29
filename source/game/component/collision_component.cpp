@@ -6,37 +6,37 @@
 using namespace Component;
 using namespace Dix;
 
-CollisionComponent::CollisionComponent()
+Collision::Collision()
 {
 	CollisionManager::GetInstance().AddCollision(this);
 }
 
-CollisionComponent::~CollisionComponent()
+Collision::~Collision()
 {
 	CollisionManager::GetInstance().RemoveCollision(this);
 	mHitColList.clear();
 }
 
-void CollisionComponent::Init()
+void Collision::Init()
 {
 	mQube.Init(mPrim, mColor);
 	DX11MakeWorldMatrix(mLocalMtx, XMFLOAT3(0, 0, 0), mLocalPos);
 }
 
-void CollisionComponent::Update()
+void Collision::Update()
 {
 	DX11MtxMultiply(mWorldMtx, mLocalMtx, mOwner->GetTransform()->GetMtx());
 	mPrim.p = { mWorldMtx._41,mWorldMtx._42,mWorldMtx._43 };
 	mQube.Update(mPrim);
 }
 
-void CollisionComponent::Draw()
+void Collision::Draw()
 {
 	DX11MtxMultiply(mWorldMtx, mLocalMtx, mOwner->GetTransform()->GetMtx());
 	mQube.Draw(mWorldMtx);
 }
 
-void CollisionComponent::ImguiDraw()
+void Collision::ImguiDraw()
 {
 	if (ImGui::TreeNode("CollisionComponent"))
 	{
@@ -64,7 +64,7 @@ void CollisionComponent::ImguiDraw()
 	}
 }
 
-void CollisionComponent::ColUpdate()
+void Collision::ColUpdate()
 {
 	// コンテナが空なら返す
 	if (mHitColList.empty())
@@ -106,9 +106,9 @@ void CollisionComponent::ColUpdate()
 	mHitColList.shrink_to_fit();
 }
 
-GameObject* CollisionComponent::GetNearestDice(Float3 _pos)
+GameObject* Collision::GetNearestDice(Float3 _pos)
 {
-	CollisionComponent* colData = nullptr;
+	Collision* colData = nullptr;
 	float shortDistance = 0;
 	float distance = 0;
 
@@ -142,7 +142,7 @@ GameObject* CollisionComponent::GetNearestDice(Float3 _pos)
 	return colData->GetOwner();
 }
 
-void CollisionComponent::RemoveCollisionData(CollisionComponent* _col)
+void Collision::RemoveCollisionData(Collision* _col)
 {
 	// リストに存在するオブジェクトか
 	for (auto obj = mHitColList.begin(); obj != mHitColList.end(); obj++)
@@ -155,7 +155,7 @@ void CollisionComponent::RemoveCollisionData(CollisionComponent* _col)
 	}
 }
 
-void CollisionComponent::SetHitObj(CollisionComponent* _hitobj)
+void Collision::SetHitObj(Collision* _hitobj)
 {
 	// リストに存在するオブジェクトか
 	for (auto obj = mHitColList.begin(); obj != mHitColList.end(); obj++)
@@ -177,7 +177,7 @@ void CollisionComponent::SetHitObj(CollisionComponent* _hitobj)
 	mHitColList.emplace_back(colData);
 }
 
-void CollisionComponent::SetInitState(ObjectTag _tag, Float3 _localPos, Float3 _scale, DirectX::XMFLOAT4 _color)
+void Collision::SetInitState(ObjectTag _tag, Float3 _localPos, Float3 _scale, DirectX::XMFLOAT4 _color)
 {
 	mTag = _tag;
 	mLocalPos = _localPos;

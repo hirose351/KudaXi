@@ -3,35 +3,35 @@
 
 using namespace Component;
 
-void Quad2dComponent::Init()
+void Quad2d::Init()
 {
 }
 
-void Quad2dComponent::Update()
+void Quad2d::Update()
 {
 }
 
-void Quad2dComponent::Draw()
+void Quad2d::Draw()
 {
 	mpQuad->Draw(mOwner->GetTransform()->worldMtx);
 }
 
-void Quad2dComponent::ImguiDraw()
+void Quad2d::ImguiDraw()
 {
 }
 
-void Quad2dComponent::Uninit()
+void Quad2d::Uninit()
 {
 }
 
-void Quad2dComponent::SetInfo(float width, float height, const char * tex_name, const DirectX::XMFLOAT4 & color, int _u, int _v, float z)
+void Quad2d::SetInfo(XMFLOAT2 _scale, const char * tex_name, const DirectX::XMFLOAT4 & color, int _u, int _v, float z)
 {
-	mpQuad.SetPtr(new Quad2D);
-	mpQuad->Init(width, height, tex_name, color, _u, _v, z);
+	mpQuad.SetPtr(new CQuad2D);
+	mpQuad->Init(_scale, tex_name, color, _u, _v, z);
 }
 
-void Quad2dComponent::SetScale(XMFLOAT2 _scale)
+void Quad2d::SetScale(XMFLOAT2 _scale)
 {
-	mpQuad->UpdateVertex(_scale.x, _scale.y, DirectX::XMFLOAT4(1, 1, 1, 1));
+	mpQuad->UpdateVertex(_scale, XMFLOAT4(1, 1, 1, 1));
 	mpQuad->UpdateVbuffer();
 }

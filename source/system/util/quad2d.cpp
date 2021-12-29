@@ -15,8 +15,7 @@ const char* psfilename[] = {
 };
 
 // 矩形の初期化
-bool Quad2D::Init(float width, float height, const char *tex_name, const DirectX::XMFLOAT4 &color, int _u, int _v, float z) {
-	//DX11MtxIdentity(mWorldmtx);	// 初期姿勢
+bool CQuad2D::Init(DirectX::XMFLOAT2 _scale, const char *_tex_name, const DirectX::XMFLOAT4 &_color, int _u, int _v, float _z) {
 
 	// 4角形の初期化処理
 	XMFLOAT2 uv[4] = {
@@ -26,9 +25,8 @@ bool Quad2D::Init(float width, float height, const char *tex_name, const DirectX
 		{1.0f,1.0f}
 	};
 
-	mWidth = width;
-	mHeight = height;
-	mColor = color;
+	mScale = _scale;
+	mColor = _color;
 
 	// ピクセルシェーダーを生成
 	bool sts = ShaderHashmap::GetInstance()->SetPixelShader(psfilename[0]);
@@ -64,7 +62,7 @@ bool Quad2D::Init(float width, float height, const char *tex_name, const DirectX
 		numElements);			// エレメント数
 
 	// 頂点初期化
-	UpdateVertex(width, height, color, z);
+	UpdateVertex(_scale, _color, _z);
 
 	// デバイスを取得
 	ID3D11Device* device = CDirectXGraphics::GetInstance()->GetDXDevice();
@@ -72,7 +70,7 @@ bool Quad2D::Init(float width, float height, const char *tex_name, const DirectX
 	// 頂点バッファを生成
 	sts = CreateVertexBufferWrite(
 		device,						// デバイスオブジェクト
-		sizeof(Quad2D::Vertex),		// １頂点当たりバイト数
+		sizeof(CQuad2D::Vertex),		// １頂点当たりバイト数
 		4,							// 頂点数
 		mVertex,					// 頂点データ格納メモリ先頭アドレス
 		&mVertexbuffer				// 頂点バッファ
@@ -102,7 +100,7 @@ bool Quad2D::Init(float width, float height, const char *tex_name, const DirectX
 	device = CDirectXGraphics::GetInstance()->GetDXDevice();
 	ID3D11DeviceContext* devicecontext = CDirectXGraphics::GetInstance()->GetImmediateContext();
 
-	sts = CreateSRVfromFile(tex_name, device, devicecontext, &mTexInfo.texRes, &mTexInfo.texSrv);
+	sts = CreateSRVfromFile(_tex_name, device, devicecontext, &mTexInfo.texRes, &mTexInfo.texSrv);
 	if (!sts)
 	{
 		// テクスチャ不要な場合はNoTexと入力して描画させないでおく
@@ -115,14 +113,14 @@ bool Quad2D::Init(float width, float height, const char *tex_name, const DirectX
 	mDivv = _v;				// 縦分割数を入れる
 
 	SetTextureUV(0, 0);
-	UpdateVertex(width, height, color);
+	UpdateVertex(_scale, _color);
 	UpdateVbuffer();
 
 	return true;
 }
 
 // 描画
-void Quad2D::Draw(DirectX::XMFLOAT4X4 _mtx) {
+void CQuad2D::Draw(DirectX::XMFLOAT4X4 _mtx) {
 	// デバイスコンテキストを取得
 	ID3D11DeviceContext* devcontext = CDirectXGraphics::GetInstance()->GetImmediateContext();
 
@@ -130,7 +128,7 @@ void Quad2D::Draw(DirectX::XMFLOAT4X4 _mtx) {
 	DX11SetTransform::GetInstance()->SetTransform(DX11SetTransform::TYPE::eWorld, _mtx);
 	//DX11SetTransform::GetInstance()->SetTransform(DX11SetTransform::TYPE::eWorld, mWorldmtx);
 
-	unsigned int stride = sizeof(Quad2D::Vertex);	// ストライドをセット（１頂点当たりのバイト数）
+	unsigned int stride = sizeof(CQuad2D::Vertex);	// ストライドをセット（１頂点当たりのバイト数）
 	unsigned  offset = 0;						// オフセット値をセット
 
 	// デバイスコンテキストをシェーダーリソースへセット
@@ -179,7 +177,7 @@ void Quad2D::Draw(DirectX::XMFLOAT4X4 _mtx) {
 }
 
 // 描画
-void Quad2D::DrawNoTex() {
+void CQuad2D::DrawNoTex() {
 	//// デバイスコンテキストを取得
 	//ID3D11DeviceContext* devcontext;
 	//devcontext = CDirectXGraphics::GetInstance()->GetImmediateContext();
@@ -245,16 +243,16 @@ void Quad2D::DrawNoTex() {
 //	mWorldmtx._43 = _pos.z;
 //}
 
-void Quad2D::SetColor(const DirectX::XMFLOAT4 &_color)
+void CQuad2D::SetColor(const DirectX::XMFLOAT4 &_color)
 {
 	mColor = _color;
 
-	Quad2D::Vertex	v[4] = {
+	CQuad2D::Vertex	v[4] = {
 		// 座標													// カラー	// UV	
-		XMFLOAT3(-mWidth / 2.0f,	-mHeight / 2.0f, 0.0f),	_color,		mUv[0],
-		XMFLOAT3(mWidth / 2.0f,	-mHeight / 2.0f, 0.0f),	_color,		mUv[1],
-		XMFLOAT3(-mWidth / 2.0f,	 mHeight / 2.0f, 0.0f),	_color,		mUv[2],
-		XMFLOAT3(mWidth / 2.0f,	 mHeight / 2.0f, 0.0f),	_color,		mUv[3]
+		XMFLOAT3(-mScale.x / 2.0f,	-mScale.y / 2.0f, 0.0f),	_color,		mUv[0],
+		XMFLOAT3(mScale.x / 2.0f,	-mScale.y / 2.0f, 0.0f),	_color,		mUv[1],
+		XMFLOAT3(-mScale.x / 2.0f,	 mScale.y / 2.0f, 0.0f),	_color,		mUv[2],
+		XMFLOAT3(mScale.x / 2.0f,	 mScale.y / 2.0f, 0.0f),	_color,		mUv[3]
 	};
 
 	for (int i = 0; i < 4; i++)
@@ -274,17 +272,16 @@ void Quad2D::SetColor(const DirectX::XMFLOAT4 &_color)
 //}
 
 // 頂点データ更新
-void Quad2D::UpdateVertex(uint32_t width, uint32_t height, const DirectX::XMFLOAT4 &color, float z) {
+void CQuad2D::UpdateVertex(DirectX::XMFLOAT2 _scale, const DirectX::XMFLOAT4 &color, float z) {
 
-	mWidth = static_cast<float>(width);
-	mHeight = static_cast<float>(height);
+	mScale = _scale;
 
-	Quad2D::Vertex	v[4] = {
+	CQuad2D::Vertex	v[4] = {
 		// 座標													// カラー	// UV	
-		XMFLOAT3(-mWidth / 2.0f,	-mHeight / 2.0f, z),	color,		mUv[0],
-		XMFLOAT3(mWidth / 2.0f,	-mHeight / 2.0f, z),	color,		mUv[1],
-		XMFLOAT3(-mWidth / 2.0f,	 mHeight / 2.0f, z),	color,		mUv[2],
-		XMFLOAT3(mWidth / 2.0f,	 mHeight / 2.0f, z),	color,		mUv[3]
+		XMFLOAT3(-mScale.x / 2.0f,	-mScale.y / 2.0f, z),	color,		mUv[0],
+		XMFLOAT3(mScale.x / 2.0f,	-mScale.y / 2.0f, z),	color,		mUv[1],
+		XMFLOAT3(-mScale.x / 2.0f,	 mScale.y / 2.0f, z),	color,		mUv[2],
+		XMFLOAT3(mScale.x / 2.0f,	 mScale.y / 2.0f, z),	color,		mUv[3]
 	};
 
 	for (int i = 0; i < 4; i++)
@@ -294,7 +291,7 @@ void Quad2D::UpdateVertex(uint32_t width, uint32_t height, const DirectX::XMFLOA
 }
 
 // 頂点バッファ更新
-void Quad2D::UpdateVbuffer() {
+void CQuad2D::UpdateVbuffer() {
 	D3D11_MAPPED_SUBRESOURCE pData;
 	ID3D11DeviceContext* devcontext;
 	devcontext = CDirectXGraphics::GetInstance()->GetImmediateContext();
@@ -302,14 +299,14 @@ void Quad2D::UpdateVbuffer() {
 	HRESULT hr = devcontext->Map(mVertexbuffer.Get(), 0, D3D11_MAP_WRITE_DISCARD, 0, &pData);
 	if (SUCCEEDED(hr))
 	{
-		memcpy_s(pData.pData, pData.RowPitch, (void*)(mVertex), sizeof(Quad2D::Vertex) * 4);
+		memcpy_s(pData.pData, pData.RowPitch, (void*)(mVertex), sizeof(CQuad2D::Vertex) * 4);
 		devcontext->Unmap(mVertexbuffer.Get(), 0);
 	}
 }
 
 
 // UV座標設定　(_u：左から何番目か  _v：上から何番目か　direction：描画方向(０→左 １→右)　デフォルトは右)
-void Quad2D::SetTextureUV(int _u, int _v, int direction) {
+void CQuad2D::SetTextureUV(int _u, int _v, int direction) {
 
 	// 左向き
 	if (direction == 0)
@@ -327,6 +324,6 @@ void Quad2D::SetTextureUV(int _u, int _v, int direction) {
 		mUv[2] = { 1.0f / mDivu * _u,	     1.0f / mDivv * (_v + 1) };
 		mUv[3] = { 1.0f / mDivu * (_u + 1), 1.0f / mDivv * (_v + 1) };
 	}
-	UpdateVertex((uint32_t)mWidth, (uint32_t)mHeight, mColor);
+	UpdateVertex(mScale, mColor);
 	UpdateVbuffer();
 }

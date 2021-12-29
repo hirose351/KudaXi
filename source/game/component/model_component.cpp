@@ -7,17 +7,17 @@
 
 using namespace Component;
 
-void ModelComponent::Draw()
+void Model::Draw()
 {
 	mpModel->Draw(mOwner->GetTransform()->worldMtx);
 }
 
-void Component::ModelComponent::ImguiDraw()
+void Component::Model::ImguiDraw()
 {
 
 }
 
-void ModelComponent::Uninit()
+void Model::Uninit()
 {
 	mpModel = nullptr;
 }
