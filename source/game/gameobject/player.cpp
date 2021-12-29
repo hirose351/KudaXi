@@ -1,5 +1,25 @@
 #include	"Player.h"
 #include	<string>
+#include	"../component/player_controller.h"
+#include	"../../system/model/ModelMgr.h"
+#include	"../component/allcomponents.h"
+
+Player::Player() : GameObject(("Player"), ObjectType::ePlayer) {
+	bool sts = ModelMgr::GetInstance().LoadModel(
+		"assets/model/player/player.fbx",
+		"shader/vs.hlsl", "shader/ps.hlsl",
+		"assets/model/player/");
+	if (!sts)
+	{
+		MessageBox(nullptr, "Playerモデル 読み込みエラー", "error", MB_OK);
+	}
+	mTransform->scale = (Float3(4, 6, 4));
+	AddComponent<Component::ModelComponent>()->SetModel(ModelMgr::GetInstance().GetModelPtr("assets/model/player/player.fbx"));
+	AddComponent<Component::CollisionComponent>()->SetLocalScale(mTransform->scale);
+	GetComponent<Component::CollisionComponent>()->SetColor(DirectX::XMFLOAT4(0.1f, 0.1f, 0.1f, 0.01f));
+	AddComponent<Component::PlayerController>();
+	ObjectInit();
+};
 
 Player::~Player()
 {
@@ -21,36 +41,6 @@ void Player::ObjectImguiDraw()
 
 void Player::Uninit()
 {
-
-}
-
-void Player::OnColEnterObj(Dice* _other)
-{
-	//// 最も近いサイコロを検索
-	//SetNearestDice();
-
-	//if (mPstate != eMove || mFoot != Foot::eFloor)
-	//	return;
-	//if (mTransform->GetPosition().y > DICE_SCALE_HALF)
-	//	return;
-	//if (!_other->SetPushAction(mDirection))
-	//	return;
-	//mpOperationDice = _other;
-	//mPstate = ePush;	// 状態を変える
-}
-
-void Player::OnColStayObj(Dice* _other)
-{
-	//// 最も近いサイコロを検索
-	//SetNearestDice();
-}
-
-void Player::OnColExitObj(Dice* _other)
-{
-	//if (mpOperationDice == _other && DICE_SCALE_HALF > mTransform->position.y&&mPstate != ePush)
-	//{
-	//	mpOperationDice = nullptr;
-	//}
 }
 
 void Player::OnCollisionEnter(ComponentBase* _oher)

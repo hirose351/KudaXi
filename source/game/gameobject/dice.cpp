@@ -4,6 +4,18 @@
 #include	"../../system/util/easing.h"
 #include	"effect_thunder.h"
 
+Dice::Dice() :GameObject(("Dice"), ObjectType::eDice) {
+	bool sts = ModelMgr::GetInstance().LoadModel(
+		"assets/model/dice/Dice.fbx",
+		"shader/vs.hlsl", "shader/pstexcol.hlsl",
+		"assets/model/dice/");
+	if (!sts)
+	{
+		MessageBox(nullptr, "DiceÉÇÉfÉã ì«Ç›çûÇ›ÉGÉâÅ[", "error", MB_OK);
+	}
+	AddComponent<Component::ModelComponent>()->SetModel(ModelMgr::GetInstance().GetModelPtr("assets/model/dice/Dice.fbx"));
+	AddComponent<Component::CollisionComponent>()->SetInitState(ObjectTag::eDice, Float3(0, 0, 0), Float3(DICE_SCALE_HALF), DirectX::XMFLOAT4(0, 0, 1, 0.3f));
+}
 Dice::~Dice()
 {
 }

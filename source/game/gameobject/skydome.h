@@ -1,7 +1,5 @@
 #pragma once
 #include	"gameobject.h"
-#include	"../../system/model/ModelMgr.h"
-#include	"../component/allcomponents.h"
 
 class Skydome : public GameObject {
 private:
@@ -15,19 +13,7 @@ public:
 		CLEATE,
 	};
 
-	Skydome() :GameObject(("SkyDome"), ObjectType::eDice) {
-		bool sts = ModelMgr::GetInstance().LoadModel(
-			"assets/model/skydome/skydome_pink.fbx",		// ファイル名 
-			"shader/vs.hlsl",								// 頂点シェーダー
-			"shader/pstexcol.hlsl",							// ピクセルシェーダー
-			"assets/model/skydome/");						// テクスチャの格納フォルダ
-		if (!sts)
-		{
-			MessageBox(nullptr, "ColorfulSkydomeモデル 読み込みエラー", "error", MB_OK);
-		}
-		AddComponent<Component::ModelComponent>()->SetModel(ModelMgr::GetInstance().GetModelPtr("assets/model/skydome/skydome_pink.fbx"));
-		ObjectInit();
-	}
+	Skydome();
 
 	void ObjectInit() override;
 	void ObjectUpdate()override;
