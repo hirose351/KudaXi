@@ -3,6 +3,10 @@
 
 using namespace Component;
 
+Component::EasingImage::EasingImage()
+{
+}
+
 void EasingImage::Update()
 {
 	if (mEasingList.empty())
@@ -10,37 +14,70 @@ void EasingImage::Update()
 
 	// Easingタイプを決める
 	EasingFamily famly = mEasingList.front();
-	XMFLOAT2 ansValue;
 
 	if (!isStart)
 	{
-		switch (famly.transType)
+		if (famly.isStartAbsolute)
 		{
-		case TransType::ePos:
-			mStartValue = { mOwner->GetTransform()->GetPosition().x ,mOwner->GetTransform()->GetPosition().y };
-			break;
-		case TransType::eRot:
-			break;
-		case TransType::eScale:
-			break;
+			switch (famly.transType)
+			{
+			case TransType::ePos:
+				mEasingList.front().startValue = XMFLOAT2(mOwner->GetTransform()->GetPosition().x, mOwner->GetTransform()->GetPosition().y);
+				break;
+			case TransType::eRot:
+				mEasingList.front().startValue = XMFLOAT2(mOwner->GetTransform()->GetAngle().x, mOwner->GetTransform()->GetAngle().y);
+				break;
+			case TransType::eScale:
+				mEasingList.front().startValue = XMFLOAT2(mOwner->GetTransform()->GetScale().x, mOwner->GetTransform()->GetScale().y);
+				break;
+			}
 		}
+		if (famly.isEndAbsolute)
+		{
+			switch (famly.transType)
+			{
+			case TransType::ePos:
+				mEasingList.front().endValue = XMFLOAT2(mOwner->GetTransform()->GetPosition().x, mOwner->GetTransform()->GetPosition().y);
+				break;
+			case TransType::eRot:
+				mEasingList.front().endValue = XMFLOAT2(mOwner->GetTransform()->GetAngle().x, mOwner->GetTransform()->GetAngle().y);
+				break;
+			case TransType::eScale:
+				mEasingList.front().endValue = XMFLOAT2(mOwner->GetTransform()->GetScale().x, mOwner->GetTransform()->GetScale().y);
+				break;
+			}
+		}
+
 		mCurrentTime = 0;
 		isStart = true;
 	}
 
-	ansValue.x = Easing::GetEsingAns(famly.easingType, mCurrentTime, famly.totalTime, famly.startValue.x, famly.endValue.x);
-	ansValue.y = Easing::GetEsingAns(famly.easingType, mCurrentTime, famly.totalTime, famly.startValue.y, famly.endValue.y);
+	// Easingタイプを決める
+	famly = mEasingList.front();
+	XMFLOAT2 ansValue;
+
+	if (famly.startValue.x == famly.endValue.x)
+		ansValue.x = famly.startValue.x;
+	else
+		ansValue.x = Easing::GetEsingAns(famly.easingType, mCurrentTime, famly.totalTime, famly.startValue.x, famly.endValue.x);
+
+	if (famly.startValue.y == famly.endValue.y)
+		ansValue.y = famly.startValue.y;
+	else
+		ansValue.y = Easing::GetEsingAns(famly.easingType, mCurrentTime, famly.totalTime, famly.startValue.y, famly.endValue.y);
 
 	std::cout << "ansValue.x:" << ansValue.x << "ansValue.y:" << ansValue.y << "\n";
 
 	switch (famly.transType)
 	{
 	case TransType::ePos:
+		mOwner->GetTransform()->SetPosition(Float3(ansValue.x, ansValue.y, 1.0f));
 		break;
 	case TransType::eRot:
+		mOwner->GetTransform()->SetAngle(Float3(ansValue.x, ansValue.y, 1.0f));
 		break;
 	case TransType::eScale:
-		mOwner->GetComponent<Component::Quad2d>()->SetScale(ansValue);
+		mOwner->GetTransform()->SetScale(Float3(ansValue.x, ansValue.y, 1.0f));
 		break;
 	}
 
@@ -53,13 +90,18 @@ void EasingImage::Update()
 	isStart = false;
 }
 
-void EasingImage::AddEasing(Easing::EasingType _easingType, TransType _transType, float _totalTime, DirectX::XMFLOAT2 _startValue, DirectX::XMFLOAT2 _endValue)
+void Component::EasingImage::AddEasing(Easing::EasingType _easingType, TransType _transType, float _totalTime, DirectX::XMFLOAT2 _startValue, DirectX::XMFLOAT2 _endValue, bool _isStartAbsolute, bool _isEndAbsolute)
 {
 	EasingFamily newFamily;
+
+	// 変数を構造体に入れる
 	newFamily.easingType = _easingType;
 	newFamily.transType = _transType;
 	newFamily.totalTime = _totalTime;
 	newFamily.startValue = _startValue;
 	newFamily.endValue = _endValue;
-	mEasingList.push_back(newFamily);
+	newFamily.isStartAbsolute = _isStartAbsolute;
+	newFamily.isEndAbsolute = _isEndAbsolute;
+
+	mEasingList.push_back(newFamily);	// リストに追加
 }

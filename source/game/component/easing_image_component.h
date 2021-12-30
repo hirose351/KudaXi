@@ -23,11 +23,11 @@ namespace Component {
 			float totalTime = 0.0f;							// 必要な時間
 			DirectX::XMFLOAT2 startValue = { 0.0f,0.0f };	// はじめの数
 			DirectX::XMFLOAT2 endValue = { 0.0f,0.0f };		// 終わりの数
+			bool isStartAbsolute;
+			bool isEndAbsolute;
 		};
 
-		float mTotalTime;	 // 
 		float mCurrentTime;  // 経過時間
-		float mEndValue;	 // 
 
 		bool isStart = false;
 
@@ -35,6 +35,7 @@ namespace Component {
 		XMFLOAT2 mStartValue = { 0, 0 };
 
 	public:
+		EasingImage();
 		void Init() override {};
 		void Update()override;
 		void Draw()override {};
@@ -46,7 +47,9 @@ namespace Component {
 					   TransType _transType,
 					   float _totalTime,
 					   DirectX::XMFLOAT2 _startValue,
-					   DirectX::XMFLOAT2 _endValue);
+					   DirectX::XMFLOAT2 _endValue,
+					   bool _isStartAbsolute = false,
+					   bool _isEndAbsolute = false);
 	};
 }
 
