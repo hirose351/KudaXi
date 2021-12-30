@@ -411,6 +411,9 @@
     <ClCompile Include="source\game\component\easing_image_component.cpp">
       <Filter>ソース ファイル\game\component\ui</Filter>
     </ClCompile>
+    <ClCompile Include="source\system\util\easing.cpp">
+      <Filter>ソース ファイル\system\util</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\system\model\assimpscene.h">

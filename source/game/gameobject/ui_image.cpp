@@ -4,7 +4,9 @@
 
 myUI::Image::Image() :GameObject(("Image"), ObjectType::eObstracle)
 {
-	AddComponent<Component::EsingImage>()->SetNum(100.0f, 0.0f, 500.0f);
+	Component::EasingImage* a = AddComponent<Component::EasingImage>();
+	a->AddEasing(Easing::EasingType::eElasticInOut, TransType::eScale, 100.0f, XMFLOAT2(100.0f, 50.0f), XMFLOAT2(500.0f, 250.0f));
+	a->AddEasing(Easing::EasingType::eExpInOut, TransType::eScale, 100.0f, XMFLOAT2(500.0f, 250.0f), XMFLOAT2(100.0f, 50.0f));
 };
 
 void myUI::Image::ObjectInit()

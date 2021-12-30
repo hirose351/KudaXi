@@ -6,6 +6,42 @@
 
 namespace Easing
 {
+	// イージングの動き方
+	enum class EasingType {
+		eQuadIn = 0,
+		eQuadOut,
+		eQuadInOut,
+		eCubicIn,
+		eCubicOut,
+		eCubicInOut,
+		eQuartIn,
+		eQuartOut,
+		eQuartInOut,
+		eQuintIn,
+		eQuintOut,
+		eQuintInOut,
+		eSineIn,
+		eSineOut,
+		eSineInOut,
+		eExpIn,
+		eExpOut,
+		eExpInOut,
+		eCircIn,
+		eCircOut,
+		eCircInOut,
+		eElasticIn,
+		eElasticOut,
+		eElasticInOut,
+		eBackIn,
+		eBackOut,
+		eBackInOut,
+		eBounceIn,
+		eBounceOut,
+		eBounceInOut,
+		eLinear,
+		eEnd,
+	};
+
 	static float QuadIn(float t, float totaltime, float min, float max)
 	{
 		max -= min;
@@ -325,4 +361,6 @@ namespace Easing
 	{
 		return (max - min) * t / totaltime + min;
 	}
+
+	float GetEsingAns(EasingType _type, float t, float totaltime, float min, float max);
 }
