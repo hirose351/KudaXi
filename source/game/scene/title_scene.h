@@ -1,14 +1,20 @@
 #pragma once
 #include "scene_base.h"
 
-//class TitleScene : public SceneBase
-//{
-//private:
-//
-//public:
-//	bool Init() override;
-//	void Update() override;
-//	void Render() override;
-//	bool Dispose() override;
-//};
+class TitleScene : public SceneBase
+{
+private:
+
+
+
+public:
+	TitleScene();
+	~TitleScene();
+
+	void SceneInit() override;
+	void SceneUpdate() override;
+	void SceneRender() override;
+	/*void ImguiDebug() override;*/
+	bool Dispose() override;
+};
 

@@ -3,7 +3,7 @@
 
 using namespace Component;
 
-PlayerController::PlayerController()
+PlayerController::PlayerController() :ComponentBase(("PlayerController"))
 {
 	mDirection.SetPtr(new Direction);
 }

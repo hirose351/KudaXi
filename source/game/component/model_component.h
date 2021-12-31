@@ -13,6 +13,7 @@ namespace Component {
 	private:
 		CModel* mpModel;
 	public:
+		Model();
 		void Draw()override;
 		void ImguiDraw()override;
 		void Uninit() override;

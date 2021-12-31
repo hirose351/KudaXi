@@ -7,10 +7,11 @@ class ComponentBase
 {
 protected:
 	GameObject* mOwner;		// 自身を所有しているゲームオブジェクト
+	std::string	mName;		// 名前
 	ObjectTag mTag;
 	bool mIsActive;
 public:
-	ComponentBase() :mOwner(nullptr), mIsActive(true) {}
+	ComponentBase(std::string mName) :mOwner(nullptr), mIsActive(true), mName(mName) {}
 	ComponentBase(GameObject* mOwner) :mOwner(mOwner) {}
 	virtual ~ComponentBase() { Uninit(); mOwner = nullptr; }
 
@@ -19,6 +20,8 @@ public:
 
 	ObjectTag GetTag() { return mTag; }
 	void SetTag(ObjectTag _tag) { mTag = _tag; }
+
+	std::string GetName() { return mName; }
 
 	bool GetIsActive() { return mIsActive; }
 	void SetIsActive(bool _flg) { mIsActive = _flg; }

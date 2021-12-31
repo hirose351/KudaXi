@@ -3,7 +3,7 @@
 
 using namespace Component;
 
-Component::EasingImage::EasingImage()
+EasingImage::EasingImage() :ComponentBase(("EasingImage"))
 {
 }
 
@@ -52,7 +52,7 @@ void EasingImage::Update()
 		isStart = true;
 	}
 
-	// Easingタイプを決める
+	// リストの先頭から値を求める
 	famly = mEasingList.front();
 	XMFLOAT2 ansValue;
 
@@ -65,8 +65,6 @@ void EasingImage::Update()
 		ansValue.y = famly.startValue.y;
 	else
 		ansValue.y = Easing::GetEsingAns(famly.easingType, mCurrentTime, famly.totalTime, famly.startValue.y, famly.endValue.y);
-
-	std::cout << "ansValue.x:" << ansValue.x << "ansValue.y:" << ansValue.y << "\n";
 
 	switch (famly.transType)
 	{

@@ -1,5 +1,15 @@
 #include	"GameObject.h"
 
+static int objectCnt = 0;
+
+GameObject::GameObject(std::string mName, ObjectType mObjectType) :mName(mName), mObjectType(mObjectType)
+{
+	objectCnt++;
+	mObjectID = objectCnt;
+	mTransform.SetPtr(new Transform);
+	SceneManager::GetInstance()->GetAddScene()->AddGameObject(this);
+}
+
 GameObject::~GameObject()
 {
 	SceneManager::GetInstance()->GetAddScene()->RemoveGameObject(this);
@@ -65,6 +75,11 @@ void GameObject::ImguiDraw()
 {
 	if (ImGui::TreeNode(mName.c_str()))
 	{
+		std::string str;
+
+		str = u8"ObjectID： " + std::to_string(mObjectID);
+		ImGui::Text(str.c_str());
+
 		if (ImGui::TreeNode("Transform"))
 		{
 			ImGui::Text("MtxPosition");
@@ -75,12 +90,27 @@ void GameObject::ImguiDraw()
 			ImGui::DragFloat("x", &mTransform->position.x, 0.5f);
 			ImGui::DragFloat("y", &mTransform->position.y, 0.5f);
 			ImGui::DragFloat("z", &mTransform->position.z, 0.5f);
+			ImGui::Text("Angle");
+			ImGui::DragFloat("x", &mTransform->angle.x, 0.5f);
+			ImGui::DragFloat("y", &mTransform->angle.y, 0.5f);
+			ImGui::DragFloat("z", &mTransform->angle.z, 0.5f);
+			ImGui::Text("Sclale");
+			ImGui::DragFloat("x", &mTransform->scale.x, 0.5f);
+			ImGui::DragFloat("y", &mTransform->scale.y, 0.5f);
+			ImGui::DragFloat("z", &mTransform->scale.z, 0.5f);
 			ImGui::TreePop();
 		}
+
 		ObjectImguiDraw();
+
+		// コンポーネント情報表示
 		for (auto& component : mComponentList)
 		{
-			component->ImguiDraw();
+			if (ImGui::TreeNode(component->GetName().c_str()))
+			{
+				component->ImguiDraw();
+				ImGui::TreePop();
+			}
 		}
 
 		ImGui::TreePop();

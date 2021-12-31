@@ -2,7 +2,7 @@
 
 using namespace Component;
 
-Billbord::Billbord()
+Billbord::Billbord() :ComponentBase(("Billbord"))
 {
 	mpBillboard.SetPtr(new CBillboard);
 }

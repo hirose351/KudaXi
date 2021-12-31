@@ -3,6 +3,10 @@
 
 using namespace Component;
 
+Quad2d::Quad2d() :ComponentBase(("Quad2d"))
+{
+}
+
 void Quad2d::Init()
 {
 }

@@ -13,6 +13,7 @@ namespace Component {
 		int mHeight;
 
 	public:
+		Quad2d();
 		void Init() override;
 		void Update()override;
 		void Draw()override;

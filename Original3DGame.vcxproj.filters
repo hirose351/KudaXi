@@ -175,6 +175,15 @@
     <Filter Include="ソース ファイル\game\component\ui">
       <UniqueIdentifier>{e5874deb-0ced-4a4d-8378-514ab52abaff}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\game\component\layout">
+      <UniqueIdentifier>{f759c248-df7f-43a6-bd3a-e618e99465e6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\game\component\ui\layout">
+      <UniqueIdentifier>{9ca07aa4-dc80-46d0-9459-e42750d790f4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\game\component\ui\easing">
+      <UniqueIdentifier>{e1ff4d0a-6d21-4499-8825-a1c0035609f8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\game.cpp">
@@ -408,11 +417,14 @@
     <ClCompile Include="source\game\gameobject\effect_thunder.cpp">
       <Filter>ソース ファイル\game\gameobject\effect</Filter>
     </ClCompile>
-    <ClCompile Include="source\game\component\easing_image_component.cpp">
-      <Filter>ソース ファイル\game\component\ui</Filter>
-    </ClCompile>
     <ClCompile Include="source\system\util\easing.cpp">
       <Filter>ソース ファイル\system\util</Filter>
+    </ClCompile>
+    <ClCompile Include="source\game\component\ui_layout.cpp">
+      <Filter>ソース ファイル\game\component\ui\layout</Filter>
+    </ClCompile>
+    <ClCompile Include="source\game\component\easing_image_component.cpp">
+      <Filter>ソース ファイル\game\component\ui\easing</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -689,8 +701,11 @@
     <ClInclude Include="source\game\gameobject\effect_thunder.h">
       <Filter>ソース ファイル\game\gameobject\effect</Filter>
     </ClInclude>
+    <ClInclude Include="source\game\component\ui_layout.h">
+      <Filter>ソース ファイル\game\component\ui\layout</Filter>
+    </ClInclude>
     <ClInclude Include="source\game\component\easing_image_component.h">
-      <Filter>ソース ファイル\game\component\ui</Filter>
+      <Filter>ソース ファイル\game\component\ui\easing</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

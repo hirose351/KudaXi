@@ -58,32 +58,27 @@ void DiceManager::Update()
 		while (true)
 		{
 			int num = rand100(mt);
-			for (int z = 0; z < mCurrentStageData.mMapSizeHeight; z++)
+			int z = num / mCurrentStageData.mMapSizeWidth;
+			int x = num % mCurrentStageData.mMapSizeWidth;
+			if (mDiceMap[z][x] == -1)
 			{
-				for (int x = 0; x < mCurrentStageData.mMapSizeWidth; x++)
-				{
-					if (num == z * x + x && mDiceMap[z][x] == -1)
-					{
-						// Dice生成
-						mDiceMap[z][x] = static_cast<int>(mDiceList.size());
-						Dice* dice = new Dice;
-						dice->GetTransform()->ReSetValue();
-						dice->GetTransform()->SetPositionMove(Float3(DICE_SCALE*x, -DICE_SCALE_HALF, -DICE_SCALE * z));
-						dice->GetTransform()->SetAngle(randAngle[(rnd()) % 6]);
-						dice->GetTransform()->CreateMtx();
-						dice->SetMapPos(INT3(x, 0, z));
-						// オブジェクトの名前に添え字を加える
-						std::string nameNum;
-						nameNum = ("Dice" + std::to_string(mDiceMap[z][x]));
-						dice->SetName(nameNum);
-						dice->Init();
-						// vector配列に追加
-						mDiceList.emplace_back(dice);
-						return;
-					}
-				}
+				// Dice生成
+				mDiceMap[z][x] = static_cast<int>(mDiceList.size());
+				Dice* dice = new Dice;
+				dice->GetTransform()->ReSetValue();
+				dice->GetTransform()->SetPositionMove(Float3(DICE_SCALE*x, -DICE_SCALE_HALF, -DICE_SCALE * z));
+				dice->GetTransform()->SetAngle(randAngle[(rnd()) % 6]);
+				dice->GetTransform()->CreateMtx();
+				dice->SetMapPos(INT3(x, 0, z));
+				// オブジェクトの名前に添え字を加える
+				std::string nameNum;
+				nameNum = ("Dice" + std::to_string(mDiceMap[z][x]));
+				dice->SetName(nameNum);
+				dice->Init();
+				// vector配列に追加
+				mDiceList.emplace_back(dice);
+				return;
 			}
-
 		}
 	}
 
@@ -103,8 +98,6 @@ void DiceManager::Uninit()
 bool DiceManager::CanDiceMove(Dice* _dice, Direction _dire)
 {
 	/// Todo:方向とINT3を連携させる何かを作る
-
-
 
 	INT3 afterPos;
 	switch (_dire)

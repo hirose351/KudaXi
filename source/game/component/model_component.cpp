@@ -7,6 +7,10 @@
 
 using namespace Component;
 
+Model::Model() :ComponentBase(("Model"))
+{
+}
+
 void Model::Draw()
 {
 	mpModel->Draw(mOwner->GetTransform()->worldMtx);

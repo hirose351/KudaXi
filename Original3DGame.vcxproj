@@ -144,6 +144,7 @@
     <ClCompile Include="source\game\component\player_controller.cpp" />
     <ClCompile Include="source\game\component\quad2d_component.cpp" />
     <ClCompile Include="source\game\component\qube.cpp" />
+    <ClCompile Include="source\game\component\ui_layout.cpp" />
     <ClCompile Include="source\game\data\saveload.cpp" />
     <ClCompile Include="source\game\data\stage_data.cpp" />
     <ClCompile Include="source\game\gameobject\CCamera.cpp" />
@@ -226,6 +227,7 @@
     <ClInclude Include="source\game\component\player_controller.h" />
     <ClInclude Include="source\game\component\quad2d_component.h" />
     <ClInclude Include="source\game\component\qube.h" />
+    <ClInclude Include="source\game\component\ui_layout.h" />
     <ClInclude Include="source\game\data\saveload.h" />
     <ClInclude Include="source\game\data\stage_data.h" />
     <ClInclude Include="source\game\gameobject\CCamera.h" />

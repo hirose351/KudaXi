@@ -6,8 +6,8 @@ myUI::Image::Image() :GameObject(("Image"), ObjectType::eObstracle)
 {
 	mTransform->SetScale(Float3(100.0f, 50.0f, 1.0f));
 	Component::EasingImage* a = AddComponent<Component::EasingImage>();
-	a->AddEasing(Easing::EasingType::eElasticInOut, TransType::ePos, 100.0f, XMFLOAT2(0.0f, 0.0f), XMFLOAT2(500.0f, 250.0f), true);
-	a->AddEasing(Easing::EasingType::eExpInOut, TransType::ePos, 100.0f, XMFLOAT2(0.0f, 0.0f), XMFLOAT2(100.0f, 50.0f), true);
+	a->AddEasing(Easing::EasingType::eElasticInOut, TransType::eRot, 100.0f, XMFLOAT2(0.0f, 0.0f), XMFLOAT2(500.0f, 250.0f), true);
+	a->AddEasing(Easing::EasingType::eExpInOut, TransType::eRot, 100.0f, XMFLOAT2(0.0f, 0.0f), XMFLOAT2(100.0f, 50.0f), true);
 };
 
 void myUI::Image::ObjectInit()
