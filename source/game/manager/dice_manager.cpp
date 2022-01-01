@@ -66,16 +66,21 @@ void DiceManager::Update()
 	static int cnt = 0;
 	cnt++;
 
-	if (cnt == 200)
+	if (cnt == 100)
 	{
 		cnt = 0;
 		while (true)
 		{
+			// ランダムで出したマップ位置にDiceが存在すればコンティニュー
 			int num = rand100(mt) % (mCurrentStageData.mMapSizeWidth*mCurrentStageData.mMapSizeHeight - 1);
 			int z = num / mCurrentStageData.mMapSizeWidth;
 			int x = num % mCurrentStageData.mMapSizeHeight;
 			if (mDiceMap[z][x] != NODICE)
 				continue;
+			// プレイヤーとその周りで、他が埋まっていなければコンティニュー
+			if (x <= mPlayerPos.x + 1 && x >= mPlayerPos.x - 1 && z <= mPlayerPos.z + 1 && z >= mPlayerPos.z - 1)
+				if (mDiceList.size() < mCurrentStageData.mMapSizeWidth*mCurrentStageData.mMapSizeHeight - 9)
+					continue;
 
 			// Dice生成
 			Dice* dice = new Dice;
@@ -381,9 +386,9 @@ void DiceManager::CheckDiceAlign(INT3 _mapPos, DiceFruit _diceType)
 	INT3 ans[4] = { INT3(_mapPos.x, 0, _mapPos.z - 1), INT3(_mapPos.x, 0, _mapPos.z + 1), INT3(_mapPos.x - 1, 0, _mapPos.z), INT3(_mapPos.x + 1, 0, _mapPos.z) };
 	for (auto it : ans)
 	{
-		if (it.z < 0 || _mapPos.z > mCurrentStageData.mMapSizeHeight - 1)
+		if (it.z < 0 || it.z > mCurrentStageData.mMapSizeHeight - 1)
 			return;
-		if (_mapPos.x < 0 || _mapPos.x > mCurrentStageData.mMapSizeWidth - 1)
+		if (it.x < 0 || it.x > mCurrentStageData.mMapSizeWidth - 1)
 			return;
 		// ブロックが存在してチェックされていないマスなら
 		if (mCheckMap[it.z][it.x] > NODICE)
@@ -402,14 +407,6 @@ void DiceManager::CheckDiceAlign(INT3 _mapPos, DiceFruit _diceType)
 			}
 		}
 	}
-}
-
-void DiceManager::DiceRondomAdd()
-{
-}
-
-void DiceManager::DiceSpawn()
-{
 }
 
 Dice* DiceManager::GetListInDice(int x, int z)

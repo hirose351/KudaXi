@@ -18,15 +18,12 @@ private:
 
 	Float3 mSpawnAngle[9];								// 生成するサイコロの角度パターン
 	int mSpawnRate[6] = { 30,10,15,15,15,15 };			// 各サイコロが生成する割合(%)
+	INT3 mPlayerPos;
 
 	// Dice生成
 	void DiceMapCreate();
 	// 受け取ったマップ位置と面を基準にサイコロが揃ったかチェックして配列を書き換える
 	void CheckDiceAlign(INT3 _mapPos, DiceFruit _diceType);
-
-	void DiceRondomAdd();
-
-	void DiceSpawn();
 
 	Dice* GetListInDice(int x, int z);
 
@@ -63,4 +60,6 @@ public:
 
 	// 渡されたマップ上にあるDiceのポインタを返す
 	Dice* GetDice(INT3 _mapPos);
+
+	void SetPlayerPos(INT3 _pos) { mPlayerPos = _pos; };
 };

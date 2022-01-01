@@ -39,6 +39,7 @@ void PlayerController::Init()
 void PlayerController::Update()
 {
 	mStates[mStateNum]->Exec();
+	DiceManager::GetInstance()->SetPlayerPos(mMapPos);
 }
 
 void PlayerController::Draw()
