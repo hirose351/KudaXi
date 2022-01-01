@@ -60,6 +60,8 @@ public:
 	void SetObjectState(ObjectState _state) { mObjectState = _state; }
 	ObjectState GetObjectState() { return mObjectState; }
 
+	int GetObjectID() { return mObjectID; }
+
 	Dix::wp<Transform> GetTransform() { return mTransform; }
 
 	//コンポーネントシステム関係

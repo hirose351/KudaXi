@@ -19,9 +19,15 @@ private:
 	int mDiceAlignCnt = 0;							   // チェック中にサイコロが揃った数 
 
 	// Dice生成
-	void DiceCreate();
+	void DiceMapCreate();
 	// 受け取ったマップ位置と面を基準にサイコロが揃ったかチェックして配列を書き換える
 	void CheckDiceAlign(INT3 _mapPos, DiceFruit _diceType);
+
+	void DiceRondomAdd();
+
+	void DiceCreate();
+
+	Dice* GetListInDice(int x, int z);
 
 public:
 	static DiceManager* GetInstance() {

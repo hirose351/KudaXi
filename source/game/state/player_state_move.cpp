@@ -108,18 +108,19 @@ void Move::CheckPush()
 	}
 
 	// ˆÚ“®‚·‚éæ‚ÉDice‚ª‚ ‚é‚©
-	mpOperationDice = DiceManager::GetInstance()->GetDice(checkMapPos);
+	Dice* checkDice = DiceManager::GetInstance()->GetDice(checkMapPos);
 
-	if (mpOperationDice == nullptr)
+	if (checkDice == nullptr)
 	{
 		return;
 	}
 
-	switch (mpOperationDice->GetDiceStatus())
+	switch (checkDice->GetDiceStatus())
 	{
 	case DiceStatus::eNormal:// Dice‚Ìó‘Ô‚ª’Êí‚È‚ç‰Ÿ‚·
 		if (mpOperationDice->SetPushAction(*mDirection))
 		{
+			mpOperationDice = checkDice;
 			mHolder->ChangeState(ePush);	// ó‘Ô‚ğ•Ï‚¦‚é
 			return;
 		}

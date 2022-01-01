@@ -38,29 +38,24 @@ void Collision::Draw()
 
 void Collision::ImguiDraw()
 {
-	if (ImGui::TreeNode("CollisionComponent"))
+	std::string str;
+
+	str = "Tag";
+	ImGui::Text(str.c_str());
+	str = (ObjectTagStr[static_cast<int>(mTag)]);
+	ImGui::Text(str.c_str());
+	ImGui::Text("LocalPosition");
+	ImGui::DragFloat("x", &mLocalMtx._41, 0.5f);
+	ImGui::DragFloat("y", &mLocalMtx._42, 0.5f);
+	ImGui::DragFloat("z", &mLocalMtx._43, 0.5f);
+
+	for (auto& list : mHitColList)
 	{
-		std::string str;
-
-		str = "Tag";
-		ImGui::Text(str.c_str());
-		str = (ObjectTagStr[static_cast<int>(mTag)]);
-		ImGui::Text(str.c_str());
-		ImGui::Text("LocalPosition");
-		ImGui::DragFloat("x", &mLocalMtx._41, 0.5f);
-		ImGui::DragFloat("y", &mLocalMtx._42, 0.5f);
-		ImGui::DragFloat("z", &mLocalMtx._43, 0.5f);
-
-		for (auto& list : mHitColList)
+		if ((*list).isHit)
 		{
-			if ((*list).isHit)
-			{
-				str = (*list).col->GetOwner()->GetName();
-				ImGui::Text(str.c_str());
-			}
+			str = (*list).col->GetOwner()->GetName();
+			ImGui::Text(str.c_str());
 		}
-
-		ImGui::TreePop();
 	}
 }
 
