@@ -7,7 +7,7 @@ class SceneManager;
 class GameObject;
 
 class SceneBase : Uncopyable {
-private:
+protected:
 	SceneManager*	mManager;
 
 	std::vector< GameObject*> mObjectList;			// ゲームオブジェクトを全部まとめて管理できるオブジェクトリスト
@@ -16,11 +16,9 @@ private:
 	//Quad2D		mQuadfadein;
 	//Quad2D		mQuadfadeout;
 
-
 	bool mInitingActors;	// アクターを初期化しているかどうか
 	bool mUpdatingActors;	// アクターを更新しているかどうか
 
-protected:
 	Float3 mCameraLookat;			// カメラの注視点
 
 public:

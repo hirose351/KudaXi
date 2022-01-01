@@ -8,15 +8,16 @@
 class DiceManager :Uncopyable
 {
 private:
-	std::random_device rnd;     // 非決定的な乱数生成器を生成
-	// 生成するサイコロの角度パターン
-	Float3 randAngle[6] = { { 90.0f,0,0},{-90.0f,0,0},{180.0f,0,0} ,{0,90.0f,0} ,{0,180.0f,90.0f },{90.0f,90.0f,0} };
 	std::vector<Dice*> mDiceList;
 	StageData mCurrentStageData;
-	int mDiceMap[STAGESIZEMAX][STAGESIZEMAX];		   // ブロック更新用マップ配列(-1:無し　0以上:ブロックあり,番号は生成された順)
-	int mCheckMap[STAGESIZEMAX][STAGESIZEMAX];		   // 接地ブロックチェック用マップ配列
-	bool mCheckboolMap[STAGESIZEMAX][STAGESIZEMAX];	   // 揃っているブロックの存在確認用マップ配列
-	int mDiceAlignCnt = 0;							   // チェック中にサイコロが揃った数 
+
+	int mDiceMap[STAGESIZEMAX][STAGESIZEMAX];			// ブロック更新用マップ配列(-1:無し　0以上:ブロックあり,番号は生成された順)
+	int mCheckMap[STAGESIZEMAX][STAGESIZEMAX];			// 接地ブロックチェック用マップ配列
+	bool mCheckboolMap[STAGESIZEMAX][STAGESIZEMAX];		// 揃っているブロックの存在確認用マップ配列
+	int mDiceAlignCnt = 0;								// チェック中にサイコロが揃った数 
+
+	Float3 mSpawnAngle[9];								// 生成するサイコロの角度パターン
+	int mSpawnRate[6] = { 30,10,15,15,15,15 };			// 各サイコロが生成する割合(%)
 
 	// Dice生成
 	void DiceMapCreate();
@@ -25,23 +26,27 @@ private:
 
 	void DiceRondomAdd();
 
-	void DiceCreate();
+	void DiceSpawn();
 
 	Dice* GetListInDice(int x, int z);
+
+	int GetDiceRandomNum(int _rndNum);
 
 public:
 	static DiceManager* GetInstance() {
 		static DiceManager Instance;
 		return &Instance;
 	}
-	DiceManager() {};
+	DiceManager();
 	~DiceManager() {};
 
 	// 初期化
 	void Init();
 	// 更新
 	void Update();
-	// 
+
+	void ImguiDraw();
+
 	void Uninit();
 
 	// Diceを移動する事が可能か

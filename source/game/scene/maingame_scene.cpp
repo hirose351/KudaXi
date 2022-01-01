@@ -65,6 +65,20 @@ void MaingameScene::SceneRender()
 {
 }
 
+void MaingameScene::ImguiDebug()
+{
+	ImGui::SetNextWindowPos(ImVec2(20, 20), ImGuiCond_Once);
+	ImGui::SetNextWindowSize(ImVec2(280, 300), ImGuiCond_Once);
+	ImGui::Begin(u8"GameObject");
+	for (auto &obj : mObjectList)
+	{
+		obj->ImguiDraw();
+	}
+	ImGui::End();
+
+	DiceManager::GetInstance()->ImguiDraw();
+}
+
 //void MaingameScene::ImguiDebug()
 //{
 //}

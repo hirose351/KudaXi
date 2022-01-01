@@ -126,7 +126,6 @@ void SceneBase::ImguiDebug()
 		obj->ImguiDraw();
 	}
 	ImGui::End();
-
 }
 
 bool SceneBase::Dispose()

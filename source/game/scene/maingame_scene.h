@@ -28,6 +28,6 @@ public:
 	void SceneInit() override;
 	void SceneUpdate() override;
 	void SceneRender() override;
-	/*void ImguiDebug() override;*/
+	void ImguiDebug() override;
 	bool Dispose() override;
 };

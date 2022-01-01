@@ -118,6 +118,7 @@ void Move::CheckPush()
 	switch (checkDice->GetDiceStatus())
 	{
 	case DiceStatus::eNormal:// Diceの状態が通常なら押す
+		mpOperationDice = checkDice;
 		if (mpOperationDice->SetPushAction(*mDirection))
 		{
 			mpOperationDice = checkDice;
@@ -253,13 +254,6 @@ void Move::Exec()
 		mTransform->position.y = DICE_SCALE_HALF - 3;
 	}
 
-	mTransform->CreateMtx();
-
-	CheckRoll();
-	CheckPush();
-
-	SetMapPos();
-
 	// 上下左右壁の処理
 	if (-mStageSize.z*DICE_SCALE + DICE_SCALE_HALF + mTransform->scale.z > mTransform->position.z)
 		mTransform->SetPositionZ(-mStageSize.z*DICE_SCALE + DICE_SCALE_HALF + mTransform->scale.z);
@@ -270,17 +264,26 @@ void Move::Exec()
 	if (0 - DICE_SCALE_HALF + mTransform->scale.x > mTransform->position.x)
 		mTransform->SetPositionX(0 - DICE_SCALE_HALF + mTransform->scale.x);
 
+	mTransform->CreateMtx();
+
+
+	SetMapPos();
+
+
+	// 自分のマップ位置にあるDiceのポインタ取得
 	mpOperationDice = DiceManager::GetInstance()->GetDice(mMapPos);
 
+	// Diceの有無で足元の状態変更
 	if (mpOperationDice == nullptr)
 	{
 		*mFoot = Foot::eFloor;
+		CheckPush();
 		return;
 	}
-	else
-	{
-		*mFoot = Foot::eDice;
-	}
+	//else
+	//{
+	//	*mFoot = Foot::eDice;
+	//}
 
 	if (mpOperationDice->GetTransform()->GetPosition().y < mTransform->position.y)
 		*mFoot = Foot::eDice;
@@ -289,13 +292,14 @@ void Move::Exec()
 	{
 		if (mpOperationDice->GetDiceStatus() != DiceStatus::eNormal)
 		{
-			//std::cout << "保持Dice基準Y補正\n";
 			mTransform->SetPositionY(mpOperationDice->GetTransform()->GetPosition().y + DICE_SCALE_HALF + mTransform->scale.y - 0.5f);
 		}
 	}
 	else if (*mFoot == Foot::eDice)
 	{
+		CheckRoll();
 		Float3 dicePos = (mpOperationDice->GetTransform()->position);
+		/// Todo:足元がダイスの時の移動制限しっかりつける(長押ししたら降りれる、降りようとしても降りれない時の処理)
 		switch (mpOperationDice->GetDiceStatus())
 		{
 		case DiceStatus::eUp:
