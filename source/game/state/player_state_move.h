@@ -8,8 +8,8 @@ namespace PlayerState {
 		Float3	mDestrot;			// –Ú•Wp¨
 		INT3	mStageSize;
 
-		void CheckPush();
-		void CheckRoll();
+		bool CheckPush();
+		bool CheckRoll();
 		void SetMapPos();
 	public:
 		// ‰Šúˆ—

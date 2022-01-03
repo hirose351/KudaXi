@@ -17,7 +17,6 @@ void PlayerController::Init()
 	mFoot = Foot::eFloor;
 	(*mDirection) = Direction::eDown;
 	stageData.SetStageData(StageDataManager::GetInstance().GetCurrentStage());
-	mMapPos = (INT3(1, 0, 1));
 	mOwner->GetTransform()->SetPosition(Float3(1 * DICE_SCALE, DICE_SCALE_HALF, -1 * DICE_SCALE));
 	//mTransform.SetPosition(Float3(stageData.mPlayerPos.x*DICE_SCALE, DICE_SCALE_HALF, -stageData.mPlayerPos.z*DICE_SCALE));
 	mOwner->GetTransform()->CreateMtx();
@@ -39,7 +38,7 @@ void PlayerController::Init()
 void PlayerController::Update()
 {
 	mStates[mStateNum]->Exec();
-	DiceManager::GetInstance()->SetPlayerPos(mMapPos);
+	DiceManager::GetInstance()->SetPlayerPos(mStates[mStateNum]->GetMapPos());
 }
 
 void PlayerController::Draw()
@@ -48,11 +47,23 @@ void PlayerController::Draw()
 
 void PlayerController::ImguiDraw()
 {
+	if (ImGui::TreeNode("MapPos"))
+	{
+		std::string str;
+		str = "x" + std::to_string(mStates[mStateNum]->GetMapPos().x);
+		ImGui::Text(str.c_str());
+		str = "y" + std::to_string(mStates[mStateNum]->GetMapPos().y);
+		ImGui::Text(str.c_str());
+		str = "z" + std::to_string(mStates[mStateNum]->GetMapPos().z);
+		ImGui::Text(str.c_str());
+		ImGui::TreePop();
+	}
 }
 
 void PlayerController::ChangeState(int _stateNum)
 {
 	mStates[_stateNum]->SetOperationDice(mStates[mStateNum]->GetOperationDice());
+	mStates[_stateNum]->SetMapPos(mStates[mStateNum]->GetMapPos());
 	mStates[mStateNum]->AfterChange();
 	mStates[_stateNum]->BeforeChange();
 	mStateNum = _stateNum;

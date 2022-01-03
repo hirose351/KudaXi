@@ -66,13 +66,13 @@ void DiceManager::Update()
 	static int cnt = 0;
 	cnt++;
 
-	if (cnt == 100)
+	if (cnt == 200)
 	{
 		cnt = 0;
 		while (true)
 		{
 			// ランダムで出したマップ位置にDiceが存在すればコンティニュー
-			int num = rand100(mt) % (mCurrentStageData.mMapSizeWidth*mCurrentStageData.mMapSizeHeight - 1);
+			int num = rand100(mt) % (mCurrentStageData.mMapSizeWidth*mCurrentStageData.mMapSizeHeight);
 			int z = num / mCurrentStageData.mMapSizeWidth;
 			int x = num % mCurrentStageData.mMapSizeHeight;
 			if (mDiceMap[z][x] != NODICE)

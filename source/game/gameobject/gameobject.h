@@ -25,11 +25,6 @@ protected:
 	std::vector<ComponentBase*> mComponentList;
 
 public:
-	//GameObject() :mName("NoName"), mObjectType(ObjectType::eObstracle)
-	//{
-	//	mTransform.SetPtr(new Transform);
-	//	SceneManager::GetInstance()->GetAddScene()->AddGameObject(this);
-	//}
 	GameObject(std::string mName, ObjectType mObjectType);
 	virtual ~GameObject();
 

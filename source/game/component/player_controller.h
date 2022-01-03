@@ -19,7 +19,6 @@ namespace Component {
 		Direction					  mDiceMoveDirection; // サイコロを回転させる方向
 		Dix::sp<Direction>			  mDirection;		  // プレイヤーの方向(キー参照)
 		StageData					  stageData;		  // ステージ情報
-		INT3						  mMapPos;			  // マップ上の位置
 		Foot						  mFoot;
 
 	public:
@@ -34,9 +33,10 @@ namespace Component {
 		void Uninit()override {};
 
 		void ChangeState(int _stateNum);
+		int GetCurrentState() { return mStateNum; }
 
-		Dix::wp<Direction> GetDirection() { return mDirection; };
+		Dix::wp<Direction> GetDirection() { return mDirection; }
 		Foot* GetFoot() { return &mFoot; };
-		INT3 GetStageSize() { return (stageData.mMapSizeWidth, 0, stageData.mMapSizeHeight); };
+		INT3 GetStageSize() { return (stageData.mMapSizeWidth, 0, stageData.mMapSizeHeight); }
 	};
 }

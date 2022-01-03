@@ -39,4 +39,7 @@ public:
 
 	void SetOperationDice(Dice* _dice) { mpOperationDice = _dice; }
 	Dice* GetOperationDice() { return mpOperationDice; }
+
+	INT3 GetMapPos() { return mMapPos; }
+	void SetMapPos(INT3 _pos) { mMapPos = _pos; }
 };
