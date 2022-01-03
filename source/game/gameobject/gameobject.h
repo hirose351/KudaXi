@@ -21,11 +21,12 @@ protected:
 	ObjectType				mObjectType;	// オブジェクトタイプ
 	bool					mIsExist;		// 生存可否
 	ObjectState				mObjectState;	// 状態
+	bool					mIsStopPause;		// ポーズ時に止めるか
 
 	std::vector<ComponentBase*> mComponentList;
 
 public:
-	GameObject(std::string mName, ObjectType mObjectType);
+	GameObject(std::string mName, ObjectType mObjectType, bool isStopPose);
 	virtual ~GameObject();
 
 	void Init();
@@ -56,6 +57,7 @@ public:
 	ObjectState GetObjectState() { return mObjectState; }
 
 	int GetObjectID() { return mObjectID; }
+	bool GetIsStopPause() { return mIsStopPause; }
 
 	Dix::wp<Transform> GetTransform() { return mTransform; }
 

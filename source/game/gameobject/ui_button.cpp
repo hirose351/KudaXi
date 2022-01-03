@@ -1,6 +1,6 @@
 #include "ui_button.h"
 
-UI::Button::Button() :GameObject(("Image"), ObjectType::eObstracle)
+UI::Button::Button() :GameObject(("Image"), ObjectType::eObstracle, false)
 {
 }
 

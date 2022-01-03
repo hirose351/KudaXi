@@ -184,6 +184,15 @@
     <Filter Include="ソース ファイル\game\component\ui\easing">
       <UniqueIdentifier>{e1ff4d0a-6d21-4499-8825-a1c0035609f8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\game\gameobject\ui\pause">
+      <UniqueIdentifier>{f61b9cb5-15e9-4e76-97a3-f966b7a3afcc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\game\gameobject\ui\pause\puzzle">
+      <UniqueIdentifier>{87c764f4-7af3-428b-821b-4832b0d69d0b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\game\gameobject\ui\pause\endless">
+      <UniqueIdentifier>{1e308866-0ae6-49e7-bf42-f57e5de05087}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\game.cpp">
@@ -425,6 +434,12 @@
     </ClCompile>
     <ClCompile Include="source\game\component\easing_image_component.cpp">
       <Filter>ソース ファイル\game\component\ui\easing</Filter>
+    </ClCompile>
+    <ClCompile Include="source\game\gameobject\pause_endless.cpp">
+      <Filter>ソース ファイル\game\gameobject\ui\pause\endless</Filter>
+    </ClCompile>
+    <ClCompile Include="source\game\gameobject\pause_puzzle.cpp">
+      <Filter>ソース ファイル\game\gameobject\ui\pause\puzzle</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -706,6 +721,12 @@
     </ClInclude>
     <ClInclude Include="source\game\component\easing_image_component.h">
       <Filter>ソース ファイル\game\component\ui\easing</Filter>
+    </ClInclude>
+    <ClInclude Include="source\game\gameobject\pause_endless.h">
+      <Filter>ソース ファイル\game\gameobject\ui\pause\endless</Filter>
+    </ClInclude>
+    <ClInclude Include="source\game\gameobject\pause_puzzle.h">
+      <Filter>ソース ファイル\game\gameobject\ui\pause\puzzle</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

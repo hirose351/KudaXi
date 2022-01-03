@@ -2,7 +2,7 @@
 #include "../component/quad2d_component.h"
 #include "../component/easing_image_component.h"
 
-myUI::Image::Image() :GameObject(("Image"), ObjectType::eObstracle)
+myUI::Image::Image() :GameObject(("Image"), ObjectType::eObstracle, true)
 {
 	mTransform->SetScale(Float3(100.0f, 50.0f, 1.0f));
 	Component::EasingImage* a = AddComponent<Component::EasingImage>();

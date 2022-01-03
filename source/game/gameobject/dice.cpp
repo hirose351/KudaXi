@@ -4,7 +4,7 @@
 #include	"../../system/util/easing.h"
 #include	"effect_thunder.h"
 
-Dice::Dice() :GameObject(("Dice"), ObjectType::eDice) {
+Dice::Dice() :GameObject(("Dice"), ObjectType::eDice, true) {
 	bool sts = ModelMgr::GetInstance().LoadModel(
 		"assets/model/dice/Dice.fbx",
 		"shader/vs.hlsl", "shader/pstexcol.hlsl",

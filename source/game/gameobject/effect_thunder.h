@@ -8,7 +8,7 @@ namespace Effect {
 		float mAlha = 1.0f;							// —‹ƒ¿’l
 		Float3 mInitPos;
 	public:
-		Thunder() :GameObject(("Thunder"), ObjectType::eObstracle) {};
+		Thunder() :GameObject(("Thunder"), ObjectType::eObstracle, true) {};
 		void ObjectInit() override;
 		void ObjectUpdate()override;
 		void ObjectDraw()override {};

@@ -19,6 +19,8 @@ protected:
 	bool mInitingActors;	// アクターを初期化しているかどうか
 	bool mUpdatingActors;	// アクターを更新しているかどうか
 
+	bool mIsPause;			// ポーズ状態か
+
 	Float3 mCameraLookat;			// カメラの注視点
 
 public:
@@ -53,8 +55,10 @@ public:
 	// 終了
 	virtual bool Dispose();
 
-	// フェード処理
+	void SetIsPause(bool _flg) { mIsPause = _flg; }
+	bool GetIsPause() { return mIsPause; }
 
+	// フェード処理
 	virtual void UpdateFadeIn(double t);
 	virtual void UpdateFadeOut(double t);
 

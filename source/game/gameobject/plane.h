@@ -36,8 +36,8 @@ private:
 	};
 
 public:
-	Plane() :mScale((DICE_SCALE - 0.8f, 0, DICE_SCALE - 0.8f)), GameObject(("Plane"), ObjectType::eObstracle) { };
-	Plane(Float3 mScale) :mScale(mScale), GameObject(("Plane"), ObjectType::eObstracle) { };
+	Plane() :mScale((DICE_SCALE - 0.8f, 0, DICE_SCALE - 0.8f)), GameObject(("Plane"), ObjectType::eObstracle, true) { };
+	Plane(Float3 mScale) :mScale(mScale), GameObject(("Plane"), ObjectType::eObstracle, true) { };
 	~Plane() { /*delete[] mTexInfo;*/ };
 
 	void ObjectInit() override;

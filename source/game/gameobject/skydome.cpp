@@ -2,7 +2,7 @@
 #include	"../../system/model/ModelMgr.h"
 #include	"../component/allcomponents.h"
 
-Skydome::Skydome() :GameObject(("SkyDome"), ObjectType::eDice) {
+Skydome::Skydome() :GameObject(("SkyDome"), ObjectType::eDice, false) {
 	bool sts = ModelMgr::GetInstance().LoadModel(
 		"assets/model/skydome/skydome_pink.fbx",		// ファイル名 
 		"shader/vs.hlsl",								// 頂点シェーダー

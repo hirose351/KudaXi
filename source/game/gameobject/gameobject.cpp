@@ -2,7 +2,7 @@
 
 static int objectCnt = 0;
 
-GameObject::GameObject(std::string mName, ObjectType mObjectType) :mName(mName), mObjectType(mObjectType)
+GameObject::GameObject(std::string mName, ObjectType mObjectType, bool mIsStopPose) :mName(mName), mObjectType(mObjectType), mIsStopPause(mIsStopPose)
 {
 	objectCnt++;
 	mObjectID = objectCnt;

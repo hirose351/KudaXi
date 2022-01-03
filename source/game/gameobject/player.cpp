@@ -4,7 +4,7 @@
 #include	"../../system/model/ModelMgr.h"
 #include	"../component/allcomponents.h"
 
-Player::Player() : GameObject(("Player"), ObjectType::ePlayer) {
+Player::Player() : GameObject(("Player"), ObjectType::ePlayer, true) {
 	bool sts = ModelMgr::GetInstance().LoadModel(
 		"assets/model/player/player.fbx",
 		"shader/vs.hlsl", "shader/ps.hlsl",
