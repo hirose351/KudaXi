@@ -1,13 +1,15 @@
 #include	"pause_endless.h"
 
-myUI::PauseEndless::PauseEndless() :GameObject(("PauseEndless"), ObjectType::eObstracle, false)
+using namespace myUI;
+
+PauseEndless::PauseEndless() :GameObject(("PauseEndless"), ObjectType::eObstracle, false)
 {
 }
 
-void myUI::PauseEndless::ObjectInit()
+void PauseEndless::ObjectInit()
 {
 }
 
-void myUI::PauseEndless::ObjectUpdate()
+void PauseEndless::ObjectUpdate()
 {
 }

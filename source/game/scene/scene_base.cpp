@@ -75,7 +75,8 @@ void SceneBase::Update()
 	for (auto &obj : mObjectList)
 	{
 		if (!obj->GetIsStopPause() && !mIsPause)
-			obj->Update();
+			continue;
+		obj->Update();
 	}
 	mUpdatingActors = false;
 

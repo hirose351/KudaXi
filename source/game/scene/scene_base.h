@@ -19,7 +19,7 @@ protected:
 	bool mInitingActors;	// アクターを初期化しているかどうか
 	bool mUpdatingActors;	// アクターを更新しているかどうか
 
-	bool mIsPause;			// ポーズ状態か
+	bool mIsPause = false;			// ポーズ状態か
 
 	Float3 mCameraLookat;			// カメラの注視点
 

@@ -30,10 +30,10 @@ void Quad2d::Uninit()
 {
 }
 
-void Quad2d::SetInfo(XMFLOAT2 _scale, const char* tex_name, const XMFLOAT4& color, int _u, int _v, float z)
+void Quad2d::SetInfo(XMFLOAT2 _scale, const char* _texName, const XMFLOAT4& _color, int _u, int _v, float _z)
 {
 	mpQuad.SetPtr(new CQuad2D);
-	mpQuad->Init(_scale, tex_name, color, _u, _v, z);
+	mpQuad->Init(_scale, _texName, _color, _u, _v, _z);
 }
 
 void Quad2d::SetScale(XMFLOAT2 _scale)

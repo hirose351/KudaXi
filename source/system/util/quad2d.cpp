@@ -15,7 +15,7 @@ const char* psfilename[] = {
 };
 
 // 矩形の初期化
-bool CQuad2D::Init(DirectX::XMFLOAT2 _scale, const char *_tex_name, const DirectX::XMFLOAT4 &_color, int _u, int _v, float _z) {
+bool CQuad2D::Init(DirectX::XMFLOAT2 _scale, const char *_texName, const DirectX::XMFLOAT4 &_color, int _u, int _v, float _z) {
 
 	// 4角形の初期化処理
 	XMFLOAT2 uv[4] = {
@@ -100,7 +100,7 @@ bool CQuad2D::Init(DirectX::XMFLOAT2 _scale, const char *_tex_name, const Direct
 	device = CDirectXGraphics::GetInstance()->GetDXDevice();
 	ID3D11DeviceContext* devicecontext = CDirectXGraphics::GetInstance()->GetImmediateContext();
 
-	sts = CreateSRVfromFile(_tex_name, device, devicecontext, &mTexInfo.texRes, &mTexInfo.texSrv);
+	sts = CreateSRVfromFile(_texName, device, devicecontext, &mTexInfo.texRes, &mTexInfo.texSrv);
 	if (!sts)
 	{
 		// テクスチャ不要な場合はNoTexと入力して描画させないでおく
