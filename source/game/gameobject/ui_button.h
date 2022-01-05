@@ -12,10 +12,11 @@ enum class ButtonTransition
 // ボタンの状態
 enum class ButtonState
 {
-	eNomal,			// 通常(選択可)
+	eNomal = 0,		// 通常(選択可)
 	eSelected,		// カーソル選択
 	ePressed,		// 押された
-	eDisabled		// 選択不可
+	eDisabled,		// 選択不可
+	MaxButtonState
 };
 
 // 描画開始地点
@@ -59,7 +60,10 @@ namespace myUI {
 		void ObjectImguiDraw()override {};
 		void Uninit() override {};
 
-		void SetTransition(ButtonTransition _trans);
+		void SetTransition(ButtonTransition _trans)
+		{
+			mTransition = _trans;
+		}
 		void SetButtonState(ButtonState _state);
 		void SetScale(XMFLOAT2 _nomalScale, XMFLOAT2 _selectScale)
 		{
@@ -74,9 +78,10 @@ namespace myUI {
 		std::vector<Button*> mButtonList;	// ボタンのリスト
 		StartPoint mStartPoint;				// 開始地点
 		DirectX::XMFLOAT2 mSpace;			// 余白の大きさ
-		unsigned int mSelectNum;			// 選択されている番号
+		int mSelectNum;			// 選択されている番号
 		unsigned int mArrayCnt;				// 横に並べる数
 		unsigned int mPushTriggerFrame;		// 長押し時に進む数
+		XMFLOAT4 mStateColor[(int)ButtonState::MaxButtonState];
 
 		void SetSelectedNum(int _num);
 
@@ -88,7 +93,12 @@ namespace myUI {
 		void ObjectImguiDraw()override;
 		void Uninit() override {};
 
-		// (btCount:サイコロの個数)
-		void SetInitState(const char* _texName, int _divX, int _divY, ButtonTransition _trans, XMFLOAT2 _startPos, XMFLOAT2 _nomalScale, XMFLOAT2 _selectScale, StartPoint _sP = StartPoint::eLeftUp);
+		// 初期値登録(btCount:サイコロの個数)
+		void SetInitState(const char* _texName, int _divX, int _divY, int _arrayCnt, ButtonTransition _trans, XMFLOAT2 _startPos, XMFLOAT2 _nomalScale, XMFLOAT2 _selectScale, StartPoint _sP = StartPoint::eLeftUp);
+		// 色登録
+		void SetStateColor(ButtonState _state, const XMFLOAT4& _color)
+		{
+			mStateColor[(int)_state] = _color;
+		}
 	};
 }
