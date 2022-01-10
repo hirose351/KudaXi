@@ -149,7 +149,7 @@ void ButtonGroup::ObjectImguiDraw()
 	}
 }
 
-void ButtonGroup::SetInitState(const char* _texName, int _divX, int _divY, int _arrayCnt, ButtonTransition _trans, XMFLOAT2 _startPos, XMFLOAT2 _nomalScale, XMFLOAT2 _selectScale, StartPoint _sP)
+void ButtonGroup::SetInitState(const char* _texName, int _divX, int _divY, int _arrayCnt, ButtonTransition _trans, XMFLOAT2 _startPos, XMFLOAT2 _nomalScale, XMFLOAT2 _selectScale, ButtonArrangement _ar, StartPoint _sP)
 {
 	mArrayCnt = _arrayCnt;
 	for (int i = 0; i < _divX*_divY; i++)
@@ -160,7 +160,8 @@ void ButtonGroup::SetInitState(const char* _texName, int _divX, int _divY, int _
 		// vector”z—ñ‚É’Ç‰Á
 		mButtonList.emplace_back(b);
 
-		b->GetComponent<Component::Quad2d>()->SetInfo(_nomalScale, _texName, XMFLOAT4(1, 1, 1, 1), _divX, _divY);
+		b->GetTransform()->SetScale(Float3(_nomalScale.x, _nomalScale.y, 0));
+		b->GetComponent<Component::Quad2d>()->SetInfo(_texName, XMFLOAT4(1, 1, 1, 1), _divX, _divY);
 
 		//F‚ÅØ‚è‘Ö‚¦‚é‚È‚ç
 		if (_trans == ButtonTransition::eColorTint)
@@ -186,7 +187,10 @@ void ButtonGroup::SetInitState(const char* _texName, int _divX, int _divY, int _
 		switch (_sP)
 		{
 		case StartPoint::eLeftUp:
-			b->GetTransform()->SetPosition(Float3(_startPos.x + i * mSpace.x + i * _nomalScale.x, _startPos.y /*+ i * mSpace.x + i * _nomalScale.x*/, 0));
+			if (_ar == ButtonArrangement::eHorizontal)
+				b->GetTransform()->SetPosition(Float3(_startPos.x + i * mSpace.x + i * _nomalScale.x, _startPos.y /*+ i * mSpace.x + i * _nomalScale.x*/, 0));
+			if (_ar == ButtonArrangement::eVertical)
+				b->GetTransform()->SetPosition(Float3(_startPos.x, _startPos.y + i * mSpace.x + i * _nomalScale.y, 0));
 			break;
 		case StartPoint::eRightUp:
 			b->GetTransform()->SetPosition(Float3(0, 0, 0));

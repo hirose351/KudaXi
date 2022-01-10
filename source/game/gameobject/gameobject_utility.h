@@ -12,6 +12,9 @@ enum class Direction
 	eRight				// 右
 };
 
+static const char *DirectionStr[] =
+{ "Neutral", "Up", "Down","Left","Right" };
+
 //オブジェクトタイプ
 enum class ObjectType
 {

@@ -97,6 +97,7 @@ void SceneManager::setCurrentScene(std::string key) {
 
 	mBeforescenekey = mCurrentscenekey;
 	mCurrentscenekey = key;
+	mAddkey = mCurrentscenekey;
 }
 
 void SceneManager::Update() {

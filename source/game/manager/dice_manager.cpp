@@ -42,6 +42,7 @@ void DiceManager::DiceMapCreate()
 
 DiceManager::DiceManager()
 {
+	DiceMapCreate();
 }
 
 void DiceManager::Init()
@@ -55,7 +56,6 @@ void DiceManager::Init()
 	mSpawnAngle[6] = { 0,90.0f,0 };
 	mSpawnAngle[7] = { 0,180.0f,0 };
 	mSpawnAngle[8] = { 0,-90.0f,0 };
-	DiceMapCreate();
 }
 
 void DiceManager::Update()

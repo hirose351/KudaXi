@@ -41,8 +41,8 @@ void MaingameScene::SceneInit()
 	Stage* stage = new Stage;
 	Skydome* skydome = new Skydome;
 
-	myUI::ButtonGroup* bG = new myUI::ButtonGroup;
-	bG->SetInitState("assets/image/ui/number.png", 10, 1, 10, ButtonTransition::eColorTint, XMFLOAT2(100, 300), XMFLOAT2(100, 100), XMFLOAT2(150, 150));
+	//myUI::ButtonGroup* bG = new myUI::ButtonGroup;
+	//bG->SetInitState("assets/image/ui/number.png", 10, 1, 10, ButtonTransition::eColorTint, XMFLOAT2(100, 300), XMFLOAT2(100, 100), XMFLOAT2(150, 150));
 
 	myUI::PauseEndless* pause = new myUI::PauseEndless;
 
@@ -51,8 +51,6 @@ void MaingameScene::SceneInit()
 	mCameraLookat.z = { -stageData.mMapSizeHeight*DICE_SCALE_HALF };
 	CCamera::GetInstance()->SetLookat(mCameraLookat);
 	CCamera::GetInstance()->CreateCameraMatrix();
-
-	myUI::Image* a = new myUI::Image;
 
 	DiceManager::GetInstance()->Init();
 }

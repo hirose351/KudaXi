@@ -67,9 +67,10 @@ void GameSceneInit()
 	SceneManager::GetInstance()->add<MaingameScene>("GameMain");
 	//SceneManager::GetInstance()->add<StageCreateScene>("Create");
 	//SceneManager::GetInstance()->add<ModeSelectScene>("Mode");
-	//SceneManager::GetInstance()->add<TitleScene>("Title");
+	SceneManager::GetInstance()->add<TitleScene>("Title");
 	// Œ»İƒV[ƒ“‚ğTitle‚É‚·‚é
 	SceneManager::GetInstance()->setCurrentScene("GameMain");
+	//SceneManager::GetInstance()->setCurrentScene("Title");
 }
 
 void GameInput(uint64_t dt) {

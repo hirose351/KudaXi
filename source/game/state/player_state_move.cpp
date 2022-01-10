@@ -5,7 +5,8 @@
 //*****************************************************************************
 // マクロ定義
 //*****************************************************************************
-#define	VALUE_MOVE_MODEL	(0.085f)				// 移動速度
+//#define	VALUE_MOVE_MODEL	(0.085f)				// 移動速度
+#define	VALUE_MOVE_MODEL	(0.7f)				// 移動速度
 #define	VALUE_ROTATE_MODEL	(XM_PI * 0.025f)		// 回転速度
 #define	RATE_ROTATE_MODEL	(0.10f)					// 回転慣性係数
 #define	RATE_MOVE_MODEL		(0.1f)
@@ -49,6 +50,7 @@ bool Move::CheckRoll()
 	// 回転可能位置にいたら
 	if (mpOperationDice->SetRollAction(*mDirection))
 	{
+		mTransform->move = Float3(0, 0, 0);
 		mHolder->ChangeState(eRoll);	// 状態を変える
 		mTransform->SetPositionY(mpOperationDice->GetTransform()->GetPosition().y + DICE_SCALE + mTransform->scale.y);
 		return true;
@@ -141,6 +143,8 @@ bool Move::CheckPush()
 		return false;
 	}
 
+	mTransform->move = Float3(0, 0, 0);
+
 	// 移動制限
 	switch (*mDirection)
 	{
@@ -180,6 +184,7 @@ void Move::Exec()
 {
 	Float3 rotCamera;
 	float radian;
+	mTransform->move = Float3(0, 0, 0);
 	if (CDirectInput::GetInstance().CheckKeyBuffer(DIK_LEFT) || CDirectInput::GetInstance().CheckKeyBuffer(DIK_A))
 	{
 		// 左移動
@@ -218,11 +223,11 @@ void Move::Exec()
 		mDestrot.y = rotCamera.y;
 		(*mDirection) = Direction::eDown;
 	}
-	else
-	{
-		// 入力していなければニュートラルに
-		(*mDirection) = Direction::eNeutral;
-	}
+	//else
+	//{
+	//	// 入力していなければニュートラルに
+	//	(*mDirection) = Direction::eNeutral;
+	//}
 
 	if (CDirectInput::GetInstance().CheckKeyBuffer(DIK_RETURN))
 	{

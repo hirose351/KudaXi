@@ -13,6 +13,7 @@ PauseEndless::PauseEndless() :GameObject(("PauseEndless"), ObjectType::eObstracl
 
 void PauseEndless::ObjectInit()
 {
+
 }
 
 void PauseEndless::ObjectUpdate()

@@ -47,9 +47,12 @@ void PlayerController::Draw()
 
 void PlayerController::ImguiDraw()
 {
+	std::string str;
+	str = DirectionStr[static_cast<int>(*mDirection)];
+	ImGui::Text(str.c_str());
+
 	if (ImGui::TreeNode("MapPos"))
 	{
-		std::string str;
 		str = "x" + std::to_string(mStates[mStateNum]->GetMapPos().x);
 		ImGui::Text(str.c_str());
 		str = "y" + std::to_string(mStates[mStateNum]->GetMapPos().y);
