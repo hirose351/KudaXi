@@ -17,6 +17,11 @@ void EasingImage::Update()
 
 	if (!isStart)
 	{
+		if (famly.delayFrame > 0.0f)
+		{
+			famly.delayFrame--;
+		}
+
 		if (famly.isStartAbsolute)
 		{
 			switch (famly.transType)
@@ -47,8 +52,7 @@ void EasingImage::Update()
 				break;
 			}
 		}
-
-		mCurrentTime = 0;
+		mCurrentFrame = 0;
 		isStart = true;
 	}
 
@@ -59,12 +63,12 @@ void EasingImage::Update()
 	if (famly.startValue.x == famly.endValue.x)
 		ansValue.x = famly.startValue.x;
 	else
-		ansValue.x = Easing::GetEsingAns(famly.easingType, mCurrentTime, famly.totalTime, famly.startValue.x, famly.endValue.x);
+		ansValue.x = Easing::GetEsingAns(famly.easingType, mCurrentFrame, famly.totalFrame, famly.startValue.x, famly.endValue.x);
 
 	if (famly.startValue.y == famly.endValue.y)
 		ansValue.y = famly.startValue.y;
 	else
-		ansValue.y = Easing::GetEsingAns(famly.easingType, mCurrentTime, famly.totalTime, famly.startValue.y, famly.endValue.y);
+		ansValue.y = Easing::GetEsingAns(famly.easingType, mCurrentFrame, famly.totalFrame, famly.startValue.y, famly.endValue.y);
 
 	switch (famly.transType)
 	{
@@ -79,23 +83,24 @@ void EasingImage::Update()
 		break;
 	}
 
-	mCurrentTime += 1.0f;
+	mCurrentFrame += 1.0f;
 
-	if (mCurrentTime < famly.totalTime)
+	if (mCurrentFrame < famly.totalFrame)
 		return;
 
 	mEasingList.pop_front();
 	isStart = false;
 }
 
-void Component::EasingImage::AddEasing(Easing::EasingType _easingType, TransType _transType, float _totalTime, DirectX::XMFLOAT2 _startValue, DirectX::XMFLOAT2 _endValue, bool _isStartAbsolute, bool _isEndAbsolute)
+void Component::EasingImage::AddEasing(Easing::EasingType _easingType, TransType _transType, float _totalFrame, float _delayFrame, DirectX::XMFLOAT2 _startValue, DirectX::XMFLOAT2 _endValue, bool _isStartAbsolute, bool _isEndAbsolute)
 {
 	EasingFamily newFamily;
 
 	// •Ï”‚ð\‘¢‘Ì‚É“ü‚ê‚é
 	newFamily.easingType = _easingType;
 	newFamily.transType = _transType;
-	newFamily.totalTime = _totalTime;
+	newFamily.totalFrame = _totalFrame;
+	newFamily.delayFrame = _delayFrame;
 	newFamily.startValue = _startValue;
 	newFamily.endValue = _endValue;
 	newFamily.isStartAbsolute = _isStartAbsolute;

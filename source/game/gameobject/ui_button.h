@@ -34,14 +34,10 @@ enum class StartPoint
 トランスによって画像か色が変わる
 画像が変わるならボタンの種類が行、変わる画像が列にする
 
-
-
+使用時の登録順
+色→初期情報→初期選択番号
 
 */
-
-
-
-
 
 namespace myUI {
 	class Button : public GameObject
@@ -75,14 +71,15 @@ namespace myUI {
 	class ButtonGroup : public GameObject
 	{
 	private:
-		std::vector<Button*> mButtonList;	// ボタンのリスト
-		StartPoint mStartPoint;				// 開始地点
-		DirectX::XMFLOAT2 mSpace;			// 余白の大きさ
-		int mSelectNum;			// 選択されている番号
-		unsigned int mArrayCnt;				// 横に並べる数
-		unsigned int mPushTriggerFrame;		// 長押し時に進む数
-		XMFLOAT4 mStateColor[(int)ButtonState::MaxButtonState];
+		std::vector<Button*> mButtonList;		// ボタンのリスト
+		StartPoint mStartPoint;					// 開始地点
+		DirectX::XMFLOAT2 mSpace;				// 余白の大きさ
+		int mSelectNum;							// 選択されている番号
+		unsigned int mArrayCnt;					// 横に並べる数
+		unsigned int mPressingTriggerFrame;		// 長押し時に進む数
+		XMFLOAT4 mStateColor[(int)ButtonState::MaxButtonState] = { XMFLOAT4(0.5f,0.5f,0.5f,1.0f), XMFLOAT4(1.0f,1.0f,1.0f,1.0f),XMFLOAT4(1.0f,1.0f,1.0f,1.0f),XMFLOAT4(1.0f,1.0f,1.0f,1.0f) };
 
+		// 選択された数の処理
 		void SetSelectedNum(int _num);
 
 	public:
@@ -93,12 +90,23 @@ namespace myUI {
 		void ObjectImguiDraw()override;
 		void Uninit() override {};
 
-		// 初期値登録(btCount:サイコロの個数)
-		void SetInitState(const char* _texName, int _divX, int _divY, int _arrayCnt, ButtonTransition _trans, XMFLOAT2 _startPos, XMFLOAT2 _nomalScale, XMFLOAT2 _selectScale, StartPoint _sP = StartPoint::eLeftUp);
 		// 色登録
 		void SetStateColor(ButtonState _state, const XMFLOAT4& _color)
 		{
 			mStateColor[(int)_state] = _color;
 		}
+
+		// 初期値登録(btCount:サイコロの個数)
+		void SetInitState(const char* _texName, int _divX, int _divY, int _arrayCnt, ButtonTransition _trans, XMFLOAT2 _startPos, XMFLOAT2 _nomalScale, XMFLOAT2 _selectScale, StartPoint _sP = StartPoint::eLeftUp);
+
+		// 初期選択番号登録
+		void SetInitSelectNum(int _num);
+
+
+		// 選択されている番号を返す
+		int GetSelectNum() { return mSelectNum; }
+
+		// 押されたかを返す
+		bool GetIsPressed() { return false; }
 	};
 }

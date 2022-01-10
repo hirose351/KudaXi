@@ -31,15 +31,12 @@ void Button::SetButtonState(ButtonState _state)
 		{
 		case ButtonState::eNomal:
 			// イージング登録
-			GetComponent<Component::EasingImage>()->AddEasing(Easing::EasingType::eLinear, TransType::eScale, 10.0f, XMFLOAT2(mTransform->GetScale().x, mTransform->GetScale().y), mNomalScale);
-
-
+			GetComponent<Component::EasingImage>()->AddEasing(Easing::EasingType::eLinear, TransType::eScale, 10.0f, 0.0f, XMFLOAT2(mTransform->GetScale().x, mTransform->GetScale().y), mNomalScale);
 
 			break;
 		case ButtonState::eSelected:
 			// イージング登録
-			GetComponent<Component::EasingImage>()->AddEasing(Easing::EasingType::eLinear, TransType::eScale, 10.0f, XMFLOAT2(mTransform->GetScale().x, mTransform->GetScale().y), mSelectScale);
-
+			GetComponent<Component::EasingImage>()->AddEasing(Easing::EasingType::eLinear, TransType::eScale, 10.0f, 0.0f, XMFLOAT2(mTransform->GetScale().x, mTransform->GetScale().y), mSelectScale);
 
 			break;
 		case ButtonState::ePressed:
@@ -55,7 +52,7 @@ void Button::SetButtonState(ButtonState _state)
 
 ButtonGroup::ButtonGroup() :GameObject(("ButtonGroup"), ObjectType::eObstracle, false)
 {
-	mPushTriggerFrame = 20;
+	mPressingTriggerFrame = 20;
 	mSpace = XMFLOAT2(10, 10);
 	mSelectNum = 0;
 }
@@ -68,7 +65,8 @@ void ButtonGroup::ObjectInit()
 void ButtonGroup::ObjectUpdate()
 {
 	// 長押しの処理
-	static unsigned int pushTime = 0;	// 長押ししている時間
+	static unsigned int pressFrame = 0;	// 長押ししている時間
+
 	// 左
 	if (CDirectInput::GetInstance().CheckKeyBufferTrigger(DIK_LEFT) || CDirectInput::GetInstance().CheckKeyBufferTrigger(DIK_A))
 	{
@@ -76,32 +74,32 @@ void ButtonGroup::ObjectUpdate()
 			SetSelectedNum((mSelectNum - 1) % mArrayCnt);
 		else
 			SetSelectedNum(mArrayCnt - 1);
-		pushTime = 0;
+		pressFrame = 0;
 	}
 	// 右
 	else if (CDirectInput::GetInstance().CheckKeyBufferTrigger(DIK_RIGHT) || CDirectInput::GetInstance().CheckKeyBufferTrigger(DIK_D))
 	{
 		SetSelectedNum((mSelectNum + 1) % mArrayCnt);
-		pushTime = 0;
+		pressFrame = 0;
 	}
 	// 上
 	else if (CDirectInput::GetInstance().CheckKeyBufferTrigger(DIK_UP) || CDirectInput::GetInstance().CheckKeyBufferTrigger(DIK_W))
 	{
 		SetSelectedNum((mSelectNum + mArrayCnt) % mButtonList.size());
-		pushTime = 0;
+		pressFrame = 0;
 	}
 	// 下
 	else if (CDirectInput::GetInstance().CheckKeyBufferTrigger(DIK_DOWN) || CDirectInput::GetInstance().CheckKeyBufferTrigger(DIK_S))
 	{
 		SetSelectedNum((mSelectNum - mArrayCnt) % mButtonList.size());
-		pushTime = 0;
+		pressFrame = 0;
 	}
 
 	// 左
 	if (CDirectInput::GetInstance().CheckKeyBuffer(DIK_LEFT) || CDirectInput::GetInstance().CheckKeyBuffer(DIK_A))
 	{
-		pushTime++;
-		if (pushTime >= mPushTriggerFrame)
+		pressFrame++;
+		if (pressFrame >= mPressingTriggerFrame)
 		{
 			if ((mSelectNum - 1) >= 0)
 				SetSelectedNum((mSelectNum - 1) % mArrayCnt);
@@ -112,27 +110,27 @@ void ButtonGroup::ObjectUpdate()
 	// 右
 	else if (CDirectInput::GetInstance().CheckKeyBuffer(DIK_RIGHT) || CDirectInput::GetInstance().CheckKeyBuffer(DIK_D))
 	{
-		pushTime++;
-		if (pushTime >= mPushTriggerFrame)
+		pressFrame++;
+		if (pressFrame >= mPressingTriggerFrame)
 			SetSelectedNum((mSelectNum + 1) % mArrayCnt);
 	}
 	// 上
 	else if (CDirectInput::GetInstance().CheckKeyBuffer(DIK_UP) || CDirectInput::GetInstance().CheckKeyBuffer(DIK_W))
 	{
-		pushTime++;
-		if (pushTime >= mPushTriggerFrame)
+		pressFrame++;
+		if (pressFrame >= mPressingTriggerFrame)
 			SetSelectedNum((mSelectNum + mArrayCnt) % mButtonList.size());
 	}
 	// 下
 	else if (CDirectInput::GetInstance().CheckKeyBuffer(DIK_DOWN) || CDirectInput::GetInstance().CheckKeyBuffer(DIK_S))
 	{
-		pushTime++;
-		if (pushTime >= mPushTriggerFrame)
+		pressFrame++;
+		if (pressFrame >= mPressingTriggerFrame)
 			SetSelectedNum((mSelectNum - mArrayCnt) % mButtonList.size());
 	}
 
-	if (pushTime >= mPushTriggerFrame)
-		pushTime = 0;
+	if (pressFrame >= mPressingTriggerFrame)
+		pressFrame = 0;
 
 	if (CDirectInput::GetInstance().CheckKeyBuffer(DIK_RETURN))
 	{
@@ -141,8 +139,6 @@ void ButtonGroup::ObjectUpdate()
 
 void ButtonGroup::ObjectImguiDraw()
 {
-
-
 	if (ImGui::TreeNode("ButtonColor"))
 	{
 		ImGui::ColorButton("Nomal", ImVec4(mStateColor[0].x, mStateColor[0].y, mStateColor[0].z, mStateColor[0].w));
@@ -151,7 +147,6 @@ void ButtonGroup::ObjectImguiDraw()
 		ImGui::ColorButton("Disabled", ImVec4(mStateColor[3].x, mStateColor[3].y, mStateColor[3].z, mStateColor[3].w));
 		ImGui::TreePop();
 	}
-
 }
 
 void ButtonGroup::SetInitState(const char* _texName, int _divX, int _divY, int _arrayCnt, ButtonTransition _trans, XMFLOAT2 _startPos, XMFLOAT2 _nomalScale, XMFLOAT2 _selectScale, StartPoint _sP)
@@ -166,7 +161,15 @@ void ButtonGroup::SetInitState(const char* _texName, int _divX, int _divY, int _
 		mButtonList.emplace_back(b);
 
 		b->GetComponent<Component::Quad2d>()->SetInfo(_nomalScale, _texName, XMFLOAT4(1, 1, 1, 1), _divX, _divY);
-		b->GetComponent<Component::Quad2d>()->SetUV(i, 0);
+
+		//色で切り替えるなら
+		if (_trans == ButtonTransition::eColorTint)
+			b->GetComponent<Component::Quad2d>()->SetUV(i, 0);
+		// 画像で切り替えるなら
+		else if (_trans == ButtonTransition::eImageSwap)
+		{
+
+		}
 
 
 		// 状態登録
@@ -198,6 +201,7 @@ void ButtonGroup::SetInitState(const char* _texName, int _divX, int _divY, int _
 			break;
 		}
 		b->GetTransform()->CreateMtx();
+
 		// 
 
 	}
@@ -205,13 +209,15 @@ void ButtonGroup::SetInitState(const char* _texName, int _divX, int _divY, int _
 
 void ButtonGroup::SetSelectedNum(int _num)
 {
+	// 現在の番号と同じなら返す
 	if (mSelectNum == _num)
 		return;
+
+	// 現在のボタンと変更後のボタンの状態と色を変える
 	mButtonList[mSelectNum]->SetButtonState(ButtonState::eNomal);
-	// 色変える
 	mButtonList[mSelectNum]->GetComponent<Component::Quad2d>()->SetColor(mStateColor[(int)ButtonState::eNomal]);
 	mButtonList[_num]->SetButtonState(ButtonState::eSelected);
-	// 色変える
 	mButtonList[_num]->GetComponent<Component::Quad2d>()->SetColor(mStateColor[(int)ButtonState::eSelected]);
+
 	mSelectNum = _num;
 }

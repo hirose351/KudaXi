@@ -20,19 +20,18 @@ namespace Component {
 		{
 			Easing::EasingType easingType = Easing::EasingType::eLinear;
 			TransType transType = TransType::ePos;
-			float totalTime = 0.0f;							// 必要な時間
+			float totalFrame = 0.0f;						// 必要な時間
+			float delayFrame = 0.0f;						// 遅延時間
 			DirectX::XMFLOAT2 startValue = { 0.0f,0.0f };	// はじめの数
 			DirectX::XMFLOAT2 endValue = { 0.0f,0.0f };		// 終わりの数
 			bool isStartAbsolute;
 			bool isEndAbsolute;
 		};
 
-		float mCurrentTime;  // 経過時間
-
-		bool isStart = false;
-
-		std::list<EasingFamily> mEasingList;
-		XMFLOAT2 mStartValue = { 0, 0 };
+		float mCurrentFrame;									// 経過時間
+		bool isStart = false;								// 開始したか
+		std::list<EasingFamily> mEasingList;				// イージングの塊が入ったリスト
+		XMFLOAT2 mStartValue = { 0, 0 };					// 現在の処理のはじめの数
 
 	public:
 		EasingImage();
@@ -45,7 +44,8 @@ namespace Component {
 		// startValueが0,0なら相対座標
 		void AddEasing(Easing::EasingType _easingType,
 					   TransType _transType,
-					   float _totalTime,
+					   float _totalFrame,
+					   float _delayFrame,
 					   DirectX::XMFLOAT2 _startValue,
 					   DirectX::XMFLOAT2 _endValue,
 					   bool _isStartAbsolute = false,

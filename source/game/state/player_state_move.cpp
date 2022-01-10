@@ -218,6 +218,11 @@ void Move::Exec()
 		mDestrot.y = rotCamera.y;
 		(*mDirection) = Direction::eDown;
 	}
+	else
+	{
+		// “ü—Í‚µ‚Ä‚¢‚È‚¯‚ê‚Îƒjƒ…[ƒgƒ‰ƒ‹‚É
+		(*mDirection) = Direction::eNeutral;
+	}
 
 	if (CDirectInput::GetInstance().CheckKeyBuffer(DIK_RETURN))
 	{

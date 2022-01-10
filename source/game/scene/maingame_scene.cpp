@@ -12,6 +12,7 @@
 #include	"../../system/dx11/CDirectInput.h"
 
 #include	"../gameobject/ui_button.h"
+#include	"../gameobject/pause_endless.h"
 
 using namespace Dix;
 
@@ -41,11 +42,9 @@ void MaingameScene::SceneInit()
 	Skydome* skydome = new Skydome;
 
 	myUI::ButtonGroup* bG = new myUI::ButtonGroup;
-	bG->SetStateColor(ButtonState::eNomal, XMFLOAT4(0.5f, 0.5f, 0.5f, 1));
-	bG->SetStateColor(ButtonState::eSelected, XMFLOAT4(1, 1, 1, 1));
-	bG->SetStateColor(ButtonState::ePressed, XMFLOAT4(1, 1, 1, 1));
-	bG->SetStateColor(ButtonState::eDisabled, XMFLOAT4(1, 1, 1, 1));
 	bG->SetInitState("assets/image/ui/number.png", 10, 1, 10, ButtonTransition::eColorTint, XMFLOAT2(100, 300), XMFLOAT2(100, 100), XMFLOAT2(150, 150));
+
+	myUI::PauseEndless* pause = new myUI::PauseEndless;
 
 	mCameraLookat.x = stageData.mMapSizeWidth*DICE_SCALE_HALF;
 	mCameraLookat.y = { 0 };
@@ -86,10 +85,6 @@ void MaingameScene::ImguiDebug()
 
 	DiceManager::GetInstance()->ImguiDraw();
 }
-
-//void MaingameScene::ImguiDebug()
-//{
-//}
 
 bool MaingameScene::Dispose()
 {
