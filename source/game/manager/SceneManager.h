@@ -92,12 +92,16 @@ public:
 	SceneBase* GetAddScene() {
 		return mScenefactories[mAddkey].get();
 	}
+	SceneBase* GetScene(std::string _key) {
+		return mScenefactories[_key].get();
+	}
 };
 
 template <class sceneclass>
 void SceneManager::add(std::string key) {
 	mScenefactories[key] = std::move(std::make_unique<sceneclass>());
 	mAddkey = key;
+	mCurrentscenekey = key;
 	mScenefactories[key].get()->SceneInit();
 	mScenefactories[key].get()->Init();
 	mScenefactories[key].get()->SetSceneManager(this);
@@ -115,6 +119,7 @@ void SceneManager::changeScene(std::string key) {
 	{
 		// 存在していた場合
 		mScenefactories[key].get()->Init(this);
+		mScenefactories[key].get()->SceneAfter();
 		mScenefactories[key].get()->SetSceneManager(this);
 	}
 	else
@@ -130,7 +135,7 @@ void SceneManager::changeScene(std::string key) {
 
 template <class sceneclass>
 bool SceneManager::changeScene(std::string key, int32_t transitionTimeMillisec, bool crossFade) {
-	// 前のシーンをカレントシーンにする
+	// 前のシーンを今のシーンにする
 	mBeforescenekey = mCurrentscenekey;
 
 	// 現在のシーンと変更後のシーンが同じであればクロスフェード行わない
@@ -145,6 +150,7 @@ bool SceneManager::changeScene(std::string key, int32_t transitionTimeMillisec, 
 		// 存在していた場合
 		// シーン初期化
 		mScenefactories[key].get()->Init();
+		mScenefactories[key].get()->SceneAfter();
 		// シーンマネージャのポインタをセット
 		mScenefactories[key].get()->SetSceneManager(this);
 	}

@@ -85,6 +85,7 @@ namespace myUI {
 		unsigned int mArrayCnt;					// 横に並べる数
 		unsigned int mPressingTriggerFrame;		// 長押し時に進む数
 		XMFLOAT4 mStateColor[(int)ButtonState::MaxButtonState] = { XMFLOAT4(0.5f,0.5f,0.5f,1.0f), XMFLOAT4(1.0f,1.0f,1.0f,1.0f),XMFLOAT4(1.0f,1.0f,1.0f,1.0f),XMFLOAT4(1.0f,1.0f,1.0f,1.0f) };
+		bool isPressed = false;		// ボタンが押されたか
 
 		// 選択された数の処理
 		void SetSelectedNum(int _num);
@@ -116,6 +117,6 @@ namespace myUI {
 		int GetSelectNum() { return mSelectNum; }
 
 		// 押されたかを返す
-		bool GetIsPressed() { return false; }
+		bool GetIsPressed() { return isPressed; }
 	};
 }

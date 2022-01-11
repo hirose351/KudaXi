@@ -4,7 +4,16 @@
 #include	"../../system/util/easing.h"
 #include	"effect_thunder.h"
 
-Dice::Dice() :GameObject(("Dice"), ObjectType::eDice, true) {
+Dice::Dice() :GameObject(("Dice"), ObjectType::eDice, true)
+{
+}
+
+Dice::~Dice()
+{
+}
+
+void Dice::ObjectInit()
+{
 	bool sts = ModelMgr::GetInstance().LoadModel(
 		"assets/model/dice/Dice.fbx",
 		"shader/vs.hlsl", "shader/toonps.hlsl",
@@ -15,13 +24,6 @@ Dice::Dice() :GameObject(("Dice"), ObjectType::eDice, true) {
 	}
 	AddComponent<Component::Model>()->SetModel(ModelMgr::GetInstance().GetModelPtr("assets/model/dice/Dice.fbx"));
 	AddComponent<Component::Collision>()->SetInitState(ObjectTag::eDice, Float3(0, 0, 0), Float3(DICE_SCALE_HALF), DirectX::XMFLOAT4(0, 0, 1, 0.3f));
-}
-Dice::~Dice()
-{
-}
-
-void Dice::ObjectInit()
-{
 	Effect::Thunder* efect = new Effect::Thunder;
 	Float3 pos = { mTransform->position.x, 0, mTransform->position.z };
 	efect->SetInitPos(pos);

@@ -20,7 +20,7 @@ namespace Effect {
 		void ObjectImguiDraw()override {};
 		void Uninit() override {};
 
-		void SetInit(const XMFLOAT3 &_pos, int _uvnum);
+		void SetInit(const Float3& _pos, int _uvnum);
 	};
 }
 

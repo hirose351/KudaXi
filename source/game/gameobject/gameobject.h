@@ -34,11 +34,11 @@ public:
 	void Draw();
 
 	virtual void ImguiDraw();
-	virtual void ObjectInit() = 0;
-	virtual void ObjectUpdate() = 0;
-	virtual void ObjectDraw() = 0;
-	virtual void ObjectImguiDraw() = 0;
-	virtual void Uninit() = 0;
+	virtual void ObjectInit() {};
+	virtual void ObjectUpdate() {};
+	virtual void ObjectDraw() {};
+	virtual void ObjectImguiDraw() {};
+	virtual void Uninit() {};
 
 	virtual void OnCollisionEnter(ComponentBase* _oher) {};
 	virtual void OnCollisionStay(ComponentBase* _oher) {};

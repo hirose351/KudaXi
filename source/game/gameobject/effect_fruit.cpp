@@ -70,7 +70,7 @@ void Fruit::ObjectDraw()
 	}
 }
 
-void Fruit::SetInit(const XMFLOAT3 & _pos, int _uvnum)
+void Fruit::SetInit(const Float3& _pos, int _uvnum)
 {
 	XMFLOAT3 camera = CCamera::GetInstance()->GetEye();
 
@@ -80,7 +80,7 @@ void Fruit::SetInit(const XMFLOAT3 & _pos, int _uvnum)
 	{
 		mParticle.emplace_back();
 
-		mParticle.back().uv = (float)_uvnum;
+		mParticle.back().uv = _uvnum;
 		mParticle.back().pos.x = _pos.x + (((float)rand() / (float)RAND_MAX - 0.5f) /** 0.5f*/);
 		mParticle.back().pos.y = _pos.y;
 		mParticle.back().pos.z = _pos.z + (((float)rand() / (float)RAND_MAX - 0.5f)/* * 0.5f*/);
@@ -93,7 +93,7 @@ void Fruit::SetInit(const XMFLOAT3 & _pos, int _uvnum)
 		mParticle.back().velocity.y = -((float)rand() / (float)RAND_MAX) * 10.0f;
 		mParticle.back().velocity.z = (_pos.z - mParticle.back().pos.z) / 2.0f;
 
-		mParticle.back().height = 0.0f;
+		mParticle.back().height = -25.0f;
 		mParticle.back().gravity = -0.5f;
 		mParticle.back().attenuation = 0.5f;
 

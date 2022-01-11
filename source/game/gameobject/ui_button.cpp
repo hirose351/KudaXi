@@ -133,6 +133,7 @@ void ButtonGroup::ObjectUpdate()
 
 	if (CDirectInput::GetInstance().CheckKeyBuffer(DIK_RETURN))
 	{
+		isPressed = true;
 	}
 }
 

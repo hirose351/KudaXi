@@ -10,42 +10,38 @@ std::uniform_int_distribution<> rand100(0, 99); // [0, 99] 範囲の一様乱数
 
 void DiceManager::DiceMapCreate()
 {
+	Uninit();
 	mCurrentStageData.SetStageData(StageDataManager::GetInstance().GetCurrentStage());
 	for (int z = 0; z < mCurrentStageData.mMapSizeHeight; z++)
 	{
 		for (int x = 0; x < mCurrentStageData.mMapSizeWidth; x++)
 		{
-			if (mCurrentStageData.mMap[z][x] < 0)
-			{
-				mDiceMap[z][x] = NODICE;
-				continue;
-			}
-			Dice* dice = new Dice;
-			dice->GetTransform()->SetWordMtx(mCurrentStageData.mDiceMtx[mDiceList.size()]);
+			//if (mCurrentStageData.mMap[z][x] < 0)
+			//{
+			mDiceMap[z][x] = NODICE;
+			//	continue;
+			//}
+			//Dice* dice = new Dice;
+			//dice->GetTransform()->SetWordMtx(mCurrentStageData.mDiceMtx[mDiceList.size()]);
 
-			// 生成配列に入れる
-			mDiceMap[z][x] = dice->GetObjectID();
+			//// 生成配列に入れる
+			//mDiceMap[z][x] = dice->GetObjectID();
 
-			/// todo:前プロジェクトの7培スケールに合わせる為に1/7
-			dice->GetTransform()->SetScale(1.0f / 7.0f);
-			dice->GetTransform()->CreateScaleMtx();
+			///// todo:前プロジェクトの7培スケールに合わせる為に1/7
+			//dice->GetTransform()->SetScale(1.0f / 7.0f);
+			//dice->GetTransform()->CreateScaleMtx();
 
-			dice->GetTransform()->SetPositionMove(Float3(DICE_SCALE*x, -DICE_SCALE_HALF, -DICE_SCALE * z));
-			//dice->GetTransform()->CreateMtx();
-			dice->SetMapPos(INT3(x, 0, z));
-			dice->SetName(("Dice" + std::to_string(mDiceMap[z][x])));
-			// vector配列に追加
-			mDiceList.emplace_back(dice);
+			//dice->GetTransform()->SetPositionMove(Float3(DICE_SCALE*x, -DICE_SCALE_HALF, -DICE_SCALE * z));
+			////dice->GetTransform()->CreateMtx();
+			//dice->SetMapPos(INT3(x, 0, z));
+			//dice->SetName(("Dice" + std::to_string(mDiceMap[z][x])));
+			//// vector配列に追加
+			//mDiceList.emplace_back(dice);
 		}
 	}
 }
 
 DiceManager::DiceManager()
-{
-	DiceMapCreate();
-}
-
-void DiceManager::Init()
 {
 	mSpawnAngle[0] = { 0, 0, 0 };
 	mSpawnAngle[1] = { 90.0f,0,0 };
@@ -56,6 +52,12 @@ void DiceManager::Init()
 	mSpawnAngle[6] = { 0,90.0f,0 };
 	mSpawnAngle[7] = { 0,180.0f,0 };
 	mSpawnAngle[8] = { 0,-90.0f,0 };
+
+}
+
+void DiceManager::Init()
+{
+	DiceMapCreate();
 }
 
 void DiceManager::Update()

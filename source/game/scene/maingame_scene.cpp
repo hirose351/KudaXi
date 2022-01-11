@@ -25,17 +25,28 @@ MaingameScene::~MaingameScene()
 	Dispose();
 }
 
+void MaingameScene::SceneAfter()
+{
+	StageDataManager::GetInstance().SetCurrentStage("puzzle/10");
+	StageData stageData;
+	stageData.SetStageData(StageDataManager::GetInstance().GetCurrentStage());
+
+	mCameraLookat.x = stageData.mMapSizeWidth*DICE_SCALE_HALF;
+	mCameraLookat.y = { 0 };
+	mCameraLookat.z = { -stageData.mMapSizeHeight*DICE_SCALE_HALF };
+	CCamera::GetInstance()->SetEye(Float3(140, 130, -170));
+	CCamera::GetInstance()->SetLookat(mCameraLookat);
+	CCamera::GetInstance()->CreateCameraMatrix();
+
+	DiceManager::GetInstance()->Init();
+}
+
 void MaingameScene::SceneInit()
 {
 	// カメラ変更
 	//mCameraLookat.x = StageDataManager::GetInstance().GetCurrentStage()->mMapSizeWidth*DICE_SCALE / 2.0f;
 	//mCameraLookat.y = { 0 };
 	//mCameraLookat.z = { -StageDataManager::GetInstance().GetCurrentStage()->mMapSizeHeight*DICE_SCALE / 2.0f };
-
-
-	StageDataManager::GetInstance().SetCurrentStage("puzzle/10");
-	StageData stageData;
-	stageData.SetStageData(StageDataManager::GetInstance().GetCurrentStage());
 
 	Player* player = new Player;
 	Stage* stage = new Stage;
@@ -46,11 +57,17 @@ void MaingameScene::SceneInit()
 
 	myUI::PauseEndless* pause = new myUI::PauseEndless;
 
-	mCameraLookat.x = stageData.mMapSizeWidth*DICE_SCALE_HALF;
-	mCameraLookat.y = { 0 };
-	mCameraLookat.z = { -stageData.mMapSizeHeight*DICE_SCALE_HALF };
-	CCamera::GetInstance()->SetLookat(mCameraLookat);
-	CCamera::GetInstance()->CreateCameraMatrix();
+	// カメラ
+	DirectX::XMFLOAT3 eye(140, 130, -170);	//カメラの位置
+	DirectX::XMFLOAT3 lookat(0, 0, 0);	//注視点
+	DirectX::XMFLOAT3 up(0, 1, 0);		//カメラの上向きベクトル
+	CCamera::GetInstance()->Init(
+		10.0f,							// ニアクリップ
+		10000.0f,						// ファークリップ
+		XM_PI / 5.0f,					// 視野角
+		static_cast<float>(Application::CLIENT_WIDTH),		// スクリーン幅
+		static_cast<float>(Application::CLIENT_HEIGHT),		// スクリーンの高さ
+		eye, lookat, up);				// カメラのデータ
 
 	DiceManager::GetInstance()->Init();
 }

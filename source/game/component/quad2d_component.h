@@ -21,7 +21,7 @@ namespace Component {
 		void ImguiDraw()override;
 		void Uninit() override;
 
-		// 矩形の初期化　(_scale：大きさ　_texName：画像の場所と名前　_color：頂点カラー　_u：横の分割数　_v：縦の分割数　_z：奥描画サイズ)
+		// 矩形の初期化　(_texName：画像の場所と名前　_color：頂点カラー　_u：横の分割数　_v：縦の分割数　_z：奥描画サイズ)
 		void SetInfo(const char* _texName, const XMFLOAT4 &_color, int _u = 1, int _v = 1, float _z = 0.0f);
 
 		void SetColor(const XMFLOAT4 &_color)

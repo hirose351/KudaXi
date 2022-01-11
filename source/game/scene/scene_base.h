@@ -13,8 +13,8 @@ protected:
 	std::vector< GameObject*> mObjectList;			// ゲームオブジェクトを全部まとめて管理できるオブジェクトリスト
 	std::vector< GameObject*> mPendingObjectList;	// 待ち状態のオブジェクト
 
-	//Quad2D		mQuadfadein;
-	//Quad2D		mQuadfadeout;
+	GameObject*		mQuadfadein;
+	GameObject*		mQuadfadeout;
 
 	bool mInitingActors;	// アクターを初期化しているかどうか
 	bool mUpdatingActors;	// アクターを更新しているかどうか
@@ -43,7 +43,10 @@ public:
 	// オブジェクト描画
 	void Render();
 
-	// 各シーンの初期化
+
+	// 各シーンの変更後処理(シーンが切り換わる度に呼ばれる)
+	virtual void SceneAfter() = 0;
+	// 各シーンの初期化(生成時に一度だけ呼ばれる)
 	virtual void SceneInit() = 0;
 	// 各シーンの更新
 	virtual void SceneUpdate() = 0;

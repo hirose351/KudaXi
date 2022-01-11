@@ -26,6 +26,7 @@ public:
 	MaingameScene();
 	~MaingameScene();
 
+	void SceneAfter() override;
 	void SceneInit() override;
 	void SceneUpdate() override;
 	void SceneRender() override;
