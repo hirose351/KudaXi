@@ -23,6 +23,11 @@ Mesh::Mesh(vector<Vertex> vertices, vector<unsigned int> indices, vector<MeshTex
 	{
 		MessageBox(nullptr, "white,bmp load error", "error", MB_OK);
 	}
+	sts = CreateSRVfromFile("assets/shader/toon.png", GetDX11Device(), GetDX11DeviceContext(), &mToonRes, &mToonSrv);
+	if (!sts)
+	{
+		MessageBox(nullptr, "toon.png load error", "error", MB_OK);
+	}
 
 	mVertices = vertices;
 	mIndices = indices;
@@ -46,6 +51,7 @@ void Mesh::Draw(ID3D11DeviceContext *devcon)
 	if (mTextures.size() >= 1)
 	{
 		devcon->PSSetShaderResources(0, 1, &mTextures[0].texture);			// debug ts
+		devcon->PSSetShaderResources(4, 1, &mToonSrv);			// debug ts
 	}
 	else
 	{

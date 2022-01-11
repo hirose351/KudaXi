@@ -193,6 +193,9 @@
     <Filter Include="ソース ファイル\game\gameobject\ui\pause\endless">
       <UniqueIdentifier>{1e308866-0ae6-49e7-bf42-f57e5de05087}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\game\component\ui\animation">
+      <UniqueIdentifier>{186be355-e8de-4355-b114-e541d6afa833}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\game.cpp">
@@ -440,6 +443,12 @@
     </ClCompile>
     <ClCompile Include="source\game\gameobject\pause_puzzle.cpp">
       <Filter>ソース ファイル\game\gameobject\ui\pause\puzzle</Filter>
+    </ClCompile>
+    <ClCompile Include="source\game\component\animation2d_component.cpp">
+      <Filter>ソース ファイル\game\component\ui\animation</Filter>
+    </ClCompile>
+    <ClCompile Include="source\game\gameobject\effect_fruit.cpp">
+      <Filter>ソース ファイル\game\gameobject\effect</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -727,6 +736,15 @@
     </ClInclude>
     <ClInclude Include="source\game\gameobject\pause_puzzle.h">
       <Filter>ソース ファイル\game\gameobject\ui\pause\puzzle</Filter>
+    </ClInclude>
+    <ClInclude Include="source\game\component\animation2d_component.h">
+      <Filter>ソース ファイル\game\component\ui\animation</Filter>
+    </ClInclude>
+    <ClInclude Include="source\game\gameobject\effect_fruit.h">
+      <Filter>ソース ファイル\game\gameobject\effect</Filter>
+    </ClInclude>
+    <ClInclude Include="source\game\gameobject\effect_util.h">
+      <Filter>ソース ファイル\game\gameobject\effect</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

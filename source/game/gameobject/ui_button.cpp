@@ -53,7 +53,6 @@ void Button::SetButtonState(ButtonState _state)
 ButtonGroup::ButtonGroup() :GameObject(("ButtonGroup"), ObjectType::eObstracle, false)
 {
 	mPressingTriggerFrame = 20;
-	mSpace = XMFLOAT2(10, 10);
 	mSelectNum = 0;
 }
 
@@ -149,9 +148,10 @@ void ButtonGroup::ObjectImguiDraw()
 	}
 }
 
-void ButtonGroup::SetInitState(const char* _texName, int _divX, int _divY, int _arrayCnt, ButtonTransition _trans, XMFLOAT2 _startPos, XMFLOAT2 _nomalScale, XMFLOAT2 _selectScale, ButtonArrangement _ar, StartPoint _sP)
+void ButtonGroup::SetInitState(const char* _texName, int _divX, int _divY, int _arrayCnt, ButtonTransition _trans, XMFLOAT2 _startPos, XMFLOAT2 _space, XMFLOAT2 _nomalScale, XMFLOAT2 _selectScale, ButtonArrangement _ar, StartPoint _sP)
 {
 	mArrayCnt = _arrayCnt;
+	mSpace = _space;
 	for (int i = 0; i < _divX*_divY; i++)
 	{
 		// ボタン生成
@@ -209,6 +209,20 @@ void ButtonGroup::SetInitState(const char* _texName, int _divX, int _divY, int _
 		// 
 
 	}
+}
+
+void ButtonGroup::SetInitSelectNum(int _num)
+{
+	// 変更後のボタンの状態と色を変える
+	mButtonList[_num]->SetButtonState(ButtonState::eSelected);
+	mButtonList[_num]->GetComponent<Component::Quad2d>()->SetColor(mStateColor[(int)ButtonState::eSelected]);
+	mSelectNum = _num;
+}
+
+void ButtonGroup::SetPosition(int _num, XMFLOAT2 _pos)
+{
+	mButtonList[_num]->GetTransform()->SetPosition(Float3(_pos.x, _pos.y, 0));
+	mButtonList[_num]->GetTransform()->CreateMtx();
 }
 
 void ButtonGroup::SetSelectedNum(int _num)

@@ -21,6 +21,9 @@ public:
 	ID3D11ShaderResourceView*    mWhitesrv;	// 真っ白ＳＲＶ
 	ID3D11Resource*				mWhiteres;	// 真っ白RES
 
+	ID3D11ShaderResourceView*    mToonSrv;	// 真っ白ＳＲＶ
+	ID3D11Resource*				mToonRes;	// 真っ白RES
+
 	std::vector<Vertex> mVertices;			// 頂点データ
 	std::vector<unsigned int> mIndices;	// インデックス
 	std::vector<MeshTextureInfo> mTextures;		// テクスチャ

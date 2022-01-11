@@ -82,22 +82,41 @@ void GameObject::ImguiDraw()
 
 		if (ImGui::TreeNode("Transform"))
 		{
-			ImGui::Text("MtxPosition");
-			ImGui::DragFloat("x", &mTransform->worldMtx._41, 0.5f);
-			ImGui::DragFloat("y", &mTransform->worldMtx._42, 0.5f);
-			ImGui::DragFloat("z", &mTransform->worldMtx._43, 0.5f);
-			ImGui::Text("Position");
-			ImGui::DragFloat("x", &mTransform->position.x, 0.5f);
-			ImGui::DragFloat("y", &mTransform->position.y, 0.5f);
-			ImGui::DragFloat("z", &mTransform->position.z, 0.5f);
-			ImGui::Text("Angle");
-			ImGui::DragFloat("x", &mTransform->angle.x, 0.5f);
-			ImGui::DragFloat("y", &mTransform->angle.y, 0.5f);
-			ImGui::DragFloat("z", &mTransform->angle.z, 0.5f);
-			ImGui::Text("Sclale");
-			ImGui::DragFloat("x", &mTransform->scale.x, 0.5f);
-			ImGui::DragFloat("y", &mTransform->scale.y, 0.5f);
-			ImGui::DragFloat("z", &mTransform->scale.z, 0.5f);
+			if (ImGui::TreeNode("MtxPosition"))
+			{
+				ImGui::DragFloat("x", &mTransform->worldMtx._41, 0.5f);
+				ImGui::DragFloat("y", &mTransform->worldMtx._42, 0.5f);
+				ImGui::DragFloat("z", &mTransform->worldMtx._43, 0.5f);
+				ImGui::TreePop();
+			}
+			if (ImGui::TreeNode("Position"))
+			{
+				ImGui::DragFloat("x", &mTransform->position.x, 0.5f);
+				ImGui::DragFloat("y", &mTransform->position.y, 0.5f);
+				ImGui::DragFloat("z", &mTransform->position.z, 0.5f);
+				ImGui::TreePop();
+			}
+			if (ImGui::TreeNode("Angle"))
+			{
+				ImGui::DragFloat("x", &mTransform->angle.x, 0.5f);
+				ImGui::DragFloat("y", &mTransform->angle.y, 0.5f);
+				ImGui::DragFloat("z", &mTransform->angle.z, 0.5f);
+				ImGui::TreePop();
+			}
+			if (ImGui::TreeNode("Rotation"))
+			{
+				ImGui::DragFloat("x", &mTransform->rotation.x, 0.5f);
+				ImGui::DragFloat("y", &mTransform->rotation.y, 0.5f);
+				ImGui::DragFloat("z", &mTransform->rotation.z, 0.5f);
+				ImGui::TreePop();
+			}
+			if (ImGui::TreeNode("Sclale"))
+			{
+				ImGui::DragFloat("x", &mTransform->scale.x, 0.5f);
+				ImGui::DragFloat("y", &mTransform->scale.y, 0.5f);
+				ImGui::DragFloat("z", &mTransform->scale.z, 0.5f);
+				ImGui::TreePop();
+			}
 			ImGui::TreePop();
 		}
 

@@ -136,6 +136,7 @@
   <ItemGroup>
     <ClCompile Include="source\application.cpp" />
     <ClCompile Include="source\game.cpp" />
+    <ClCompile Include="source\game\component\animation2d_component.cpp" />
     <ClCompile Include="source\game\component\billbord_component.cpp" />
     <ClCompile Include="source\game\component\collision_component.cpp" />
     <ClCompile Include="source\game\component\component_base.cpp" />
@@ -149,6 +150,7 @@
     <ClCompile Include="source\game\data\stage_data.cpp" />
     <ClCompile Include="source\game\gameobject\CCamera.cpp" />
     <ClCompile Include="source\game\gameobject\dice.cpp" />
+    <ClCompile Include="source\game\gameobject\effect_fruit.cpp" />
     <ClCompile Include="source\game\gameobject\effect_thunder.cpp" />
     <ClCompile Include="source\game\gameobject\gameobject.cpp" />
     <ClCompile Include="source\game\gameobject\pause_endless.cpp" />
@@ -221,6 +223,7 @@
     <ClInclude Include="source\application.h" />
     <ClInclude Include="source\game.h" />
     <ClInclude Include="source\game\component\allcomponents.h" />
+    <ClInclude Include="source\game\component\animation2d_component.h" />
     <ClInclude Include="source\game\component\billbord_component.h" />
     <ClInclude Include="source\game\component\collision_component.h" />
     <ClInclude Include="source\game\component\component_base.h" />
@@ -235,7 +238,9 @@
     <ClInclude Include="source\game\gameobject\CCamera.h" />
     <ClInclude Include="source\game\gameobject\CLight.h" />
     <ClInclude Include="source\game\gameobject\dice.h" />
+    <ClInclude Include="source\game\gameobject\effect_fruit.h" />
     <ClInclude Include="source\game\gameobject\effect_thunder.h" />
+    <ClInclude Include="source\game\gameobject\effect_util.h" />
     <ClInclude Include="source\game\gameobject\gameobject.h" />
     <ClInclude Include="source\game\gameobject\gameobject_utility.h" />
     <ClInclude Include="source\game\gameobject\pause_endless.h" />

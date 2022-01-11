@@ -104,11 +104,13 @@ namespace myUI {
 		}
 
 		// 初期値登録(btCount:サイコロの個数)
-		void SetInitState(const char* _texName, int _divX, int _divY, int _arrayCnt, ButtonTransition _trans, XMFLOAT2 _startPos, XMFLOAT2 _nomalScale, XMFLOAT2 _selectScale, ButtonArrangement _ar = ButtonArrangement::eHorizontal, StartPoint _sP = StartPoint::eLeftUp);
+		void SetInitState(const char* _texName, int _divX, int _divY, int _arrayCnt, ButtonTransition _trans, XMFLOAT2 _startPos, XMFLOAT2 _space, XMFLOAT2 _nomalScale, XMFLOAT2 _selectScale, ButtonArrangement _ar = ButtonArrangement::eHorizontal, StartPoint _sP = StartPoint::eLeftUp);
 
 		// 初期選択番号登録
 		void SetInitSelectNum(int _num);
 
+		// 
+		void SetPosition(int _num, XMFLOAT2 _pos);
 
 		// 選択されている番号を返す
 		int GetSelectNum() { return mSelectNum; }

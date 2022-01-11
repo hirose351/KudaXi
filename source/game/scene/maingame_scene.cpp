@@ -42,7 +42,7 @@ void MaingameScene::SceneInit()
 	Skydome* skydome = new Skydome;
 
 	//myUI::ButtonGroup* bG = new myUI::ButtonGroup;
-	//bG->SetInitState("assets/image/ui/number.png", 10, 1, 10, ButtonTransition::eColorTint, XMFLOAT2(100, 300), XMFLOAT2(100, 100), XMFLOAT2(150, 150));
+	//bG->SetInitState("assets/image/ui/number.png", 10, 1, 10, ButtonTransition::eColorTint, XMFLOAT2(100, 300), XMFLOAT2(5, 5), XMFLOAT2(100, 100), XMFLOAT2(150, 150));
 
 	myUI::PauseEndless* pause = new myUI::PauseEndless;
 
@@ -79,6 +79,19 @@ void MaingameScene::ImguiDebug()
 	{
 		obj->ImguiDraw();
 	}
+	ImGui::End();
+
+	ImGui::SetNextWindowPos(ImVec2(20, 300), ImGuiCond_Once);
+	ImGui::SetNextWindowSize(ImVec2(280, 300), ImGuiCond_Once);
+	ImGui::Begin(u8"Light");
+	{
+		ImGui::DragFloat("x", &lightPos.x, 0.5f);
+		ImGui::DragFloat("y", &lightPos.y, 0.5f);
+		ImGui::DragFloat("z", &lightPos.z, 0.5f);
+		// 平行光源をセット
+		DX11LightInit(lightPos);
+	}
+
 	ImGui::End();
 
 	DiceManager::GetInstance()->ImguiDraw();

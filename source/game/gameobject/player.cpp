@@ -7,7 +7,7 @@
 Player::Player() : GameObject(("Player"), ObjectType::ePlayer, true) {
 	bool sts = ModelMgr::GetInstance().LoadModel(
 		"assets/model/player/player.fbx",
-		"shader/vs.hlsl", "shader/ps.hlsl",
+		"shader/vs.hlsl", "shader/toonps.hlsl",
 		"assets/model/player/");
 	if (!sts)
 	{

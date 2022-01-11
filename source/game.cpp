@@ -35,7 +35,7 @@ void GameInit() {
 
 	// 平行光源をセット
 	DX11LightInit(
-		DirectX::XMFLOAT4(1, 1, -1, 0));
+		DirectX::XMFLOAT4(-140, -130, 170, 0));
 
 	// アルファブレンド有効化
 	TurnOnAlphablend();
