@@ -98,7 +98,7 @@ void SceneManager::setCurrentScene(std::string key) {
 	mBeforescenekey = mCurrentscenekey;
 	mCurrentscenekey = key;
 	mAddkey = mCurrentscenekey;
-	//mScenefactories[key].get()->SceneInit();
+	mScenefactories[mCurrentscenekey]->SceneAfter();
 }
 
 void SceneManager::Update() {
@@ -144,24 +144,18 @@ void SceneManager::DrawScene()
 	if (mTransitionState == TransitionState::eFadeIn)
 	{
 		// フェードイン描画
-
-//		TurnOffZbuffer();
 		mScenefactories[mCurrentscenekey]->DrawFadeIn(elapsed / mTransitionTimeMillisec);
-		//		TurnOnZbuffer();
 	}
 	// 遷移フェードアウトなら
 	else if (mTransitionState == TransitionState::eFadeOut)
 	{
 		// フェードアウト描画
-//		TurnOffZbuffer();
 		mScenefactories[mCurrentscenekey]->DrawFadeOut(elapsed / mTransitionTimeMillisec);
-		//		TurnOnZbuffer();
 	}
 	// 遷移クロスフェードなら
 	else if (mTransitionState == TransitionState::eFadeInOut)
 	{
 		// フェードアウト描画
-//		TurnOffZbuffer();
 		mScenefactories[mCurrentscenekey]->DrawFadeOut(elapsed / mTransitionTimeMillisec);
 		// 次のシーンが設定されていれば
 		if (!mNextscenekey.empty())
@@ -169,7 +163,6 @@ void SceneManager::DrawScene()
 			// フェードイン描画
 			mScenefactories[mNextscenekey]->DrawFadeIn(elapsed / mTransitionTimeMillisec);
 		}
-		//		TurnOnZbuffer();
 	}
 }
 

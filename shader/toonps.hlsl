@@ -23,9 +23,9 @@ float4 main(VS_OUTPUT input) : SV_Target
    //ハーフランバート拡散照明によるライティング計算
     float p = dot(N.xyz * -1.0f, L.xyz);
     p = p * 0.5f + 0.5f;
-    p = p * p;
-    p = max(p, 0.0f);
-    p = max(p, -1.0f);
+   // p = p * p;
+    p = max(p, 0.5f);
+   // p = min(p, -1.0f);
     
    //色情報をテクセルのＵ成分とし、トゥーンマップテクスチャーから光の反射率を取得する
     float4 Col = toonTex.Sample(g_SamplerLinear, float2(p, 0.0f));

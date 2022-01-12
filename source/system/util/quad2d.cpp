@@ -121,6 +121,10 @@ bool CQuad2D::Init(DirectX::XMFLOAT2 _scale, const char *_texName, const DirectX
 
 // 描画
 void CQuad2D::Draw(DirectX::XMFLOAT4X4 _mtx) {
+
+	if (mColor.w <= 0.0f)
+		return;
+
 	// デバイスコンテキストを取得
 	ID3D11DeviceContext* devcontext = CDirectXGraphics::GetInstance()->GetImmediateContext();
 

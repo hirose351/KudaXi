@@ -19,7 +19,9 @@ void Quad2d::Update()
 
 void Quad2d::Draw()
 {
+	TurnOffZbuffer();
 	mpQuad->Draw(mOwner->GetTransform()->worldMtx);
+	TurnOnZbuffer();
 }
 
 void Quad2d::ImguiDraw()

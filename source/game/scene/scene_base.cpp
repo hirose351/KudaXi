@@ -168,9 +168,9 @@ void SceneBase::DrawFadeIn(double t)
 
 	if (first)
 	{
-		//mQuadfadein = new GameObject("mQuadfadein", ObjectType::eObstracle, false);
-		//mQuadfadein->GetTransform()->SetScale(Float3(static_cast<float>(Application::CLIENT_WIDTH), static_cast<float>(Application::CLIENT_HEIGHT), 0));
-		//mQuadfadein->AddComponent<Component::Quad2d>()->SetInfo("assets/white.bmp", DirectX::XMFLOAT4(fadecolor.x, fadecolor.y, fadecolor.z, fadecolor.w));
+		mQuadfadein = new GameObject("mQuadfadein", ObjectType::eObstracle, false);
+		mQuadfadein->GetTransform()->SetScale(Float3(static_cast<float>(Application::CLIENT_WIDTH), static_cast<float>(Application::CLIENT_HEIGHT), 0));
+		mQuadfadein->AddComponent<Component::Quad2d>()->SetInfo("assets/white.bmp", DirectX::XMFLOAT4(fadecolor.x, fadecolor.y, fadecolor.z, fadecolor.w));
 		first = false;
 	}
 
@@ -182,12 +182,12 @@ void SceneBase::DrawFadeIn(double t)
 
 	fadecolor.w = fadecolor.w*(1.0f - static_cast<float>(t));
 
-	//mQuadfadein->GetTransform()->SetPositionXYZ(Float3(
-	//	Application::CLIENT_WIDTH / 2.0f,
-	//	Application::CLIENT_HEIGHT / 2.0f, 0));
+	mQuadfadein->GetTransform()->SetPositionXYZ(Float3(
+		Application::CLIENT_WIDTH / 2.0f,
+		Application::CLIENT_HEIGHT / 2.0f, 0));
 
-	//mQuadfadein->GetComponent<Component::Quad2d>()->SetColor(
-	//	DirectX::XMFLOAT4(fadecolor.x, fadecolor.y, fadecolor.z, fadecolor.w));
+	mQuadfadein->GetComponent<Component::Quad2d>()->SetColor(
+		DirectX::XMFLOAT4(fadecolor.x, fadecolor.y, fadecolor.z, fadecolor.w));
 }
 
 void SceneBase::DrawFadeOut(double t)

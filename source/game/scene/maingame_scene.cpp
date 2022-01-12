@@ -53,9 +53,9 @@ void MaingameScene::SceneInit()
 	Skydome* skydome = new Skydome;
 
 	//myUI::ButtonGroup* bG = new myUI::ButtonGroup;
-	//bG->SetInitState("assets/image/ui/number.png", 10, 1, 10, ButtonTransition::eColorTint, XMFLOAT2(100, 300), XMFLOAT2(5, 5), XMFLOAT2(100, 100), XMFLOAT2(150, 150));
+	//bG->SetInitState("assets/image/ui/number.png", 10, 1, 10, ButtonTransition::eColorTint, XMFLOAT2(100, 600), XMFLOAT2(5, 5), XMFLOAT2(100, 100), XMFLOAT2(150, 150));
 
-	myUI::PauseEndless* pause = new myUI::PauseEndless;
+	//myUI::PauseEndless* pause = new myUI::PauseEndless;
 
 	// カメラ
 	DirectX::XMFLOAT3 eye(140, 130, -170);	//カメラの位置
@@ -68,7 +68,7 @@ void MaingameScene::SceneInit()
 		static_cast<float>(Application::CLIENT_WIDTH),		// スクリーン幅
 		static_cast<float>(Application::CLIENT_HEIGHT),		// スクリーンの高さ
 		eye, lookat, up);				// カメラのデータ
-
+	SceneAfter();
 	DiceManager::GetInstance()->Init();
 }
 
@@ -99,7 +99,7 @@ void MaingameScene::ImguiDebug()
 	ImGui::End();
 
 	ImGui::SetNextWindowPos(ImVec2(20, 300), ImGuiCond_Once);
-	ImGui::SetNextWindowSize(ImVec2(280, 300), ImGuiCond_Once);
+	ImGui::SetNextWindowSize(ImVec2(280, 180), ImGuiCond_Once);
 	ImGui::Begin(u8"Light");
 	{
 		ImGui::DragFloat("x", &lightPos.x, 0.5f);

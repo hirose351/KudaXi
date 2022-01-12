@@ -110,9 +110,9 @@ void DiceManager::Update()
 void DiceManager::ImguiDraw()
 {
 	ImGui::SetNextWindowPos(ImVec2(1000, 20), ImGuiCond_Once);
-	ImGui::SetNextWindowSize(ImVec2(280, 300), ImGuiCond_Once);
+	ImGui::SetNextWindowSize(ImVec2(280, 200), ImGuiCond_Once);
 	ImGui::Begin(u8"DiceManager");
-	ImGui::Text(u8"ê∂ê¨ämóß");
+	ImGui::Text(u8"ê∂ê¨ämó¶");
 	for (int i = 0; i < 6; i++)
 	{
 		ImGui::DragInt(std::to_string(i + 1).c_str(), &mSpawnRate[i], 0.5f, 0, 99);
