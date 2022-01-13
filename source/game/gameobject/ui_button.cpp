@@ -63,9 +63,11 @@ void ButtonGroup::ObjectInit()
 
 void ButtonGroup::ObjectUpdate()
 {
-	// ’·‰Ÿ‚µ‚Ìˆ—
 	static unsigned int pressFrame = 0;	// ’·‰Ÿ‚µ‚µ‚Ä‚¢‚éŠÔ
-	switch (InputManager::GetInstance().GetDirection(InputMode::eUi, static_cast<int>(UiAction::eNavigate)))
+
+	// ‰Ÿ‚³‚ê‚½uŠÔ‚Ìˆ—
+	InputDirection i = InputManager::GetInstance().GetDirectionTrigger(InputMode::eUi, static_cast<int>(UiAction::eNavigate));
+	switch (i)
 	{
 		// ¶
 	case InputDirection::eLeft:
@@ -75,35 +77,36 @@ void ButtonGroup::ObjectUpdate()
 		else
 			SetSelectedNum(mArrayCnt - 1);
 		pressFrame = 0;
+		break;
 	}
-	break;
 	// ‰E
 	case InputDirection::eRight:
 	{
 		SetSelectedNum((mSelectNum + 1) % mArrayCnt);
 		pressFrame = 0;
+		break;
 	}
-	break;
 	// ã
 	case InputDirection::eUp:
 	{
 		SetSelectedNum((mSelectNum + mArrayCnt) % mButtonList.size());
 		pressFrame = 0;
+		break;
 	}
-	break;
 	// ‰º
 	case InputDirection::eDown:
 	{
 		SetSelectedNum((mSelectNum - mArrayCnt) % mButtonList.size());
 		pressFrame = 0;
+		break;
 	}
-	break;
 	default:
 		break;
 	}
 
-	// ‰Ÿ‚³‚ê‚½uŠÔ‚Ìˆ—
-	switch (InputManager::GetInstance().GetDirectionTrigger(InputMode::eUi, static_cast<int>(UiAction::eNavigate)))
+	// ’·‰Ÿ‚µ‚Ìˆ—
+	i = InputManager::GetInstance().GetDirection(InputMode::eUi, static_cast<int>(UiAction::eNavigate));
+	switch (i)
 	{
 		// ¶
 	case InputDirection::eLeft:
@@ -116,32 +119,32 @@ void ButtonGroup::ObjectUpdate()
 			else
 				SetSelectedNum(mArrayCnt - 1);
 		}
+		break;
 	}
-	break;
 	// ‰E
 	case InputDirection::eRight:
 	{
 		pressFrame++;
 		if (pressFrame >= mPressingTriggerFrame)
 			SetSelectedNum((mSelectNum + 1) % mArrayCnt);
+		break;
 	}
-	break;
 	// ã
 	case InputDirection::eUp:
 	{
 		pressFrame++;
 		if (pressFrame >= mPressingTriggerFrame)
 			SetSelectedNum((mSelectNum + mArrayCnt) % mButtonList.size());
+		break;
 	}
-	break;
 	// ‰º
 	case InputDirection::eDown:
 	{
 		pressFrame++;
 		if (pressFrame >= mPressingTriggerFrame)
 			SetSelectedNum((mSelectNum - mArrayCnt) % mButtonList.size());
+		break;
 	}
-	break;
 	default:
 		break;
 	}

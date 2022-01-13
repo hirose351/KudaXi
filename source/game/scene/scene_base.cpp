@@ -189,6 +189,7 @@ void SceneBase::DrawFadeIn(double t)
 		mQuadfadein = new GameObject("mQuadfadein", ObjectType::eObstracle, false);
 		mQuadfadein->GetTransform()->SetScale(Float3(static_cast<float>(Application::CLIENT_WIDTH), static_cast<float>(Application::CLIENT_HEIGHT), 0));
 		mQuadfadein->AddComponent<Component::Quad2d>()->SetInfo("assets/white.bmp", DirectX::XMFLOAT4(fadecolor.x, fadecolor.y, fadecolor.z, fadecolor.w));
+		mQuadfadein->GetComponent<Component::Quad2d>()->SetIsLateDraw(true);
 		first = false;
 	}
 
@@ -225,6 +226,7 @@ void SceneBase::DrawFadeOut(double t)
 		mQuadfadeout = new GameObject("mQuadfadeout", ObjectType::eObstracle, false);
 		mQuadfadeout->GetTransform()->SetScale(Float3(static_cast<float>(Application::CLIENT_WIDTH), static_cast<float>(Application::CLIENT_HEIGHT), 0));
 		mQuadfadeout->AddComponent<Component::Quad2d>()->SetInfo("assets/white.bmp", DirectX::XMFLOAT4(fadecolor.x, fadecolor.y, fadecolor.z, fadecolor.w));
+		mQuadfadeout->GetComponent<Component::Quad2d>()->SetIsLateDraw(true);
 		first = false;
 	}
 	std::cout << "DrawFadeOut:" << t << std::endl;

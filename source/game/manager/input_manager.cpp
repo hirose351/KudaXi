@@ -17,13 +17,14 @@ bool InputManager::GetState(InputMode _mode, int _action)
 		{
 		case UiAction::eClick:
 		{
-			if (CDirectInput::GetInstance().CheckKeyBuffer(DIK_RETURN) || ControllerInput::GetInstance().GetButtonState(A))
+			if (CDirectInput::GetInstance().CheckKeyBuffer(DIK_RETURN) || ControllerInput::GetInstance().GetButtonState(DPAD_A))
 				return true;
 		}
 		break;
 		case UiAction::eCancel:
 		{
-
+			if (CDirectInput::GetInstance().CheckKeyBuffer(DIK_BACKSPACE) || ControllerInput::GetInstance().GetButtonState(DPAD_B))
+				return true;
 		}
 		break;
 		//default:
@@ -66,13 +67,14 @@ bool InputManager::GetStateTrigger(InputMode _mode, int _action)
 		{
 		case UiAction::eClick:
 		{
-			if (CDirectInput::GetInstance().CheckKeyBufferTrigger(DIK_RETURN) || ControllerInput::GetInstance().GetButtonStateTrigger(A))
+			if (CDirectInput::GetInstance().CheckKeyBufferTrigger(DIK_RETURN) || ControllerInput::GetInstance().GetButtonStateTrigger(DPAD_A))
 				return true;
 		}
 		break;
 		case UiAction::eCancel:
 		{
-
+			if (CDirectInput::GetInstance().CheckKeyBufferTrigger(DIK_BACKSPACE) || ControllerInput::GetInstance().GetButtonStateTrigger(DPAD_B))
+				return true;
 		}
 		break;
 		//default:
@@ -151,8 +153,8 @@ InputDirection InputManager::GetDirection(InputMode _mode, int _action)
 			{
 				return InputDirection::eDown;
 			}
+			break;
 		}
-		break;
 		//default:
 		//	break;
 		}
@@ -204,8 +206,8 @@ InputDirection InputManager::GetDirection(InputMode _mode, int _action)
 			{
 				return InputDirection::eDown;
 			}
+			break;
 		}
-		break;
 		//default:
 		//	break;
 	}

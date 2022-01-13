@@ -18,6 +18,7 @@ void Effect::Thunder::ObjectUpdate()
 	if (bilbord == nullptr)
 		return;
 
+	/// マジックコード
 	if (mAlha <= 0.8f)
 	{
 		bilbord->SetUV(XMFLOAT2(1, 0));

@@ -30,6 +30,7 @@ public:
 	virtual void Init() {}
 	virtual void Update() {}
 	virtual void Draw() {}
+	virtual void LateDraw() {}
 	virtual void ImguiDraw() {}
 	virtual void Uninit() {}
 };

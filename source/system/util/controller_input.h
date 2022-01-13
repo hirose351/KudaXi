@@ -9,16 +9,16 @@
 #define DPAD_DOWN        0x0002
 #define DPAD_LEFT        0x0004
 #define DPAD_RIGHT       0x0008
-#define START            0x0010
-#define BACK             0x0020
-#define LEFT_THUMB       0x0040
-#define RIGHT_THUMB      0x0080
-#define LEFT_SHOULDER    0x0100
-#define RIGHT_SHOULDER   0x0200
-#define A                0x1000
-#define B                0x2000
-#define X                0x4000
-#define Y                0x8000
+#define DPAD_START       0x0010
+#define DPAD_BACK        0x0020
+#define DPAD_L_THUMB     0x0040
+#define DPAD_THUMB_R     0x0080
+#define DPAD_SHOULDER_L  0x0100
+#define DPAD_SHOULDER_R  0x0200
+#define DPAD_A           0x1000
+#define DPAD_B           0x2000
+#define DPAD_X           0x4000
+#define DPAD_Y           0x8000
 
 class ControllerInput :Uncopyable
 {

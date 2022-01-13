@@ -72,6 +72,10 @@ void GameObject::Draw()
 	{
 		component->Draw();
 	}
+	for (auto& component : mComponentList)
+	{
+		component->LateDraw();
+	}
 }
 
 void GameObject::ImguiDraw()

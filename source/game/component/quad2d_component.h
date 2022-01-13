@@ -9,6 +9,7 @@ namespace Component {
 	private:
 		Dix::sp<CQuad2D> mpQuad;
 		XMFLOAT4 mColor = XMFLOAT4(1, 1, 1, 1);
+		bool mIsLateDraw;	// Œã‚Å•`‰æ‚·‚é‚©
 
 		int mWidth;
 		int mHeight;
@@ -18,6 +19,7 @@ namespace Component {
 		void Init() override;
 		void Update()override;
 		void Draw()override;
+		void LateDraw()override;
 		void ImguiDraw()override;
 		void Uninit() override;
 
@@ -33,6 +35,8 @@ namespace Component {
 		{
 			mpQuad->SetTextureUV(u, v);
 		}
+
+		void SetIsLateDraw(bool flg) { mIsLateDraw = flg; }
 	};
 }
 

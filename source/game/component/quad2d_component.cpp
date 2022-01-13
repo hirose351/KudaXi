@@ -3,7 +3,7 @@
 
 using namespace Component;
 
-Quad2d::Quad2d() :ComponentBase(("Quad2d"))
+Quad2d::Quad2d() :ComponentBase(("Quad2d")), mIsLateDraw(false)
 {
 }
 
@@ -19,6 +19,15 @@ void Quad2d::Update()
 
 void Quad2d::Draw()
 {
+	if (mIsLateDraw) return;
+	TurnOffZbuffer();
+	mpQuad->Draw(mOwner->GetTransform()->worldMtx);
+	TurnOnZbuffer();
+}
+
+void Quad2d::LateDraw()
+{
+	if (!mIsLateDraw) return;
 	TurnOffZbuffer();
 	mpQuad->Draw(mOwner->GetTransform()->worldMtx);
 	TurnOnZbuffer();

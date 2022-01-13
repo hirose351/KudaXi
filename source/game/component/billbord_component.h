@@ -7,12 +7,14 @@ namespace Component {
 	{
 	private:
 		Dix::sp<CBillboard> mpBillboard;
+		bool mIsLateDraw;	// Œã‚Å•`‰æ‚·‚é‚©
 
 	public:
 		Billbord();
 		void Init() override;
 		void Update()override;
 		void Draw()override;
+		void LateDraw()override;
 		void ImguiDraw()override;
 		void Uninit() override;
 
@@ -36,5 +38,7 @@ namespace Component {
 		{
 			mpBillboard->LoadTexture(pTexFileName);
 		}
+
+		void SetIsLateDraw(bool flg) { mIsLateDraw = flg; }
 	};
 }

@@ -17,7 +17,6 @@ UI
 ゲーム中
 移動方向
 アクション(今のところなし)
-
 */
 
 class InputManager : public Uncopyable

@@ -2,7 +2,7 @@
 
 using namespace Component;
 
-Billbord::Billbord() :ComponentBase(("Billbord"))
+Billbord::Billbord() :ComponentBase(("Billbord")), mIsLateDraw(false)
 {
 	mpBillboard.SetPtr(new CBillboard);
 }
@@ -18,6 +18,13 @@ void Billbord::Update()
 
 void Billbord::Draw()
 {
+	if (mIsLateDraw) return;
+	mpBillboard->Render();
+}
+
+void Billbord::LateDraw()
+{
+	if (!mIsLateDraw) return;
 	mpBillboard->Render();
 }
 
