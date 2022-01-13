@@ -5,7 +5,7 @@
 #include	"transform.h"
 #include	"../component/component_base.h"
 #include	"../../system/imgui/util/myimgui.h"
-#include	"../manager/SceneManager.h"
+#include	"../manager/scene_manager.h"
 #include	"../../system/util/dixsmartptr.h"
 
 class ComponentBase;

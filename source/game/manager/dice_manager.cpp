@@ -321,9 +321,7 @@ void DiceManager::CheckAligned(Dice* _dice)
 			if (mCheckboolMap[z][x] && mDiceMap[z][x] != NODICE)
 			{
 				// Dice‚ð—Ž‚Æ‚·
-
 				GetListInDice(x, z)->SetDownPosition();
-
 			}
 		}
 	}

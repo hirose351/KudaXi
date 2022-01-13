@@ -196,6 +196,9 @@
     <Filter Include="ソース ファイル\game\component\ui\animation">
       <UniqueIdentifier>{186be355-e8de-4355-b114-e541d6afa833}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\game\manager\input">
+      <UniqueIdentifier>{ee634d27-daff-4496-9152-c2baceafe5ef}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\game.cpp">
@@ -233,9 +236,6 @@
     </ClCompile>
     <ClCompile Include="source\system\imgui\imgui_widgets.cpp">
       <Filter>ソース ファイル\system\imgui</Filter>
-    </ClCompile>
-    <ClCompile Include="source\system\dx11\Shader.cpp">
-      <Filter>ソース ファイル\system\dx11</Filter>
     </ClCompile>
     <ClCompile Include="source\system\model\ModelData.cpp">
       <Filter>ソース ファイル\system\model</Filter>
@@ -351,9 +351,6 @@
     <ClCompile Include="source\game\manager\dice_manager.cpp">
       <Filter>ソース ファイル\game\manager\dice</Filter>
     </ClCompile>
-    <ClCompile Include="source\game\manager\SceneManager.cpp">
-      <Filter>ソース ファイル\game\manager\scene</Filter>
-    </ClCompile>
     <ClCompile Include="source\game\manager\stagedata_manager.cpp">
       <Filter>ソース ファイル\game\manager\stage</Filter>
     </ClCompile>
@@ -450,6 +447,18 @@
     <ClCompile Include="source\game\gameobject\effect_fruit.cpp">
       <Filter>ソース ファイル\game\gameobject\effect</Filter>
     </ClCompile>
+    <ClCompile Include="source\game\manager\input_manager.cpp">
+      <Filter>ソース ファイル\game\manager\input</Filter>
+    </ClCompile>
+    <ClCompile Include="source\system\util\controller_input.cpp">
+      <Filter>ソース ファイル\system\util</Filter>
+    </ClCompile>
+    <ClCompile Include="source\game\manager\scene_manager.cpp">
+      <Filter>ソース ファイル\game\manager\scene</Filter>
+    </ClCompile>
+    <ClCompile Include="source\system\dx11\shader.cpp">
+      <Filter>ソース ファイル\system\dx11</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\system\model\assimpscene.h">
@@ -492,9 +501,6 @@
       <Filter>ソース ファイル\system\dx11</Filter>
     </ClInclude>
     <ClInclude Include="source\system\dx11\CDirectInput.h">
-      <Filter>ソース ファイル\system\dx11</Filter>
-    </ClInclude>
-    <ClInclude Include="source\system\dx11\Shader.h">
       <Filter>ソース ファイル\system\dx11</Filter>
     </ClInclude>
     <ClInclude Include="source\system\model\ModelData.h">
@@ -638,9 +644,6 @@
     <ClInclude Include="source\game\manager\dice_manager.h">
       <Filter>ソース ファイル\game\manager\dice</Filter>
     </ClInclude>
-    <ClInclude Include="source\game\manager\SceneManager.h">
-      <Filter>ソース ファイル\game\manager\scene</Filter>
-    </ClInclude>
     <ClInclude Include="source\game\manager\stagedata_manager.h">
       <Filter>ソース ファイル\game\manager\stage</Filter>
     </ClInclude>
@@ -745,6 +748,21 @@
     </ClInclude>
     <ClInclude Include="source\game\gameobject\effect_util.h">
       <Filter>ソース ファイル\game\gameobject\effect</Filter>
+    </ClInclude>
+    <ClInclude Include="source\game\manager\input_manager.h">
+      <Filter>ソース ファイル\game\manager\input</Filter>
+    </ClInclude>
+    <ClInclude Include="source\system\util\controller_input.h">
+      <Filter>ソース ファイル\system\util</Filter>
+    </ClInclude>
+    <ClInclude Include="source\game\manager\scene_manager.h">
+      <Filter>ソース ファイル\game\manager\scene</Filter>
+    </ClInclude>
+    <ClInclude Include="source\game\manager\input_utility.h">
+      <Filter>ソース ファイル\game\manager\input</Filter>
+    </ClInclude>
+    <ClInclude Include="source\system\dx11\shader.h">
+      <Filter>ソース ファイル\system\dx11</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

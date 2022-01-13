@@ -20,7 +20,6 @@ using Microsoft::WRL::ComPtr;
 class MaingameScene : public SceneBase
 {
 private:
-	DirectX::XMFLOAT4 lightPos = { -50, -87, 66, 0 };
 
 public:
 	MaingameScene();

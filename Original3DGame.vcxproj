@@ -166,7 +166,8 @@
     <ClCompile Include="source\game\manager\collision_manager.cpp" />
     <ClCompile Include="source\game\manager\dice_manager.cpp" />
     <ClCompile Include="source\game\manager\game_manager.cpp" />
-    <ClCompile Include="source\game\manager\SceneManager.cpp" />
+    <ClCompile Include="source\game\manager\input_manager.cpp" />
+    <ClCompile Include="source\game\manager\scene_manager.cpp" />
     <ClCompile Include="source\game\manager\SelectManager.cpp" />
     <ClCompile Include="source\game\manager\stagedata_manager.cpp" />
     <ClCompile Include="source\game\mode\gamemode_controller.cpp" />
@@ -186,7 +187,7 @@
     <ClCompile Include="source\system\dx11\DDSTextureLoader.cpp" />
     <ClCompile Include="source\system\dx11\dx11mathutil.cpp" />
     <ClCompile Include="source\system\dx11\DX11util.cpp" />
-    <ClCompile Include="source\system\dx11\Shader.cpp" />
+    <ClCompile Include="source\system\dx11\shader.cpp" />
     <ClCompile Include="source\system\dx11\WICTextureLoader.cpp" />
     <ClCompile Include="source\system\imgui\imgui.cpp" />
     <ClCompile Include="source\system\imgui\imgui_demo.cpp" />
@@ -215,6 +216,7 @@
     <ClCompile Include="source\system\util\time.cpp" />
     <ClCompile Include="source\system\util\vector.cpp" />
     <ClCompile Include="source\system\util\XAudio2.cpp" />
+    <ClCompile Include="source\system\util\controller_input.cpp" />
     <ClCompile Include="source\system\windows\CWindow.cpp" />
     <ClCompile Include="source\system\windows\CWindowCallback.cpp" />
     <ClCompile Include="source\WinMain.cpp" />
@@ -257,7 +259,9 @@
     <ClInclude Include="source\game\manager\dice_manager.h" />
     <ClInclude Include="source\game\manager\game_manager.h" />
     <ClInclude Include="source\game\manager\IGameManager.h" />
-    <ClInclude Include="source\game\manager\SceneManager.h" />
+    <ClInclude Include="source\game\manager\input_manager.h" />
+    <ClInclude Include="source\game\manager\input_utility.h" />
+    <ClInclude Include="source\game\manager\scene_manager.h" />
     <ClInclude Include="source\game\manager\SelectManager.h" />
     <ClInclude Include="source\game\manager\stagedata_manager.h" />
     <ClInclude Include="source\game\mode\allgamemode.h" />
@@ -282,7 +286,7 @@
     <ClInclude Include="source\system\dx11\dx11mathutil.h" />
     <ClInclude Include="source\system\dx11\DX11Settransform.h" />
     <ClInclude Include="source\system\dx11\DX11util.h" />
-    <ClInclude Include="source\system\dx11\Shader.h" />
+    <ClInclude Include="source\system\dx11\shader.h" />
     <ClInclude Include="source\system\imgui\imconfig.h" />
     <ClInclude Include="source\system\imgui\imgui.h" />
     <ClInclude Include="source\system\imgui\imgui_impl_dx11.h" />
@@ -316,6 +320,7 @@
     <ClInclude Include="source\system\util\uncopyable.h" />
     <ClInclude Include="source\system\util\vector.h" />
     <ClInclude Include="source\system\util\XAudio2.h" />
+    <ClInclude Include="source\system\util\controller_input.h" />
     <ClInclude Include="source\system\windows\CWindow.h" />
     <ClInclude Include="source\system\windows\CWindowCallback.h" />
   </ItemGroup>

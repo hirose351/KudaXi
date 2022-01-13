@@ -1,6 +1,6 @@
 #include	"player_state_move.h"
-#include	"../../system/dx11/CDirectInput.h"
 #include	"../manager/dice_manager.h"
+#include	"../manager/input_manager.h"
 
 //*****************************************************************************
 // マクロ定義
@@ -185,7 +185,8 @@ void Move::Exec()
 	Float3 rotCamera;
 	float radian;
 	mTransform->move = Float3(0, 0, 0);
-	if (CDirectInput::GetInstance().CheckKeyBuffer(DIK_LEFT) || CDirectInput::GetInstance().CheckKeyBuffer(DIK_A))
+	InputDirection inputDirection = InputManager::GetInstance().GetDirection(InputMode::eGame, static_cast<int>(GameAction::Move));
+	if (inputDirection == InputDirection::eLeft)
 	{
 		// 左移動
 		radian = rotCamera.y + XM_PI * 0.50f;
@@ -195,7 +196,7 @@ void Move::Exec()
 		mDestrot.y = radian;
 		(*mDirection) = Direction::eLeft;
 	}
-	else if (CDirectInput::GetInstance().CheckKeyBuffer(DIK_RIGHT) || CDirectInput::GetInstance().CheckKeyBuffer(DIK_D))
+	else if (inputDirection == InputDirection::eRight)
 	{
 		// 右移動
 		radian = rotCamera.y - XM_PI * 0.50f;
@@ -205,7 +206,7 @@ void Move::Exec()
 		mDestrot.y = radian;
 		(*mDirection) = Direction::eRight;
 	}
-	else if (CDirectInput::GetInstance().CheckKeyBuffer(DIK_UP) || CDirectInput::GetInstance().CheckKeyBuffer(DIK_W))
+	else if (inputDirection == InputDirection::eUp)
 	{
 		// 前移動
 		mTransform->move.x -= sinf(XM_PI) * VALUE_MOVE_MODEL;
@@ -214,7 +215,7 @@ void Move::Exec()
 		mDestrot.y = rotCamera.y + XM_PI;
 		(*mDirection) = Direction::eUp;
 	}
-	else if (CDirectInput::GetInstance().CheckKeyBuffer(DIK_DOWN) || CDirectInput::GetInstance().CheckKeyBuffer(DIK_S))
+	else if (inputDirection == InputDirection::eDown)
 	{
 		// 後移動
 		mTransform->move.x -= sinf(rotCamera.y) * VALUE_MOVE_MODEL;
@@ -229,10 +230,10 @@ void Move::Exec()
 	//	(*mDirection) = Direction::eNeutral;
 	//}
 
-	if (CDirectInput::GetInstance().CheckKeyBuffer(DIK_RETURN))
-	{
-		mTransform->ReSetValue();
-	}
+	//if (CDirectInput::GetInstance().CheckKeyBuffer(DIK_RETURN))
+	//{
+	//	mTransform->ReSetValue();
+	//}
 	// 目標角度と現在角度との差分を求める
 	float diffrot = mDestrot.y - mTransform->rotation.y;
 	if (diffrot > XM_PI)

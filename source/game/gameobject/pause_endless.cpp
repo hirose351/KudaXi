@@ -1,7 +1,7 @@
 #include	"pause_endless.h"
 #include	"../component/quad2d_component.h"
 #include	"../component/easing_image_component.h"
-#include	"../manager/SceneManager.h"
+#include	"../manager/scene_manager.h"
 
 using namespace myUI;
 

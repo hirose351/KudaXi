@@ -1,6 +1,6 @@
 #include	"game.h"
 #include	"application.h"
-#include	"game/manager/SceneManager.h"
+#include	"game/manager/scene_manager.h"
 #include	"game/scene/maingame_scene.h"
 #include	"game/scene/title_scene.h"
 #include	"game/gameobject/CCamera.h"
@@ -9,6 +9,7 @@
 #include	"system/imgui/util/myimgui.h"
 #include	"system/util/2dsystem.h"
 #include	"system/util/XAudio2.h"
+#include	"system/util/controller_input.h"
 
 
 void GameInit() {
@@ -67,15 +68,16 @@ void GameSceneInit()
 	SceneManager::GetInstance()->add<MaingameScene>("GameMain");
 	//SceneManager::GetInstance()->add<StageCreateScene>("Create");
 	//SceneManager::GetInstance()->add<ModeSelectScene>("Mode");
-	//SceneManager::GetInstance()->add<TitleScene>("Title");
+	SceneManager::GetInstance()->add<TitleScene>("Title");
 	// Œ»ÝƒV[ƒ“‚ðTitle‚É‚·‚é
-	SceneManager::GetInstance()->setCurrentScene("GameMain");
-	//SceneManager::GetInstance()->setCurrentScene("Title");
+	//SceneManager::GetInstance()->setCurrentScene("GameMain");
+	SceneManager::GetInstance()->setCurrentScene("Title");
 }
 
 void GameInput(uint64_t dt) {
 	CDirectInput::GetInstance().GetKeyBuffer();
 	CDirectInput::GetInstance().GetMouseState();
+	ControllerInput::GetInstance().Input();
 }
 
 

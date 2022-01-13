@@ -1,6 +1,6 @@
 #pragma once
 #include	"../../system/util/vector.h"
-#include	"../manager/SceneManager.h"
+#include	"../manager/scene_manager.h"
 #include	"XAudio2.h"
 
 class SceneManager;

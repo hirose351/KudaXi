@@ -70,7 +70,6 @@ bool SceneBase::Init()
 
 void SceneBase::Update()
 {
-
 	// すべてのアクターを更新
 	mUpdatingActors = true;
 	for (auto &obj : mObjectList)
@@ -130,6 +129,25 @@ void SceneBase::ImguiDebug()
 	{
 		obj->ImguiDraw();
 	}
+	ImGui::End();
+
+	static DirectX::XMFLOAT4 lightPos = { -50, -87, 66, 0 };
+
+	ImGui::SetNextWindowPos(ImVec2(20, 300), ImGuiCond_Once);
+	ImGui::SetNextWindowSize(ImVec2(280, 180), ImGuiCond_Once);
+	ImGui::Begin(u8"Scene");
+	{
+		ImGui::Text(u8"現在のFPS : %.1f FPS", ImGui::GetIO().Framerate);
+		if (ImGui::TreeNode("Light"))
+		{
+			ImGui::DragFloat("x", &lightPos.x, 0.5f);
+			ImGui::DragFloat("y", &lightPos.y, 0.5f);
+			ImGui::DragFloat("z", &lightPos.z, 0.5f);
+			DX11LightInit(lightPos);	// 平行光源をセット
+			ImGui::TreePop();
+		}
+	}
+
 	ImGui::End();
 }
 

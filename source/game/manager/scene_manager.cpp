@@ -1,4 +1,4 @@
-#include	"SceneManager.h"
+#include	"scene_manager.h"
 
 // ‚Ğ‚Æ‚Â‚Ì‘JˆÚ•û–@‚ÅXV
 void SceneManager::UpdateSingle()

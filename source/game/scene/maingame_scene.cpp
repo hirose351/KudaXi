@@ -8,9 +8,6 @@
 #include	"../manager/dice_manager.h"
 #include	"../gameobject/skydome.h"
 #include	"../gameobject/ui_image.h"
-
-#include	"../../system/dx11/CDirectInput.h"
-
 #include	"../gameobject/ui_button.h"
 #include	"../gameobject/pause_endless.h"
 
@@ -74,11 +71,6 @@ void MaingameScene::SceneInit()
 
 void MaingameScene::SceneUpdate()
 {
-	if (CDirectInput::GetInstance().CheckKeyBufferTrigger(DIK_RETURN))
-	{
-		Init();
-	}
-
 	CollisionManager::GetInstance().Update();
 	DiceManager::GetInstance()->Update();
 }
@@ -98,19 +90,24 @@ void MaingameScene::ImguiDebug()
 	}
 	ImGui::End();
 
+	static DirectX::XMFLOAT4 lightPos = { -50, -87, 66, 0 };
+
 	ImGui::SetNextWindowPos(ImVec2(20, 300), ImGuiCond_Once);
 	ImGui::SetNextWindowSize(ImVec2(280, 180), ImGuiCond_Once);
-	ImGui::Begin(u8"Light");
+	ImGui::Begin(u8"Scene");
 	{
-		ImGui::DragFloat("x", &lightPos.x, 0.5f);
-		ImGui::DragFloat("y", &lightPos.y, 0.5f);
-		ImGui::DragFloat("z", &lightPos.z, 0.5f);
-		// 平行光源をセット
-		DX11LightInit(lightPos);
+		ImGui::Text(u8"現在のFPS : %.1f FPS", ImGui::GetIO().Framerate);
+		if (ImGui::TreeNode("Light"))
+		{
+			ImGui::DragFloat("x", &lightPos.x, 0.5f);
+			ImGui::DragFloat("y", &lightPos.y, 0.5f);
+			ImGui::DragFloat("z", &lightPos.z, 0.5f);
+			DX11LightInit(lightPos);	// 平行光源をセット
+			ImGui::TreePop();
+		}
 	}
 
 	ImGui::End();
-
 	DiceManager::GetInstance()->ImguiDraw();
 }
 

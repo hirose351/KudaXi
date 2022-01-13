@@ -1,7 +1,7 @@
 #include	"ui_button.h"
 #include	"../component/quad2d_component.h"
 #include	"../component/easing_image_component.h"
-#include	"../../system/dx11/CDirectInput.h"
+#include	"../manager/input_manager.h"
 
 using namespace myUI;
 
@@ -65,9 +65,10 @@ void ButtonGroup::ObjectUpdate()
 {
 	// í∑âüÇµÇÃèàóù
 	static unsigned int pressFrame = 0;	// í∑âüÇµÇµÇƒÇ¢ÇÈéûä‘
-
-	// ç∂
-	if (CDirectInput::GetInstance().CheckKeyBufferTrigger(DIK_LEFT) || CDirectInput::GetInstance().CheckKeyBufferTrigger(DIK_A))
+	switch (InputManager::GetInstance().GetDirection(InputMode::eUi, static_cast<int>(UiAction::eNavigate)))
+	{
+		// ç∂
+	case InputDirection::eLeft:
 	{
 		if ((mSelectNum - 1) >= 0)
 			SetSelectedNum((mSelectNum - 1) % mArrayCnt);
@@ -75,27 +76,37 @@ void ButtonGroup::ObjectUpdate()
 			SetSelectedNum(mArrayCnt - 1);
 		pressFrame = 0;
 	}
+	break;
 	// âE
-	else if (CDirectInput::GetInstance().CheckKeyBufferTrigger(DIK_RIGHT) || CDirectInput::GetInstance().CheckKeyBufferTrigger(DIK_D))
+	case InputDirection::eRight:
 	{
 		SetSelectedNum((mSelectNum + 1) % mArrayCnt);
 		pressFrame = 0;
 	}
+	break;
 	// è„
-	else if (CDirectInput::GetInstance().CheckKeyBufferTrigger(DIK_UP) || CDirectInput::GetInstance().CheckKeyBufferTrigger(DIK_W))
+	case InputDirection::eUp:
 	{
 		SetSelectedNum((mSelectNum + mArrayCnt) % mButtonList.size());
 		pressFrame = 0;
 	}
+	break;
 	// â∫
-	else if (CDirectInput::GetInstance().CheckKeyBufferTrigger(DIK_DOWN) || CDirectInput::GetInstance().CheckKeyBufferTrigger(DIK_S))
+	case InputDirection::eDown:
 	{
 		SetSelectedNum((mSelectNum - mArrayCnt) % mButtonList.size());
 		pressFrame = 0;
 	}
+	break;
+	default:
+		break;
+	}
 
-	// ç∂
-	if (CDirectInput::GetInstance().CheckKeyBuffer(DIK_LEFT) || CDirectInput::GetInstance().CheckKeyBuffer(DIK_A))
+	// âüÇ≥ÇÍÇΩèuä‘ÇÃèàóù
+	switch (InputManager::GetInstance().GetDirectionTrigger(InputMode::eUi, static_cast<int>(UiAction::eNavigate)))
+	{
+		// ç∂
+	case InputDirection::eLeft:
 	{
 		pressFrame++;
 		if (pressFrame >= mPressingTriggerFrame)
@@ -106,32 +117,39 @@ void ButtonGroup::ObjectUpdate()
 				SetSelectedNum(mArrayCnt - 1);
 		}
 	}
+	break;
 	// âE
-	else if (CDirectInput::GetInstance().CheckKeyBuffer(DIK_RIGHT) || CDirectInput::GetInstance().CheckKeyBuffer(DIK_D))
+	case InputDirection::eRight:
 	{
 		pressFrame++;
 		if (pressFrame >= mPressingTriggerFrame)
 			SetSelectedNum((mSelectNum + 1) % mArrayCnt);
 	}
+	break;
 	// è„
-	else if (CDirectInput::GetInstance().CheckKeyBuffer(DIK_UP) || CDirectInput::GetInstance().CheckKeyBuffer(DIK_W))
+	case InputDirection::eUp:
 	{
 		pressFrame++;
 		if (pressFrame >= mPressingTriggerFrame)
 			SetSelectedNum((mSelectNum + mArrayCnt) % mButtonList.size());
 	}
+	break;
 	// â∫
-	else if (CDirectInput::GetInstance().CheckKeyBuffer(DIK_DOWN) || CDirectInput::GetInstance().CheckKeyBuffer(DIK_S))
+	case InputDirection::eDown:
 	{
 		pressFrame++;
 		if (pressFrame >= mPressingTriggerFrame)
 			SetSelectedNum((mSelectNum - mArrayCnt) % mButtonList.size());
 	}
+	break;
+	default:
+		break;
+	}
 
 	if (pressFrame >= mPressingTriggerFrame)
 		pressFrame = 0;
 
-	if (CDirectInput::GetInstance().CheckKeyBuffer(DIK_RETURN))
+	if (InputManager::GetInstance().GetStateTrigger(InputMode::eUi, static_cast<int>(UiAction::eClick)))
 	{
 		isPressed = true;
 	}

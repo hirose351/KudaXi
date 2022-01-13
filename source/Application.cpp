@@ -18,7 +18,7 @@
 #include	"system/windows/CWindow.h"
 #include	"macro.h"
 #include	"game.h"
-#include	"game/manager/SceneManager.h"
+#include	"game/manager/scene_manager.h"
 
 //-----------------------------------------------------------------------------
 // スタティック　メンバー
