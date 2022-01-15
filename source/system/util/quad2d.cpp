@@ -11,7 +11,8 @@ const char* vsfilename[] = {
 // 使用するピクセルシェーダー名
 const char* psfilename[] = {
 	"shader/basicps.hlsl",
-	"shader/basicnotexps.hlsl"
+	"shader/basicnotexps.hlsl",
+	"shader/psmokomoko.hlsl"
 };
 
 // 矩形の初期化
@@ -43,6 +44,20 @@ bool CQuad2D::Init(DirectX::XMFLOAT2 _scale, const char *_texName, const DirectX
 		MessageBox(nullptr, "SetPixelShader error(basicnotexps.hlsl)", "error", MB_OK);
 		return false;
 	}
+
+	// ピクセルシェーダーを生成
+	sts = ShaderHashmap::GetInstance()->SetPixelShader(psfilename[2]);
+	if (!sts)
+	{
+		MessageBox(nullptr, "SetPixelShader error(psmokomoko.hlsl)", "error", MB_OK);
+		return false;
+	}
+
+	// コンスタントバッファ作成
+	sts = CreateConstantBuffer(
+		GetDX11Device(),				// デバイス
+		sizeof(ConstantBufferTime),		// サイズ
+		&mpConstantBufferTime);			// コンスタントバッファ４
 
 	// 頂点データの定義
 	D3D11_INPUT_ELEMENT_DESC layout[] =
@@ -97,16 +112,20 @@ bool CQuad2D::Init(DirectX::XMFLOAT2 _scale, const char *_texName, const DirectX
 	}
 
 	// テクスチャ設定
-	device = CDirectXGraphics::GetInstance()->GetDXDevice();
-	ID3D11DeviceContext* devicecontext = CDirectXGraphics::GetInstance()->GetImmediateContext();
-
-	sts = CreateSRVfromFile(_texName, device, devicecontext, &mTexInfo.texRes, &mTexInfo.texSrv);
-	if (!sts)
+	if (_texName != "NoTex")
 	{
-		// テクスチャ不要な場合はNoTexと入力して描画させないでおく
-		MessageBox(nullptr, "CreateSRVfromfile エラー", "error!!", MB_OK);
-		return false;
+		device = CDirectXGraphics::GetInstance()->GetDXDevice();
+		ID3D11DeviceContext* devicecontext = CDirectXGraphics::GetInstance()->GetImmediateContext();
+
+		sts = CreateSRVfromFile(_texName, device, devicecontext, &mTexInfo.texRes, &mTexInfo.texSrv);
+		if (!sts)
+		{
+			// テクスチャ不要な場合はNoTexと入力して描画させないでおく
+			MessageBox(nullptr, "CreateSRVfromfile エラー", "error!!", MB_OK);
+			return false;
+		}
 	}
+
 
 	// アニメーション設定
 	mDivu = _u;				// 横分割数を入れる
@@ -234,6 +253,69 @@ void CQuad2D::DrawNoTex() {
 	//	0,						// 開始インデックス
 	//	0);						// 基準頂点インデックス
 }
+
+void CQuad2D::DrawMokoMokoTex(DirectX::XMFLOAT4X4 _mtx)
+{
+	if (mColor.w <= 0.0f)
+		return;
+
+	// デバイスコンテキストを取得
+	ID3D11DeviceContext* devcontext = CDirectXGraphics::GetInstance()->GetImmediateContext();
+
+	// 座標変換用の行列をセット
+	DX11SetTransform::GetInstance()->SetTransform(DX11SetTransform::TYPE::eWorld, _mtx);
+
+	unsigned int stride = sizeof(CQuad2D::Vertex);	// ストライドをセット（１頂点当たりのバイト数）
+	unsigned  offset = 0;						// オフセット値をセット
+
+	// 頂点バッファをデバイスコンテキストへセット
+	devcontext->IASetVertexBuffers(
+		0,									// スタートスロット
+		1,									// 頂点バッファ個数
+		mVertexbuffer.GetAddressOf(),		// 頂点バッファの先頭アドレス
+		&stride,							// ストライド
+		&offset);							// オフセット
+
+	// インデックスバッファをデバイスコンテキストへセット
+	devcontext->IASetIndexBuffer(
+		mIndexbuffer.Get(),					// インデックスバッファ
+		DXGI_FORMAT_R32_UINT,				// フォーマット
+		0);									// オフセット
+
+	// トポロジーをセット
+	devcontext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
+
+	ConstantBufferTime	cb;
+	cb.time = ::timeGetTime() / 1000.0f;
+	devcontext->UpdateSubresource(mpConstantBufferTime, 0, nullptr, &cb, 0, 0);
+
+	// コンスタントバッファをｂ6レジスタへセット(ピクセルシェーダー用)
+	devcontext->PSSetConstantBuffers(6, 1, &mpConstantBufferTime);
+
+	// 頂点シェーダー、ピクセルシェーダー取得
+	ID3D11VertexShader* vs = ShaderHashmap::GetInstance()->GetVertexShader(vsfilename[0]);
+	ID3D11PixelShader* ps = ShaderHashmap::GetInstance()->GetPixelShader(psfilename[2]);
+
+	// 頂点レイアウト取得
+	ID3D11InputLayout* layout = ShaderHashmap::GetInstance()->GetVertexLayout(vsfilename[0]);
+
+	devcontext->VSSetShader(vs, nullptr, 0);
+	devcontext->GSSetShader(nullptr, nullptr, 0);
+	devcontext->HSSetShader(nullptr, nullptr, 0);
+	devcontext->DSSetShader(nullptr, nullptr, 0);
+	devcontext->PSSetShader(ps, nullptr, 0);
+
+
+	// 頂点フォーマットをセット
+	devcontext->IASetInputLayout(layout);
+
+	// ドローコール発行
+	devcontext->DrawIndexed(
+		4,						// インデックス数
+		0,						// 開始インデックス
+		0);						// 基準頂点インデックス
+}
+
 //
 //// 拡大、縮小
 //void Quad2D::SetScale(Float3 _size) {

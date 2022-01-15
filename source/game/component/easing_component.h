@@ -12,13 +12,13 @@ enum class TransType
 };
 
 namespace Component {
-	class EasingImage : public ComponentBase
+	class Easing : public ComponentBase
 	{
 	private:
 		// イージングに必要な固まり
 		struct EasingFamily
 		{
-			Easing::EasingType easingType = Easing::EasingType::eLinear;
+			EasingProcess::EasingType easingType = EasingProcess::EasingType::eLinear;
 			TransType transType = TransType::ePos;
 			float totalFrame = 0.0f;						// 必要な時間
 			float delayFrame = 0.0f;						// 遅延時間
@@ -34,7 +34,7 @@ namespace Component {
 		DirectX::XMFLOAT2 mStartValue = { 0, 0 };					// 現在の処理のはじめの数
 
 	public:
-		EasingImage();
+		Easing();
 		void Init() override {};
 		void Update()override;
 		void Draw()override {};
@@ -42,7 +42,7 @@ namespace Component {
 		void Uninit() override {};
 
 		// startValueが0,0なら相対座標
-		void AddEasing(Easing::EasingType _easingType,
+		void AddEasing(EasingProcess::EasingType _easingType,
 					   TransType _transType,
 					   float _totalFrame,
 					   float _delayFrame,

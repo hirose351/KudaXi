@@ -14,14 +14,14 @@ class ComponentBase;
 class GameObject
 {
 protected:
-	GameObject*				mParent;
-	Dix::sp<Transform>		mTransform;		// 位置回転大きさ
-	std::string				mName;			// 名前
+	GameObject*			mParent;
+	Dix::sp<Transform>	mTransform;		// 位置回転大きさ
+	std::string			mName;			// 名前
 	unsigned int			mObjectID;		// オブジェクトID番号
-	ObjectType				mObjectType;	// オブジェクトタイプ
-	bool					mIsExist;		// 生存可否
-	ObjectState				mObjectState;	// 状態
-	bool					mIsStopPause;		// ポーズ時に止めるか
+	ObjectType			mObjectType;	// オブジェクトタイプ
+	ObjectState			mObjectState;	// 状態
+	bool					mIsActive;		// アクティブか(UpdateもDrawも止まる)
+	bool					mIsStopPause;	// ポーズ時に止めるか
 
 	std::vector<ComponentBase*> mComponentList;
 
@@ -47,9 +47,6 @@ public:
 	std::string GetName() const { return mName; }
 	void SetName(std::string newName) { mName = newName; }
 
-	bool GetExistState() const { return mIsExist; }
-	void SetExistState(bool newState) { mIsExist = newState; }
-
 	void SetObjectType(ObjectType newType) { mObjectType = newType; }
 	ObjectType GetObjectType() { return mObjectType; }
 
@@ -58,6 +55,11 @@ public:
 
 	int GetObjectID() { return mObjectID; }
 	bool GetIsStopPause() { return mIsStopPause; }
+
+	void SetIsActive(bool _isActive) { mIsActive = _isActive; }
+	bool GetIsActive() { return mIsActive; }
+
+	void SetParent(GameObject* _obj) { mParent = _obj; }
 
 	Dix::wp<Transform> GetTransform() { return mTransform; }
 

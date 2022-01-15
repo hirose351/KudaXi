@@ -11,6 +11,12 @@
 // comptr
 using Microsoft::WRL::ComPtr;
 
+enum class DrawType {
+	eTex,
+	eNoTex,
+	eMokomokoTex
+};
+
 // 矩形クラス
 class CQuad2D {
 private:
@@ -35,6 +41,12 @@ private:
 	unsigned int mDivu;								// 画像の横分割数
 	unsigned int mDivv;								// 画像の縦分割数
 
+	ALIGN16 struct ConstantBufferTime {
+		float time;
+	};
+
+	ID3D11Buffer*       mpConstantBufferTime = nullptr;
+
 public:
 	// 矩形の初期化　(_scale：大きさ　_texName：画像の場所と名前　_color：頂点カラー　_u：横の分割数　_v：縦の分割数　_z：奥描画サイズ)
 	bool Init(DirectX::XMFLOAT2 _scale, const char *_texName, const DirectX::XMFLOAT4 &_color, int _u = 1, int _v = 1, float _z = 0.0f);
@@ -44,6 +56,9 @@ public:
 
 	// テクスチャなしで描画
 	void DrawNoTex();
+
+	// 特殊シェーダーで描画
+	void DrawMokoMokoTex(DirectX::XMFLOAT4X4 _mtx);
 
 	// 拡大、縮小
 	//void SetScale(Float3 _size);

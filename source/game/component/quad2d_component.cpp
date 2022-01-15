@@ -2,7 +2,7 @@
 
 using namespace Component;
 
-Quad2d::Quad2d() :ComponentBase(("Quad2d")), mIsLateDraw(false)
+Quad2d::Quad2d() :ComponentBase(("Quad2d")), mIsLateDraw(false), mDrawType(DrawType::eTex)
 {
 }
 
@@ -20,7 +20,22 @@ void Quad2d::Draw()
 {
 	if (mIsLateDraw) return;
 	TurnOffZbuffer();
-	mpQuad->Draw(mOwner->GetTransform()->worldMtx);
+
+	switch (mDrawType)
+	{
+	case DrawType::eTex:
+		mpQuad->Draw(mOwner->GetTransform()->worldMtx);
+		break;
+	case DrawType::eNoTex:
+		mpQuad->DrawNoTex();
+		break;
+	case DrawType::eMokomokoTex:
+		mpQuad->DrawMokoMokoTex(mOwner->GetTransform()->worldMtx);
+		break;
+	default:
+		break;
+	}
+
 	TurnOnZbuffer();
 }
 

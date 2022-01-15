@@ -25,6 +25,12 @@ void TitleScene::SceneInit()
 {
 	Skydome* skydome = new Skydome;
 
+	//myUI::Image* b = new myUI::Image;
+	//b->GetTransform()->SetScale(Float3(1280, 720, 0));
+	//b->GetTransform()->SetPositionXYZ(Float3(1280 / 2.0f, 720 / 2.0f, 0));
+	//b->AddComponent<Component::Quad2d>()->SetInfo("NoTex", XMFLOAT4(1, 1, 1, 1));
+	//b->GetComponent<Component::Quad2d>()->SetDrawType(DrawType::eMokomokoTex);
+
 	myUI::Image* rogo = new myUI::Image;
 	rogo->GetTransform()->SetScale(Float3(700, 650, 0));
 	rogo->GetTransform()->SetPositionXYZ(Float3(350, 350, 0));
@@ -34,6 +40,7 @@ void TitleScene::SceneInit()
 	i->GetTransform()->SetScale(Float3(300, 300, 0));
 	i->GetTransform()->SetPositionXYZ(Float3(700, 500, 0));
 	i->AddComponent<Component::Quad2d>()->SetInfo("assets/image/title/player.png", XMFLOAT4(1, 1, 1, 1), 4, 2);
+
 
 	myUI::ButtonGroup* bG = new myUI::ButtonGroup;
 	bG->GetTransform()->SetPositionXYZ(Float3(950.0f, 300.0f, 0));

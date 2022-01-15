@@ -1,6 +1,6 @@
 #include	"ui_button.h"
 #include	"../component/quad2d_component.h"
-#include	"../component/easing_image_component.h"
+#include	"../component/easing_component.h"
 #include	"../manager/input_manager.h"
 
 using namespace myUI;
@@ -9,7 +9,7 @@ using namespace DirectX;
 Button::Button() :GameObject(("Button"), ObjectType::eObstracle, false)
 {
 	AddComponent<Component::Quad2d>();
-	AddComponent<Component::EasingImage>();
+	AddComponent<Component::Easing>();
 	// 画像の登録は各ボタンでやる
 }
 
@@ -32,12 +32,12 @@ void Button::SetButtonState(ButtonState _state)
 		{
 		case ButtonState::eNomal:
 			// イージング登録
-			GetComponent<Component::EasingImage>()->AddEasing(Easing::EasingType::eLinear, TransType::eScale, 10.0f, 0.0f, XMFLOAT2(mTransform->GetScale().x, mTransform->GetScale().y), mNomalScale);
+			GetComponent<Component::Easing>()->AddEasing(EasingProcess::EasingType::eLinear, TransType::eScale, 10.0f, 0.0f, XMFLOAT2(mTransform->GetScale().x, mTransform->GetScale().y), mNomalScale);
 
 			break;
 		case ButtonState::eSelected:
 			// イージング登録
-			GetComponent<Component::EasingImage>()->AddEasing(Easing::EasingType::eLinear, TransType::eScale, 10.0f, 0.0f, XMFLOAT2(mTransform->GetScale().x, mTransform->GetScale().y), mSelectScale);
+			GetComponent<Component::Easing>()->AddEasing(EasingProcess::EasingType::eLinear, TransType::eScale, 10.0f, 0.0f, XMFLOAT2(mTransform->GetScale().x, mTransform->GetScale().y), mSelectScale);
 
 			break;
 		case ButtonState::ePressed:
@@ -182,6 +182,8 @@ void ButtonGroup::SetInitState(const char* _texName, int _divX, int _divY, int _
 
 		// vector配列に追加
 		mButtonList.emplace_back(b);
+
+		b->SetParent(this);
 
 		b->GetTransform()->SetScale(Float3(_nomalScale.x, _nomalScale.y, 0));
 		b->GetComponent<Component::Quad2d>()->SetInfo(_texName, XMFLOAT4(1, 1, 1, 1), _divX, _divY);

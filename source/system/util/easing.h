@@ -4,7 +4,7 @@
 #include <stdio.h>
 #include <iostream>
 
-namespace Easing
+namespace EasingProcess
 {
 	// イージングの動き方
 	enum class EasingType {

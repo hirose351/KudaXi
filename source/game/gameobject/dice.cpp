@@ -234,8 +234,8 @@ void Dice::Roll()
 	const static float radius = static_cast<float>(DICE_SCALE_HALF*sqrt(2));		// DICESCALE*ルート2/2＝DICESCALE/2.0f*ルート2
 
 	// 割合を計算
-	float frameAngle = Easing::CircOut(static_cast<float>(mCrrentRotCnt), static_cast<float>(mMoveCnt + 1), 0.0f, 90.0f);
-	float framePos = Easing::CircOut(static_cast<float>(mCrrentRotCnt), static_cast<float>(mMoveCnt + 1), 0.0f, DICE_SCALE);
+	float frameAngle = EasingProcess::CircOut(static_cast<float>(mCrrentRotCnt), static_cast<float>(mMoveCnt + 1), 0.0f, 90.0f);
+	float framePos = EasingProcess::CircOut(static_cast<float>(mCrrentRotCnt), static_cast<float>(mMoveCnt + 1), 0.0f, DICE_SCALE);
 
 	// 45度から回転角度を足し算
 	float nowcenterposy = radius * sin(ToRad(45 + frameAngle));

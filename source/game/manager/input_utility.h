@@ -10,7 +10,8 @@ enum class UiAction
 {
 	eNavigate,		// ‘€ì(•ûŒü)
 	eClick,			// Œˆ’è(bool)
-	eCancel,			// –ß‚é(bool)
+	eCancel,		// –ß‚é(bool)
+	ePause,			// ƒ|[ƒY(bool)
 	MaxUiAction
 };
 

@@ -4,7 +4,7 @@ static int objectCnt = 0;
 std::string sceneKey;
 
 
-GameObject::GameObject(std::string mName, ObjectType mObjectType, bool mIsStopPose) :mName(mName), mObjectType(mObjectType), mIsStopPause(mIsStopPose)
+GameObject::GameObject(std::string mName, ObjectType mObjectType, bool mIsStopPose) :mName(mName), mObjectType(mObjectType), mIsStopPause(mIsStopPose), mIsActive(true)
 {
 	objectCnt++;
 	mObjectID = objectCnt;
@@ -40,6 +40,10 @@ void GameObject::Init()
 
 void GameObject::Update()
 {
+	if (mParent != nullptr)
+		if (!mParent->GetIsActive())
+			return;
+
 	ObjectUpdate();
 	for (auto& component : mComponentList)
 	{
@@ -67,6 +71,10 @@ void GameObject::Update()
 
 void GameObject::Draw()
 {
+	if (mParent != nullptr)
+		if (!mParent->GetIsActive())
+			return;
+
 	ObjectDraw();
 	for (auto& component : mComponentList)
 	{

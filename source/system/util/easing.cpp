@@ -1,127 +1,127 @@
 #include	"easing.h"
 
-float Easing::GetEsingAns(EasingType _type, float t, float totaltime, float min, float max)
+float EasingProcess::GetEsingAns(EasingType _type, float t, float totaltime, float min, float max)
 {
 	switch (_type)
 	{
-	case Easing::EasingType::eQuadIn:
+	case EasingProcess::EasingType::eQuadIn:
 	{
-		return Easing::QuadIn(t, totaltime, min, max);
+		return EasingProcess::QuadIn(t, totaltime, min, max);
 	}
 	break;
-	case Easing::EasingType::eQuadOut:
+	case EasingProcess::EasingType::eQuadOut:
 	{
-		return Easing::QuadOut(t, totaltime, min, max);
+		return EasingProcess::QuadOut(t, totaltime, min, max);
 	}
 	break;
-	case Easing::EasingType::eQuadInOut:
+	case EasingProcess::EasingType::eQuadInOut:
 	{
-		return  Easing::QuadInOut(t, totaltime, min, max);
+		return  EasingProcess::QuadInOut(t, totaltime, min, max);
 	}
 	break;
-	case Easing::EasingType::eCubicIn:
+	case EasingProcess::EasingType::eCubicIn:
 	{
-		return Easing::CubicIn(t, totaltime, min, max);
+		return EasingProcess::CubicIn(t, totaltime, min, max);
 	}
 	break;
-	case Easing::EasingType::eCubicOut:
+	case EasingProcess::EasingType::eCubicOut:
 	{
-		return  Easing::CubicOut(t, totaltime, min, max);
+		return  EasingProcess::CubicOut(t, totaltime, min, max);
 	}
 	break;
-	case Easing::EasingType::eCubicInOut:
+	case EasingProcess::EasingType::eCubicInOut:
 	{
-		return Easing::CubicInOut(t, totaltime, min, max);
+		return EasingProcess::CubicInOut(t, totaltime, min, max);
 	}
 	break;
-	case Easing::EasingType::eQuartIn:
+	case EasingProcess::EasingType::eQuartIn:
 	{
-		return Easing::QuartIn(t, totaltime, min, max);
+		return EasingProcess::QuartIn(t, totaltime, min, max);
 	}
 	break;
-	case Easing::EasingType::eQuartOut:
+	case EasingProcess::EasingType::eQuartOut:
 	{
-		return Easing::QuartOut(t, totaltime, min, max);
+		return EasingProcess::QuartOut(t, totaltime, min, max);
 	}
 	break;
-	case Easing::EasingType::eQuartInOut:
+	case EasingProcess::EasingType::eQuartInOut:
 	{
-		return Easing::QuartInOut(t, totaltime, min, max);
+		return EasingProcess::QuartInOut(t, totaltime, min, max);
 	}
 	break;
-	case Easing::EasingType::eQuintIn:
+	case EasingProcess::EasingType::eQuintIn:
 	{
-		return Easing::QuintIn(t, totaltime, min, max);
+		return EasingProcess::QuintIn(t, totaltime, min, max);
 	}
 	break;
-	case Easing::EasingType::eQuintOut:
+	case EasingProcess::EasingType::eQuintOut:
 	{
-		return Easing::QuintOut(t, totaltime, min, max);
+		return EasingProcess::QuintOut(t, totaltime, min, max);
 	}
 	break;
-	case Easing::EasingType::eQuintInOut:
+	case EasingProcess::EasingType::eQuintInOut:
 	{
-		return Easing::QuintInOut(t, totaltime, min, max);
+		return EasingProcess::QuintInOut(t, totaltime, min, max);
 	}
 	break;
-	case Easing::EasingType::eSineIn:
+	case EasingProcess::EasingType::eSineIn:
 	{
-		return Easing::SineIn(t, totaltime, min, max);
+		return EasingProcess::SineIn(t, totaltime, min, max);
 	}
 	break;
-	case Easing::EasingType::eSineOut:
+	case EasingProcess::EasingType::eSineOut:
 	{
-		return Easing::SineOut(t, totaltime, min, max);
+		return EasingProcess::SineOut(t, totaltime, min, max);
 	}
 	break;
-	case Easing::EasingType::eSineInOut:
+	case EasingProcess::EasingType::eSineInOut:
 	{
-		return Easing::SineInOut(t, totaltime, min, max);
+		return EasingProcess::SineInOut(t, totaltime, min, max);
 	}
 	break;
-	case Easing::EasingType::eExpIn:
+	case EasingProcess::EasingType::eExpIn:
 	{
-		return Easing::ExpIn(t, totaltime, min, max);
+		return EasingProcess::ExpIn(t, totaltime, min, max);
 	}
 	break;
-	case Easing::EasingType::eExpOut:
+	case EasingProcess::EasingType::eExpOut:
 	{
-		return Easing::ExpOut(t, totaltime, min, max);
+		return EasingProcess::ExpOut(t, totaltime, min, max);
 	}
 	break;
-	case Easing::EasingType::eExpInOut:
+	case EasingProcess::EasingType::eExpInOut:
 	{
-		return Easing::ExpInOut(t, totaltime, min, max);
+		return EasingProcess::ExpInOut(t, totaltime, min, max);
 	}
 	break;
-	case Easing::EasingType::eCircIn:
+	case EasingProcess::EasingType::eCircIn:
 	{
-		return Easing::CircIn(t, totaltime, min, max);
+		return EasingProcess::CircIn(t, totaltime, min, max);
 	}
 	break;
-	case Easing::EasingType::eCircOut:
+	case EasingProcess::EasingType::eCircOut:
 	{
-		return Easing::CircOut(t, totaltime, min, max);
+		return EasingProcess::CircOut(t, totaltime, min, max);
 	}
 	break;
-	case Easing::EasingType::eCircInOut:
+	case EasingProcess::EasingType::eCircInOut:
 	{
-		return Easing::CircInOut(t, totaltime, min, max);
+		return EasingProcess::CircInOut(t, totaltime, min, max);
 	}
 	break;
-	case Easing::EasingType::eElasticIn:
+	case EasingProcess::EasingType::eElasticIn:
 	{
-		return Easing::ElasticIn(t, totaltime, min, max);
+		return EasingProcess::ElasticIn(t, totaltime, min, max);
 	}
 	break;
-	case Easing::EasingType::eElasticOut:
+	case EasingProcess::EasingType::eElasticOut:
 	{
-		return Easing::ElasticOut(t, totaltime, min, max);
+		return EasingProcess::ElasticOut(t, totaltime, min, max);
 	}
 	break;
-	case Easing::EasingType::eElasticInOut:
+	case EasingProcess::EasingType::eElasticInOut:
 	{
-		return Easing::ElasticInOut(t, totaltime, min, max);
+		return EasingProcess::ElasticInOut(t, totaltime, min, max);
 	}
 	break;
 	//case Easing::EasingType::EBackIn:
@@ -145,24 +145,24 @@ float Easing::GetEsingAns(EasingType _type, float t, float totaltime, float min,
 
 	//}
 	//break;
-	case Easing::EasingType::eBounceIn:
+	case EasingProcess::EasingType::eBounceIn:
 	{
-		return Easing::BounceIn(t, totaltime, min, max);
+		return EasingProcess::BounceIn(t, totaltime, min, max);
 	}
 	break;
-	case Easing::EasingType::eBounceOut:
+	case EasingProcess::EasingType::eBounceOut:
 	{
-		return Easing::BounceOut(t, totaltime, min, max);
+		return EasingProcess::BounceOut(t, totaltime, min, max);
 	}
 	break;
-	case Easing::EasingType::eBounceInOut:
+	case EasingProcess::EasingType::eBounceInOut:
 	{
-		return Easing::BounceInOut(t, totaltime, min, max);
+		return EasingProcess::BounceInOut(t, totaltime, min, max);
 	}
 	break;
-	case Easing::EasingType::eLinear:
+	case EasingProcess::EasingType::eLinear:
 	{
-		return Easing::Linear(t, totaltime, min, max);
+		return EasingProcess::Linear(t, totaltime, min, max);
 	}
 	break;
 	}

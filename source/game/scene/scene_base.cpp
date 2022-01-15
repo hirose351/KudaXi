@@ -74,7 +74,7 @@ void SceneBase::Update()
 	mUpdatingActors = true;
 	for (auto &obj : mObjectList)
 	{
-		if (obj->GetObjectState() != ObjectState::eActive)
+		if (obj->GetObjectState() != ObjectState::eActive || !obj->GetIsActive())
 			continue;
 		if (obj->GetIsStopPause() && mIsPause)
 			continue;
@@ -114,7 +114,8 @@ void SceneBase::Render()
 {
 	for (auto &obj : mObjectList)
 	{
-		obj->Draw();
+		if (obj->GetIsActive())
+			obj->Draw();
 	}
 	SceneRender();
 	imguiDraw(std::bind(&SceneBase::ImguiDebug, std::ref(*this)));

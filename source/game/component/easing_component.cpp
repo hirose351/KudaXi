@@ -1,14 +1,13 @@
-#include	"easing_image_component.h"
+#include	"easing_component.h"
 #include	"quad2d_component.h"
 
-using namespace Component;
 using namespace DirectX;
 
-EasingImage::EasingImage() :ComponentBase(("EasingImage"))
+Component::Easing::Easing() :ComponentBase(("Easing"))
 {
 }
 
-void EasingImage::Update()
+void Component::Easing::Update()
 {
 	if (mEasingList.empty())
 		return;
@@ -64,12 +63,12 @@ void EasingImage::Update()
 	if (famly.startValue.x == famly.endValue.x)
 		ansValue.x = famly.startValue.x;
 	else
-		ansValue.x = Easing::GetEsingAns(famly.easingType, mCurrentFrame, famly.totalFrame, famly.startValue.x, famly.endValue.x);
+		ansValue.x = EasingProcess::GetEsingAns(famly.easingType, mCurrentFrame, famly.totalFrame, famly.startValue.x, famly.endValue.x);
 
 	if (famly.startValue.y == famly.endValue.y)
 		ansValue.y = famly.startValue.y;
 	else
-		ansValue.y = Easing::GetEsingAns(famly.easingType, mCurrentFrame, famly.totalFrame, famly.startValue.y, famly.endValue.y);
+		ansValue.y = EasingProcess::GetEsingAns(famly.easingType, mCurrentFrame, famly.totalFrame, famly.startValue.y, famly.endValue.y);
 
 	switch (famly.transType)
 	{
@@ -93,7 +92,7 @@ void EasingImage::Update()
 	isStart = false;
 }
 
-void Component::EasingImage::AddEasing(Easing::EasingType _easingType, TransType _transType, float _totalFrame, float _delayFrame, DirectX::XMFLOAT2 _startValue, DirectX::XMFLOAT2 _endValue, bool _isStartAbsolute, bool _isEndAbsolute)
+void Component::Easing::AddEasing(EasingProcess::EasingType _easingType, TransType _transType, float _totalFrame, float _delayFrame, DirectX::XMFLOAT2 _startValue, DirectX::XMFLOAT2 _endValue, bool _isStartAbsolute, bool _isEndAbsolute)
 {
 	EasingFamily newFamily;
 

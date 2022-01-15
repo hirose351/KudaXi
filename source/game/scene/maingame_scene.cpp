@@ -1,15 +1,14 @@
 #include	"maingame_scene.h"
 #include	"../../Memory.h"
 #include	"../gameobject/gameobject.h"
-#include	"../manager/collision_manager.h"
 #include	"../gameobject/player.h"
 #include	"../gameobject/dice.h"
 #include	"../gameobject/stage.h"
-#include	"../manager/dice_manager.h"
 #include	"../gameobject/skydome.h"
 #include	"../gameobject/ui_image.h"
 #include	"../gameobject/ui_button.h"
 #include	"../gameobject/pause_endless.h"
+#include	"../gameobject/access_dice_manager.h"
 #include	"../../application.h"
 #include	"../../system/dx11/DX11util.h"
 
@@ -37,24 +36,17 @@ void MaingameScene::SceneAfter()
 	CCamera::GetInstance()->SetLookat(mCameraLookat);
 	CCamera::GetInstance()->CreateCameraMatrix();
 
-	DiceManager::GetInstance()->Init();
 }
 
 void MaingameScene::SceneInit()
 {
-	// カメラ変更
-	//mCameraLookat.x = StageDataManager::GetInstance().GetCurrentStage()->mMapSizeWidth*DICE_SCALE / 2.0f;
-	//mCameraLookat.y = { 0 };
-	//mCameraLookat.z = { -StageDataManager::GetInstance().GetCurrentStage()->mMapSizeHeight*DICE_SCALE / 2.0f };
-
 	Player* player = new Player;
 	Stage* stage = new Stage;
 	Skydome* skydome = new Skydome;
 
-	//myUI::ButtonGroup* bG = new myUI::ButtonGroup;
-	//bG->SetInitState("assets/image/ui/number.png", 10, 1, 10, ButtonTransition::eColorTint, XMFLOAT2(100, 600), XMFLOAT2(5, 5), XMFLOAT2(100, 100), XMFLOAT2(150, 150));
+	myUI::PauseEndless* p = new myUI::PauseEndless;
 
-	//myUI::PauseEndless* pause = new myUI::PauseEndless;
+	AccessDiceManager* dicemanager = new AccessDiceManager;
 
 	// カメラ
 	DirectX::XMFLOAT3 eye(140, 130, -170);	//カメラの位置
@@ -68,13 +60,10 @@ void MaingameScene::SceneInit()
 		static_cast<float>(Application::CLIENT_HEIGHT),		// スクリーンの高さ
 		eye, lookat, up);				// カメラのデータ
 	SceneAfter();
-	DiceManager::GetInstance()->Init();
 }
 
 void MaingameScene::SceneUpdate()
 {
-	CollisionManager::GetInstance().Update();
-	DiceManager::GetInstance()->Update();
 }
 
 void MaingameScene::SceneRender()
@@ -110,7 +99,6 @@ void MaingameScene::ImguiDebug()
 	}
 
 	ImGui::End();
-	DiceManager::GetInstance()->ImguiDraw();
 }
 
 bool MaingameScene::Dispose()

@@ -202,6 +202,9 @@
     <Filter Include="ソース ファイル\game\gameobject\ui\fade">
       <UniqueIdentifier>{06eb0d3f-b9c3-4249-a4d7-bce0142674e3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\game\gameobject\access">
+      <UniqueIdentifier>{7a9be914-9816-4461-9657-06cf7590e0df}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\game.cpp">
@@ -435,9 +438,6 @@
     <ClCompile Include="source\game\component\ui_layout.cpp">
       <Filter>ソース ファイル\game\component\ui\layout</Filter>
     </ClCompile>
-    <ClCompile Include="source\game\component\easing_image_component.cpp">
-      <Filter>ソース ファイル\game\component\ui\easing</Filter>
-    </ClCompile>
     <ClCompile Include="source\game\gameobject\pause_endless.cpp">
       <Filter>ソース ファイル\game\gameobject\ui\pause\endless</Filter>
     </ClCompile>
@@ -464,6 +464,12 @@
     </ClCompile>
     <ClCompile Include="source\game\gameobject\fade_screen.cpp">
       <Filter>ソース ファイル\game\gameobject\ui\fade</Filter>
+    </ClCompile>
+    <ClCompile Include="source\game\component\easing_component.cpp">
+      <Filter>ソース ファイル\game\component\ui\easing</Filter>
+    </ClCompile>
+    <ClCompile Include="source\game\gameobject\access_dice_manager.cpp">
+      <Filter>ソース ファイル\game\gameobject\access</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -737,9 +743,6 @@
     <ClInclude Include="source\game\component\ui_layout.h">
       <Filter>ソース ファイル\game\component\ui\layout</Filter>
     </ClInclude>
-    <ClInclude Include="source\game\component\easing_image_component.h">
-      <Filter>ソース ファイル\game\component\ui\easing</Filter>
-    </ClInclude>
     <ClInclude Include="source\game\gameobject\pause_endless.h">
       <Filter>ソース ファイル\game\gameobject\ui\pause\endless</Filter>
     </ClInclude>
@@ -772,6 +775,12 @@
     </ClInclude>
     <ClInclude Include="source\game\gameobject\fade_screen.h">
       <Filter>ソース ファイル\game\gameobject\ui\fade</Filter>
+    </ClInclude>
+    <ClInclude Include="source\game\component\easing_component.h">
+      <Filter>ソース ファイル\game\component\ui\easing</Filter>
+    </ClInclude>
+    <ClInclude Include="source\game\gameobject\access_dice_manager.h">
+      <Filter>ソース ファイル\game\gameobject\access</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

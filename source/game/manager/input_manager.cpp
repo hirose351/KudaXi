@@ -77,6 +77,12 @@ bool InputManager::GetStateTrigger(InputMode _mode, int _action)
 				return true;
 		}
 		break;
+		case UiAction::ePause:
+		{
+			if (CDirectInput::GetInstance().CheckKeyBufferTrigger(DIK_P) || ControllerInput::GetInstance().GetButtonStateTrigger(DPAD_START))
+				return true;
+		}
+		break;
 		//default:
 		//	break;
 		}

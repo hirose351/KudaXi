@@ -140,7 +140,7 @@
     <ClCompile Include="source\game\component\billbord_component.cpp" />
     <ClCompile Include="source\game\component\collision_component.cpp" />
     <ClCompile Include="source\game\component\component_base.cpp" />
-    <ClCompile Include="source\game\component\easing_image_component.cpp" />
+    <ClCompile Include="source\game\component\easing_component.cpp" />
     <ClCompile Include="source\game\component\model_component.cpp" />
     <ClCompile Include="source\game\component\player_controller.cpp" />
     <ClCompile Include="source\game\component\quad2d_component.cpp" />
@@ -148,6 +148,7 @@
     <ClCompile Include="source\game\component\ui_layout.cpp" />
     <ClCompile Include="source\game\data\saveload.cpp" />
     <ClCompile Include="source\game\data\stage_data.cpp" />
+    <ClCompile Include="source\game\gameobject\access_dice_manager.cpp" />
     <ClCompile Include="source\game\gameobject\CCamera.cpp" />
     <ClCompile Include="source\game\gameobject\dice.cpp" />
     <ClCompile Include="source\game\gameobject\effect_fruit.cpp" />
@@ -230,7 +231,7 @@
     <ClInclude Include="source\game\component\billbord_component.h" />
     <ClInclude Include="source\game\component\collision_component.h" />
     <ClInclude Include="source\game\component\component_base.h" />
-    <ClInclude Include="source\game\component\easing_image_component.h" />
+    <ClInclude Include="source\game\component\easing_component.h" />
     <ClInclude Include="source\game\component\model_component.h" />
     <ClInclude Include="source\game\component\player_controller.h" />
     <ClInclude Include="source\game\component\quad2d_component.h" />
@@ -238,6 +239,7 @@
     <ClInclude Include="source\game\component\ui_layout.h" />
     <ClInclude Include="source\game\data\saveload.h" />
     <ClInclude Include="source\game\data\stage_data.h" />
+    <ClInclude Include="source\game\gameobject\access_dice_manager.h" />
     <ClInclude Include="source\game\gameobject\CCamera.h" />
     <ClInclude Include="source\game\gameobject\CLight.h" />
     <ClInclude Include="source\game\gameobject\dice.h" />
