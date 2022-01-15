@@ -10,6 +10,8 @@
 #include	"../gameobject/ui_image.h"
 #include	"../gameobject/ui_button.h"
 #include	"../gameobject/pause_endless.h"
+#include	"../../application.h"
+#include	"../../system/dx11/DX11util.h"
 
 using namespace Dix;
 

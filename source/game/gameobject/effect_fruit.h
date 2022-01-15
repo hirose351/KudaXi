@@ -10,7 +10,7 @@ namespace Effect {
 		Float3 mInitPos;
 
 		std::vector<PARTICLE> mParticle;
-		XMFLOAT3 mCenterPos;	// 生成されるときの中心座標
+		Float3 mCenterPos;	// 生成されるときの中心座標
 	public:
 		Fruit();
 		~Fruit();

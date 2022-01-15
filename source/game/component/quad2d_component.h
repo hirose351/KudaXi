@@ -1,14 +1,14 @@
 #pragma once
 #include	"component_base.h"
 #include	"../../system/util/dixsmartptr.h"
+#include	"../../system/util/quad2d.h"
 
-class CQuad2D;
 namespace Component {
 	class Quad2d : public ComponentBase
 	{
 	private:
 		Dix::sp<CQuad2D> mpQuad;
-		XMFLOAT4 mColor = XMFLOAT4(1, 1, 1, 1);
+		DirectX::XMFLOAT4 mColor = DirectX::XMFLOAT4(1, 1, 1, 1);
 		bool mIsLateDraw;	// 後で描画するか
 
 		int mWidth;
@@ -24,17 +24,14 @@ namespace Component {
 		void Uninit() override;
 
 		// 矩形の初期化　(_texName：画像の場所と名前　_color：頂点カラー　_u：横の分割数　_v：縦の分割数　_z：奥描画サイズ)
-		void SetInfo(const char* _texName, const XMFLOAT4 &_color, int _u = 1, int _v = 1, float _z = 0.0f);
+		void SetInfo(const char* _texName, const DirectX::XMFLOAT4 &_color, int _u = 1, int _v = 1, float _z = 0.0f);
 
-		void SetColor(const XMFLOAT4 &_color)
+		void SetColor(const DirectX::XMFLOAT4 &_color)
 		{
 			mColor = _color;
 		}
 
-		void SetUV(int u, int v)
-		{
-			mpQuad->SetTextureUV(u, v);
-		}
+		void SetUV(int u, int v);
 
 		void SetIsLateDraw(bool flg) { mIsLateDraw = flg; }
 	};

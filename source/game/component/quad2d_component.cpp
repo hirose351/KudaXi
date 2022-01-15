@@ -1,5 +1,4 @@
 #include	"quad2d_component.h"
-#include	"../../system/util/quad2d.h"
 
 using namespace Component;
 
@@ -45,4 +44,9 @@ void Quad2d::SetInfo(const char* _texName, const XMFLOAT4& _color, int _u, int _
 {
 	mpQuad.SetPtr(new CQuad2D);
 	mpQuad->Init(XMFLOAT2(mOwner->GetTransform()->GetScale().x, mOwner->GetTransform()->GetScale().y), _texName, _color, _u, _v, _z);
+}
+
+void Quad2d::SetUV(int u, int v)
+{
+	mpQuad->SetTextureUV(u, v);
 }

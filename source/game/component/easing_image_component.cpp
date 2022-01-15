@@ -2,6 +2,7 @@
 #include	"quad2d_component.h"
 
 using namespace Component;
+using namespace DirectX;
 
 EasingImage::EasingImage() :ComponentBase(("EasingImage"))
 {

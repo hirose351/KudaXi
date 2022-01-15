@@ -199,6 +199,9 @@
     <Filter Include="ソース ファイル\game\manager\input">
       <UniqueIdentifier>{ee634d27-daff-4496-9152-c2baceafe5ef}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\game\gameobject\ui\fade">
+      <UniqueIdentifier>{06eb0d3f-b9c3-4249-a4d7-bce0142674e3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\game.cpp">
@@ -458,6 +461,9 @@
     </ClCompile>
     <ClCompile Include="source\system\dx11\shader.cpp">
       <Filter>ソース ファイル\system\dx11</Filter>
+    </ClCompile>
+    <ClCompile Include="source\game\gameobject\fade_screen.cpp">
+      <Filter>ソース ファイル\game\gameobject\ui\fade</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -763,6 +769,9 @@
     </ClInclude>
     <ClInclude Include="source\system\dx11\shader.h">
       <Filter>ソース ファイル\system\dx11</Filter>
+    </ClInclude>
+    <ClInclude Include="source\game\gameobject\fade_screen.h">
+      <Filter>ソース ファイル\game\gameobject\ui\fade</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

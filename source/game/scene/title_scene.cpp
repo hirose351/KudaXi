@@ -7,6 +7,8 @@
 #include		"../../system/dx11/CDirectInput.h"
 #include		"maingame_scene.h"
 
+using namespace DirectX;
+
 TitleScene::TitleScene()
 {
 }
@@ -68,7 +70,8 @@ void TitleScene::SceneUpdate()
 		return;
 	if (mpBg->GetSelectNum() == 0)
 	{
-		SceneManager::GetInstance()->changeScene<MaingameScene>("GameMain", 1000, false);
+		//SceneManager::GetInstance()->changeScene<MaingameScene>("GameMain", 1000, false);
+		SceneManager::GetInstance()->changeScene<MaingameScene>("GameMain");
 		a = true;
 	}
 	if (mpBg->GetSelectNum() == 1)

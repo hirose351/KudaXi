@@ -13,8 +13,8 @@ protected:
 	std::vector< GameObject*> mObjectList;			// ゲームオブジェクトを全部まとめて管理できるオブジェクトリスト
 	std::vector< GameObject*> mPendingObjectList;	// 待ち状態のオブジェクト
 
-	GameObject*		mQuadfadein;
-	GameObject*		mQuadfadeout;
+	//GameObject*		mQuadfadein;
+	//GameObject*		mQuadfadeout;
 
 	bool mInitingActors;	// アクターを初期化しているかどうか
 	bool mUpdatingActors;	// アクターを更新しているかどうか
@@ -61,10 +61,10 @@ public:
 	void SetIsPause(bool _flg) { mIsPause = _flg; }
 	bool GetIsPause() { return mIsPause; }
 
-	// フェード処理
-	virtual void UpdateFadeIn(double t);
-	virtual void UpdateFadeOut(double t);
+	//// フェード処理
+	//virtual void UpdateFadeIn(double t);
+	//virtual void UpdateFadeOut(double t);
 
-	virtual void DrawFadeIn(double t);
-	virtual void DrawFadeOut(double t);
+	//virtual void DrawFadeIn(double t);
+	//virtual void DrawFadeOut(double t);
 };

@@ -14,7 +14,7 @@ namespace Component {
 	class Layout : public ComponentBase
 	{
 	private:
-		XMFLOAT2 mSpace;
+		DirectX::XMFLOAT2 mSpace;
 		StartPoint mStartP;
 		unsigned int mHeightCnt;
 

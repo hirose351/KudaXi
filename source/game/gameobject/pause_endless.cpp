@@ -4,6 +4,7 @@
 #include	"../manager/scene_manager.h"
 
 using namespace myUI;
+using namespace DirectX;
 
 PauseEndless::PauseEndless() :GameObject(("PauseEndless"), ObjectType::eObstracle, false)
 {

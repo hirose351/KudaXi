@@ -4,6 +4,7 @@
 #include	"../manager/input_manager.h"
 
 using namespace myUI;
+using namespace DirectX;
 
 Button::Button() :GameObject(("Button"), ObjectType::eObstracle, false)
 {

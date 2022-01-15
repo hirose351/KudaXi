@@ -1,7 +1,10 @@
 #include	"effect_thunder.h"
 #include	"../component/billbord_component.h"
 
-void Effect::Thunder::ObjectInit()
+using namespace Effect;
+using namespace DirectX;
+
+void Thunder::ObjectInit()
 {
 	Component::Billbord* bilbord = AddComponent<Component::Billbord>();
 	bilbord->LoadTexture("assets/image/effect/thunder/thunder_yellow.png");
@@ -11,7 +14,7 @@ void Effect::Thunder::ObjectInit()
 	mTransform->SetPositionXYZ(mInitPos);
 }
 
-void Effect::Thunder::ObjectUpdate()
+void Thunder::ObjectUpdate()
 {
 	Component::Billbord* bilbord = GetComponent<Component::Billbord>();
 

@@ -52,8 +52,8 @@ namespace myUI {
 	private:
 		ButtonState mButtonState;		// 切り替え方法
 		ButtonTransition mTransition;
-		XMFLOAT2 mNomalScale;
-		XMFLOAT2 mSelectScale;
+		DirectX::XMFLOAT2 mNomalScale;
+		DirectX::XMFLOAT2 mSelectScale;
 
 	public:
 		Button();
@@ -68,7 +68,7 @@ namespace myUI {
 			mTransition = _trans;
 		}
 		void SetButtonState(ButtonState _state);
-		void SetScale(XMFLOAT2 _nomalScale, XMFLOAT2 _selectScale)
+		void SetScale(DirectX::XMFLOAT2 _nomalScale, DirectX::XMFLOAT2 _selectScale)
 		{
 			mNomalScale = _nomalScale;
 			mSelectScale = _selectScale;
@@ -84,7 +84,7 @@ namespace myUI {
 		int mSelectNum;							// 選択されている番号
 		unsigned int mArrayCnt;					// 横に並べる数
 		unsigned int mPressingTriggerFrame;		// 長押し時に進む数
-		XMFLOAT4 mStateColor[(int)ButtonState::MaxButtonState] = { XMFLOAT4(0.5f,0.5f,0.5f,1.0f), XMFLOAT4(1.0f,1.0f,1.0f,1.0f),XMFLOAT4(1.0f,1.0f,1.0f,1.0f),XMFLOAT4(1.0f,1.0f,1.0f,1.0f) };
+		DirectX::XMFLOAT4 mStateColor[(int)ButtonState::MaxButtonState] = { DirectX::XMFLOAT4(0.5f,0.5f,0.5f,1.0f), DirectX::XMFLOAT4(1.0f,1.0f,1.0f,1.0f),DirectX::XMFLOAT4(1.0f,1.0f,1.0f,1.0f),DirectX::XMFLOAT4(1.0f,1.0f,1.0f,1.0f) };
 		bool isPressed = false;		// ボタンが押されたか
 
 		// 選択された数の処理
@@ -99,19 +99,19 @@ namespace myUI {
 		void Uninit() override {};
 
 		// 色登録
-		void SetStateColor(ButtonState _state, const XMFLOAT4& _color)
+		void SetStateColor(ButtonState _state, const DirectX::XMFLOAT4& _color)
 		{
 			mStateColor[(int)_state] = _color;
 		}
 
 		// 初期値登録(btCount:サイコロの個数)
-		void SetInitState(const char* _texName, int _divX, int _divY, int _arrayCnt, ButtonTransition _trans, XMFLOAT2 _startPos, XMFLOAT2 _space, XMFLOAT2 _nomalScale, XMFLOAT2 _selectScale, ButtonArrangement _ar = ButtonArrangement::eHorizontal, StartPoint _sP = StartPoint::eLeftUp);
+		void SetInitState(const char* _texName, int _divX, int _divY, int _arrayCnt, ButtonTransition _trans, DirectX::XMFLOAT2 _startPos, DirectX::XMFLOAT2 _space, DirectX::XMFLOAT2 _nomalScale, DirectX::XMFLOAT2 _selectScale, ButtonArrangement _ar = ButtonArrangement::eHorizontal, StartPoint _sP = StartPoint::eLeftUp);
 
 		// 初期選択番号登録
 		void SetInitSelectNum(int _num);
 
 		// 
-		void SetPosition(int _num, XMFLOAT2 _pos);
+		void SetPosition(int _num, DirectX::XMFLOAT2 _pos);
 
 		// 選択されている番号を返す
 		int GetSelectNum() { return mSelectNum; }

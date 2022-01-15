@@ -1,7 +1,9 @@
 #include	"effect_fruit.h"
 #include	"../component/billbord_component.h"
+#include	 <algorithm>
 
 using namespace Effect;
+using namespace DirectX;
 
 Fruit::Fruit() :GameObject(("Fruit"), ObjectType::eObstracle, true)
 {

@@ -1,7 +1,7 @@
 #include	"scene_base.h"
 #include	"../gameobject/gameobject.h"
-#include	"../component/quad2d_component.h"
 #include	"../../system/imgui/util/myimgui.h"
+#include	"../../system/dx11/DX11util.h"
 
 SceneBase::SceneBase()
 {
@@ -162,86 +162,86 @@ bool SceneBase::Dispose()
 	}
 	return true;
 }
-
-void SceneBase::UpdateFadeIn(double t) {
-	Update();
-}
-
-void SceneBase::UpdateFadeOut(double t) {
-	Update();
-}
-
-void SceneBase::DrawFadeIn(double t)
-{
-	static bool first = true;
-	// ここで真っ黒から透明へアルファ値を変化させながら画面サイズの矩形を描画する
-	DirectX::XMFLOAT4 fadecolor = { 0,0,0,1 };
-
-	DirectX::XMFLOAT2 uv[4] = {
-		{0.0f,0.0f},
-		{1.0f,0.0f},
-		{0.0f,1.0f},
-		{1.0f,1.0f}
-	};
-
-	if (first)
-	{
-		mQuadfadein = new GameObject("mQuadfadein", ObjectType::eObstracle, false);
-		mQuadfadein->GetTransform()->SetScale(Float3(static_cast<float>(Application::CLIENT_WIDTH), static_cast<float>(Application::CLIENT_HEIGHT), 0));
-		mQuadfadein->AddComponent<Component::Quad2d>()->SetInfo("assets/white.bmp", DirectX::XMFLOAT4(fadecolor.x, fadecolor.y, fadecolor.z, fadecolor.w));
-		mQuadfadein->GetComponent<Component::Quad2d>()->SetIsLateDraw(true);
-		first = false;
-	}
-
-	std::cout << "DrawFadeIn:" << t << std::endl;
-
-	Render();
-
-	fadecolor = mManager->GetFadeColor();
-
-	fadecolor.w = fadecolor.w*(1.0f - static_cast<float>(t));
-
-	mQuadfadein->GetTransform()->SetPositionXYZ(Float3(
-		Application::CLIENT_WIDTH / 2.0f,
-		Application::CLIENT_HEIGHT / 2.0f, 0));
-
-	mQuadfadein->GetComponent<Component::Quad2d>()->SetColor(
-		DirectX::XMFLOAT4(fadecolor.x, fadecolor.y, fadecolor.z, fadecolor.w));
-}
-
-void SceneBase::DrawFadeOut(double t)
-{
-	static bool first = true;
-	// ここで真っ黒から透明へアルファ値を変化させながら画面サイズの矩形を描画する
-	DirectX::XMFLOAT4 fadecolor = { 0,0,0,1 };
-	DirectX::XMFLOAT2 uv[4] = {
-		{0.0f,0.0f},
-		{1.0f,0.0f},
-		{0.0f,1.0f},
-		{1.0f,1.0f}
-	};
-
-	if (first)
-	{
-		mQuadfadeout = new GameObject("mQuadfadeout", ObjectType::eObstracle, false);
-		mQuadfadeout->GetTransform()->SetScale(Float3(static_cast<float>(Application::CLIENT_WIDTH), static_cast<float>(Application::CLIENT_HEIGHT), 0));
-		mQuadfadeout->AddComponent<Component::Quad2d>()->SetInfo("assets/white.bmp", DirectX::XMFLOAT4(fadecolor.x, fadecolor.y, fadecolor.z, fadecolor.w));
-		mQuadfadeout->GetComponent<Component::Quad2d>()->SetIsLateDraw(true);
-		first = false;
-	}
-	std::cout << "DrawFadeOut:" << t << std::endl;
-
-	Render();
-
-	// ここで透明から真っ黒へアルファ値を変化させながら画面サイズの矩形を描画する
-	fadecolor = mManager->GetFadeColor();
-
-	fadecolor.w = static_cast<float>(t);
-
-	mQuadfadeout->GetTransform()->SetPositionXYZ(Float3(
-		Application::CLIENT_WIDTH / 2.0f,
-		Application::CLIENT_HEIGHT / 2.0f, 0));
-
-	mQuadfadeout->GetComponent<Component::Quad2d>()->SetColor(
-		DirectX::XMFLOAT4(fadecolor.x, fadecolor.y, fadecolor.z, fadecolor.w));
-}
+//
+//void SceneBase::UpdateFadeIn(double t) {
+//	Update();
+//}
+//
+//void SceneBase::UpdateFadeOut(double t) {
+//	Update();
+//}
+//
+//void SceneBase::DrawFadeIn(double t)
+//{
+//	static bool first = true;
+//	// ここで真っ黒から透明へアルファ値を変化させながら画面サイズの矩形を描画する
+//	DirectX::XMFLOAT4 fadecolor = { 0,0,0,1 };
+//
+//	DirectX::XMFLOAT2 uv[4] = {
+//		{0.0f,0.0f},
+//		{1.0f,0.0f},
+//		{0.0f,1.0f},
+//		{1.0f,1.0f}
+//	};
+//
+//	if (first)
+//	{
+//		mQuadfadein = new GameObject("mQuadfadein", ObjectType::eObstracle, false);
+//		mQuadfadein->GetTransform()->SetScale(Float3(static_cast<float>(Application::CLIENT_WIDTH), static_cast<float>(Application::CLIENT_HEIGHT), 0));
+//		mQuadfadein->AddComponent<Component::Quad2d>()->SetInfo("assets/white.bmp", DirectX::XMFLOAT4(fadecolor.x, fadecolor.y, fadecolor.z, fadecolor.w));
+//		mQuadfadein->GetComponent<Component::Quad2d>()->SetIsLateDraw(true);
+//		first = false;
+//	}
+//
+//	std::cout << "DrawFadeIn:" << t << std::endl;
+//
+//	Render();
+//
+//	fadecolor = mManager->GetFadeColor();
+//
+//	fadecolor.w = fadecolor.w*(1.0f - static_cast<float>(t));
+//
+//	mQuadfadein->GetTransform()->SetPositionXYZ(Float3(
+//		Application::CLIENT_WIDTH / 2.0f,
+//		Application::CLIENT_HEIGHT / 2.0f, 0));
+//
+//	mQuadfadein->GetComponent<Component::Quad2d>()->SetColor(
+//		DirectX::XMFLOAT4(fadecolor.x, fadecolor.y, fadecolor.z, fadecolor.w));
+//}
+//
+//void SceneBase::DrawFadeOut(double t)
+//{
+//	static bool first = true;
+//	// ここで真っ黒から透明へアルファ値を変化させながら画面サイズの矩形を描画する
+//	DirectX::XMFLOAT4 fadecolor = { 0,0,0,1 };
+//	DirectX::XMFLOAT2 uv[4] = {
+//		{0.0f,0.0f},
+//		{1.0f,0.0f},
+//		{0.0f,1.0f},
+//		{1.0f,1.0f}
+//	};
+//
+//	if (first)
+//	{
+//		mQuadfadeout = new GameObject("mQuadfadeout", ObjectType::eObstracle, false);
+//		mQuadfadeout->GetTransform()->SetScale(Float3(static_cast<float>(Application::CLIENT_WIDTH), static_cast<float>(Application::CLIENT_HEIGHT), 0));
+//		mQuadfadeout->AddComponent<Component::Quad2d>()->SetInfo("assets/white.bmp", DirectX::XMFLOAT4(fadecolor.x, fadecolor.y, fadecolor.z, fadecolor.w));
+//		mQuadfadeout->GetComponent<Component::Quad2d>()->SetIsLateDraw(true);
+//		first = false;
+//	}
+//	std::cout << "DrawFadeOut:" << t << std::endl;
+//
+//	Render();
+//
+//	// ここで透明から真っ黒へアルファ値を変化させながら画面サイズの矩形を描画する
+//	fadecolor = mManager->GetFadeColor();
+//
+//	fadecolor.w = static_cast<float>(t);
+//
+//	mQuadfadeout->GetTransform()->SetPositionXYZ(Float3(
+//		Application::CLIENT_WIDTH / 2.0f,
+//		Application::CLIENT_HEIGHT / 2.0f, 0));
+//
+//	mQuadfadeout->GetComponent<Component::Quad2d>()->SetColor(
+//		DirectX::XMFLOAT4(fadecolor.x, fadecolor.y, fadecolor.z, fadecolor.w));
+//}
