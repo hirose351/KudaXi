@@ -157,6 +157,12 @@ void ButtonGroup::ObjectUpdate()
 	{
 		isPressed = true;
 	}
+
+	// 位置が変わっていたら全てのボタンの位置を変更
+	if (mBeforePos != mTransform->position)
+		SetButtonPosition();
+
+	mBeforePos = mTransform->position;
 }
 
 void ButtonGroup::ObjectImguiDraw()
@@ -171,10 +177,15 @@ void ButtonGroup::ObjectImguiDraw()
 	}
 }
 
-void ButtonGroup::SetInitState(const char* _texName, int _divX, int _divY, int _arrayCnt, ButtonTransition _trans, XMFLOAT2 _startPos, XMFLOAT2 _space, XMFLOAT2 _nomalScale, XMFLOAT2 _selectScale, ButtonArrangement _ar, StartPoint _sP)
+void ButtonGroup::SetInitState(const char* _texName, int _divX, int _divY, int _arrayCnt, ButtonTransition _trans, XMFLOAT2 _space, XMFLOAT2 _nomalScale, XMFLOAT2 _selectScale, ButtonArrangement _ar, StartPoint _sP)
 {
 	mArrayCnt = _arrayCnt;
 	mSpace = _space;
+	mStartPoint = _sP;
+	mNomalScale = _nomalScale;
+	mBeforePos = mTransform->position;
+	mArrangement = _ar;
+
 	for (int i = 0; i < _divX*_divY; i++)
 	{
 		// ボタン生成
@@ -203,36 +214,11 @@ void ButtonGroup::SetInitState(const char* _texName, int _divX, int _divY, int _
 		b->SetScale(_nomalScale, _selectScale);
 		b->GetTransform()->SetScale(Float3(_nomalScale.x, _nomalScale.y, 0));
 
-
-
 		b->SetButtonState(ButtonState::eNomal);
 		b->GetComponent<Component::Quad2d>()->SetColor(mStateColor[(int)ButtonState::eNomal]);
 
 		// 位置指定
-		switch (_sP)
-		{
-		case StartPoint::eLeftUp:
-			if (_ar == ButtonArrangement::eHorizontal)
-				b->GetTransform()->SetPosition(Float3(_startPos.x + i * mSpace.x + i * _nomalScale.x, _startPos.y /*+ i * mSpace.x + i * _nomalScale.x*/, 0));
-			if (_ar == ButtonArrangement::eVertical)
-				b->GetTransform()->SetPosition(Float3(_startPos.x, _startPos.y + i * mSpace.x + i * _nomalScale.y, 0));
-			break;
-		case StartPoint::eRightUp:
-			b->GetTransform()->SetPosition(Float3(0, 0, 0));
-			break;
-		case StartPoint::eLeftDown:
-			b->GetTransform()->SetPosition(Float3(0, 0, 0));
-			break;
-		case StartPoint::eRightDown:
-			b->GetTransform()->SetPosition(Float3(0, 0, 0));
-			break;
-		default:
-			break;
-		}
-		b->GetTransform()->CreateMtx();
-
-		// 
-
+		SetButtonPosition();
 	}
 }
 
@@ -263,4 +249,36 @@ void ButtonGroup::SetSelectedNum(int _num)
 	mButtonList[_num]->GetComponent<Component::Quad2d>()->SetColor(mStateColor[(int)ButtonState::eSelected]);
 
 	mSelectNum = _num;
+}
+
+void ButtonGroup::SetButtonPosition()
+{
+	int i = 0;
+	for (Button* b : mButtonList)
+	{
+		// 位置指定
+		switch (mStartPoint)
+		{
+		case StartPoint::eLeftUp:
+			if (mArrangement == ButtonArrangement::eHorizontal)
+				b->GetTransform()->SetPosition(Float3(mTransform->position.x + i * mSpace.x + i * mNomalScale.x, mTransform->position.y /*+ i * mSpace.x + i * _nomalScale.x*/, 0));
+			if (mArrangement == ButtonArrangement::eVertical)
+				b->GetTransform()->SetPosition(Float3(mTransform->position.x, mTransform->position.y + i * mSpace.y + i * mNomalScale.y, 0));
+			break;
+		case StartPoint::eRightUp:
+			b->GetTransform()->SetPosition(Float3(0, 0, 0));
+			break;
+		case StartPoint::eLeftDown:
+			b->GetTransform()->SetPosition(Float3(0, 0, 0));
+			break;
+		case StartPoint::eRightDown:
+			b->GetTransform()->SetPosition(Float3(0, 0, 0));
+			break;
+		default:
+			break;
+		}
+		b->GetTransform()->CreateMtx();
+
+		i++;
+	}
 }

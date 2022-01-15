@@ -86,10 +86,14 @@ namespace myUI {
 		unsigned int mPressingTriggerFrame;		// 長押し時に進む数
 		DirectX::XMFLOAT4 mStateColor[(int)ButtonState::MaxButtonState] = { DirectX::XMFLOAT4(0.5f,0.5f,0.5f,1.0f), DirectX::XMFLOAT4(1.0f,1.0f,1.0f,1.0f),DirectX::XMFLOAT4(1.0f,1.0f,1.0f,1.0f),DirectX::XMFLOAT4(1.0f,1.0f,1.0f,1.0f) };
 		bool isPressed = false;		// ボタンが押されたか
+		ButtonArrangement mArrangement;
+		DirectX::XMFLOAT2 mNomalScale;
+		Float3 mBeforePos;
 
 		// 選択された数の処理
 		void SetSelectedNum(int _num);
 
+		void SetButtonPosition();
 	public:
 		ButtonGroup();
 		void ObjectInit() override;
@@ -105,7 +109,7 @@ namespace myUI {
 		}
 
 		// 初期値登録(btCount:サイコロの個数)
-		void SetInitState(const char* _texName, int _divX, int _divY, int _arrayCnt, ButtonTransition _trans, DirectX::XMFLOAT2 _startPos, DirectX::XMFLOAT2 _space, DirectX::XMFLOAT2 _nomalScale, DirectX::XMFLOAT2 _selectScale, ButtonArrangement _ar = ButtonArrangement::eHorizontal, StartPoint _sP = StartPoint::eLeftUp);
+		void SetInitState(const char* _texName, int _divX, int _divY, int _arrayCnt, ButtonTransition _trans, DirectX::XMFLOAT2 _space, DirectX::XMFLOAT2 _nomalScale, DirectX::XMFLOAT2 _selectScale, ButtonArrangement _ar = ButtonArrangement::eHorizontal, StartPoint _sP = StartPoint::eLeftUp);
 
 		// 初期選択番号登録
 		void SetInitSelectNum(int _num);

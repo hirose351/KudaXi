@@ -10,7 +10,8 @@ using namespace DirectX;
 PauseEndless::PauseEndless() :GameObject(("PauseEndless"), ObjectType::eObstracle, false)
 {
 	mButton = new ButtonGroup;
-	mButton->SetInitState("assets/image/ui/pause_button.png", 3, 1, 1, ButtonTransition::eColorTint, XMFLOAT2(600, 300), XMFLOAT2(20, 20), XMFLOAT2(200, 200), XMFLOAT2(300, 300));
+	mButton->GetTransform()->SetPositionXYZ(Float3(600, 300, 0));
+	mButton->SetInitState("assets/image/ui/pause_button.png", 3, 1, 3, ButtonTransition::eColorTint, XMFLOAT2(0, -100), XMFLOAT2(200, 200), XMFLOAT2(300, 300), ButtonArrangement::eVertical);
 	mButton->SetIsActive(false);
 }
 

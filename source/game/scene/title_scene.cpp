@@ -44,7 +44,7 @@ void TitleScene::SceneInit()
 
 	myUI::ButtonGroup* bG = new myUI::ButtonGroup;
 	bG->GetTransform()->SetPositionXYZ(Float3(950.0f, 300.0f, 0));
-	bG->SetInitState("assets/image/title/button.png", 2, 1, 1, ButtonTransition::eColorTint, XMFLOAT2(950.0f, 300.0f), XMFLOAT2(5, 5), XMFLOAT2(300, 300), XMFLOAT2(400, 400), ButtonArrangement::eVertical);
+	bG->SetInitState("assets/image/title/button.png", 2, 1, 1, ButtonTransition::eColorTint, XMFLOAT2(5, 5), XMFLOAT2(300, 300), XMFLOAT2(400, 400), ButtonArrangement::eVertical);
 	bG->SetInitSelectNum(0);
 	bG->SetPosition(0, XMFLOAT2(950.0f, 300.0f));
 	bG->SetPosition(1, XMFLOAT2(1050, 500));
