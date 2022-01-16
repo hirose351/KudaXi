@@ -16,7 +16,6 @@ public:
 	void SceneAfter() override;
 	void SceneInit() override;
 	void SceneUpdate() override;
-	void SceneRender() override;
 	/*void ImguiDebug() override;*/
 	bool Dispose() override;
 };

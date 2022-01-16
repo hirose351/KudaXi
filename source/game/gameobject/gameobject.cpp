@@ -69,28 +69,13 @@ void GameObject::Update()
 	mComponentList.shrink_to_fit();
 }
 
-void GameObject::Draw()
-{
-	if (mParent != nullptr)
-		if (!mParent->GetIsActive())
-			return;
-
-	ObjectDraw();
-	for (auto& component : mComponentList)
-	{
-		component->Draw();
-	}
-	for (auto& component : mComponentList)
-	{
-		component->LateDraw();
-	}
-}
-
 void GameObject::ImguiDraw()
 {
 	if (ImGui::TreeNode(mName.c_str()))
 	{
 		std::string str;
+
+		ImGui::Checkbox("isActive", &mIsActive);
 
 		str = u8"ObjectIDF " + std::to_string(mObjectID);
 		ImGui::Text(str.c_str());
@@ -104,34 +89,10 @@ void GameObject::ImguiDraw()
 				ImGui::DragFloat("z", &mTransform->worldMtx._43, 0.5f);
 				ImGui::TreePop();
 			}
-			if (ImGui::TreeNode("Position"))
-			{
-				ImGui::DragFloat("x", &mTransform->position.x, 0.5f);
-				ImGui::DragFloat("y", &mTransform->position.y, 0.5f);
-				ImGui::DragFloat("z", &mTransform->position.z, 0.5f);
-				ImGui::TreePop();
-			}
-			if (ImGui::TreeNode("Angle"))
-			{
-				ImGui::DragFloat("x", &mTransform->angle.x, 0.5f);
-				ImGui::DragFloat("y", &mTransform->angle.y, 0.5f);
-				ImGui::DragFloat("z", &mTransform->angle.z, 0.5f);
-				ImGui::TreePop();
-			}
-			if (ImGui::TreeNode("Rotation"))
-			{
-				ImGui::DragFloat("x", &mTransform->rotation.x, 0.5f);
-				ImGui::DragFloat("y", &mTransform->rotation.y, 0.5f);
-				ImGui::DragFloat("z", &mTransform->rotation.z, 0.5f);
-				ImGui::TreePop();
-			}
-			if (ImGui::TreeNode("Sclale"))
-			{
-				ImGui::DragFloat("x", &mTransform->scale.x, 0.5f);
-				ImGui::DragFloat("y", &mTransform->scale.y, 0.5f);
-				ImGui::DragFloat("z", &mTransform->scale.z, 0.5f);
-				ImGui::TreePop();
-			}
+			ImGui::DragFloat3("Position", &mTransform->position.x, 0.5f);
+			ImGui::DragFloat3("Angle", &mTransform->angle.x, 0.5f);
+			ImGui::DragFloat3("Rotation", &mTransform->rotation.x, 0.5f);
+			ImGui::DragFloat3("Sclale", &mTransform->scale.x, 0.5f);
 			ImGui::TreePop();
 		}
 

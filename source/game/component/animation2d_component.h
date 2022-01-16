@@ -10,7 +10,6 @@ namespace Component {
 		Animation2d();
 		void Init() override {};
 		void Update()override {};
-		void Draw()override {};
 		void ImguiDraw()override {};
 		void Uninit() override {};
 

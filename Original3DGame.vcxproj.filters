@@ -73,9 +73,6 @@
     <Filter Include="ソース ファイル\game\data">
       <UniqueIdentifier>{46c4faa1-7293-4ac6-a2b3-828507cd5ce2}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\game\gameobject\plane">
-      <UniqueIdentifier>{21c1923f-0364-4b23-921d-13eb78453df5}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ソース ファイル\game\component">
       <UniqueIdentifier>{7eebec67-83f2-486a-bc56-c55687c4130b}</UniqueIdentifier>
     </Filter>
@@ -205,6 +202,12 @@
     <Filter Include="ソース ファイル\game\gameobject\access">
       <UniqueIdentifier>{7a9be914-9816-4461-9657-06cf7590e0df}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\game\manager\draw">
+      <UniqueIdentifier>{8b20ded5-fa63-4b8b-9839-916a156fdbc4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\game\component\draw\plane">
+      <UniqueIdentifier>{6951cf06-0473-4ccb-bf4d-23c4071ccc4d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\game.cpp">
@@ -326,9 +329,6 @@
     </ClCompile>
     <ClCompile Include="source\game\scene\scene_base.cpp">
       <Filter>ソース ファイル\game\scene</Filter>
-    </ClCompile>
-    <ClCompile Include="source\game\gameobject\plane.cpp">
-      <Filter>ソース ファイル\game\gameobject\plane</Filter>
     </ClCompile>
     <ClCompile Include="source\game\gameobject\primitive.cpp">
       <Filter>ソース ファイル\game\gameobject\util</Filter>
@@ -470,6 +470,15 @@
     </ClCompile>
     <ClCompile Include="source\game\gameobject\access_dice_manager.cpp">
       <Filter>ソース ファイル\game\gameobject\access</Filter>
+    </ClCompile>
+    <ClCompile Include="source\game\manager\draw_manager.cpp">
+      <Filter>ソース ファイル\game\manager\draw</Filter>
+    </ClCompile>
+    <ClCompile Include="source\game\component\draw_component_base.cpp">
+      <Filter>ソース ファイル\game\component\draw</Filter>
+    </ClCompile>
+    <ClCompile Include="source\game\component\plane.cpp">
+      <Filter>ソース ファイル\game\component\draw\plane</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -626,9 +635,6 @@
     <ClInclude Include="source\game\scene\scene_base.h">
       <Filter>ソース ファイル\game\scene</Filter>
     </ClInclude>
-    <ClInclude Include="source\game\gameobject\plane.h">
-      <Filter>ソース ファイル\game\gameobject\plane</Filter>
-    </ClInclude>
     <ClInclude Include="source\game\gameobject\primitive.h">
       <Filter>ソース ファイル\game\gameobject\util</Filter>
     </ClInclude>
@@ -781,6 +787,15 @@
     </ClInclude>
     <ClInclude Include="source\game\gameobject\access_dice_manager.h">
       <Filter>ソース ファイル\game\gameobject\access</Filter>
+    </ClInclude>
+    <ClInclude Include="source\game\manager\draw_manager.h">
+      <Filter>ソース ファイル\game\manager\draw</Filter>
+    </ClInclude>
+    <ClInclude Include="source\game\component\draw_component_base.h">
+      <Filter>ソース ファイル\game\component\draw</Filter>
+    </ClInclude>
+    <ClInclude Include="source\game\component\plane.h">
+      <Filter>ソース ファイル\game\component\draw\plane</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

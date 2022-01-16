@@ -1,5 +1,5 @@
 #pragma once
-#include	"component_base.h"
+#include	"draw_component_base.h"
 #include	<d3d11.h>
 #include	<vector>
 #include	<wrl/client.h>
@@ -8,7 +8,7 @@
 using Microsoft::WRL::ComPtr;
 
 namespace Component {
-	class Model : public ComponentBase
+	class Model : public DrawComponentBase
 	{
 	private:
 		CModel* mpModel;

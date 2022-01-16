@@ -6,8 +6,9 @@
 using namespace Component;
 using namespace Dix;
 
-Collision::Collision() :ComponentBase(("Collision"))
+Collision::Collision()
 {
+	SetName("Collision");
 	CollisionManager::GetInstance().AddCollision(this);
 }
 

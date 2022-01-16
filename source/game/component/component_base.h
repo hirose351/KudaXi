@@ -15,6 +15,12 @@ public:
 	ComponentBase(GameObject* mOwner) :mOwner(mOwner) {}
 	virtual ~ComponentBase() { Uninit(); mOwner = nullptr; }
 
+	virtual void Awake() {}
+	virtual void Init() {}
+	virtual void Update() {}
+	virtual void ImguiDraw() {}
+	virtual void Uninit() {}
+
 	GameObject* GetOwner() { return mOwner; }
 	void SetOwner(GameObject* newowner) { mOwner = newowner; }
 
@@ -22,16 +28,9 @@ public:
 	void SetTag(ObjectTag _tag) { mTag = _tag; }
 
 	std::string GetName() { return mName; }
+	void SetName(std::string _name) { mName = _name; }
 
-	bool GetIsActive() { return mIsActive; }
+	bool GetIsActive();
 	void SetIsActive(bool _flg) { mIsActive = _flg; }
-
-	virtual void Awake() {}
-	virtual void Init() {}
-	virtual void Update() {}
-	virtual void Draw() {}
-	virtual void LateDraw() {}
-	virtual void ImguiDraw() {}
-	virtual void Uninit() {}
 };
 

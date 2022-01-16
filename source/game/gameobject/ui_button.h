@@ -59,7 +59,6 @@ namespace myUI {
 		Button();
 		void ObjectInit() override;
 		void ObjectUpdate()override;
-		void ObjectDraw()override {};
 		void ObjectImguiDraw()override {};
 		void Uninit() override {};
 
@@ -98,7 +97,6 @@ namespace myUI {
 		ButtonGroup();
 		void ObjectInit() override;
 		void ObjectUpdate()override;
-		void ObjectDraw()override {};
 		void ObjectImguiDraw()override;
 		void Uninit() override {};
 

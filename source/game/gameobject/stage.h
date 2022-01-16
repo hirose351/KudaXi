@@ -1,21 +1,19 @@
 #pragma once
 #include	"gameobject.h"
 #include	"../manager/stagedata_manager.h"
-#include	"../../system/util/dixsmartptr.h"
-#include	"plane.h"
+#include	"../component/plane.h"
 #include	<list>
 
 class Stage : public GameObject
 {
 private:
 	StageData mCurrentStageData;
-	Plane mPlane;
+	Component::Plane* mpPlane;
 
 public:
-	Stage() :GameObject(("Stage"), ObjectType::eObstracle, false) {};
+	Stage();
 	void ObjectInit() override;
-	void ObjectUpdate()override {};
-	void ObjectDraw()override;
+	void ObjectUpdate()override;
 	void ObjectImguiDraw()override {};
 	void Uninit() override {};
 };

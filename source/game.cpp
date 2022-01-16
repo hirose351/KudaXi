@@ -71,7 +71,7 @@ void GameSceneInit()
 	SceneManager::GetInstance()->add<TitleScene>("Title");
 	// Œ»ÝƒV[ƒ“‚ðTitle‚É‚·‚é
 	//SceneManager::GetInstance()->setCurrentScene("GameMain");
-	SceneManager::GetInstance()->setCurrentScene("Title");
+	SceneManager::GetInstance()->SetCurrentScene("Title");
 }
 
 void GameInput(uint64_t dt) {

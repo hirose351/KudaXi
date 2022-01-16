@@ -44,7 +44,7 @@ public:
 	void changeScene(std::string key);
 
 	// カレントシーンをセットする
-	void setCurrentScene(std::string key);
+	void SetCurrentScene(std::string key);
 	void Update();
 	void Render();
 
@@ -94,5 +94,5 @@ void SceneManager::changeScene(std::string key) {
 		mScenefactories[key].get()->SetSceneManager(this);
 	}
 	// カレントシーンセット	
-	setCurrentScene(key);
+	SetCurrentScene(key);
 }

@@ -7,8 +7,9 @@
 
 using namespace Component;
 
-Model::Model() :ComponentBase(("Model"))
+Model::Model()
 {
+	SetName("Model");
 }
 
 void Model::Draw()

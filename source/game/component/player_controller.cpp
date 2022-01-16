@@ -41,10 +41,6 @@ void PlayerController::Update()
 	DiceManager::GetInstance()->SetPlayerPos(mStates[mStateNum]->GetMapPos());
 }
 
-void PlayerController::Draw()
-{
-}
-
 void PlayerController::ImguiDraw()
 {
 	std::string str;

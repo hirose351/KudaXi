@@ -67,10 +67,6 @@ void Dice::ObjectUpdate()
 	}
 }
 
-void Dice::ObjectDraw()
-{
-}
-
 void Dice::Uninit()
 {
 }

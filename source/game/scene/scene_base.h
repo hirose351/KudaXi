@@ -1,6 +1,7 @@
 #pragma once
 #include	"../../system/util/vector.h"
 #include	"../manager/scene_manager.h"
+#include	"../manager/draw_manager.h"
 #include	"XAudio2.h"
 
 class SceneManager;
@@ -8,13 +9,12 @@ class GameObject;
 
 class SceneBase : Uncopyable {
 protected:
-	SceneManager*	mManager;
+	SceneManager*	mSceneManager;
 
 	std::vector< GameObject*> mObjectList;			// ゲームオブジェクトを全部まとめて管理できるオブジェクトリスト
 	std::vector< GameObject*> mPendingObjectList;	// 待ち状態のオブジェクト
 
-	//GameObject*		mQuadfadein;
-	//GameObject*		mQuadfadeout;
+	DrawManager mDrawManager;
 
 	bool mInitingActors;	// アクターを初期化しているかどうか
 	bool mUpdatingActors;	// アクターを更新しているかどうか
@@ -26,7 +26,7 @@ protected:
 public:
 	SceneBase();
 	void SetSceneManager(SceneManager* _sm) {
-		mManager = _sm;
+		mSceneManager = _sm;
 	}
 
 	virtual ~SceneBase();
@@ -50,8 +50,6 @@ public:
 	virtual void SceneInit() = 0;
 	// 各シーンの更新
 	virtual void SceneUpdate() = 0;
-	// 各シーンの描画
-	virtual void SceneRender() = 0;
 
 	// imguiデバッグ
 	virtual void ImguiDebug()/* = 0*/;
@@ -61,10 +59,6 @@ public:
 	void SetIsPause(bool _flg) { mIsPause = _flg; }
 	bool GetIsPause() { return mIsPause; }
 
-	//// フェード処理
-	//virtual void UpdateFadeIn(double t);
-	//virtual void UpdateFadeOut(double t);
-
-	//virtual void DrawFadeIn(double t);
-	//virtual void DrawFadeOut(double t);
+	void AddDrawComponent(class DrawComponentBase* _c);
+	void RemoveDrawComponent(class DrawComponentBase* _c);
 };

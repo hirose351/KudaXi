@@ -17,11 +17,11 @@ protected:
 	GameObject*			mParent;
 	Dix::sp<Transform>	mTransform;		// 位置回転大きさ
 	std::string			mName;			// 名前
-	unsigned int			mObjectID;		// オブジェクトID番号
+	unsigned int		mObjectID;		// オブジェクトID番号
 	ObjectType			mObjectType;	// オブジェクトタイプ
 	ObjectState			mObjectState;	// 状態
-	bool					mIsActive;		// アクティブか(UpdateもDrawも止まる)
-	bool					mIsStopPause;	// ポーズ時に止めるか
+	bool				mIsActive;		// アクティブか(UpdateもDrawも止まる)
+	bool				mIsStopPause;	// ポーズ時に止めるか
 
 	std::vector<ComponentBase*> mComponentList;
 
@@ -31,12 +31,10 @@ public:
 
 	void Init();
 	void Update();
-	void Draw();
 
 	virtual void ImguiDraw();
 	virtual void ObjectInit() {};
 	virtual void ObjectUpdate() {};
-	virtual void ObjectDraw() {};
 	virtual void ObjectImguiDraw() {};
 	virtual void Uninit() {};
 
@@ -60,6 +58,7 @@ public:
 	bool GetIsActive() { return mIsActive; }
 
 	void SetParent(GameObject* _obj) { mParent = _obj; }
+	GameObject* GetParent() { return  mParent; }
 
 	Dix::wp<Transform> GetTransform() { return mTransform; }
 

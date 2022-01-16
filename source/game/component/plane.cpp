@@ -3,7 +3,13 @@
 #include	"../../system/dx11/DX11Settransform.h"
 #include	"../../system/dx11/Shader.h"
 
-void Plane::ObjectInit()
+using namespace Component;
+
+Plane::Plane()
+{
+}
+
+void Plane::Init()
 {
 	ID3D11Device* dev;
 	ID3D11DeviceContext* devcontext;
@@ -45,18 +51,17 @@ void Plane::ObjectInit()
 	{
 		MessageBox(nullptr, "CreatePixelShader error(stage)", "error", MB_OK);
 	}
-	// 平行移動量を計算
-
-	DX11MtxIdentity(mTransform->worldMtx);	// 単位行列化
-	mTransform->CreateMtx();
 }
 
-void Plane::ObjectUpdate()
+void Plane::Update()
 {
 }
 
-void Plane::ObjectDraw()
+void Plane::Draw()
 {
+	if (mDrawPosList.empty())
+		return;
+
 	ID3D11DeviceContext* devcontext = GetDX11DeviceContext();
 	// 頂点バッファをセットする
 	unsigned int stride = sizeof(Vertex);
@@ -68,14 +73,20 @@ void Plane::ObjectDraw()
 	devcontext->VSSetShader(mpVertexShader.Get(), nullptr, 0);						// 頂点シェーダーをセット
 	devcontext->PSSetShader(mpPixelShader.Get(), nullptr, 0);						// ピクセルシェーダーをセット
 
-	// ワールド変換行列セット
-	mTransform->CreateMtx();
-	DX11SetTransform::GetInstance()->SetTransform(DX11SetTransform::TYPE::eWorld, mTransform->worldMtx);
+	for (Float3 pos : mDrawPosList)
+	{
+		mTransform.position = pos;
+		// ワールド変換行列セット
+		mTransform.CreateMtx();
+		DX11SetTransform::GetInstance()->SetTransform(DX11SetTransform::TYPE::eWorld, mTransform.worldMtx);
 
-	// テクスチャセット
-	/// このテクスチャの配列の添え字を変えることで画像を変更できる
-	devcontext->PSSetShaderResources(0, 1, mTexInfo[1].texSrv.GetAddressOf());
-	devcontext->Draw(4, 0);
+		// テクスチャセット
+		/// このテクスチャの配列の添え字を変えることで画像を変更できる
+		devcontext->PSSetShaderResources(0, 1, mTexInfo[1].texSrv.GetAddressOf());
+		devcontext->Draw(4, 0);
+	}
+
+	mDrawPosList.clear();
 }
 
 void Plane::Uninit()

@@ -2,8 +2,10 @@
 
 using namespace Component;
 
-Quad2d::Quad2d() :ComponentBase(("Quad2d")), mIsLateDraw(false), mDrawType(DrawType::eTex)
+Quad2d::Quad2d() : mDrawType(DrawType::eTex)
 {
+	mOrderInLayer = 100;
+	SetName("Quad2d");
 }
 
 void Quad2d::Init()
@@ -18,7 +20,6 @@ void Quad2d::Update()
 
 void Quad2d::Draw()
 {
-	if (mIsLateDraw) return;
 	TurnOffZbuffer();
 
 	switch (mDrawType)
@@ -39,26 +40,20 @@ void Quad2d::Draw()
 	TurnOnZbuffer();
 }
 
-void Quad2d::LateDraw()
-{
-	if (!mIsLateDraw) return;
-	TurnOffZbuffer();
-	mpQuad->Draw(mOwner->GetTransform()->worldMtx);
-	TurnOnZbuffer();
-}
-
 void Quad2d::ImguiDraw()
 {
+	ImGui::DragInt("OrderInLayer", &mOrderInLayer, 0.5f);
 }
 
 void Quad2d::Uninit()
 {
 }
 
-void Quad2d::SetInfo(const char* _texName, const XMFLOAT4& _color, int _u, int _v, float _z)
+void Quad2d::SetInfo(std::string _texName, const XMFLOAT4& _color, int _u, int _v, float _z)
 {
 	mpQuad.SetPtr(new CQuad2D);
-	mpQuad->Init(XMFLOAT2(mOwner->GetTransform()->GetScale().x, mOwner->GetTransform()->GetScale().y), _texName, _color, _u, _v, _z);
+	mpQuad->Init(XMFLOAT2(mOwner->GetTransform()->GetScale().x, mOwner->GetTransform()->GetScale().y), _texName.c_str(), _color, _u, _v, _z);
+	mOwner->SetName(mOwner->GetName() + "  " + _texName);
 }
 
 void Quad2d::SetUV(int u, int v)

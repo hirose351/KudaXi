@@ -19,6 +19,10 @@ TitleScene::~TitleScene()
 
 void TitleScene::SceneAfter()
 {
+	mCameraLookat = { 0,0,0 };
+	CCamera::GetInstance()->SetLookat(mCameraLookat);
+	CCamera::GetInstance()->SetEye(Float3(0, 0, -100));
+	CCamera::GetInstance()->CreateCameraMatrix();
 }
 
 void TitleScene::SceneInit()
@@ -53,11 +57,6 @@ void TitleScene::SceneInit()
 	Effect::Fruit* f = new Effect::Fruit;
 	f->GetComponent<Component::Billbord>()->SetColor(XMFLOAT4(1, 1, 1, 0.5f));
 	mpFruit = f;
-
-	mCameraLookat = { 0,0,0 };
-	CCamera::GetInstance()->SetLookat(mCameraLookat);
-	CCamera::GetInstance()->SetEye(Float3(0, 0, -100));
-	CCamera::GetInstance()->CreateCameraMatrix();
 }
 
 void TitleScene::SceneUpdate()
@@ -77,16 +76,11 @@ void TitleScene::SceneUpdate()
 		return;
 	if (mpBg->GetSelectNum() == 0)
 	{
-		//SceneManager::GetInstance()->changeScene<MaingameScene>("GameMain", 1000, false);
 		SceneManager::GetInstance()->changeScene<MaingameScene>("GameMain");
 		a = true;
 	}
 	if (mpBg->GetSelectNum() == 1)
 		SceneManager::GetInstance()->SetGameEndFlg(true);
-}
-
-void TitleScene::SceneRender()
-{
 }
 
 bool TitleScene::Dispose()

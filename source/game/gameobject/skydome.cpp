@@ -28,10 +28,6 @@ void Skydome::ObjectUpdate()
 	DX11MtxMultiply(mTransform->worldMtx, mRotationMtx, mTransform->worldMtx);
 }
 
-void Skydome::ObjectDraw()
-{
-}
-
 void Skydome::Uninit()
 {
 }

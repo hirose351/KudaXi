@@ -1,9 +1,9 @@
 #pragma once
-#include	"component_base.h"
+#include	"draw_component_base.h"
 #include	"../../system/util/CBillboard.h"
 
 namespace Component {
-	class Billbord : public ComponentBase
+	class Billbord : public DrawComponentBase
 	{
 	private:
 		Dix::sp<CBillboard> mpBillboard;
@@ -14,7 +14,6 @@ namespace Component {
 		void Init() override;
 		void Update()override;
 		void Draw()override;
-		void LateDraw()override;
 		void ImguiDraw()override;
 		void Uninit() override;
 

@@ -28,7 +28,6 @@ namespace Component {
 		void Awake()override {};
 		void Init()override;
 		void Update()override;
-		void Draw()override;
 		void ImguiDraw()override;
 		void Uninit()override {};
 

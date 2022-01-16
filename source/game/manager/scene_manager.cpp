@@ -1,7 +1,7 @@
 #include	"scene_manager.h"
 
 // カレントシーンをセットする
-void SceneManager::setCurrentScene(std::string key) {
+void SceneManager::SetCurrentScene(std::string key) {
 
 	mBeforescenekey = mCurrentscenekey;
 	mCurrentscenekey = key;
@@ -11,6 +11,10 @@ void SceneManager::setCurrentScene(std::string key) {
 
 void SceneManager::Update() {
 
+	// カレントシーンキーが空なら何もしない
+	if (mCurrentscenekey.empty())
+		return;
+
 	mScenefactories[mCurrentscenekey]->Update();
 }
 
@@ -18,9 +22,8 @@ void SceneManager::Render() {
 
 	// カレントシーンキーが空なら何もしない
 	if (mCurrentscenekey.empty())
-	{
 		return;
-	}
+
 	// カレントシーン描画
 	mScenefactories[mCurrentscenekey]->Render();
 }

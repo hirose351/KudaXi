@@ -58,10 +58,7 @@ void Fruit::ObjectUpdate()
 
 	// priceをキーに降順でソート
 	std::sort(mParticle.begin(), mParticle.end(), ParticleLess{});//降順ソート
-}
 
-void Fruit::ObjectDraw()
-{
 	Component::Billbord* bilbord = GetComponent<Component::Billbord>();
 	for (auto itr : mParticle)
 	{

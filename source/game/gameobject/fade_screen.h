@@ -10,7 +10,7 @@ enum class FadeType
 class FadeScreen : public GameObject
 {
 private:
-	float mAlha;			// ‰æ‘œ‚Ìƒ¿’l
+	float mAlpha;			// ‰æ‘œ‚Ìƒ¿’l
 	FadeType mCurrentType;
 	bool mIsCompleted;		// “®ì‚ªŠ®—¹‚µ‚½‚©
 	bool mIsActive;
@@ -19,7 +19,6 @@ public:
 	FadeScreen();
 	void ObjectInit() override;
 	void ObjectUpdate()override;
-	void ObjectDraw()override {};
 	void ObjectImguiDraw()override {};
 	void Uninit() override {};
 

@@ -16,11 +16,9 @@ namespace Effect {
 		~Fruit();
 		void ObjectInit() override;
 		void ObjectUpdate()override;
-		void ObjectDraw()override;
 		void ObjectImguiDraw()override {};
 		void Uninit() override {};
 
 		void SetInit(const Float3& _pos, int _uvnum);
 	};
 }
-

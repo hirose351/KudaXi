@@ -2,6 +2,7 @@
 #include	"../gameobject/gameobject.h"
 #include	"../../system/imgui/util/myimgui.h"
 #include	"../../system/dx11/DX11util.h"
+#include	"../manager/draw_manager.h"
 
 SceneBase::SceneBase()
 {
@@ -49,7 +50,7 @@ void SceneBase::RemoveGameObject(GameObject* _object)
 
 bool SceneBase::Init()
 {
-	// すべてのアクターを更新
+	// すべてのオブジェクトを初期化
 	mInitingActors = true;
 	for (auto &obj : mObjectList)
 	{
@@ -57,7 +58,7 @@ bool SceneBase::Init()
 	}
 	mInitingActors = false;
 
-	// 待ちになっていたアクターをm_actorsに移動
+	// 待ちになっていたオブジェクトをリストに移動
 	for (auto pending : mPendingObjectList)
 	{
 		pending->Init();
@@ -82,7 +83,7 @@ void SceneBase::Update()
 	}
 	mUpdatingActors = false;
 
-	// 待ちになっていたアクターをm_actorsに移動
+	// 待ちになっていたオブジェクトを本リストに移動
 	for (auto pending : mPendingObjectList)
 	{
 		mObjectList.emplace_back(pending);
@@ -91,7 +92,7 @@ void SceneBase::Update()
 
 	SceneUpdate();
 
-	// 死んだアクターを一時配列に追加
+	// 死んだオブジェクトを一時配列に追加
 	std::vector<GameObject*> deadObjcts;
 	for (auto obj : mObjectList)
 	{
@@ -101,7 +102,7 @@ void SceneBase::Update()
 		}
 	}
 
-	// 死んだアクターを消す（m_actorsから削除）
+	// 死んだオブジェクトを消す（リストから削除）
 	for (auto obj : deadObjcts)
 	{
 		delete obj;
@@ -112,19 +113,14 @@ void SceneBase::Update()
 
 void SceneBase::Render()
 {
-	for (auto &obj : mObjectList)
-	{
-		if (obj->GetIsActive())
-			obj->Draw();
-	}
-	SceneRender();
+	mDrawManager.Draw();
 	imguiDraw(std::bind(&SceneBase::ImguiDebug, std::ref(*this)));
 }
 
 void SceneBase::ImguiDebug()
 {
 	ImGui::SetNextWindowPos(ImVec2(20, 20), ImGuiCond_Once);
-	ImGui::SetNextWindowSize(ImVec2(280, 300), ImGuiCond_Once);
+	ImGui::SetNextWindowSize(ImVec2(350, 300), ImGuiCond_Once);
 	ImGui::Begin(u8"GameObject");
 	for (auto &obj : mObjectList)
 	{
@@ -135,20 +131,24 @@ void SceneBase::ImguiDebug()
 	static DirectX::XMFLOAT4 lightPos = { -50, -87, 66, 0 };
 
 	ImGui::SetNextWindowPos(ImVec2(20, 300), ImGuiCond_Once);
-	ImGui::SetNextWindowSize(ImVec2(280, 180), ImGuiCond_Once);
+	ImGui::SetNextWindowSize(ImVec2(350, 180), ImGuiCond_Once);
 	ImGui::Begin(u8"Scene");
 	{
 		ImGui::Text(u8"現在のFPS : %.1f FPS", ImGui::GetIO().Framerate);
 		if (ImGui::TreeNode("Light"))
 		{
-			ImGui::DragFloat("x", &lightPos.x, 0.5f);
-			ImGui::DragFloat("y", &lightPos.y, 0.5f);
-			ImGui::DragFloat("z", &lightPos.z, 0.5f);
+			ImGui::DragFloat3("Light", &lightPos.x, 0.5f);
 			DX11LightInit(lightPos);	// 平行光源をセット
 			ImGui::TreePop();
 		}
+		if (ImGui::TreeNode("Camera"))
+		{
+			ImGui::DragFloat3("Lookat", &mCameraLookat.x, 0.5f);
+			CCamera::GetInstance()->SetLookat(mCameraLookat);
+			CCamera::GetInstance()->CreateCameraMatrix();
+			ImGui::TreePop();
+		}
 	}
-
 	ImGui::End();
 }
 
@@ -163,86 +163,13 @@ bool SceneBase::Dispose()
 	}
 	return true;
 }
-//
-//void SceneBase::UpdateFadeIn(double t) {
-//	Update();
-//}
-//
-//void SceneBase::UpdateFadeOut(double t) {
-//	Update();
-//}
-//
-//void SceneBase::DrawFadeIn(double t)
-//{
-//	static bool first = true;
-//	// ここで真っ黒から透明へアルファ値を変化させながら画面サイズの矩形を描画する
-//	DirectX::XMFLOAT4 fadecolor = { 0,0,0,1 };
-//
-//	DirectX::XMFLOAT2 uv[4] = {
-//		{0.0f,0.0f},
-//		{1.0f,0.0f},
-//		{0.0f,1.0f},
-//		{1.0f,1.0f}
-//	};
-//
-//	if (first)
-//	{
-//		mQuadfadein = new GameObject("mQuadfadein", ObjectType::eObstracle, false);
-//		mQuadfadein->GetTransform()->SetScale(Float3(static_cast<float>(Application::CLIENT_WIDTH), static_cast<float>(Application::CLIENT_HEIGHT), 0));
-//		mQuadfadein->AddComponent<Component::Quad2d>()->SetInfo("assets/white.bmp", DirectX::XMFLOAT4(fadecolor.x, fadecolor.y, fadecolor.z, fadecolor.w));
-//		mQuadfadein->GetComponent<Component::Quad2d>()->SetIsLateDraw(true);
-//		first = false;
-//	}
-//
-//	std::cout << "DrawFadeIn:" << t << std::endl;
-//
-//	Render();
-//
-//	fadecolor = mManager->GetFadeColor();
-//
-//	fadecolor.w = fadecolor.w*(1.0f - static_cast<float>(t));
-//
-//	mQuadfadein->GetTransform()->SetPositionXYZ(Float3(
-//		Application::CLIENT_WIDTH / 2.0f,
-//		Application::CLIENT_HEIGHT / 2.0f, 0));
-//
-//	mQuadfadein->GetComponent<Component::Quad2d>()->SetColor(
-//		DirectX::XMFLOAT4(fadecolor.x, fadecolor.y, fadecolor.z, fadecolor.w));
-//}
-//
-//void SceneBase::DrawFadeOut(double t)
-//{
-//	static bool first = true;
-//	// ここで真っ黒から透明へアルファ値を変化させながら画面サイズの矩形を描画する
-//	DirectX::XMFLOAT4 fadecolor = { 0,0,0,1 };
-//	DirectX::XMFLOAT2 uv[4] = {
-//		{0.0f,0.0f},
-//		{1.0f,0.0f},
-//		{0.0f,1.0f},
-//		{1.0f,1.0f}
-//	};
-//
-//	if (first)
-//	{
-//		mQuadfadeout = new GameObject("mQuadfadeout", ObjectType::eObstracle, false);
-//		mQuadfadeout->GetTransform()->SetScale(Float3(static_cast<float>(Application::CLIENT_WIDTH), static_cast<float>(Application::CLIENT_HEIGHT), 0));
-//		mQuadfadeout->AddComponent<Component::Quad2d>()->SetInfo("assets/white.bmp", DirectX::XMFLOAT4(fadecolor.x, fadecolor.y, fadecolor.z, fadecolor.w));
-//		mQuadfadeout->GetComponent<Component::Quad2d>()->SetIsLateDraw(true);
-//		first = false;
-//	}
-//	std::cout << "DrawFadeOut:" << t << std::endl;
-//
-//	Render();
-//
-//	// ここで透明から真っ黒へアルファ値を変化させながら画面サイズの矩形を描画する
-//	fadecolor = mManager->GetFadeColor();
-//
-//	fadecolor.w = static_cast<float>(t);
-//
-//	mQuadfadeout->GetTransform()->SetPositionXYZ(Float3(
-//		Application::CLIENT_WIDTH / 2.0f,
-//		Application::CLIENT_HEIGHT / 2.0f, 0));
-//
-//	mQuadfadeout->GetComponent<Component::Quad2d>()->SetColor(
-//		DirectX::XMFLOAT4(fadecolor.x, fadecolor.y, fadecolor.z, fadecolor.w));
-//}
+
+void SceneBase::AddDrawComponent(DrawComponentBase* _c)
+{
+	mDrawManager.AddDrawComponent(_c);
+}
+
+void SceneBase::RemoveDrawComponent(DrawComponentBase * _c)
+{
+	mDrawManager.RemoveDrawComponent(_c);
+}

@@ -1,5 +1,10 @@
 #include	"stage.h"
 
+Stage::Stage() :GameObject(("Stage"), ObjectType::eObstracle, false)
+{
+	mpPlane = AddComponent<Component::Plane>();
+}
+
 void Stage::ObjectInit()
 {
 	/// Todo:現在のステージを取得する処理を加える
@@ -8,11 +13,9 @@ void Stage::ObjectInit()
 
 	/// Todo:ゲーム開始時にカメラを移動できるように
 
-
-	mPlane.Init();
 }
 
-void Stage::ObjectDraw()
+void Stage::ObjectUpdate()
 {
 	for (int z = 0; z < mCurrentStageData.mMapSizeHeight; z++)
 	{
@@ -20,8 +23,7 @@ void Stage::ObjectDraw()
 		{
 			if (mCurrentStageData.mFloorMap[z][x] != 0)
 			{
-				mPlane.GetTransform()->SetPosition(Float3(DICE_SCALE*x, 0, -DICE_SCALE * z));
-				mPlane.Draw();
+				mpPlane->SetDrawPos(Float3(DICE_SCALE*x, 0, -DICE_SCALE * z));
 			}
 		}
 	}

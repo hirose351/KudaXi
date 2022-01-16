@@ -1,14 +1,14 @@
 #pragma once
-#include	"component_base.h"
+#include	"draw_component_base.h"
 #include	"../../system/util/dixsmartptr.h"
 #include	"../gameobject/primitive.h"
 #include	"qube.h"
 
 struct CollisionData;
-class ComponentBase;
+class DrawComponentBase;
 
 namespace Component {
-	class Collision : public ComponentBase
+	class Collision : public DrawComponentBase
 	{
 	private:
 		Primitive::AABB mPrim;
