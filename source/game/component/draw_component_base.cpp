@@ -8,7 +8,6 @@ DrawComponentBase::DrawComponentBase() :ComponentBase(("DrawBase")), mOrderInLay
 	// マネージャーに自身を登録
 	sceneName = SceneManager::GetInstance()->GetCurrentSceneKey();
 	SceneManager::GetInstance()->GetScene(sceneName)->AddDrawComponent(this);
-
 }
 
 DrawComponentBase::~DrawComponentBase()

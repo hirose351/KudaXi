@@ -4,6 +4,8 @@
 #include	"../../system/dx11/DX11util.h"
 #include	"../manager/draw_manager.h"
 
+#include	"../gameobject/fade_screen.h"
+
 SceneBase::SceneBase()
 {
 }
@@ -17,7 +19,7 @@ SceneBase::~SceneBase()
 void SceneBase::AddGameObject(GameObject* _object)
 {
 	// アクターが更新中なら待ち群に追加
-	if (mUpdatingActors || mInitingActors)
+	if (mUpdatingObjects || mInitingObjects)
 	{
 		mPendingObjectList.emplace_back(_object);
 	}
@@ -50,13 +52,17 @@ void SceneBase::RemoveGameObject(GameObject* _object)
 
 bool SceneBase::Init()
 {
+	mIsPause = false;
+	if (fade == nullptr)
+		fade = new FadeScreen;
+
 	// すべてのオブジェクトを初期化
-	mInitingActors = true;
+	mInitingObjects = true;
 	for (auto &obj : mObjectList)
 	{
 		obj->Init();
 	}
-	mInitingActors = false;
+	mInitingObjects = false;
 
 	// 待ちになっていたオブジェクトをリストに移動
 	for (auto pending : mPendingObjectList)
@@ -71,8 +77,14 @@ bool SceneBase::Init()
 
 void SceneBase::Update()
 {
+	if (!fade->GetIsCompleted())
+	{
+		fade->Update();
+		return;
+	}
+
 	// すべてのアクターを更新
-	mUpdatingActors = true;
+	mUpdatingObjects = true;
 	for (auto &obj : mObjectList)
 	{
 		if (obj->GetObjectState() != ObjectState::eActive || !obj->GetIsActive())
@@ -81,7 +93,7 @@ void SceneBase::Update()
 			continue;
 		obj->Update();
 	}
-	mUpdatingActors = false;
+	mUpdatingObjects = false;
 
 	// 待ちになっていたオブジェクトを本リストに移動
 	for (auto pending : mPendingObjectList)
@@ -162,6 +174,16 @@ bool SceneBase::Dispose()
 		}
 	}
 	return true;
+}
+
+void SceneBase::DrawFadeIn()
+{
+	fade->SetFadeType(FadeType::eIn);
+}
+
+void SceneBase::DrawFadeOut()
+{
+	fade->SetFadeType(FadeType::eOut);
 }
 
 void SceneBase::AddDrawComponent(DrawComponentBase* _c)

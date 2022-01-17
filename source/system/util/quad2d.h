@@ -49,35 +49,19 @@ private:
 
 public:
 	// 矩形の初期化　(_scale：大きさ　_texName：画像の場所と名前　_color：頂点カラー　_u：横の分割数　_v：縦の分割数　_z：奥描画サイズ)
-	bool Init(DirectX::XMFLOAT2 _scale, const char *_texName, const DirectX::XMFLOAT4 &_color, int _u = 1, int _v = 1, float _z = 0.0f);
+	bool Init(DirectX::XMFLOAT2 _scale, std::string _texName, const DirectX::XMFLOAT4 &_color, int _u = 1, int _v = 1, float _z = 0.0f);
 
 	// 描画
 	void Draw(DirectX::XMFLOAT4X4 _mtx);
 
 	// テクスチャなしで描画
-	void DrawNoTex();
+	void DrawNoTex(DirectX::XMFLOAT4X4 _mtx);
 
 	// 特殊シェーダーで描画
 	void DrawMokoMokoTex(DirectX::XMFLOAT4X4 _mtx);
 
-	// 拡大、縮小
-	//void SetScale(Float3 _size);
-
-	// 位置をセット
-	//void SetPosition(Float3 _pos);
-
 	// 頂点カラーセット
 	void SetColor(const XMFLOAT4 &_color);
-
-	// Z軸回転
-	//void SetZRotation(float angle);
-
-	// X軸回転
-	//void SetXRotation(float angle);
-
-	// ワールド変換行列をセットする
-	//void SetMtx(const DirectX::XMFLOAT4X4 &mtx) {
-	//	mWorldmtx = mtx;
 
 	// 頂点データ更新
 	void UpdateVertex(DirectX::XMFLOAT2 _scale, const DirectX::XMFLOAT4 &color, float z = 0.0f);

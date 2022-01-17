@@ -3,38 +3,55 @@
 // カレントシーンをセットする
 void SceneManager::SetCurrentScene(std::string key) {
 
-	mBeforescenekey = mCurrentscenekey;
-	mCurrentscenekey = key;
-	mAddkey = mCurrentscenekey;
-	mScenefactories[mCurrentscenekey]->SceneAfter();
+	mBeforeSceneKey = mCurrentSceneKey;
+	mCurrentSceneKey = key;
+	mAddkey = mCurrentSceneKey;
+	mScenefactories[mCurrentSceneKey]->Init();
+	mScenefactories[mCurrentSceneKey]->SceneAfter();
+}
+
+void SceneManager::SetNextScene(std::string key)
+{
+	mScenefactories[mCurrentSceneKey].get()->DrawFadeIn();
+	mNextSceneKey = key;
+}
+
+void SceneManager::ChangeNextScene()
+{
+	mBeforeSceneKey = mCurrentSceneKey;
+	mCurrentSceneKey = mNextSceneKey;
+	mAddkey = mCurrentSceneKey;
+	mScenefactories[mCurrentSceneKey]->Init();
+	mScenefactories[mCurrentSceneKey]->SceneAfter();
+	mScenefactories[mNextSceneKey].get()->DrawFadeOut();
 }
 
 void SceneManager::Update() {
 
 	// カレントシーンキーが空なら何もしない
-	if (mCurrentscenekey.empty())
+	if (mCurrentSceneKey.empty())
 		return;
 
-	mScenefactories[mCurrentscenekey]->Update();
+	mScenefactories[mCurrentSceneKey]->Update();
 }
 
 void SceneManager::Render() {
 
 	// カレントシーンキーが空なら何もしない
-	if (mCurrentscenekey.empty())
+	if (mCurrentSceneKey.empty())
 		return;
 
 	// カレントシーン描画
-	mScenefactories[mCurrentscenekey]->Render();
+	mScenefactories[mCurrentSceneKey]->Render();
 }
 
 std::string SceneManager::GetCurrentSceneKey() {
-	return mCurrentscenekey;
+	return mCurrentSceneKey;
 }
 
 std::string SceneManager::GetBeforeSceneKey()
 {
-	return mBeforescenekey;
+	return mBeforeSceneKey;
 }
 
 std::string SceneManager::GetAddSceneKey()

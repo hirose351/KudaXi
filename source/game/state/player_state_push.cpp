@@ -33,7 +33,7 @@ void Push::Exec()
 	}
 
 	mTransform->AddPosition();
-	mTransform->CreateMtx();
+	mTransform->CreateWordMtx();
 }
 
 void Push::BeforeChange()

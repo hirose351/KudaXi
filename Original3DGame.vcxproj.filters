@@ -208,6 +208,9 @@
     <Filter Include="ソース ファイル\game\component\draw\plane">
       <UniqueIdentifier>{6951cf06-0473-4ccb-bf4d-23c4071ccc4d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\game\scene\modeserect_scene">
+      <UniqueIdentifier>{b352e7d9-109c-4378-b7f4-4233a4e47a60}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\game.cpp">
@@ -479,6 +482,9 @@
     </ClCompile>
     <ClCompile Include="source\game\component\plane.cpp">
       <Filter>ソース ファイル\game\component\draw\plane</Filter>
+    </ClCompile>
+    <ClCompile Include="source\game\scene\modeserect_scene.cpp">
+      <Filter>ソース ファイル\game\scene\modeserect_scene</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -796,6 +802,9 @@
     </ClInclude>
     <ClInclude Include="source\game\component\plane.h">
       <Filter>ソース ファイル\game\component\draw\plane</Filter>
+    </ClInclude>
+    <ClInclude Include="source\game\scene\modeserect_scene.h">
+      <Filter>ソース ファイル\game\scene\modeserect_scene</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

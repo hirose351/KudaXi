@@ -16,7 +16,7 @@ const char* psfilename[] = {
 };
 
 // 矩形の初期化
-bool CQuad2D::Init(DirectX::XMFLOAT2 _scale, const char *_texName, const DirectX::XMFLOAT4 &_color, int _u, int _v, float _z) {
+bool CQuad2D::Init(DirectX::XMFLOAT2 _scale, std::string _texName, const DirectX::XMFLOAT4 &_color, int _u, int _v, float _z) {
 
 	// 4角形の初期化処理
 	XMFLOAT2 uv[4] = {
@@ -112,12 +112,12 @@ bool CQuad2D::Init(DirectX::XMFLOAT2 _scale, const char *_texName, const DirectX
 	}
 
 	// テクスチャ設定
-	if (_texName != "NoTex")
+	if (_texName != "")
 	{
 		device = CDirectXGraphics::GetInstance()->GetDXDevice();
 		ID3D11DeviceContext* devicecontext = CDirectXGraphics::GetInstance()->GetImmediateContext();
 
-		sts = CreateSRVfromFile(_texName, device, devicecontext, &mTexInfo.texRes, &mTexInfo.texSrv);
+		sts = CreateSRVfromFile(_texName.c_str(), device, devicecontext, &mTexInfo.texRes, &mTexInfo.texSrv);
 		if (!sts)
 		{
 			// テクスチャ不要な場合はNoTexと入力して描画させないでおく
@@ -200,58 +200,62 @@ void CQuad2D::Draw(DirectX::XMFLOAT4X4 _mtx) {
 }
 
 // 描画
-void CQuad2D::DrawNoTex() {
-	//// デバイスコンテキストを取得
-	//ID3D11DeviceContext* devcontext;
-	//devcontext = CDirectXGraphics::GetInstance()->GetImmediateContext();
+void CQuad2D::DrawNoTex(DirectX::XMFLOAT4X4 _mtx) {
 
-	//// 座標変換用の行列をセット
-	//DX11SetTransform::GetInstance()->SetTransform(DX11SetTransform::TYPE::WORLD, mWorldmtx);
+	if (mColor.w <= 0.0f)
+		return;
 
-	//unsigned int stride = sizeof(Quad2D::Vertex);	// ストライドをセット（１頂点当たりのバイト数）
-	//unsigned  offset = 0;						// オフセット値をセット
+	// デバイスコンテキストを取得
+	ID3D11DeviceContext* devcontext;
+	devcontext = CDirectXGraphics::GetInstance()->GetImmediateContext();
 
-	//// 頂点バッファをデバイスコンテキストへセット
-	//devcontext->IASetVertexBuffers(
-	//	0,									// スタートスロット
-	//	1,									// 頂点バッファ個数
-	//	mVertexbuffer.GetAddressOf(),		// 頂点バッファの先頭アドレス
-	//	&stride,							// ストライド
-	//	&offset);							// オフセット
+	// 座標変換用の行列をセット
+	DX11SetTransform::GetInstance()->SetTransform(DX11SetTransform::TYPE::eWorld, _mtx);
 
-	//// インデックスバッファをデバイスコンテキストへセット
-	//devcontext->IASetIndexBuffer(
-	//	mIndexbuffer.Get(),				// インデックスバッファ
-	//	DXGI_FORMAT_R32_UINT,				// フォーマット
-	//	0);									// オフセット
+	unsigned int stride = sizeof(CQuad2D::Vertex);	// ストライドをセット（１頂点当たりのバイト数）
+	unsigned  offset = 0;						// オフセット値をセット
 
-	//// トポロジーをセット
-	//devcontext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
+	// 頂点バッファをデバイスコンテキストへセット
+	devcontext->IASetVertexBuffers(
+		0,									// スタートスロット
+		1,									// 頂点バッファ個数
+		mVertexbuffer.GetAddressOf(),		// 頂点バッファの先頭アドレス
+		&stride,							// ストライド
+		&offset);							// オフセット
 
-	//// 頂点シェーダー、ピクセルシェーダー取得
-	//ID3D11VertexShader* vs;
-	//vs = ShaderHashmap::GetInstance()->GetVertexShader(vsfilename[0]);
-	//ID3D11PixelShader* ps;
-	//ps = ShaderHashmap::GetInstance()->GetPixelShader(psfilename[1]);
+	// インデックスバッファをデバイスコンテキストへセット
+	devcontext->IASetIndexBuffer(
+		mIndexbuffer.Get(),				// インデックスバッファ
+		DXGI_FORMAT_R32_UINT,				// フォーマット
+		0);									// オフセット
 
-	//// 頂点レイアウト取得
-	//ID3D11InputLayout* layout;
-	//layout = ShaderHashmap::GetInstance()->GetVertexLayout(vsfilename[0]);
+	// トポロジーをセット
+	devcontext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
 
-	//devcontext->VSSetShader(vs, nullptr, 0);
-	//devcontext->GSSetShader(nullptr, nullptr, 0);
-	//devcontext->HSSetShader(nullptr, nullptr, 0);
-	//devcontext->DSSetShader(nullptr, nullptr, 0);
-	//devcontext->PSSetShader(ps, nullptr, 0);
+	// 頂点シェーダー、ピクセルシェーダー取得
+	ID3D11VertexShader* vs;
+	vs = ShaderHashmap::GetInstance()->GetVertexShader(vsfilename[0]);
+	ID3D11PixelShader* ps;
+	ps = ShaderHashmap::GetInstance()->GetPixelShader(psfilename[1]);
 
-	//// 頂点フォーマットをセット
-	//devcontext->IASetInputLayout(layout);
+	// 頂点レイアウト取得
+	ID3D11InputLayout* layout;
+	layout = ShaderHashmap::GetInstance()->GetVertexLayout(vsfilename[0]);
 
-	//// ドローコール発行
-	//devcontext->DrawIndexed(
-	//	4,						// インデックス数
-	//	0,						// 開始インデックス
-	//	0);						// 基準頂点インデックス
+	devcontext->VSSetShader(vs, nullptr, 0);
+	devcontext->GSSetShader(nullptr, nullptr, 0);
+	devcontext->HSSetShader(nullptr, nullptr, 0);
+	devcontext->DSSetShader(nullptr, nullptr, 0);
+	devcontext->PSSetShader(ps, nullptr, 0);
+
+	// 頂点フォーマットをセット
+	devcontext->IASetInputLayout(layout);
+
+	// ドローコール発行
+	devcontext->DrawIndexed(
+		4,						// インデックス数
+		0,						// 開始インデックス
+		0);						// 基準頂点インデックス
 }
 
 void CQuad2D::DrawMokoMokoTex(DirectX::XMFLOAT4X4 _mtx)

@@ -31,7 +31,8 @@ struct Transform
 	// Šg‘ås—ñì¬
 	void CreateScaleMtx();
 	// s—ñ‚ğì¬
-	void CreateMtx();
+	void CreateWordMtx();
+	void CreateLocalMtx();
 
 	void SetPosition(const Float3& _pos) { position = _pos; }
 	void SetPositionMove(const Float3& _pos);

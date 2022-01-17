@@ -12,5 +12,5 @@ void myUI::Image::ObjectInit()
 
 void myUI::Image::ObjectUpdate()
 {
-	mTransform->CreateMtx();
+	mTransform->CreateWordMtx();
 }

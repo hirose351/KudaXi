@@ -39,9 +39,14 @@ void Transform::CreateScaleMtx()
 	DX11MtxMultiply(worldMtx, mScaleMtx, worldMtx);
 }
 
-void Transform::CreateMtx()
+void Transform::CreateWordMtx()
 {
 	DX11MakeWorldMatrix(worldMtx, angle, position);
+}
+
+void Transform::CreateLocalMtx()
+{
+	DX11MakeWorldMatrix(localMtx, angle, position);
 }
 
 void Transform::SetPositionMove(const Float3 & _pos)

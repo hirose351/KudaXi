@@ -6,14 +6,6 @@
 
 Dice::Dice() :GameObject(("Dice"), ObjectType::eDice, true)
 {
-}
-
-Dice::~Dice()
-{
-}
-
-void Dice::ObjectInit()
-{
 	bool sts = ModelMgr::GetInstance().LoadModel(
 		"assets/model/dice/Dice.fbx",
 		"shader/vs.hlsl", "shader/toonps.hlsl",
@@ -24,13 +16,21 @@ void Dice::ObjectInit()
 	}
 	AddComponent<Component::Model>()->SetModel(ModelMgr::GetInstance().GetModelPtr("assets/model/dice/Dice.fbx"));
 	AddComponent<Component::Collision>()->SetInitState(ObjectTag::eDice, Float3(0, 0, 0), Float3(DICE_SCALE_HALF), DirectX::XMFLOAT4(0, 0, 1, 0.3f));
+}
+
+Dice::~Dice()
+{
+}
+
+void Dice::ObjectInit()
+{
+	mDirection = Direction::eNeutral;
+	SetStartUpPosition();
+	SetOverPlane();
 	Effect::Thunder* efect = new Effect::Thunder;
 	Float3 pos = { mTransform->position.x , 0, mTransform->position.z - DICE_SCALE_HALF };
 	efect->SetInitPos(pos);
 	efect->Init();
-	mDirection = Direction::eNeutral;
-	SetStartUpPosition();
-	SetOverPlane();
 }
 
 void Dice::ObjectUpdate()

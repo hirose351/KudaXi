@@ -16,9 +16,9 @@ class SceneManager :public Uncopyable {
 private:
 	// シーン保管
 	std::unordered_map<std::string, std::unique_ptr<SceneBase>>	mScenefactories;
-	std::string mBeforescenekey;			// 前シーンのキー
-	std::string mCurrentscenekey;			// カレントシーンのキー
-	std::string mNextscenekey;				// 次シーン
+	std::string mBeforeSceneKey;			// 前シーンのキー
+	std::string mCurrentSceneKey;			// カレントシーンのキー
+	std::string mNextSceneKey;				// 次シーン
 	std::string mAddkey;					// 追加シーン
 
 	bool mGameEndFlg = false;										// ゲームを終了するか
@@ -38,13 +38,15 @@ public:
 	}
 
 	template <class sceneclass>
-	void add(std::string key);
-	// シーンを変更する1
-	template <class sceneclass>
-	void changeScene(std::string key);
+	void AddScene(std::string key);
+	//// シーンを変更する
+	//template <class sceneclass>
+	//void ChangeScene(std::string key);
 
 	// カレントシーンをセットする
 	void SetCurrentScene(std::string key);
+	void SetNextScene(std::string key);
+	void ChangeNextScene();
 	void Update();
 	void Render();
 
@@ -53,7 +55,7 @@ public:
 	std::string GetAddSceneKey();
 
 	SceneBase* GetCurrentScene() {
-		return mScenefactories[mCurrentscenekey].get();
+		return mScenefactories[mCurrentSceneKey].get();
 	}
 	SceneBase* GetAddScene() {
 		return mScenefactories[mAddkey].get();
@@ -64,35 +66,11 @@ public:
 };
 
 template <class sceneclass>
-void SceneManager::add(std::string key) {
+void SceneManager::AddScene(std::string key) {
 	mScenefactories[key] = std::move(std::make_unique<sceneclass>());
 	mAddkey = key;
-	mCurrentscenekey = key;
+	mCurrentSceneKey = key;
 	mScenefactories[key].get()->SceneInit();
 	mScenefactories[key].get()->Init();
 	mScenefactories[key].get()->SetSceneManager(this);
-}
-
-// シーンを変更する
-template <class sceneclass>
-void SceneManager::changeScene(std::string key) {
-
-	// 指定されたキーが存在しているか
-	auto it = mScenefactories.find(key);
-	if (it != mScenefactories.end())
-	{
-		// 存在していた場合
-		mScenefactories[key].get()->Init();
-		mScenefactories[key].get()->SceneAfter();
-		mScenefactories[key].get()->SetSceneManager(this);
-	}
-	else
-	{
-		// 存在していなかった場合生成
-		mScenefactories[key] = std::move(std::make_unique<sceneclass>());
-		mScenefactories[key].get()->Init();
-		mScenefactories[key].get()->SetSceneManager(this);
-	}
-	// カレントシーンセット	
-	SetCurrentScene(key);
 }

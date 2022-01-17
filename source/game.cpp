@@ -65,10 +65,10 @@ void GameSceneInit()
 	//SceneManager::GetInstance()->SetFadeColor(XMFLOAT4(0.9f, 0.8f, 0.8f, 1));
 
 	// シーンマネージャにタイトルシーンを登録
-	SceneManager::GetInstance()->add<MaingameScene>("GameMain");
+	SceneManager::GetInstance()->AddScene<MaingameScene>("GameMain");
 	//SceneManager::GetInstance()->add<StageCreateScene>("Create");
 	//SceneManager::GetInstance()->add<ModeSelectScene>("Mode");
-	SceneManager::GetInstance()->add<TitleScene>("Title");
+	SceneManager::GetInstance()->AddScene<TitleScene>("Title");
 	// 現在シーンをTitleにする
 	//SceneManager::GetInstance()->setCurrentScene("GameMain");
 	SceneManager::GetInstance()->SetCurrentScene("Title");

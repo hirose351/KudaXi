@@ -10,26 +10,25 @@ class GameObject;
 class SceneBase : Uncopyable {
 protected:
 	SceneManager*	mSceneManager;
-
-	std::vector< GameObject*> mObjectList;			// ゲームオブジェクトを全部まとめて管理できるオブジェクトリスト
-	std::vector< GameObject*> mPendingObjectList;	// 待ち状態のオブジェクト
-
 	DrawManager mDrawManager;
 
-	bool mInitingActors;	// アクターを初期化しているかどうか
-	bool mUpdatingActors;	// アクターを更新しているかどうか
+	std::vector<GameObject*> mObjectList;			// ゲームオブジェクトを全部まとめて管理できるオブジェクトリスト
+	std::vector<GameObject*> mPendingObjectList;	// 待ち状態のオブジェクト
 
+	bool mInitingObjects;			// オブジェクトを初期化しているかどうか
+	bool mUpdatingObjects;			// オブジェクトを更新しているかどうか
 	bool mIsPause = false;			// ポーズ状態か
 
 	Float3 mCameraLookat;			// カメラの注視点
+	class FadeScreen* fade;
 
 public:
 	SceneBase();
+	virtual ~SceneBase();
+
 	void SetSceneManager(SceneManager* _sm) {
 		mSceneManager = _sm;
 	}
-
-	virtual ~SceneBase();
 
 	// リストに追加
 	void AddGameObject(GameObject* _object);
@@ -43,7 +42,6 @@ public:
 	// オブジェクト描画
 	void Render();
 
-
 	// 各シーンの変更後処理(シーンが切り換わる度に呼ばれる)
 	virtual void SceneAfter() = 0;
 	// 各シーンの初期化(生成時に一度だけ呼ばれる)
@@ -52,9 +50,12 @@ public:
 	virtual void SceneUpdate() = 0;
 
 	// imguiデバッグ
-	virtual void ImguiDebug()/* = 0*/;
+	virtual void ImguiDebug();
 	// 終了
 	virtual bool Dispose();
+
+	void DrawFadeIn();
+	void DrawFadeOut();
 
 	void SetIsPause(bool _flg) { mIsPause = _flg; }
 	bool GetIsPause() { return mIsPause; }

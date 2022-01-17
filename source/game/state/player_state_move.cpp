@@ -284,7 +284,7 @@ void Move::Exec()
 	if (0 - DICE_SCALE_HALF + mTransform->scale.x / 2.0f > mTransform->position.x)
 		mTransform->SetPositionX(0 - DICE_SCALE_HALF + mTransform->scale.x / 2.0f);
 
-	mTransform->CreateMtx();
+	mTransform->CreateWordMtx();
 
 
 

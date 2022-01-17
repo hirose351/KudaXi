@@ -32,6 +32,8 @@ GameObject::~GameObject()
 void GameObject::Init()
 {
 	ObjectInit();
+	if (mComponentList.empty())
+		return;
 	for (auto& component : mComponentList)
 	{
 		component->Init();
@@ -41,8 +43,12 @@ void GameObject::Init()
 void GameObject::Update()
 {
 	if (mParent != nullptr)
+	{
 		if (!mParent->GetIsActive())
 			return;
+		/*mTransform->CreateLocalMtx();
+		DX11MtxMultiply(mTransform->worldMtx, mParent->GetTransform()->GetMtx(), mTransform->localMtx);*/
+	}
 
 	ObjectUpdate();
 	for (auto& component : mComponentList)

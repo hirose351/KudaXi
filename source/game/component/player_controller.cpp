@@ -3,6 +3,9 @@
 
 using namespace Component;
 
+std::string PlayerStateStr[] =
+{ "Move", "Push", "Roll" };
+
 PlayerController::PlayerController() :ComponentBase(("PlayerController"))
 {
 	mDirection.SetPtr(new Direction);
@@ -19,7 +22,7 @@ void PlayerController::Init()
 	stageData.SetStageData(StageDataManager::GetInstance().GetCurrentStage());
 	mOwner->GetTransform()->SetPosition(Float3(1 * DICE_SCALE, DICE_SCALE_HALF, -1 * DICE_SCALE));
 	//mTransform.SetPosition(Float3(stageData.mPlayerPos.x*DICE_SCALE, DICE_SCALE_HALF, -stageData.mPlayerPos.z*DICE_SCALE));
-	mOwner->GetTransform()->CreateMtx();
+	mOwner->GetTransform()->CreateWordMtx();
 
 	// 最初の状態
 	mStateNum = eMove;
@@ -45,6 +48,9 @@ void PlayerController::ImguiDraw()
 {
 	std::string str;
 	str = DirectionStr[static_cast<int>(*mDirection)];
+	ImGui::Text(str.c_str());
+
+	str = "現在のステート：　" + (PlayerStateStr[mStateNum]);
 	ImGui::Text(str.c_str());
 
 	if (ImGui::TreeNode("MapPos"))

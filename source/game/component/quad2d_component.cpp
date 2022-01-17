@@ -28,7 +28,7 @@ void Quad2d::Draw()
 		mpQuad->Draw(mOwner->GetTransform()->worldMtx);
 		break;
 	case DrawType::eNoTex:
-		mpQuad->DrawNoTex();
+		mpQuad->DrawNoTex(mOwner->GetTransform()->worldMtx);
 		break;
 	case DrawType::eMokomokoTex:
 		mpQuad->DrawMokoMokoTex(mOwner->GetTransform()->worldMtx);
@@ -52,7 +52,7 @@ void Quad2d::Uninit()
 void Quad2d::SetInfo(std::string _texName, const XMFLOAT4& _color, int _u, int _v, float _z)
 {
 	mpQuad.SetPtr(new CQuad2D);
-	mpQuad->Init(XMFLOAT2(mOwner->GetTransform()->GetScale().x, mOwner->GetTransform()->GetScale().y), _texName.c_str(), _color, _u, _v, _z);
+	mpQuad->Init(XMFLOAT2(mOwner->GetTransform()->GetScale().x, mOwner->GetTransform()->GetScale().y), _texName, _color, _u, _v, _z);
 	mOwner->SetName(mOwner->GetName() + "  " + _texName);
 }
 

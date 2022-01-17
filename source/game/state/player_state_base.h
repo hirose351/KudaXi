@@ -12,7 +12,6 @@ enum
 	eRoll,
 };
 
-
 namespace Component
 {
 	class PlayerController;

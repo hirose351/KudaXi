@@ -30,7 +30,8 @@ public:
 	std::string GetName() { return mName; }
 	void SetName(std::string _name) { mName = _name; }
 
-	bool GetIsActive();
+	bool GetIsActiveWithOwner();
 	void SetIsActive(bool _flg) { mIsActive = _flg; }
+	bool GetIsActive() { return mIsActive; }
 };
 

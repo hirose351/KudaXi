@@ -29,7 +29,7 @@ void DrawManager::Draw()
 
 	for (auto &c : mComponentList)
 	{
-		if (c->GetIsActive())
+		if (c->GetIsActiveWithOwner())
 			c->Draw();
 	}
 }

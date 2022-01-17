@@ -3,21 +3,16 @@
 #include	"../gameobject/effect_fruit.h"
 #include	"../gameobject/ui_button.h"
 
-class TitleScene : public SceneBase
+class ModeSerectScene : public SceneBase
 {
 private:
-	Effect::Fruit* mpFruit;
-	GameObject* mpObj;
-	myUI::ButtonGroup* mpBg;
-	bool a = false;
+
 public:
-	TitleScene();
-	~TitleScene();
+	ModeSerectScene();
+	~ModeSerectScene();
 
 	void SceneAfter() override;
 	void SceneInit() override;
 	void SceneUpdate() override;
-	/*void ImguiDebug() override;*/
 	bool Dispose() override;
 };
-

@@ -7,10 +7,6 @@ using namespace Component;
 
 Plane::Plane()
 {
-}
-
-void Plane::Init()
-{
 	ID3D11Device* dev;
 	ID3D11DeviceContext* devcontext;
 
@@ -53,6 +49,10 @@ void Plane::Init()
 	}
 }
 
+void Plane::Init()
+{
+}
+
 void Plane::Update()
 {
 }
@@ -77,7 +77,7 @@ void Plane::Draw()
 	{
 		mTransform.position = pos;
 		// ワールド変換行列セット
-		mTransform.CreateMtx();
+		mTransform.CreateWordMtx();
 		DX11SetTransform::GetInstance()->SetTransform(DX11SetTransform::TYPE::eWorld, mTransform.worldMtx);
 
 		// テクスチャセット

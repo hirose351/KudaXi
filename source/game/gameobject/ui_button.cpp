@@ -59,7 +59,7 @@ ButtonGroup::ButtonGroup() :GameObject(("ButtonGroup"), ObjectType::eObstracle, 
 
 void ButtonGroup::ObjectInit()
 {
-
+	isPressed = false;		// ボタンが押されたか
 }
 
 void ButtonGroup::ObjectUpdate()
@@ -158,6 +158,12 @@ void ButtonGroup::ObjectUpdate()
 		isPressed = true;
 	}
 
+	//if (mParent != nullptr)
+	//{
+	//	mTransform->position = mParent->GetTransform()->position;
+
+	//}
+
 	// 位置が変わっていたら全てのボタンの位置を変更
 	if (mBeforePos != mTransform->position)
 		SetButtonPosition();
@@ -233,7 +239,7 @@ void ButtonGroup::SetInitSelectNum(int _num)
 void ButtonGroup::SetPosition(int _num, XMFLOAT2 _pos)
 {
 	mButtonList[_num]->GetTransform()->SetPosition(Float3(_pos.x, _pos.y, 0));
-	mButtonList[_num]->GetTransform()->CreateMtx();
+	mButtonList[_num]->GetTransform()->CreateWordMtx();
 }
 
 void ButtonGroup::SetSelectedNum(int _num)
@@ -261,8 +267,10 @@ void ButtonGroup::SetButtonPosition()
 		{
 		case StartPoint::eLeftUp:
 			if (mArrangement == ButtonArrangement::eHorizontal)
+				//b->SetStartPos(Float3(mTransform->position.x + i * mSpace.x + i * mNomalScale.x, mTransform->position.y /*+ i * mSpace.x + i * _nomalScale.x*/, 0));
 				b->GetTransform()->SetPosition(Float3(mTransform->position.x + i * mSpace.x + i * mNomalScale.x, mTransform->position.y /*+ i * mSpace.x + i * _nomalScale.x*/, 0));
 			if (mArrangement == ButtonArrangement::eVertical)
+				//b->SetStartPos(Float3(mTransform->position.x, mTransform->position.y + i * mSpace.y + i * mNomalScale.y, 0));
 				b->GetTransform()->SetPosition(Float3(mTransform->position.x, mTransform->position.y + i * mSpace.y + i * mNomalScale.y, 0));
 			break;
 		case StartPoint::eRightUp:
@@ -277,7 +285,7 @@ void ButtonGroup::SetButtonPosition()
 		default:
 			break;
 		}
-		b->GetTransform()->CreateMtx();
+		b->GetTransform()->CreateWordMtx();
 
 		i++;
 	}

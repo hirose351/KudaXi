@@ -14,7 +14,7 @@ class ComponentBase;
 class GameObject
 {
 protected:
-	GameObject*			mParent;
+	GameObject*			mParent;		// 親オブジェクト
 	Dix::sp<Transform>	mTransform;		// 位置回転大きさ
 	std::string			mName;			// 名前
 	unsigned int		mObjectID;		// オブジェクトID番号
@@ -31,12 +31,12 @@ public:
 
 	void Init();
 	void Update();
+	void ImguiDraw();
+	virtual void Uninit() {};
 
-	virtual void ImguiDraw();
 	virtual void ObjectInit() {};
 	virtual void ObjectUpdate() {};
 	virtual void ObjectImguiDraw() {};
-	virtual void Uninit() {};
 
 	virtual void OnCollisionEnter(ComponentBase* _oher) {};
 	virtual void OnCollisionStay(ComponentBase* _oher) {};

@@ -1,6 +1,6 @@
 #include "component_base.h"
 
-bool ComponentBase::GetIsActive()
+bool ComponentBase::GetIsActiveWithOwner()
 {
 	if (mOwner->GetParent() == nullptr)
 		return (mIsActive && mOwner->GetIsActive());

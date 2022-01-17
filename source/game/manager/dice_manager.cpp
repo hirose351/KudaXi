@@ -62,6 +62,7 @@ void DiceManager::Init()
 
 void DiceManager::Update()
 {
+	// –„‚Ü‚Á‚Ä‚½‚ç
 	if (mCurrentStageData.mMapSizeWidth*mCurrentStageData.mMapSizeHeight <= mDiceList.size())
 		return;
 	// ƒ‰ƒ“ƒ_ƒ€¶¬
@@ -88,7 +89,7 @@ void DiceManager::Update()
 			Dice* dice = new Dice;
 			dice->GetTransform()->SetPositionMove(Float3(DICE_SCALE*x, -DICE_SCALE_HALF, -DICE_SCALE * z));
 			dice->GetTransform()->SetAngle(mSpawnAngle[GetDiceRandomNum(rand100(mt))]);
-			dice->GetTransform()->CreateMtx();
+			dice->GetTransform()->CreateWordMtx();
 
 			// YŽ²‚ðƒ‰ƒ“ƒ_ƒ€‚Å‰ñ“]
 			XMFLOAT4X4 angleMtx;

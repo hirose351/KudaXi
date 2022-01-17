@@ -23,6 +23,7 @@ void TitleScene::SceneAfter()
 	CCamera::GetInstance()->SetLookat(mCameraLookat);
 	CCamera::GetInstance()->SetEye(Float3(0, 0, -100));
 	CCamera::GetInstance()->CreateCameraMatrix();
+	a = false;
 }
 
 void TitleScene::SceneInit()
@@ -68,19 +69,17 @@ void TitleScene::SceneUpdate()
 		num = (num + 1) % 6;
 	}
 
-	static bool a = false;
-
 	if (a)
 		return;
 	if (!mpBg->GetIsPressed())
 		return;
 	if (mpBg->GetSelectNum() == 0)
 	{
-		SceneManager::GetInstance()->changeScene<MaingameScene>("GameMain");
+		mSceneManager->SetNextScene("GameMain");
 		a = true;
 	}
-	if (mpBg->GetSelectNum() == 1)
-		SceneManager::GetInstance()->SetGameEndFlg(true);
+	else if (mpBg->GetSelectNum() == 1)
+		mSceneManager->SetGameEndFlg(true);
 }
 
 bool TitleScene::Dispose()

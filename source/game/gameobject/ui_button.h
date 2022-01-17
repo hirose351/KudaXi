@@ -54,6 +54,7 @@ namespace myUI {
 		ButtonTransition mTransition;
 		DirectX::XMFLOAT2 mNomalScale;
 		DirectX::XMFLOAT2 mSelectScale;
+		Float3 mStartPos;
 
 	public:
 		Button();
@@ -72,6 +73,7 @@ namespace myUI {
 			mNomalScale = _nomalScale;
 			mSelectScale = _selectScale;
 		}
+		void SetStartPos(Float3 _pos) { mStartPos = _pos; }
 	};
 
 	class ButtonGroup : public GameObject
