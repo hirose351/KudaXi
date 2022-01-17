@@ -61,6 +61,8 @@ public:
 		return mScenefactories[mAddkey].get();
 	}
 	SceneBase* GetScene(std::string _key) {
+		if (mScenefactories.empty())
+			return nullptr;
 		return mScenefactories[_key].get();
 	}
 };

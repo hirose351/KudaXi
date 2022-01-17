@@ -2,6 +2,7 @@
 #include	"../../system/util/vector.h"
 #include	"../manager/scene_manager.h"
 #include	"../manager/draw_manager.h"
+#include	"../../system/util/dixsmartptr.h"
 #include	"XAudio2.h"
 
 class SceneManager;
@@ -12,8 +13,8 @@ protected:
 	SceneManager*	mpSceneManager;
 	DrawManager mDrawManager;
 
-	std::vector<GameObject*> mpObjectList;			// ゲームオブジェクトを全部まとめて管理できるオブジェクトリスト
-	std::vector<GameObject*> mpPendingObjectList;	// 待ち状態のオブジェクト
+	std::list<Dix::sp<GameObject>> mpObjectList;			// ゲームオブジェクトを全部まとめて管理できるオブジェクトリスト
+	std::list<Dix::sp<GameObject>> mpPendingObjectList;	// 待ち状態のオブジェクト
 
 	bool mInitingObjects;			// オブジェクトを初期化しているかどうか
 	bool mUpdatingObjects;			// オブジェクトを更新しているかどうか
@@ -31,7 +32,7 @@ public:
 	}
 
 	// リストに追加
-	void AddGameObject(GameObject* _object);
+	void AddGameObject(Dix::sp<GameObject> _object);
 	// リストから削除
 	void RemoveGameObject(GameObject* _object);
 

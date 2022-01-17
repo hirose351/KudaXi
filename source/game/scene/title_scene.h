@@ -6,9 +6,8 @@
 class TitleScene : public SceneBase
 {
 private:
-	Effect::Fruit* mpFruit;
-	GameObject* mpObj;
-	myUI::ButtonGroup* mpBg;
+	//Dix::wp<Effect::Fruit> mpFruit;
+	Dix::wp<myUI::ButtonGroup> mpBg;
 	bool mIsButtonPush = false;
 public:
 	TitleScene();

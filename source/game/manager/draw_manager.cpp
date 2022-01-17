@@ -10,13 +10,14 @@ void DrawManager::AddDrawComponent(DrawComponentBase* _component)
 
 void DrawManager::RemoveDrawComponent(DrawComponentBase * _component)
 {
-
-	auto it = std::find(mpComponentList.begin(), mpComponentList.end(), _component);
-	if (it != mpComponentList.end())
-	{
-		mpComponentList.erase(it);
-	}
-	mpComponentList.shrink_to_fit();
+	//if (mpComponentList.empty())
+	//	return;
+	//auto it = std::find(mpComponentList.begin(), mpComponentList.end(), _component);
+	//if (it != mpComponentList.end())
+	//{
+	//	mpComponentList.erase(it);
+	//}
+	//mpComponentList.shrink_to_fit();
 }
 
 void DrawManager::Draw()

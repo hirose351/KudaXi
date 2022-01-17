@@ -11,43 +11,46 @@ SceneBase::SceneBase()
 
 SceneBase::~SceneBase()
 {
-	Dispose();
+	//Dispose();
 	mpObjectList.clear();
-	mpObjectList.shrink_to_fit();
 }
 
-void SceneBase::AddGameObject(GameObject* _object)
+void SceneBase::AddGameObject(Dix::sp<GameObject> _object)
 {
 	// アクターが更新中なら待ち群に追加
 	if (mUpdatingObjects || mInitingObjects)
 	{
+		//Dix::sp<GameObject> spObject(_object);
 		mpPendingObjectList.emplace_back(_object);
 	}
 	else
 	{
+		//Dix::sp<GameObject> spObject(_object);
 		mpObjectList.emplace_back(_object);
 	}
 }
 
 void SceneBase::RemoveGameObject(GameObject* _object)
 {
-	// 保留中のアクターかどうか
-	auto iter = std::find(mpPendingObjectList.begin(), mpPendingObjectList.end(), _object);
-	if (iter != mpPendingObjectList.end())
-	{
-		// ベクトルの最後までワップしてポップオフします（コピーの消去は避けてください）
-		std::iter_swap(iter, mpPendingObjectList.end() - 1);
-		mpPendingObjectList.pop_back();
-	}
+	//// 保留中のアクターかどうか
+	//auto iter = std::find(mpPendingObjectList.begin(), mpPendingObjectList.end(), _object);
+	//if (iter != mpPendingObjectList.end())
+	//{
+	//	//// ベクトルの最後までワップしてポップオフします（コピーの消去は避けてください）
+	//	//std::iter_swap(iter, mpPendingObjectList.end() - 1);
+	//	//mpPendingObjectList.pop_back();
+	//	mpPendingObjectList.erase(iter);
+	//}
 
-	// 存在するアクターかどうか
-	iter = std::find(mpObjectList.begin(), mpObjectList.end(), _object);
-	if (iter != mpObjectList.end())
-	{
-		// ベクトルの最後までワップしてポップオフします（コピーの消去は避けてください）
-		std::iter_swap(iter, mpObjectList.end() - 1);
-		mpObjectList.pop_back();
-	}
+	//// 存在するアクターかどうか
+	//iter = std::find(mpObjectList.begin(), mpObjectList.end(), _object);
+	//if (iter != mpObjectList.end())
+	//{
+	//	//// ベクトルの最後までワップしてポップオフします（コピーの消去は避けてください）
+	//	//std::iter_swap(iter, mpObjectList.end() - 1);
+	//	//mpObjectList.pop_back();
+	//	mpObjectList.erase(iter);
+	//}
 }
 
 bool SceneBase::Init()
@@ -105,7 +108,7 @@ void SceneBase::Update()
 	SceneUpdate();
 
 	// 死んだオブジェクトを一時配列に追加
-	std::vector<GameObject*> deadObjcts;
+	std::list<Dix::sp<GameObject>> deadObjcts;
 	for (auto obj : mpObjectList)
 	{
 		if (obj->GetObjectState() == ObjectState::eDead)
@@ -117,10 +120,10 @@ void SceneBase::Update()
 	// 死んだオブジェクトを消す（リストから削除）
 	for (auto obj : deadObjcts)
 	{
-		delete obj;
+		obj.Clear();
 	}
 
-	mpObjectList.shrink_to_fit();
+	//mpObjectList.shrink_to_fit();
 }
 
 void SceneBase::Render()
@@ -166,13 +169,13 @@ void SceneBase::ImguiDebug()
 
 bool SceneBase::Dispose()
 {
-	for (auto &obj : mpObjectList)
-	{
-		if (obj != nullptr)
-		{
-			delete(obj);
-		}
-	}
+	//for (auto &obj : mpObjectList)
+	//{
+	//	if (obj != nullptr)
+	//	{
+	//		delete(obj);
+	//	}
+	//}
 	return true;
 }
 

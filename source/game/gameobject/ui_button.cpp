@@ -195,10 +195,9 @@ void ButtonGroup::SetInitState(const char* _texName, int _divX, int _divY, int _
 	for (int i = 0; i < _divX*_divY; i++)
 	{
 		// ボタン生成
-		Button* b = new Button;
-
-		// vector配列に追加
-		mpButtonList.emplace_back(b);
+		Dix::sp<Button> b;
+		b.SetPtr(new Button);
+		SceneManager::GetInstance()->GetScene(mSceneKey)->AddGameObject(b);
 
 		b->SetParent(this);
 
@@ -225,6 +224,9 @@ void ButtonGroup::SetInitState(const char* _texName, int _divX, int _divY, int _
 
 		// 位置指定
 		SetButtonPosition();
+
+		// vector配列に追加
+		mpButtonList.emplace_back(b);
 	}
 }
 
@@ -260,7 +262,7 @@ void ButtonGroup::SetSelectedNum(int _num)
 void ButtonGroup::SetButtonPosition()
 {
 	int i = 0;
-	for (Button* b : mpButtonList)
+	for (Dix::wp<Button> b : mpButtonList)
 	{
 		// 位置指定
 		switch (mStartPoint)

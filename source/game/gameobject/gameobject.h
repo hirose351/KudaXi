@@ -22,6 +22,7 @@ protected:
 	ObjectState			mObjectState;	// 状態
 	bool				mIsActive;		// アクティブか(UpdateもDrawも止まる)
 	bool				mIsStopPause;	// ポーズ時に止めるか
+	std::string			mSceneKey;
 
 	std::vector<ComponentBase*> mComponentList;
 

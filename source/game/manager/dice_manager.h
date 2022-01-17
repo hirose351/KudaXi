@@ -8,7 +8,7 @@
 class DiceManager :Uncopyable
 {
 private:
-	std::vector<Dice*> mpDiceList;
+	std::vector<Dix::wp<Dice>> mpDiceList;
 	StageData mCurrentStageData;
 
 	int mDiceMap[STAGESIZEMAX][STAGESIZEMAX];			// ブロック更新用マップ配列(-1:無し　0以上:ブロックあり,番号は生成された順)
@@ -25,7 +25,7 @@ private:
 	// 受け取ったマップ位置と面を基準にサイコロが揃ったかチェックして配列を書き換える
 	void CheckDiceAlign(INT3 _mapPos, DiceFruit _diceType);
 
-	Dice* GetListInDice(int x, int z);
+	Dix::wp<Dice> GetListInDice(int x, int z);
 
 	int GetDiceRandomNum(int _rndNum);
 
@@ -53,13 +53,13 @@ public:
 	bool CanDiceMoveCheak(Dice* _dice, Direction _dire);
 
 	// 揃っているか
-	void CheckAligned(Dice* _dice);
+	void CheckAligned(Dix::wp<Dice> _dice);
 
 	// 対象のサイコロのマップ上のデータを消す
-	void SetRemoveDice(Dice* _dice);
+	void SetRemoveDice(Dix::wp<Dice> _dice);
 
 	// 渡されたマップ上にあるDiceのポインタを返す
-	Dice* GetDice(INT3 _mapPos);
+	Dix::wp<Dice> GetDice(INT3 _mapPos);
 
 	void SetPlayerPos(INT3 _pos) { mPlayerPos = _pos; };
 };

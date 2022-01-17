@@ -8,13 +8,13 @@ CollisionManager::~CollisionManager()
 
 void CollisionManager::AddCollision(Component::Collision *_col)
 {
-	mColList.emplace_back(_col);
+	//mColList.emplace_back(_col);
 }
 
 void CollisionManager::RemoveCollision(Component::Collision *_col)
 {
-	auto it = std::find(mColList.begin(), mColList.end(), _col);
-	mColList.erase(it);
+	//auto it = std::find(mColList.begin(), mColList.end(), _col);
+	//mColList.erase(it);
 }
 
 float hosei(float aHl, float aP, float bHl, float bP)

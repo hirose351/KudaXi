@@ -27,10 +27,13 @@ void Dice::ObjectInit()
 	mDirection = Direction::eNeutral;
 	SetStartUpPosition();
 	SetOverPlane();
-	Effect::Thunder* efect = new Effect::Thunder;
+	Dix::sp<Effect::Thunder> effect;
+	effect.SetPtr(new Effect::Thunder);
+	SceneManager::GetInstance()->GetScene(mSceneKey)->AddGameObject(effect);
+
 	Float3 pos = { mTransform->position.x , 0, mTransform->position.z - DICE_SCALE_HALF };
-	efect->SetInitPos(pos);
-	efect->Init();
+	effect->SetInitPos(pos);
+	effect->Init();
 }
 
 void Dice::ObjectUpdate()

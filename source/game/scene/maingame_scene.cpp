@@ -35,13 +35,23 @@ void MaingameScene::SceneAfter()
 void MaingameScene::SceneInit()
 {
 	SceneAfter();
-	Player* player = new Player;
-	Stage* stage = new Stage;
-	Skydome* skydome = new Skydome;
+	Dix::sp<Player> player;
+	player.SetPtr(new Player);
+	AddGameObject(player);
 
-	myUI::PauseEndless* p = new myUI::PauseEndless;
+	Dix::sp<Stage> stage;
+	stage.SetPtr(new Stage);
+	AddGameObject(stage);
 
-	AccessDiceManager* dicemanager = new AccessDiceManager;
+	Dix::sp<Skydome> skydome;
+	skydome.SetPtr(new Skydome);
+	AddGameObject(skydome);
+
+	Dix::sp<myUI::PauseEndless> p;
+	p.SetPtr(new myUI::PauseEndless);
+
+	Dix::sp<AccessDiceManager> dicemanager;
+	dicemanager.SetPtr(new AccessDiceManager);
 
 	// ƒJƒƒ‰
 	DirectX::XMFLOAT3 eye(140, 130, -170);	//ƒJƒƒ‰‚ÌˆÊ’u

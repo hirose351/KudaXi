@@ -2,7 +2,7 @@
 
 Stage::Stage() :GameObject(("Stage"), ObjectType::eObstracle, false)
 {
-	mpPlane = AddComponent<Component::Plane>();
+	AddComponent<Component::Plane>();
 }
 
 void Stage::ObjectInit()
@@ -23,7 +23,7 @@ void Stage::ObjectUpdate()
 		{
 			if (mCurrentStageData.mFloorMap[z][x] != 0)
 			{
-				mpPlane->SetDrawPos(Float3(DICE_SCALE*x, 0, -DICE_SCALE * z));
+				GetComponent<Component::Plane>()->SetDrawPos(Float3(DICE_SCALE*x, 0, -DICE_SCALE * z));
 			}
 		}
 	}

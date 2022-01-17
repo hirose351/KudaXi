@@ -1,22 +1,18 @@
 #include	"GameObject.h"
 
 static int objectCnt = 0;
-std::string sceneKey;
-
 
 GameObject::GameObject(std::string mName, ObjectType mObjectType, bool mIsStopPose) :mName(mName), mObjectType(mObjectType), mIsStopPause(mIsStopPose), mIsActive(true)
 {
 	objectCnt++;
 	mObjectID = objectCnt;
 	mTransform.SetPtr(new Transform);
-	sceneKey = SceneManager::GetInstance()->GetCurrentSceneKey();
-	SceneManager::GetInstance()->GetCurrentScene()->AddGameObject(this);
+	mSceneKey = SceneManager::GetInstance()->GetCurrentSceneKey();
+	//SceneManager::GetInstance()->GetCurrentScene()->AddGameObject(this);
 }
 
 GameObject::~GameObject()
 {
-	SceneManager::GetInstance()->GetScene(sceneKey)->RemoveGameObject(this);
-
 	mName.clear();
 	for (auto &component : mComponentList)
 	{
@@ -27,6 +23,8 @@ GameObject::~GameObject()
 	}
 	mComponentList.clear();
 	mComponentList.shrink_to_fit();
+
+	SceneManager::GetInstance()->GetScene(mSceneKey)->RemoveGameObject(this);
 }
 
 void GameObject::Init()

@@ -8,7 +8,6 @@ class Stage : public GameObject
 {
 private:
 	StageData mCurrentStageData;
-	Component::Plane* mpPlane;
 
 public:
 	Stage();

@@ -86,7 +86,8 @@ void DiceManager::Update()
 					continue;
 
 			// Dice生成
-			Dice* dice = new Dice;
+			Dix::sp<Dice> dice;
+			dice.SetPtr(new Dice);
 			dice->GetTransform()->SetPositionMove(Float3(DICE_SCALE*x, -DICE_SCALE_HALF, -DICE_SCALE * z));
 			dice->GetTransform()->SetAngle(mSpawnAngle[GetDiceRandomNum(rand100(mt))]);
 			dice->GetTransform()->CreateWordMtx();
@@ -102,6 +103,7 @@ void DiceManager::Update()
 			dice->Init();
 
 			mpDiceList.emplace_back(dice);	// vector配列に追加
+			SceneManager::GetInstance()->GetCurrentScene()->AddGameObject(dice);
 			return;
 		}
 	}
@@ -123,13 +125,13 @@ void DiceManager::ImguiDraw()
 
 void DiceManager::Uninit()
 {
-	for (auto &obj : mpDiceList)
-	{
-		if (obj != nullptr)
-		{
-			delete(obj);
-		}
-	}
+	//for (auto &obj : mpDiceList)
+	//{
+	//	if (obj != nullptr)
+	//	{
+	//		delete(obj);
+	//	}
+	//}
 }
 
 bool DiceManager::CanDiceMove(Dice* _dice, Direction _dire)
@@ -163,17 +165,17 @@ bool DiceManager::CanDiceMove(Dice* _dice, Direction _dire)
 		return false;
 
 	// 行き先のサイコロのポインタを取得
-	Dice* afterDice = GetListInDice(afterPos.x, afterPos.z);
+	Dix::wp<Dice> afterDice = GetListInDice(afterPos.x, afterPos.z);
 	// サイコロがあるとき
-	if (afterDice != nullptr)
-	{
-		DiceStatus dSts = afterDice->GetDiceStatus();
-		// 半分以上存在しているサイコロなら移動しない
-		if (dSts == DiceStatus::eNormal || dSts == DiceStatus::eDown || dSts == DiceStatus::eUp)
-			return false;
-		// 半分以下のサイコロならそのサイコロを消す
-		SetRemoveDice(afterDice);
-	}
+	//if (afterDice != nullptr)
+	//{
+	DiceStatus dSts = afterDice->GetDiceStatus();
+	// 半分以上存在しているサイコロなら移動しない
+	if (dSts == DiceStatus::eNormal || dSts == DiceStatus::eDown || dSts == DiceStatus::eUp)
+		return false;
+	// 半分以下のサイコロならそのサイコロを消す
+	SetRemoveDice(afterDice);
+	//}
 
 	mDiceMap[afterPos.z][afterPos.x] = mDiceMap[_dice->GetMapPos().z][_dice->GetMapPos().x];
 	mDiceMap[_dice->GetMapPos().z][_dice->GetMapPos().x] = NODICE;
@@ -211,9 +213,9 @@ bool DiceManager::CanDiceMoveCheak(Dice * _dice, Direction _dire)
 	return false;
 }
 
-void DiceManager::CheckAligned(Dice* _dice)
+void DiceManager::CheckAligned(Dix::wp<Dice> _dice)
 {
-	Dice* ansDice;
+	Dix::wp<Dice> ansDice;
 
 	/// ハッピーワンチェック ////////////////////////////////////////////////
 	if (_dice->GetTopDiceTypeNum() == 1)
@@ -224,68 +226,68 @@ void DiceManager::CheckAligned(Dice* _dice)
 		{
 			ans = { mapPos.x ,0, mapPos.z - 1 };
 			ansDice = GetListInDice(ans.x, ans.z);
-			if (ansDice != nullptr)
+			//if (ansDice != nullptr)
+			//{
+			if (ansDice->GetDiceStatus() == DiceStatus::eDown || ansDice->GetDiceStatus() == DiceStatus::eHalfDown)
 			{
-				if (ansDice->GetDiceStatus() == DiceStatus::eDown || ansDice->GetDiceStatus() == DiceStatus::eHalfDown)
+				for (auto d : mpDiceList)
 				{
-					for (auto d : mpDiceList)
-					{
-						d->SetHappyOne();
-					}
-					return;
+					d->SetHappyOne();
 				}
+				return;
 			}
+			//}
 		}
 		// 下確認
 		if (mapPos.z < mCurrentStageData.mMapSizeHeight - 1)
 		{
 			ans = { mapPos.x ,0, mapPos.z + 1 };
 			ansDice = GetListInDice(ans.x, ans.z);
-			if (ansDice != nullptr)
+			//if (ansDice != nullptr)
+			//{
+			if (ansDice->GetDiceStatus() == DiceStatus::eDown || ansDice->GetDiceStatus() == DiceStatus::eHalfDown)
 			{
-				if (ansDice->GetDiceStatus() == DiceStatus::eDown || ansDice->GetDiceStatus() == DiceStatus::eHalfDown)
+				for (auto d : mpDiceList)
 				{
-					for (auto d : mpDiceList)
-					{
-						d->SetHappyOne();
-					}
-					return;
+					d->SetHappyOne();
 				}
+				return;
 			}
+			//}
 		}
 		// 左確認
 		if (mapPos.x > 0)
 		{
 			ans = { mapPos.x - 1 ,0, mapPos.z };
 			ansDice = GetListInDice(ans.x, ans.z);
-			if (ansDice != nullptr)
+			//if (ansDice != nullptr)
+			//{
+			if (ansDice->GetDiceStatus() == DiceStatus::eDown || ansDice->GetDiceStatus() == DiceStatus::eHalfDown)
 			{
-				if (ansDice->GetDiceStatus() == DiceStatus::eDown || ansDice->GetDiceStatus() == DiceStatus::eHalfDown)
+				for (auto d : mpDiceList)
 				{
-					for (auto d : mpDiceList)
-					{
-						d->SetHappyOne();
-					}
-					return;
+					d->SetHappyOne();
 				}
+				return;
 			}
+			//}
 		}
 		// 右確認
 		if (mapPos.x < mCurrentStageData.mMapSizeWidth - 1)
 		{
 			ans = { mapPos.x + 1  ,0, mapPos.z };
 			ansDice = GetListInDice(ans.x, ans.z);
-			if (ansDice != nullptr)
+			//if (ansDice != nullptr)
+			//{
+			if (ansDice->GetDiceStatus() == DiceStatus::eDown || ansDice->GetDiceStatus() == DiceStatus::eHalfDown)
 			{
-				if (ansDice->GetDiceStatus() == DiceStatus::eDown || ansDice->GetDiceStatus() == DiceStatus::eHalfDown)
+				for (auto d : mpDiceList)
 				{
-					for (auto d : mpDiceList)
-					{
-						d->SetHappyOne();
-					}
-					return;
+					d->SetHappyOne();
 				}
+				return;
 			}
+			//}
 		}
 		return;
 	}
@@ -356,7 +358,7 @@ void DiceManager::CheckAligned(Dice* _dice)
 	/// ハッピーワンチェック ////////////////////////////////////////////////
 }
 
-void DiceManager::SetRemoveDice(Dice* _dice)
+void DiceManager::SetRemoveDice(Dix::wp<Dice> _dice)
 {
 	auto itDice = std::find(mpDiceList.begin(), mpDiceList.end(), _dice);
 	_dice->SetObjectState(ObjectState::eDead);
@@ -369,7 +371,7 @@ void DiceManager::SetRemoveDice(Dice* _dice)
 	mDiceMap[_dice->GetMapPos().z][_dice->GetMapPos().x] = NODICE;
 }
 
-Dice* DiceManager::GetDice(INT3 _mapPos)
+Dix::wp<Dice> DiceManager::GetDice(INT3 _mapPos)
 {
 	// ステージ外かDiceがなければnullptrを返す
 	if (_mapPos.z < 0 || _mapPos.z >= mCurrentStageData.mMapSizeHeight)
@@ -410,14 +412,13 @@ void DiceManager::CheckDiceAlign(INT3 _mapPos, DiceFruit _diceType)
 	}
 }
 
-Dice* DiceManager::GetListInDice(int x, int z)
+Dix::wp<Dice> DiceManager::GetListInDice(int x, int z)
 {
 	for (auto dice : mpDiceList)
 	{
 		if (dice->GetObjectID() == mDiceMap[z][x])
 			return dice;
 	}
-	return nullptr;
 }
 
 int DiceManager::GetDiceRandomNum(int _rndNum)
