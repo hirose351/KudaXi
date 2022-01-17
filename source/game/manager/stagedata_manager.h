@@ -8,8 +8,6 @@
 class StageDataManager :public Uncopyable
 {
 private:
-	StageDataManager() {
-	}
 	std::unordered_map<
 		std::string,					// キー(ステージ名)
 		std::unique_ptr<StageData>		// データ(StageDataクラス)
@@ -22,13 +20,6 @@ public:
 		static StageDataManager Instance;
 		return Instance;
 	}
-
-	virtual ~StageDataManager() {
-		//	Finalize();
-	}
-
-	// 後始末
-	void Finalize();
 
 	// ステージ名セット
 	bool SetCurrentStage(std::string _key);

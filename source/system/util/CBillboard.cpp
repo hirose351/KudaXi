@@ -3,7 +3,7 @@
 #include	"../dx11/Shader.h"
 #include	"../dx11/DX11Settransform.h"
 #include	"../dx11/dx11mathutil.h"
-#include	"../../game/gameobject/CCamera.h"
+#include	"../../game/gameobject/camera.h"
 
 using namespace DirectX;
 
@@ -94,7 +94,7 @@ void CBillboard::Update(XMFLOAT4X4 _mtx)
 	XMFLOAT4X4 matrixRot;
 
 	XMStoreFloat4x4(&mMatrixWorld, XMMatrixIdentity());
-	matrixRot = CCamera::GetInstance()->GetCameraMatrix();
+	matrixRot = Camera::GetInstance()->GetCameraMatrix();
 	XMStoreFloat4x4(&matrixRot, XMMatrixInverse(nullptr, XMLoadFloat4x4(&matrixRot)));
 
 	mMatrixWorld._11 = mScale.x * matrixRot._11;

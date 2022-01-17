@@ -4,7 +4,7 @@
 #include	"../../system/util/uncopyable.h"
 #include	"../../system/util/vector.h"
 
-class CCamera :Uncopyable {
+class Camera :Uncopyable {
 private:
 	DirectX::XMFLOAT4X4		mProjection;
 	DirectX::XMFLOAT4X4		mCamera;
@@ -18,8 +18,8 @@ private:
 	float			mFov;
 	float			mFar;
 public:
-	static CCamera* GetInstance() {
-		static CCamera instance;
+	static Camera* GetInstance() {
+		static Camera instance;
 		return &instance;
 	}
 

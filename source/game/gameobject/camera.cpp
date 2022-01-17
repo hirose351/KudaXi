@@ -1,8 +1,8 @@
-#include "CCamera.h"
+#include "camera.h"
 
 using namespace DirectX;
 
-void CCamera::CreateCameraMatrix()
+void Camera::CreateCameraMatrix()
 {
 	ALIGN16 XMVECTOR Eye = XMVectorSet(mEye.x, mEye.y, mEye.z, 0.0f);
 	ALIGN16 XMVECTOR At = XMVectorSet(mLookat.x, mLookat.y, mLookat.z, 0.0f);
@@ -14,7 +14,7 @@ void CCamera::CreateCameraMatrix()
 	XMStoreFloat4x4(&mCamera, camera);
 }
 
-void CCamera::CreateProjectionMatrix()
+void Camera::CreateProjectionMatrix()
 {
 
 	ALIGN16 XMMATRIX projection;

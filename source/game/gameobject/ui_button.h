@@ -79,7 +79,7 @@ namespace myUI {
 	class ButtonGroup : public GameObject
 	{
 	private:
-		std::vector<Button*> mButtonList;		// ボタンのリスト
+		std::vector<Button*> mpButtonList;		// ボタンのリスト
 		StartPoint mStartPoint;					// 開始地点
 		DirectX::XMFLOAT2 mSpace;				// 余白の大きさ
 		int mSelectNum;							// 選択されている番号

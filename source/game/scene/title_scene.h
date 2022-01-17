@@ -9,15 +9,12 @@ private:
 	Effect::Fruit* mpFruit;
 	GameObject* mpObj;
 	myUI::ButtonGroup* mpBg;
-	bool a = false;
+	bool mIsButtonPush = false;
 public:
 	TitleScene();
-	~TitleScene();
 
 	void SceneAfter() override;
 	void SceneInit() override;
 	void SceneUpdate() override;
-	/*void ImguiDebug() override;*/
-	bool Dispose() override;
 };
 

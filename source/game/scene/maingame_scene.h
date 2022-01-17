@@ -23,10 +23,8 @@ private:
 
 public:
 	MaingameScene();
-	~MaingameScene();
 
 	void SceneAfter() override;
 	void SceneInit() override;
 	void SceneUpdate() override;
-	bool Dispose() override;
 };

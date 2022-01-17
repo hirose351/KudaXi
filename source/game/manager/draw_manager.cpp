@@ -5,29 +5,29 @@
 
 void DrawManager::AddDrawComponent(DrawComponentBase* _component)
 {
-	mComponentList.emplace_back(_component);
+	mpComponentList.emplace_back(_component);
 }
 
 void DrawManager::RemoveDrawComponent(DrawComponentBase * _component)
 {
 
-	auto it = std::find(mComponentList.begin(), mComponentList.end(), _component);
-	if (it != mComponentList.end())
+	auto it = std::find(mpComponentList.begin(), mpComponentList.end(), _component);
+	if (it != mpComponentList.end())
 	{
-		mComponentList.erase(it);
+		mpComponentList.erase(it);
 	}
-	mComponentList.shrink_to_fit();
+	mpComponentList.shrink_to_fit();
 }
 
 void DrawManager::Draw()
 {
 	// ¸‡‚Åƒ\[ƒg‚·‚é
-	std::sort(mComponentList.begin(), mComponentList.end(), [](const DrawComponentBase* lhoge, const DrawComponentBase* rhoge)
+	std::sort(mpComponentList.begin(), mpComponentList.end(), [](const DrawComponentBase* lhoge, const DrawComponentBase* rhoge)
 	{
 		return lhoge->GetOrderInLayer() < rhoge->GetOrderInLayer();
 	});
 
-	for (auto &c : mComponentList)
+	for (auto &c : mpComponentList)
 	{
 		if (c->GetIsActiveWithOwner())
 			c->Draw();

@@ -7,7 +7,7 @@ class DrawComponentBase;
 class DrawManager
 {
 private:
-	std::vector<DrawComponentBase*> mComponentList;	// 
+	std::vector<DrawComponentBase*> mpComponentList;	// 
 
 
 public:

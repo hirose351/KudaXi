@@ -1,6 +1,6 @@
 #pragma once
-#include		<vector>
 #include		"../../system/util/vector.h"
+#include		<vector>
 #define		STAGESIZEMAX			(10)
 
 

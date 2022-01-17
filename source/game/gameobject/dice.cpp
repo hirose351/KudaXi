@@ -371,14 +371,14 @@ void Dice::SetOverPlane() {
 	}
 }
 
-void Dice::OnCollisionEnter(ComponentBase* _oher)
-{
-}
-
-void Dice::OnCollisionStay(ComponentBase* _oher)
-{
-}
-
-void Dice::OnCollisionExit(ComponentBase* _oher)
-{
-}
+//void Dice::OnCollisionEnter(ComponentBase* _oher)
+//{
+//}
+//
+//void Dice::OnCollisionStay(ComponentBase* _oher)
+//{
+//}
+//
+//void Dice::OnCollisionExit(ComponentBase* _oher)
+//{
+//}

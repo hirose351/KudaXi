@@ -63,7 +63,7 @@ void DiceManager::Init()
 void DiceManager::Update()
 {
 	// 埋まってたら
-	if (mCurrentStageData.mMapSizeWidth*mCurrentStageData.mMapSizeHeight <= mDiceList.size())
+	if (mCurrentStageData.mMapSizeWidth*mCurrentStageData.mMapSizeHeight <= mpDiceList.size())
 		return;
 	// ランダム生成
 	static int cnt = 0;
@@ -82,7 +82,7 @@ void DiceManager::Update()
 				continue;
 			// プレイヤーとその周りで、他が埋まっていなければコンティニュー
 			if (x <= mPlayerPos.x + 1 && x >= mPlayerPos.x - 1 && z <= mPlayerPos.z + 1 && z >= mPlayerPos.z - 1)
-				if (mDiceList.size() < mCurrentStageData.mMapSizeWidth*mCurrentStageData.mMapSizeHeight - 9)
+				if (mpDiceList.size() < mCurrentStageData.mMapSizeWidth*mCurrentStageData.mMapSizeHeight - 9)
 					continue;
 
 			// Dice生成
@@ -101,7 +101,7 @@ void DiceManager::Update()
 			dice->SetName(("Dice" + std::to_string(mDiceMap[z][x])));	// オブジェクトの名前に添え字を加える
 			dice->Init();
 
-			mDiceList.emplace_back(dice);	// vector配列に追加
+			mpDiceList.emplace_back(dice);	// vector配列に追加
 			return;
 		}
 	}
@@ -123,7 +123,7 @@ void DiceManager::ImguiDraw()
 
 void DiceManager::Uninit()
 {
-	for (auto &obj : mDiceList)
+	for (auto &obj : mpDiceList)
 	{
 		if (obj != nullptr)
 		{
@@ -228,7 +228,7 @@ void DiceManager::CheckAligned(Dice* _dice)
 			{
 				if (ansDice->GetDiceStatus() == DiceStatus::eDown || ansDice->GetDiceStatus() == DiceStatus::eHalfDown)
 				{
-					for (auto d : mDiceList)
+					for (auto d : mpDiceList)
 					{
 						d->SetHappyOne();
 					}
@@ -245,7 +245,7 @@ void DiceManager::CheckAligned(Dice* _dice)
 			{
 				if (ansDice->GetDiceStatus() == DiceStatus::eDown || ansDice->GetDiceStatus() == DiceStatus::eHalfDown)
 				{
-					for (auto d : mDiceList)
+					for (auto d : mpDiceList)
 					{
 						d->SetHappyOne();
 					}
@@ -262,7 +262,7 @@ void DiceManager::CheckAligned(Dice* _dice)
 			{
 				if (ansDice->GetDiceStatus() == DiceStatus::eDown || ansDice->GetDiceStatus() == DiceStatus::eHalfDown)
 				{
-					for (auto d : mDiceList)
+					for (auto d : mpDiceList)
 					{
 						d->SetHappyOne();
 					}
@@ -279,7 +279,7 @@ void DiceManager::CheckAligned(Dice* _dice)
 			{
 				if (ansDice->GetDiceStatus() == DiceStatus::eDown || ansDice->GetDiceStatus() == DiceStatus::eHalfDown)
 				{
-					for (auto d : mDiceList)
+					for (auto d : mpDiceList)
 					{
 						d->SetHappyOne();
 					}
@@ -349,7 +349,7 @@ void DiceManager::CheckAligned(Dice* _dice)
 	CheckDiceAlign(_dice->GetMapPos(), DiceFruit::eApple);
 	if (mDiceAlignCnt < 2)
 		return;
-	for (auto d : mDiceList)
+	for (auto d : mpDiceList)
 	{
 		d->SetHappyOne();
 	}
@@ -358,14 +358,14 @@ void DiceManager::CheckAligned(Dice* _dice)
 
 void DiceManager::SetRemoveDice(Dice* _dice)
 {
-	auto itDice = std::find(mDiceList.begin(), mDiceList.end(), _dice);
+	auto itDice = std::find(mpDiceList.begin(), mpDiceList.end(), _dice);
 	_dice->SetObjectState(ObjectState::eDead);
-	if (itDice != mDiceList.end())
+	if (itDice != mpDiceList.end())
 	{
-		mDiceList.erase(itDice);
+		mpDiceList.erase(itDice);
 	}
 
-	mDiceList.shrink_to_fit();
+	mpDiceList.shrink_to_fit();
 	mDiceMap[_dice->GetMapPos().z][_dice->GetMapPos().x] = NODICE;
 }
 
@@ -412,7 +412,7 @@ void DiceManager::CheckDiceAlign(INT3 _mapPos, DiceFruit _diceType)
 
 Dice* DiceManager::GetListInDice(int x, int z)
 {
-	for (auto dice : mDiceList)
+	for (auto dice : mpDiceList)
 	{
 		if (dice->GetObjectID() == mDiceMap[z][x])
 			return dice;

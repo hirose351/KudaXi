@@ -90,14 +90,14 @@ void ButtonGroup::ObjectUpdate()
 	// 上
 	case InputDirection::eUp:
 	{
-		SetSelectedNum((mSelectNum + mArrayCnt) % mButtonList.size());
+		SetSelectedNum((mSelectNum + mArrayCnt) % mpButtonList.size());
 		pressFrame = 0;
 		break;
 	}
 	// 下
 	case InputDirection::eDown:
 	{
-		SetSelectedNum((mSelectNum - mArrayCnt) % mButtonList.size());
+		SetSelectedNum((mSelectNum - mArrayCnt) % mpButtonList.size());
 		pressFrame = 0;
 		break;
 	}
@@ -135,7 +135,7 @@ void ButtonGroup::ObjectUpdate()
 	{
 		pressFrame++;
 		if (pressFrame >= mPressingTriggerFrame)
-			SetSelectedNum((mSelectNum + mArrayCnt) % mButtonList.size());
+			SetSelectedNum((mSelectNum + mArrayCnt) % mpButtonList.size());
 		break;
 	}
 	// 下
@@ -143,7 +143,7 @@ void ButtonGroup::ObjectUpdate()
 	{
 		pressFrame++;
 		if (pressFrame >= mPressingTriggerFrame)
-			SetSelectedNum((mSelectNum - mArrayCnt) % mButtonList.size());
+			SetSelectedNum((mSelectNum - mArrayCnt) % mpButtonList.size());
 		break;
 	}
 	default:
@@ -198,7 +198,7 @@ void ButtonGroup::SetInitState(const char* _texName, int _divX, int _divY, int _
 		Button* b = new Button;
 
 		// vector配列に追加
-		mButtonList.emplace_back(b);
+		mpButtonList.emplace_back(b);
 
 		b->SetParent(this);
 
@@ -231,15 +231,15 @@ void ButtonGroup::SetInitState(const char* _texName, int _divX, int _divY, int _
 void ButtonGroup::SetInitSelectNum(int _num)
 {
 	// 変更後のボタンの状態と色を変える
-	mButtonList[_num]->SetButtonState(ButtonState::eSelected);
-	mButtonList[_num]->GetComponent<Component::Quad2d>()->SetColor(mStateColor[(int)ButtonState::eSelected]);
+	mpButtonList[_num]->SetButtonState(ButtonState::eSelected);
+	mpButtonList[_num]->GetComponent<Component::Quad2d>()->SetColor(mStateColor[(int)ButtonState::eSelected]);
 	mSelectNum = _num;
 }
 
 void ButtonGroup::SetPosition(int _num, XMFLOAT2 _pos)
 {
-	mButtonList[_num]->GetTransform()->SetPosition(Float3(_pos.x, _pos.y, 0));
-	mButtonList[_num]->GetTransform()->CreateWordMtx();
+	mpButtonList[_num]->GetTransform()->SetPosition(Float3(_pos.x, _pos.y, 0));
+	mpButtonList[_num]->GetTransform()->CreateWordMtx();
 }
 
 void ButtonGroup::SetSelectedNum(int _num)
@@ -249,10 +249,10 @@ void ButtonGroup::SetSelectedNum(int _num)
 		return;
 
 	// 現在のボタンと変更後のボタンの状態と色を変える
-	mButtonList[mSelectNum]->SetButtonState(ButtonState::eNomal);
-	mButtonList[mSelectNum]->GetComponent<Component::Quad2d>()->SetColor(mStateColor[(int)ButtonState::eNomal]);
-	mButtonList[_num]->SetButtonState(ButtonState::eSelected);
-	mButtonList[_num]->GetComponent<Component::Quad2d>()->SetColor(mStateColor[(int)ButtonState::eSelected]);
+	mpButtonList[mSelectNum]->SetButtonState(ButtonState::eNomal);
+	mpButtonList[mSelectNum]->GetComponent<Component::Quad2d>()->SetColor(mStateColor[(int)ButtonState::eNomal]);
+	mpButtonList[_num]->SetButtonState(ButtonState::eSelected);
+	mpButtonList[_num]->GetComponent<Component::Quad2d>()->SetColor(mStateColor[(int)ButtonState::eSelected]);
 
 	mSelectNum = _num;
 }
@@ -260,7 +260,7 @@ void ButtonGroup::SetSelectedNum(int _num)
 void ButtonGroup::SetButtonPosition()
 {
 	int i = 0;
-	for (Button* b : mButtonList)
+	for (Button* b : mpButtonList)
 	{
 		// 位置指定
 		switch (mStartPoint)

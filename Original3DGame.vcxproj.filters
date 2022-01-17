@@ -372,9 +372,6 @@
     <ClCompile Include="source\game\manager\game_manager.cpp">
       <Filter>ソース ファイル\game\manager\game</Filter>
     </ClCompile>
-    <ClCompile Include="source\game\gameobject\CCamera.cpp">
-      <Filter>ソース ファイル\game\gameobject\camera</Filter>
-    </ClCompile>
     <ClCompile Include="source\game\scene\stagecreate_scene.cpp">
       <Filter>ソース ファイル\game\scene\stagecreate</Filter>
     </ClCompile>
@@ -485,6 +482,9 @@
     </ClCompile>
     <ClCompile Include="source\game\scene\modeserect_scene.cpp">
       <Filter>ソース ファイル\game\scene\modeserect_scene</Filter>
+    </ClCompile>
+    <ClCompile Include="source\game\gameobject\camera.cpp">
+      <Filter>ソース ファイル\game\gameobject\camera</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -686,9 +686,6 @@
     <ClInclude Include="source\game\manager\game_manager.h">
       <Filter>ソース ファイル\game\manager\game</Filter>
     </ClInclude>
-    <ClInclude Include="source\game\gameobject\CCamera.h">
-      <Filter>ソース ファイル\game\gameobject\camera</Filter>
-    </ClInclude>
     <ClInclude Include="source\game\scene\stagecreate_scene.h">
       <Filter>ソース ファイル\game\scene\stagecreate</Filter>
     </ClInclude>
@@ -805,6 +802,9 @@
     </ClInclude>
     <ClInclude Include="source\game\scene\modeserect_scene.h">
       <Filter>ソース ファイル\game\scene\modeserect_scene</Filter>
+    </ClInclude>
+    <ClInclude Include="source\game\gameobject\camera.h">
+      <Filter>ソース ファイル\game\gameobject\camera</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

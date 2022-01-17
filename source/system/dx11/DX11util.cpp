@@ -2,7 +2,7 @@
 #include	<DirectXMath.h>
 #include	"CDirectxGraphics.h"
 #include	"Shader.h"
-#include	"../../game/gameobject/CCamera.h"
+#include	"../../game/gameobject/camera.h"
 #include	"../../memory.h"
 #include	"../../game/gameobject/CLight.h"
 #include	"DX11Settransform.h"
@@ -10,7 +10,7 @@
 CLight				gDirectionallight;
 
 void DX11LightInit(DirectX::XMFLOAT4 lightpos) {
-	gDirectionallight.Init(CCamera::GetInstance()->GetEye(), lightpos);
+	gDirectionallight.Init(Camera::GetInstance()->GetEye(), lightpos);
 	gDirectionallight.SetAmbient(XMFLOAT4(0.0f, 0.0f, 0.0f, 0.0f));				// ŠÂ‹«Œõ
 	gDirectionallight.Update();
 }
@@ -20,7 +20,7 @@ void DX11LightUninit() {
 }
 
 void DX11LightUpdate(DirectX::XMFLOAT4 lpos) {
-	gDirectionallight.SetEyePos(CCamera::GetInstance()->GetEye());
+	gDirectionallight.SetEyePos(Camera::GetInstance()->GetEye());
 	gDirectionallight.SetLightPos(lpos);
 	gDirectionallight.Update();
 }

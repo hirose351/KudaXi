@@ -151,7 +151,7 @@
     <ClCompile Include="source\game\data\saveload.cpp" />
     <ClCompile Include="source\game\data\stage_data.cpp" />
     <ClCompile Include="source\game\gameobject\access_dice_manager.cpp" />
-    <ClCompile Include="source\game\gameobject\CCamera.cpp" />
+    <ClCompile Include="source\game\gameobject\camera.cpp" />
     <ClCompile Include="source\game\gameobject\dice.cpp" />
     <ClCompile Include="source\game\gameobject\effect_fruit.cpp" />
     <ClCompile Include="source\game\gameobject\effect_thunder.cpp" />
@@ -245,7 +245,7 @@
     <ClInclude Include="source\game\data\saveload.h" />
     <ClInclude Include="source\game\data\stage_data.h" />
     <ClInclude Include="source\game\gameobject\access_dice_manager.h" />
-    <ClInclude Include="source\game\gameobject\CCamera.h" />
+    <ClInclude Include="source\game\gameobject\camera.h" />
     <ClInclude Include="source\game\gameobject\CLight.h" />
     <ClInclude Include="source\game\gameobject\dice.h" />
     <ClInclude Include="source\game\gameobject\effect_fruit.h" />

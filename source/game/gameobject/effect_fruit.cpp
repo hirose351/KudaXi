@@ -25,7 +25,7 @@ void Fruit::ObjectInit()
 
 void Fruit::ObjectUpdate()
 {
-	XMFLOAT3 camera = CCamera::GetInstance()->GetEye();
+	XMFLOAT3 camera = Camera::GetInstance()->GetEye();
 	// イテレート中に要素削除をするような場合には、範囲for文は使用できない
 	for (auto itr = mParticle.begin(); itr != mParticle.end();)
 	{
@@ -62,16 +62,16 @@ void Fruit::ObjectUpdate()
 	Component::Billbord* bilbord = GetComponent<Component::Billbord>();
 	for (auto itr : mParticle)
 	{
-		mTransform->SetPositionXYZ(itr.pos);
+		//mTransform->SetPositionXYZ(itr.pos);
 		bilbord->SetUV(XMFLOAT2(static_cast<float>(itr.uv), 0));
 		bilbord->Update();
-		bilbord->Draw();
+		bilbord->SetDrawPos(itr.pos);
 	}
 }
 
 void Fruit::SetInit(const Float3& _pos, int _uvnum)
 {
-	XMFLOAT3 camera = CCamera::GetInstance()->GetEye();
+	XMFLOAT3 camera = Camera::GetInstance()->GetEye();
 
 	mCenterPos = _pos;
 

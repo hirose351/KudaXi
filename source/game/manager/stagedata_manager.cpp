@@ -1,13 +1,8 @@
-#include "stagedata_manager.h"
-
+#include	"stagedata_manager.h"
 #include	<iostream>
 #include	<fstream>
 
 using namespace std;
-
-void StageDataManager::Finalize()
-{
-}
 
 bool StageDataManager::SetCurrentStage(std::string _key)
 {

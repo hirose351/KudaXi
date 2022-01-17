@@ -8,7 +8,7 @@
 class DiceManager :Uncopyable
 {
 private:
-	std::vector<Dice*> mDiceList;
+	std::vector<Dice*> mpDiceList;
 	StageData mCurrentStageData;
 
 	int mDiceMap[STAGESIZEMAX][STAGESIZEMAX];			// ブロック更新用マップ配列(-1:無し　0以上:ブロックあり,番号は生成された順)

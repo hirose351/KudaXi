@@ -9,11 +9,11 @@ class GameObject;
 
 class SceneBase : Uncopyable {
 protected:
-	SceneManager*	mSceneManager;
+	SceneManager*	mpSceneManager;
 	DrawManager mDrawManager;
 
-	std::vector<GameObject*> mObjectList;			// ゲームオブジェクトを全部まとめて管理できるオブジェクトリスト
-	std::vector<GameObject*> mPendingObjectList;	// 待ち状態のオブジェクト
+	std::vector<GameObject*> mpObjectList;			// ゲームオブジェクトを全部まとめて管理できるオブジェクトリスト
+	std::vector<GameObject*> mpPendingObjectList;	// 待ち状態のオブジェクト
 
 	bool mInitingObjects;			// オブジェクトを初期化しているかどうか
 	bool mUpdatingObjects;			// オブジェクトを更新しているかどうか
@@ -27,7 +27,7 @@ public:
 	virtual ~SceneBase();
 
 	void SetSceneManager(SceneManager* _sm) {
-		mSceneManager = _sm;
+		mpSceneManager = _sm;
 	}
 
 	// リストに追加
@@ -41,6 +41,10 @@ public:
 	void Update();
 	// オブジェクト描画
 	void Render();
+	// imguiデバッグ
+	void ImguiDebug();
+	// 終了
+	bool Dispose();
 
 	// 各シーンの変更後処理(シーンが切り換わる度に呼ばれる)
 	virtual void SceneAfter() = 0;
@@ -48,11 +52,6 @@ public:
 	virtual void SceneInit() = 0;
 	// 各シーンの更新
 	virtual void SceneUpdate() = 0;
-
-	// imguiデバッグ
-	virtual void ImguiDebug();
-	// 終了
-	virtual bool Dispose();
 
 	void DrawFadeIn();
 	void DrawFadeOut();

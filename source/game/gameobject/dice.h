@@ -13,8 +13,6 @@ class Dice : public GameObject
 private:
 	float mBeforeFrameAng = 0;							// 
 	float mBeforeFramePos = 0;							// 
-	//float mThunderAlha = 1.0f;							// 雷α値
-	//Billboard mThunder;								// 生成時雷
 	INT3 mMapPos;										// マップ上の位置
 	DiceFruit mTopDiceTypeFruit;						// 上面の果物
 	int mTopDiceTypeNum;								// 上面の数字
@@ -99,10 +97,11 @@ public:
 	void SetMapPos(INT3 _i3) { mMapPos = _i3; };
 	INT3 GetMapPos() { return mMapPos; };
 
-	void OnCollisionEnter(ComponentBase* _oher) override;
-	void OnCollisionStay(ComponentBase* _oher) override;
-	void OnCollisionExit(ComponentBase* _oher) override;
 	bool GetPushEnd() { return mCrrentPushCnt == mMoveCnt; }
 	bool GetRollEnd() { return mCrrentRotCnt >= mMoveCnt; }
+
+	//void OnCollisionEnter(ComponentBase* _oher) override;
+	//void OnCollisionStay(ComponentBase* _oher) override;
+	//void OnCollisionExit(ComponentBase* _oher) override;
 };
 

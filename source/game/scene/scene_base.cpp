@@ -3,7 +3,6 @@
 #include	"../../system/imgui/util/myimgui.h"
 #include	"../../system/dx11/DX11util.h"
 #include	"../manager/draw_manager.h"
-
 #include	"../gameobject/fade_screen.h"
 
 SceneBase::SceneBase()
@@ -12,8 +11,9 @@ SceneBase::SceneBase()
 
 SceneBase::~SceneBase()
 {
-	mObjectList.clear();
-	mObjectList.shrink_to_fit();
+	Dispose();
+	mpObjectList.clear();
+	mpObjectList.shrink_to_fit();
 }
 
 void SceneBase::AddGameObject(GameObject* _object)
@@ -21,32 +21,32 @@ void SceneBase::AddGameObject(GameObject* _object)
 	// アクターが更新中なら待ち群に追加
 	if (mUpdatingObjects || mInitingObjects)
 	{
-		mPendingObjectList.emplace_back(_object);
+		mpPendingObjectList.emplace_back(_object);
 	}
 	else
 	{
-		mObjectList.emplace_back(_object);
+		mpObjectList.emplace_back(_object);
 	}
 }
 
 void SceneBase::RemoveGameObject(GameObject* _object)
 {
 	// 保留中のアクターかどうか
-	auto iter = std::find(mPendingObjectList.begin(), mPendingObjectList.end(), _object);
-	if (iter != mPendingObjectList.end())
+	auto iter = std::find(mpPendingObjectList.begin(), mpPendingObjectList.end(), _object);
+	if (iter != mpPendingObjectList.end())
 	{
 		// ベクトルの最後までワップしてポップオフします（コピーの消去は避けてください）
-		std::iter_swap(iter, mPendingObjectList.end() - 1);
-		mPendingObjectList.pop_back();
+		std::iter_swap(iter, mpPendingObjectList.end() - 1);
+		mpPendingObjectList.pop_back();
 	}
 
 	// 存在するアクターかどうか
-	iter = std::find(mObjectList.begin(), mObjectList.end(), _object);
-	if (iter != mObjectList.end())
+	iter = std::find(mpObjectList.begin(), mpObjectList.end(), _object);
+	if (iter != mpObjectList.end())
 	{
 		// ベクトルの最後までワップしてポップオフします（コピーの消去は避けてください）
-		std::iter_swap(iter, mObjectList.end() - 1);
-		mObjectList.pop_back();
+		std::iter_swap(iter, mpObjectList.end() - 1);
+		mpObjectList.pop_back();
 	}
 }
 
@@ -58,19 +58,19 @@ bool SceneBase::Init()
 
 	// すべてのオブジェクトを初期化
 	mInitingObjects = true;
-	for (auto &obj : mObjectList)
+	for (auto &obj : mpObjectList)
 	{
 		obj->Init();
 	}
 	mInitingObjects = false;
 
 	// 待ちになっていたオブジェクトをリストに移動
-	for (auto pending : mPendingObjectList)
+	for (auto pending : mpPendingObjectList)
 	{
 		pending->Init();
-		mObjectList.emplace_back(pending);
+		mpObjectList.emplace_back(pending);
 	}
-	mPendingObjectList.clear();
+	mpPendingObjectList.clear();
 
 	return true;
 }
@@ -85,7 +85,7 @@ void SceneBase::Update()
 
 	// すべてのアクターを更新
 	mUpdatingObjects = true;
-	for (auto &obj : mObjectList)
+	for (auto &obj : mpObjectList)
 	{
 		if (obj->GetObjectState() != ObjectState::eActive || !obj->GetIsActive())
 			continue;
@@ -96,17 +96,17 @@ void SceneBase::Update()
 	mUpdatingObjects = false;
 
 	// 待ちになっていたオブジェクトを本リストに移動
-	for (auto pending : mPendingObjectList)
+	for (auto pending : mpPendingObjectList)
 	{
-		mObjectList.emplace_back(pending);
+		mpObjectList.emplace_back(pending);
 	}
-	mPendingObjectList.clear();
+	mpPendingObjectList.clear();
 
 	SceneUpdate();
 
 	// 死んだオブジェクトを一時配列に追加
 	std::vector<GameObject*> deadObjcts;
-	for (auto obj : mObjectList)
+	for (auto obj : mpObjectList)
 	{
 		if (obj->GetObjectState() == ObjectState::eDead)
 		{
@@ -120,7 +120,7 @@ void SceneBase::Update()
 		delete obj;
 	}
 
-	mObjectList.shrink_to_fit();
+	mpObjectList.shrink_to_fit();
 }
 
 void SceneBase::Render()
@@ -134,7 +134,7 @@ void SceneBase::ImguiDebug()
 	ImGui::SetNextWindowPos(ImVec2(20, 20), ImGuiCond_Once);
 	ImGui::SetNextWindowSize(ImVec2(350, 300), ImGuiCond_Once);
 	ImGui::Begin(u8"GameObject");
-	for (auto &obj : mObjectList)
+	for (auto &obj : mpObjectList)
 	{
 		obj->ImguiDraw();
 	}
@@ -156,8 +156,8 @@ void SceneBase::ImguiDebug()
 		if (ImGui::TreeNode("Camera"))
 		{
 			ImGui::DragFloat3("Lookat", &mCameraLookat.x, 0.5f);
-			CCamera::GetInstance()->SetLookat(mCameraLookat);
-			CCamera::GetInstance()->CreateCameraMatrix();
+			Camera::GetInstance()->SetLookat(mCameraLookat);
+			Camera::GetInstance()->CreateCameraMatrix();
 			ImGui::TreePop();
 		}
 	}
@@ -166,7 +166,7 @@ void SceneBase::ImguiDebug()
 
 bool SceneBase::Dispose()
 {
-	for (auto &obj : mObjectList)
+	for (auto &obj : mpObjectList)
 	{
 		if (obj != nullptr)
 		{

@@ -1,7 +1,7 @@
 #pragma once
 #include <DirectXMath.h>
 #include <d3d11.h>
-#include "../../game/gameobject/CCamera.h"
+#include "../../game/gameobject/camera.h"
 #include "CDirectxGraphics.h"
 
 struct PLANE {

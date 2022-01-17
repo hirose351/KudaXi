@@ -3,7 +3,7 @@
 #include	"game/manager/scene_manager.h"
 #include	"game/scene/maingame_scene.h"
 #include	"game/scene/title_scene.h"
-#include	"game/gameobject/CCamera.h"
+#include	"game/gameobject/camera.h"
 #include	"system/dx11/CDirectInput.h"
 #include	"system/dx11/DX11Settransform.h"
 #include	"system/imgui/util/myimgui.h"
@@ -26,7 +26,7 @@ void GameInit() {
 	DirectX::XMFLOAT3 lookat(0, 0, 0);	//注視点
 	DirectX::XMFLOAT3 up(0, 1, 0);		//カメラの上向きベクトル
 
-	CCamera::GetInstance()->Init(
+	Camera::GetInstance()->Init(
 		10.0f,							// ニアクリップ
 		10000.0f,						// ファークリップ
 		XM_PI / 5.0f,					// 視野角
@@ -100,11 +100,11 @@ void GameRender(uint64_t dt) {
 	XMFLOAT4X4 mtx;
 
 	// プロジェクション変換行列取得
-	mtx = CCamera::GetInstance()->GetProjectionMatrix();
+	mtx = Camera::GetInstance()->GetProjectionMatrix();
 	DX11SetTransform::GetInstance()->SetTransform(DX11SetTransform::TYPE::eProjection, mtx);
 
 	// ビュー変換行列を取得
-	mtx = CCamera::GetInstance()->GetCameraMatrix();
+	mtx = Camera::GetInstance()->GetCameraMatrix();
 	DX11SetTransform::GetInstance()->SetTransform(DX11SetTransform::TYPE::eView, mtx);
 
 	SceneManager::GetInstance()->Render();
