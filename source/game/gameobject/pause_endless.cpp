@@ -9,12 +9,15 @@ using namespace DirectX;
 
 PauseEndless::PauseEndless() :GameObject(("PauseEndless"), ObjectType::eObstracle, false)
 {
-	mButton = new ButtonGroup;
-	mButton->GetTransform()->SetPositionXYZ(Float3(600, 300, 0));
-	mButton->SetInitState("assets/image/ui/pause_button.png", 3, 1, 3, ButtonTransition::eColorTint, XMFLOAT2(0, -100), XMFLOAT2(200, 200), XMFLOAT2(300, 300), ButtonArrangement::eVertical);
-	mButton->SetIsActive(false);
-	mButton->SetParent(this);
-	mButton->AddComponent<Component::Easing>();
+	Dix::sp<ButtonGroup> b;
+	b.SetPtr(new ButtonGroup);
+	b->GetTransform()->SetPositionXYZ(Float3(600, 300, 0));
+	b->SetInitState("assets/image/ui/pause_button.png", 3, 1, 3, ButtonTransition::eColorTint, XMFLOAT2(0, -100), XMFLOAT2(200, 200), XMFLOAT2(300, 300), ButtonArrangement::eVertical);
+	b->SetParent(this);
+	b->AddComponent<Component::Easing>();
+	b->SetIsActive(false);
+	mButton = b;
+	SceneManager::GetInstance()->GetScene(mSceneKey)->AddGameObject(b);
 }
 
 void PauseEndless::ObjectInit()

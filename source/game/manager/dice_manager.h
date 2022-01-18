@@ -53,10 +53,10 @@ public:
 	bool CanDiceMoveCheak(Dice* _dice, Direction _dire);
 
 	// 揃っているか
-	void CheckAligned(Dix::wp<Dice> _dice);
+	void CheckAligned(Dice* _dice);
 
 	// 対象のサイコロのマップ上のデータを消す
-	void SetRemoveDice(Dix::wp<Dice> _dice);
+	void SetRemoveDice(int _diceId);
 
 	// 渡されたマップ上にあるDiceのポインタを返す
 	Dix::wp<Dice> GetDice(INT3 _mapPos);

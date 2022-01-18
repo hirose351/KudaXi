@@ -49,9 +49,11 @@ void MaingameScene::SceneInit()
 
 	Dix::sp<myUI::PauseEndless> p;
 	p.SetPtr(new myUI::PauseEndless);
+	AddGameObject(p);
 
 	Dix::sp<AccessDiceManager> dicemanager;
 	dicemanager.SetPtr(new AccessDiceManager);
+	AddGameObject(dicemanager);
 
 	// ƒJƒƒ‰
 	DirectX::XMFLOAT3 eye(140, 130, -170);	//ƒJƒƒ‰‚ÌˆÊ’u

@@ -12,7 +12,9 @@ DrawComponentBase::DrawComponentBase() :ComponentBase(("DrawBase")), mOrderInLay
 
 DrawComponentBase::~DrawComponentBase()
 {
-	SceneManager::GetInstance()->GetScene(sceneName)->RemoveDrawComponent(this);
+	if (SceneManager::GetInstance()->GetScene(sceneName) == nullptr)
+		return;
+		SceneManager::GetInstance()->GetScene(sceneName)->RemoveDrawComponent(this);
 }
 
 void DrawComponentBase::SetDrawPos(Float3 _f3)

@@ -107,23 +107,47 @@ void SceneBase::Update()
 
 	SceneUpdate();
 
-	// 死んだオブジェクトを一時配列に追加
-	std::list<Dix::sp<GameObject>> deadObjcts;
-	for (auto obj : mpObjectList)
+	//// 死んだオブジェクトを一時配列に追加
+	//std::list<Dix::sp<GameObject>> deadObjcts;
+	//for (auto obj : mpObjectList)
+	//{
+	//	deadObjcts.emplace_back(obj);
+	//}
+	// 死んだオブジェクトを消す（リストから削除）
+	for (auto obj = mpObjectList.begin(); obj != mpObjectList.end();)
 	{
-		if (obj->GetObjectState() == ObjectState::eDead)
+		if ((*obj)->GetObjectState() == ObjectState::eDead)
 		{
-			deadObjcts.emplace_back(obj);
+			(*obj).Clear();
+			// 削除された要素の次を指すイテレータが返される。
+			obj = mpObjectList.erase(obj);
+		}
+		else
+		{
+			obj++;
 		}
 	}
 
-	// 死んだオブジェクトを消す（リストから削除）
-	for (auto obj : deadObjcts)
-	{
-		obj.Clear();
-	}
+	// 死んだオブジェクトを一時配列に追加
+	//std::list<Dix::sp<GameObject>> deadObjcts;
+	//for (auto obj : mpObjectList)
+	//{
+	//	if (obj->GetObjectState() == ObjectState::eDead)
+	//	{
+	//		deadObjcts.emplace_back(obj);
+	//	}
+	//}
 
-	//mpObjectList.shrink_to_fit();
+	//if (deadObjcts.empty())
+	//	return;
+	//// 死んだオブジェクトを消す（リストから削除）
+	//for (auto obj = deadObjcts.begin(); obj != deadObjcts.end();)
+	//{
+	//	(*obj).Clear();
+	//	// 削除された要素の次を指すイテレータが返される。
+	//	obj = deadObjcts.erase(obj);
+	//}
+
 }
 
 void SceneBase::Render()

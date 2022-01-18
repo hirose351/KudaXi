@@ -26,7 +26,7 @@ protected:
 	Component::PlayerController* mHolder;			// 持ち主
 	Dix::wp<Transform>			 mTransform;		// 位置回転大きさ
 	Dix::wp<Direction>			 mDirection;		// 移動方向
-	Dice*						 mpOperationDice;	// 操作するDice
+	Dix::wp<Dice>				 mpOperationDice;	// 操作するDice
 	Foot*						 mFoot;				// 足元
 	INT3						 mMapPos;			// マップ上の位置
 
@@ -36,8 +36,8 @@ public:
 	// 操作する変数登録
 	virtual void Start(Component::PlayerController* _c);
 
-	void SetOperationDice(Dice* _dice) { mpOperationDice = _dice; }
-	Dice* GetOperationDice() { return mpOperationDice; }
+	void SetOperationDice(Dix::wp<Dice> _dice) { mpOperationDice = _dice; }
+	Dix::wp<Dice> GetOperationDice() { return mpOperationDice; }
 
 	INT3 GetMapPos() { return mMapPos; }
 	void SetMapPos(INT3 _pos) { mMapPos = _pos; }

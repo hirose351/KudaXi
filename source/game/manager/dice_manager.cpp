@@ -167,15 +167,15 @@ bool DiceManager::CanDiceMove(Dice* _dice, Direction _dire)
 	// 行き先のサイコロのポインタを取得
 	Dix::wp<Dice> afterDice = GetListInDice(afterPos.x, afterPos.z);
 	// サイコロがあるとき
-	//if (afterDice != nullptr)
-	//{
+	if (afterDice.IsExist())
+	{
 	DiceStatus dSts = afterDice->GetDiceStatus();
 	// 半分以上存在しているサイコロなら移動しない
 	if (dSts == DiceStatus::eNormal || dSts == DiceStatus::eDown || dSts == DiceStatus::eUp)
 		return false;
 	// 半分以下のサイコロならそのサイコロを消す
-	SetRemoveDice(afterDice);
-	//}
+	SetRemoveDice(afterDice->GetObjectID());
+	}
 
 	mDiceMap[afterPos.z][afterPos.x] = mDiceMap[_dice->GetMapPos().z][_dice->GetMapPos().x];
 	mDiceMap[_dice->GetMapPos().z][_dice->GetMapPos().x] = NODICE;
@@ -213,7 +213,7 @@ bool DiceManager::CanDiceMoveCheak(Dice * _dice, Direction _dire)
 	return false;
 }
 
-void DiceManager::CheckAligned(Dix::wp<Dice> _dice)
+void DiceManager::CheckAligned(Dice* _dice)
 {
 	Dix::wp<Dice> ansDice;
 
@@ -226,8 +226,8 @@ void DiceManager::CheckAligned(Dix::wp<Dice> _dice)
 		{
 			ans = { mapPos.x ,0, mapPos.z - 1 };
 			ansDice = GetListInDice(ans.x, ans.z);
-			//if (ansDice != nullptr)
-			//{
+			if (ansDice.IsExist())
+			{
 			if (ansDice->GetDiceStatus() == DiceStatus::eDown || ansDice->GetDiceStatus() == DiceStatus::eHalfDown)
 			{
 				for (auto d : mpDiceList)
@@ -236,15 +236,15 @@ void DiceManager::CheckAligned(Dix::wp<Dice> _dice)
 				}
 				return;
 			}
-			//}
+			}
 		}
 		// 下確認
 		if (mapPos.z < mCurrentStageData.mMapSizeHeight - 1)
 		{
 			ans = { mapPos.x ,0, mapPos.z + 1 };
 			ansDice = GetListInDice(ans.x, ans.z);
-			//if (ansDice != nullptr)
-			//{
+			if (ansDice.IsExist())
+			{
 			if (ansDice->GetDiceStatus() == DiceStatus::eDown || ansDice->GetDiceStatus() == DiceStatus::eHalfDown)
 			{
 				for (auto d : mpDiceList)
@@ -253,15 +253,15 @@ void DiceManager::CheckAligned(Dix::wp<Dice> _dice)
 				}
 				return;
 			}
-			//}
+			}
 		}
 		// 左確認
 		if (mapPos.x > 0)
 		{
 			ans = { mapPos.x - 1 ,0, mapPos.z };
 			ansDice = GetListInDice(ans.x, ans.z);
-			//if (ansDice != nullptr)
-			//{
+			if (ansDice.IsExist())
+			{
 			if (ansDice->GetDiceStatus() == DiceStatus::eDown || ansDice->GetDiceStatus() == DiceStatus::eHalfDown)
 			{
 				for (auto d : mpDiceList)
@@ -270,15 +270,15 @@ void DiceManager::CheckAligned(Dix::wp<Dice> _dice)
 				}
 				return;
 			}
-			//}
+			}
 		}
 		// 右確認
 		if (mapPos.x < mCurrentStageData.mMapSizeWidth - 1)
 		{
 			ans = { mapPos.x + 1  ,0, mapPos.z };
 			ansDice = GetListInDice(ans.x, ans.z);
-			//if (ansDice != nullptr)
-			//{
+			if (ansDice.IsExist())
+			{
 			if (ansDice->GetDiceStatus() == DiceStatus::eDown || ansDice->GetDiceStatus() == DiceStatus::eHalfDown)
 			{
 				for (auto d : mpDiceList)
@@ -287,7 +287,7 @@ void DiceManager::CheckAligned(Dix::wp<Dice> _dice)
 				}
 				return;
 			}
-			//}
+			}
 		}
 		return;
 	}
@@ -358,29 +358,34 @@ void DiceManager::CheckAligned(Dix::wp<Dice> _dice)
 	/// ハッピーワンチェック ////////////////////////////////////////////////
 }
 
-void DiceManager::SetRemoveDice(Dix::wp<Dice> _dice)
+void DiceManager::SetRemoveDice(int _diceId)
 {
-	auto itDice = std::find(mpDiceList.begin(), mpDiceList.end(), _dice);
-	_dice->SetObjectState(ObjectState::eDead);
-	if (itDice != mpDiceList.end())
+	//for (auto itDice : mpDiceList)
+	for (auto itDice = mpDiceList.begin(); itDice != mpDiceList.end();)
 	{
-		mpDiceList.erase(itDice);
+		if ((*itDice)->GetObjectID() == _diceId)
+		{
+			(*itDice)->SetObjectState(ObjectState::eDead);
+			if (itDice != mpDiceList.end())
+			{
+				mpDiceList.erase(itDice);
+				mpDiceList.shrink_to_fit();
+				mDiceMap[(*itDice)->GetMapPos().z][(*itDice)->GetMapPos().x] = NODICE;
+			}
+			break;
+		}
 	}
-
-	mpDiceList.shrink_to_fit();
-	mDiceMap[_dice->GetMapPos().z][_dice->GetMapPos().x] = NODICE;
 }
 
 Dix::wp<Dice> DiceManager::GetDice(INT3 _mapPos)
 {
 	// ステージ外かDiceがなければnullptrを返す
 	if (_mapPos.z < 0 || _mapPos.z >= mCurrentStageData.mMapSizeHeight)
-		return nullptr;
+		return NULL;
 	if (_mapPos.x < 0 || _mapPos.x >= mCurrentStageData.mMapSizeWidth)
-		return nullptr;
+		return NULL;
 	if (mDiceMap[_mapPos.z][_mapPos.x] == NODICE)
-		return nullptr;
-
+		return NULL;
 	return GetListInDice(_mapPos.x, _mapPos.z);
 }
 
@@ -419,6 +424,7 @@ Dix::wp<Dice> DiceManager::GetListInDice(int x, int z)
 		if (dice->GetObjectID() == mDiceMap[z][x])
 			return dice;
 	}
+	return NULL;
 }
 
 int DiceManager::GetDiceRandomNum(int _rndNum)

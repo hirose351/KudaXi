@@ -317,7 +317,7 @@ void Dice::Down()
 	mTransform->MovePosition();
 	if (mTransform->position.y < -DICE_SCALE_HALF)
 	{
-		DiceManager::GetInstance()->SetRemoveDice(this);
+		DiceManager::GetInstance()->SetRemoveDice(GetObjectID());
 	}
 	else if (mTransform->position.y < 0)
 	{

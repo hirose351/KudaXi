@@ -7,7 +7,7 @@ namespace myUI {
 	{
 	private:
 		bool isPause;	// É|Å[ÉYÇ…Ç»Ç¡ÇΩÇ©
-		myUI::ButtonGroup* mButton;
+		Dix::wp<myUI::ButtonGroup> mButton;
 
 	public:
 		PauseEndless();

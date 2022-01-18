@@ -5,7 +5,7 @@ using namespace PlayerState;
 
 void Roll::Exec()
 {
-	if (mpOperationDice == nullptr)
+	if (!mpOperationDice.IsExist())
 	{
 		mHolder->ChangeState(eMove);	// ó‘Ô‚ğ•Ï‚¦‚é
 		return;

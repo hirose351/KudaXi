@@ -15,7 +15,7 @@ using namespace PlayerState;
 
 bool Move::CheckRoll()
 {
-	if (mpOperationDice == nullptr || *mFoot != Foot::eDice)
+	if (!mpOperationDice.IsExist() || *mFoot != Foot::eDice)
 		return false;
 	if (mpOperationDice->GetDiceStatus() != DiceStatus::eNormal)
 		return false;
@@ -115,12 +115,11 @@ bool Move::CheckPush()
 	}
 
 	// 移動する先にDiceがあるか
-	Dice* checkDice = DiceManager::GetInstance()->GetDice(checkMapPos);
 
-	if (checkDice == nullptr)
-	{
+	Dix::wp<Dice> checkDice = DiceManager::GetInstance()->GetDice(checkMapPos);
+
+	if (!checkDice.IsExist())
 		return false;
-	}
 
 	switch (checkDice->GetDiceStatus())
 	{
@@ -287,12 +286,12 @@ void Move::Exec()
 	mTransform->CreateWordMtx();
 
 
-
 	// 自分のマップ位置にあるDiceのポインタ取得
 	mpOperationDice = DiceManager::GetInstance()->GetDice(mMapPos);
 
+
 	// Diceの有無で足元の状態変更
-	if (mpOperationDice == nullptr)
+	if (!mpOperationDice.IsExist())
 	{
 		*mFoot = Foot::eFloor;
 		CheckPush();
