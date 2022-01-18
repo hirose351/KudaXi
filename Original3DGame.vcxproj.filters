@@ -480,11 +480,11 @@
     <ClCompile Include="source\game\component\plane.cpp">
       <Filter>ソース ファイル\game\component\draw\plane</Filter>
     </ClCompile>
-    <ClCompile Include="source\game\scene\modeserect_scene.cpp">
-      <Filter>ソース ファイル\game\scene\modeserect_scene</Filter>
-    </ClCompile>
     <ClCompile Include="source\game\gameobject\camera.cpp">
       <Filter>ソース ファイル\game\gameobject\camera</Filter>
+    </ClCompile>
+    <ClCompile Include="source\game\scene\modeselect_scene.cpp">
+      <Filter>ソース ファイル\game\scene\modeserect_scene</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -800,11 +800,11 @@
     <ClInclude Include="source\game\component\plane.h">
       <Filter>ソース ファイル\game\component\draw\plane</Filter>
     </ClInclude>
-    <ClInclude Include="source\game\scene\modeserect_scene.h">
-      <Filter>ソース ファイル\game\scene\modeserect_scene</Filter>
-    </ClInclude>
     <ClInclude Include="source\game\gameobject\camera.h">
       <Filter>ソース ファイル\game\gameobject\camera</Filter>
+    </ClInclude>
+    <ClInclude Include="source\game\scene\modeselect_scene.h">
+      <Filter>ソース ファイル\game\scene\modeserect_scene</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

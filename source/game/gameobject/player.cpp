@@ -3,6 +3,7 @@
 #include	"../component/player_controller.h"
 #include	"../../system/model/ModelMgr.h"
 #include	"../component/allcomponents.h"
+#include	"../manager/input_manager.h"
 
 Player::Player() : GameObject(("Player"), ObjectType::ePlayer, true) {
 	bool sts = ModelMgr::GetInstance().LoadModel(
@@ -30,7 +31,11 @@ void Player::ObjectInit()
 }
 
 void Player::ObjectUpdate()
-{
+{	// ポーズボタンが押されたら
+	if (InputManager::GetInstance().GetStateTrigger(InputMode::eUi, static_cast<int>(UiAction::ePause)))
+	{
+
+	}
 }
 
 void Player::ObjectImguiDraw()

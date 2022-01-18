@@ -73,6 +73,5 @@ void SceneManager::AddScene(std::string key) {
 	mAddkey = key;
 	mCurrentSceneKey = key;
 	mScenefactories[key].get()->SceneInit();
-	mScenefactories[key].get()->Init();
 	mScenefactories[key].get()->SetSceneManager(this);
 }

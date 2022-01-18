@@ -24,7 +24,7 @@ GameObject::~GameObject()
 	mComponentList.clear();
 	mComponentList.shrink_to_fit();
 
-	SceneManager::GetInstance()->GetScene(mSceneKey)->RemoveGameObject(this);
+	//SceneManager::GetInstance()->GetScene(mSceneKey)->RemoveGameObject(GetObjectID());
 }
 
 void GameObject::Init()

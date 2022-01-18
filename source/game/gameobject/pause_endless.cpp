@@ -17,6 +17,7 @@ PauseEndless::PauseEndless() :GameObject(("PauseEndless"), ObjectType::eObstracl
 	b->AddComponent<Component::Easing>();
 	b->SetIsActive(false);
 	mButton = b;
+	mButton->SetInitSelectNum(0);
 	SceneManager::GetInstance()->GetScene(mSceneKey)->AddGameObject(b);
 }
 
@@ -35,7 +36,7 @@ void PauseEndless::ObjectUpdate()
 			isPause = true;
 			SceneManager::GetInstance()->GetCurrentScene()->SetIsPause(true);
 			mButton->SetIsActive(true);
-			mButton->SetInitSelectNum(0);
+			mButton->SetSelectedNum(0);
 			mButton->GetComponent<Component::Easing>()->AddEasing(EasingProcess::EasingType::eExpIn, TransType::ePos, 300, 0, XMFLOAT2(-100, 300), XMFLOAT2(600, 400));
 		}
 		else
@@ -48,7 +49,16 @@ void PauseEndless::ObjectUpdate()
 
 	if (mButton->GetIsPressed())
 	{
+		if (mButton->GetSelectNum() == 0)
+		{
+			isPause = false;
+			SceneManager::GetInstance()->GetCurrentScene()->SetIsPause(false);
+			mButton->SetIsActive(false);
+		}
+		if (mButton->GetSelectNum() == 1)
+			SceneManager::GetInstance()->SetNextScene("Mode");
 		if (mButton->GetSelectNum() == 2)
 			SceneManager::GetInstance()->SetNextScene("Title");
+		mButton->SetIsPressed(false);
 	}
 }

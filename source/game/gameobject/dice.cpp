@@ -15,7 +15,7 @@ Dice::Dice() :GameObject(("Dice"), ObjectType::eDice, true)
 		MessageBox(nullptr, "DiceÉÇÉfÉã ì«Ç›çûÇ›ÉGÉâÅ[", "error", MB_OK);
 	}
 	AddComponent<Component::Model>()->SetModel(ModelMgr::GetInstance().GetModelPtr("assets/model/dice/Dice.fbx"));
-	AddComponent<Component::Collision>()->SetInitState(ObjectTag::eDice, Float3(0, 0, 0), Float3(DICE_SCALE_HALF), DirectX::XMFLOAT4(0, 0, 1, 0.3f));
+	AddComponent<Component::Collision>()->SetInitState(ObjectTag::eDice, Float3(0, 0, 0), Float3(DICE_SCALE_HALF), DirectX::XMFLOAT4(1, 1, 1, 0));
 }
 
 Dice::~Dice()

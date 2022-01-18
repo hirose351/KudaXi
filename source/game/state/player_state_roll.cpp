@@ -43,6 +43,11 @@ void Roll::BeforeChange()
 
 void Roll::AfterChange()
 {
+	if (!mpOperationDice.IsExist())
+	{
+		mHolder->ChangeState(eMove);	// ó‘Ô‚ð•Ï‚¦‚é
+		return;
+	}
 	Float3 dicePos = mpOperationDice->GetTransform()->GetPosition();
 	switch (*mDirection)
 	{

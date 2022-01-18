@@ -177,7 +177,7 @@
     <ClCompile Include="source\game\mode\gamemode_controller.cpp" />
     <ClCompile Include="source\game\mode\gamemode_state_base.cpp" />
     <ClCompile Include="source\game\mode\gamemode_state_puzzle.cpp" />
-    <ClCompile Include="source\game\scene\modeserect_scene.cpp" />
+    <ClCompile Include="source\game\scene\modeselect_scene.cpp" />
     <ClCompile Include="source\game\scene\scene_base.cpp" />
     <ClCompile Include="source\game\scene\maingame_scene.cpp" />
     <ClCompile Include="source\game\scene\stagecreate_scene.cpp" />
@@ -277,7 +277,7 @@
     <ClInclude Include="source\game\mode\gamemode_controller.h" />
     <ClInclude Include="source\game\mode\gamemode_state_base.h" />
     <ClInclude Include="source\game\mode\gamemode_state_puzzle.h" />
-    <ClInclude Include="source\game\scene\modeserect_scene.h" />
+    <ClInclude Include="source\game\scene\modeselect_scene.h" />
     <ClInclude Include="source\game\scene\scene_base.h" />
     <ClInclude Include="source\game\scene\maingame_scene.h" />
     <ClInclude Include="source\game\scene\stagecreate_scene.h" />

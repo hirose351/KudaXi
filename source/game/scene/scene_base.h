@@ -33,8 +33,6 @@ public:
 
 	// リストに追加
 	void AddGameObject(Dix::sp<GameObject> _object);
-	// リストから削除
-	void RemoveGameObject(GameObject* _object);
 
 	// オブジェクト初期化
 	bool Init();

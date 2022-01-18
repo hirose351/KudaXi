@@ -89,10 +89,8 @@ namespace myUI {
 		bool isPressed = false;		// ボタンが押されたか
 		ButtonArrangement mArrangement;
 		DirectX::XMFLOAT2 mNomalScale;
-		Float3 mBeforePos;
+		Float3 mBeforePos;	// 前フレームの位置
 
-		// 選択された数の処理
-		void SetSelectedNum(int _num);
 
 		void SetButtonPosition();
 	public:
@@ -117,10 +115,15 @@ namespace myUI {
 		// 
 		void SetPosition(int _num, DirectX::XMFLOAT2 _pos);
 
+		// 選択された数の処理
+		void SetSelectedNum(int _num);
+
 		// 選択されている番号を返す
 		int GetSelectNum() { return mSelectNum; }
 
 		// 押されたかを返す
 		bool GetIsPressed() { return isPressed; }
+		// 押されたかをセット
+		void SetIsPressed(bool _flg) { isPressed = _flg; }
 	};
 }

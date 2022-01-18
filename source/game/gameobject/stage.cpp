@@ -1,6 +1,6 @@
 #include	"stage.h"
 
-Stage::Stage() :GameObject(("Stage"), ObjectType::eObstracle, false)
+Stage::Stage() :GameObject(("Stage"), ObjectType::eStage, false)
 {
 	AddComponent<Component::Plane>();
 }

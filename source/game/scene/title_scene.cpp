@@ -61,7 +61,7 @@ void TitleScene::SceneUpdate()
 		return;
 	if (mpBg->GetSelectNum() == 0)
 	{
-		mpSceneManager->SetNextScene("GameMain");
+		mpSceneManager->SetNextScene("Mode");
 		mIsButtonPush = true;
 	}
 	else if (mpBg->GetSelectNum() == 1)

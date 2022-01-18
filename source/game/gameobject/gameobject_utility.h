@@ -20,6 +20,7 @@ enum class ObjectType
 {
 	ePlayer = 0b00,
 	eDice = 0b01,
+	eStage = 0b01,
 	eObstracle = 0b11,
 };
 

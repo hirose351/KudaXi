@@ -20,37 +20,12 @@ void SceneBase::AddGameObject(Dix::sp<GameObject> _object)
 	// アクターが更新中なら待ち群に追加
 	if (mUpdatingObjects || mInitingObjects)
 	{
-		//Dix::sp<GameObject> spObject(_object);
 		mpPendingObjectList.emplace_back(_object);
 	}
 	else
 	{
-		//Dix::sp<GameObject> spObject(_object);
 		mpObjectList.emplace_back(_object);
 	}
-}
-
-void SceneBase::RemoveGameObject(GameObject* _object)
-{
-	//// 保留中のアクターかどうか
-	//auto iter = std::find(mpPendingObjectList.begin(), mpPendingObjectList.end(), _object);
-	//if (iter != mpPendingObjectList.end())
-	//{
-	//	//// ベクトルの最後までワップしてポップオフします（コピーの消去は避けてください）
-	//	//std::iter_swap(iter, mpPendingObjectList.end() - 1);
-	//	//mpPendingObjectList.pop_back();
-	//	mpPendingObjectList.erase(iter);
-	//}
-
-	//// 存在するアクターかどうか
-	//iter = std::find(mpObjectList.begin(), mpObjectList.end(), _object);
-	//if (iter != mpObjectList.end())
-	//{
-	//	//// ベクトルの最後までワップしてポップオフします（コピーの消去は避けてください）
-	//	//std::iter_swap(iter, mpObjectList.end() - 1);
-	//	//mpObjectList.pop_back();
-	//	mpObjectList.erase(iter);
-	//}
 }
 
 bool SceneBase::Init()
@@ -83,6 +58,14 @@ void SceneBase::Update()
 	if (!fade->GetIsCompleted())
 	{
 		fade->Update();
+		for (auto obj : mpObjectList)
+		{
+			if (obj->GetObjectType() == ObjectType::eStage)
+			{
+				obj->Update();
+				break;
+			}
+		}
 		return;
 	}
 
@@ -107,12 +90,6 @@ void SceneBase::Update()
 
 	SceneUpdate();
 
-	//// 死んだオブジェクトを一時配列に追加
-	//std::list<Dix::sp<GameObject>> deadObjcts;
-	//for (auto obj : mpObjectList)
-	//{
-	//	deadObjcts.emplace_back(obj);
-	//}
 	// 死んだオブジェクトを消す（リストから削除）
 	for (auto obj = mpObjectList.begin(); obj != mpObjectList.end();)
 	{
@@ -127,27 +104,6 @@ void SceneBase::Update()
 			obj++;
 		}
 	}
-
-	// 死んだオブジェクトを一時配列に追加
-	//std::list<Dix::sp<GameObject>> deadObjcts;
-	//for (auto obj : mpObjectList)
-	//{
-	//	if (obj->GetObjectState() == ObjectState::eDead)
-	//	{
-	//		deadObjcts.emplace_back(obj);
-	//	}
-	//}
-
-	//if (deadObjcts.empty())
-	//	return;
-	//// 死んだオブジェクトを消す（リストから削除）
-	//for (auto obj = deadObjcts.begin(); obj != deadObjcts.end();)
-	//{
-	//	(*obj).Clear();
-	//	// 削除された要素の次を指すイテレータが返される。
-	//	obj = deadObjcts.erase(obj);
-	//}
-
 }
 
 void SceneBase::Render()

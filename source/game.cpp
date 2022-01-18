@@ -1,8 +1,9 @@
 #include	"game.h"
 #include	"application.h"
 #include	"game/manager/scene_manager.h"
-#include	"game/scene/maingame_scene.h"
 #include	"game/scene/title_scene.h"
+#include	"game/scene/maingame_scene.h"
+#include	"game/scene/modeselect_scene.h"
 #include	"game/gameobject/camera.h"
 #include	"system/dx11/CDirectInput.h"
 #include	"system/dx11/DX11Settransform.h"
@@ -10,7 +11,6 @@
 #include	"system/util/2dsystem.h"
 #include	"system/util/XAudio2.h"
 #include	"system/util/controller_input.h"
-
 
 void GameInit() {
 
@@ -36,7 +36,7 @@ void GameInit() {
 
 	// 平行光源をセット
 	DX11LightInit(
-		DirectX::XMFLOAT4(-140, -130, 170, 0));
+		DirectX::XMFLOAT4(-50, -87, 66, 0));
 
 	// アルファブレンド有効化
 	TurnOnAlphablend();
@@ -67,10 +67,9 @@ void GameSceneInit()
 	// シーンマネージャにタイトルシーンを登録
 	SceneManager::GetInstance()->AddScene<MaingameScene>("GameMain");
 	//SceneManager::GetInstance()->add<StageCreateScene>("Create");
-	//SceneManager::GetInstance()->add<ModeSelectScene>("Mode");
+	SceneManager::GetInstance()->AddScene<ModeSelectScene>("Mode");
 	SceneManager::GetInstance()->AddScene<TitleScene>("Title");
 	// 現在シーンをTitleにする
-	//SceneManager::GetInstance()->setCurrentScene("GameMain");
 	SceneManager::GetInstance()->SetCurrentScene("Title");
 }
 
@@ -79,7 +78,6 @@ void GameInput(uint64_t dt) {
 	CDirectInput::GetInstance().GetMouseState();
 	ControllerInput::GetInstance().Input();
 }
-
 
 void UpdateCamera()
 {

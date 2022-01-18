@@ -60,11 +60,28 @@ ButtonGroup::ButtonGroup() :GameObject(("ButtonGroup"), ObjectType::eObstracle, 
 void ButtonGroup::ObjectInit()
 {
 	isPressed = false;		// ボタンが押されたか
+	int cnt = 0;
+	for (Dix::wp<Button> b : mpButtonList)
+	{
+		if (mSelectNum != cnt)
+		{
+			b->SetButtonState(ButtonState::eNomal);
+			b->GetComponent<Component::Quad2d>()->SetColor(mStateColor[(int)ButtonState::eNomal]);
+		}
+		cnt++;
+	}
 }
 
 void ButtonGroup::ObjectUpdate()
 {
 	static unsigned int pressFrame = 0;	// 長押ししている時間
+
+
+	/*
+	縦横で入力違う
+	列があると縦横両方になる
+	*/
+
 
 	// 押された瞬間の処理
 	InputDirection i = InputManager::GetInstance().GetDirectionTrigger(InputMode::eUi, static_cast<int>(UiAction::eNavigate));
@@ -181,6 +198,8 @@ void ButtonGroup::ObjectImguiDraw()
 		ImGui::ColorButton("Disabled", ImVec4(mStateColor[3].x, mStateColor[3].y, mStateColor[3].z, mStateColor[3].w));
 		ImGui::TreePop();
 	}
+
+	ImGui::Checkbox("isPressed", &isPressed);
 }
 
 void ButtonGroup::SetInitState(const char* _texName, int _divX, int _divY, int _arrayCnt, ButtonTransition _trans, XMFLOAT2 _space, XMFLOAT2 _nomalScale, XMFLOAT2 _selectScale, ButtonArrangement _ar, StartPoint _sP)
@@ -212,8 +231,6 @@ void ButtonGroup::SetInitState(const char* _texName, int _divX, int _divY, int _
 		{
 
 		}
-
-
 		// 状態登録
 		b->SetTransition(_trans);
 		b->SetScale(_nomalScale, _selectScale);
@@ -222,12 +239,11 @@ void ButtonGroup::SetInitState(const char* _texName, int _divX, int _divY, int _
 		b->SetButtonState(ButtonState::eNomal);
 		b->GetComponent<Component::Quad2d>()->SetColor(mStateColor[(int)ButtonState::eNomal]);
 
-		// 位置指定
-		SetButtonPosition();
-
 		// vector配列に追加
 		mpButtonList.emplace_back(b);
 	}
+	// 位置指定
+	SetButtonPosition();
 }
 
 void ButtonGroup::SetInitSelectNum(int _num)
