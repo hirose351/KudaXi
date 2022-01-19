@@ -31,11 +31,7 @@ void Player::ObjectInit()
 }
 
 void Player::ObjectUpdate()
-{	// ポーズボタンが押されたら
-	if (InputManager::GetInstance().GetStateTrigger(InputMode::eUi, static_cast<int>(UiAction::ePause)))
-	{
-
-	}
+{
 }
 
 void Player::ObjectImguiDraw()

@@ -22,7 +22,6 @@ class DIce;
 class PlayerStateBase :public StateBase
 {
 protected:
-	//Dix::wp<Component::PlayerController> mHolder;			// 持ち主
 	Component::PlayerController* mHolder;			// 持ち主
 	Dix::wp<Transform>			 mTransform;		// 位置回転大きさ
 	Dix::wp<Direction>			 mDirection;		// 移動方向
@@ -33,6 +32,7 @@ protected:
 	/// Todo:アニメーション管理もここで宣言
 public:
 	virtual ~PlayerStateBase() {};
+
 	// 操作する変数登録
 	virtual void Start(Component::PlayerController* _c);
 
