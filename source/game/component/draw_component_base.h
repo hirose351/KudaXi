@@ -20,4 +20,3 @@ public:
 
 	void SetDrawPos(Float3 _f3);
 };
-

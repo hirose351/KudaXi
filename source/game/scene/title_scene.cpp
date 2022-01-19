@@ -28,12 +28,12 @@ void TitleScene::SceneInit()
 	skydome.SetPtr(new Skydome);
 	AddGameObject(skydome);
 
-	Dix::sp<myUI::Image> rogo;
-	rogo.SetPtr(new myUI::Image);
-	rogo->GetTransform()->SetScale(Float3(700, 650, 0));
-	rogo->GetTransform()->SetPositionXYZ(Float3(350, 350, 0));
-	rogo->AddComponent<Component::Quad2d>()->SetInfo("assets/image/title/rogo.png", XMFLOAT4(1, 1, 1, 1));
-	AddGameObject(rogo);
+	Dix::sp<myUI::Image> logo;
+	logo.SetPtr(new myUI::Image);
+	logo->GetTransform()->SetScale(Float3(700, 650, 0));
+	logo->GetTransform()->SetPositionXYZ(Float3(350, 350, 0));
+	logo->AddComponent<Component::Quad2d>()->SetInfo("assets/image/title/rogo.png", XMFLOAT4(1, 1, 1, 1));
+	AddGameObject(logo);
 
 	Dix::sp<myUI::Image> i;
 	i.SetPtr(new myUI::Image);

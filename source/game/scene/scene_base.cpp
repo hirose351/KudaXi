@@ -3,7 +3,9 @@
 #include	"../../system/imgui/util/myimgui.h"
 #include	"../../system/dx11/DX11util.h"
 #include	"../manager/draw_manager.h"
+#include	"../manager/dice_manager.h"
 #include	"../gameobject/fade_screen.h"
+#include	"../../system/dx11/CDirectInput.h"
 
 SceneBase::SceneBase()
 {
@@ -33,6 +35,22 @@ bool SceneBase::Init()
 	mIsPause = false;
 	if (fade == nullptr)
 		fade = new FadeScreen;
+
+	DiceManager::GetInstance()->Uninit();
+	// 死んだオブジェクトを消す（リストから削除）
+	for (auto obj = mpObjectList.begin(); obj != mpObjectList.end();)
+	{
+		if ((*obj)->GetObjectState() == ObjectState::eDead)
+		{
+			(*obj).Clear();
+			// 削除された要素の次を指すイテレータが返される。
+			obj = mpObjectList.erase(obj);
+		}
+		else
+		{
+			obj++;
+		}
+	}
 
 	// すべてのオブジェクトを初期化
 	mInitingObjects = true;
@@ -109,7 +127,12 @@ void SceneBase::Update()
 void SceneBase::Render()
 {
 	mDrawManager.Draw();
-	imguiDraw(std::bind(&SceneBase::ImguiDebug, std::ref(*this)));
+
+	static bool isimguidraw = true;
+	if (CDirectInput::GetInstance().CheckKeyBufferTrigger(DIK_TAB))
+		isimguidraw = !isimguidraw;
+	if (isimguidraw)
+		imguiDraw(std::bind(&SceneBase::ImguiDebug, std::ref(*this)));
 }
 
 void SceneBase::ImguiDebug()

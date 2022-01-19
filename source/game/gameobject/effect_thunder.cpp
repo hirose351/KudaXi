@@ -11,6 +11,7 @@ void Thunder::ObjectInit()
 	bilbord->SetScale(XMFLOAT2(100.0f, 200.0f));
 	bilbord->SetDivUV(XMFLOAT2(2, 1));
 	bilbord->SetUV(XMFLOAT2(0, 0));
+	bilbord->SetOrderInLayer(150);
 	mTransform->SetPositionXYZ(mInitPos);
 }
 
