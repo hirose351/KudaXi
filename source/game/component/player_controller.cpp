@@ -1,6 +1,8 @@
 #include		"player_controller.h"
 #include		"../state/allplayerstate.h"
 #include		"model_component.h"
+#include		"quad2d_component.h"
+#include		"../gameobject/ui_image.h"
 
 using namespace Component;
 
@@ -22,11 +24,24 @@ PlayerController::PlayerController() :ComponentBase(("PlayerController"))
 	dice.SetPtr(new GameObject("", ObjectType::eObstracle, false));
 	SceneManager::GetInstance()->GetCurrentScene()->AddGameObject(dice);
 	dice->AddComponent<Component::Model>()->SetModel(ModelMgr::GetInstance().GetModelPtr("assets/model/dice/Dice.fbx"));
+	dice->GetComponent<Component::Model>()->SetOrderInLayer(5);
+	//dice->GetComponent<Component::Model>()->SetPsShader("shader/pstexcol.hlsl");
 	mDiceModel = dice;
 	mDiceModel->GetTransform()->SetScale((0.5f));
 	mDiceModel->SetIsActive(false);
 
-	transScreenToWorld(&mInfoDicePos, 200, 200, 0.9f);
+	Dix::sp<myUI::Image> diceBg;
+	diceBg.SetPtr(new myUI::Image);
+	SceneManager::GetInstance()->GetCurrentScene()->AddGameObject(diceBg);
+	diceBg->AddComponent<Component::Quad2d>()->SetInfo("");
+	diceBg->GetComponent<Component::Quad2d>()->SetColor(XMFLOAT4(1, 1, 1, 0.8f));
+	diceBg->GetComponent<Component::Quad2d>()->SetDrawType(DrawType::eNoTex);
+	diceBg->GetComponent<Component::Quad2d>()->SetOrderInLayer(1);
+	diceBg->GetTransform()->SetScale((188));
+	diceBg->GetTransform()->SetPosition(Float3(150));
+	diceBg->GetTransform()->CreateWordMtx();
+
+	transScreenToWorld(&mInfoDicePos, 150, 150, 0.9f);
 }
 
 PlayerController::~PlayerController()
