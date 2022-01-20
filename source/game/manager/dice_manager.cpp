@@ -67,7 +67,10 @@ void DiceManager::Update()
 {
 	// –„‚Ü‚Á‚Ä‚½‚ç
 	if (mCurrentStageData.mMapSizeWidth*mCurrentStageData.mMapSizeHeight <= mpDiceList.size())
-		return;
+	{
+
+	}
+	return;
 	// ƒ‰ƒ“ƒ_ƒ€¶¬
 	static int cnt = 0;
 	cnt++;

@@ -33,7 +33,7 @@ PlayerController::PlayerController() :ComponentBase(("PlayerController"))
 	Dix::sp<myUI::Image> diceBg;
 	diceBg.SetPtr(new myUI::Image);
 	SceneManager::GetInstance()->GetCurrentScene()->AddGameObject(diceBg);
-	diceBg->AddComponent<Component::Quad2d>()->SetInfo("");
+	diceBg->AddComponent<Component::Quad2d>()->SetInfo("", XMFLOAT4(1, 1, 1, 0.8f));
 	diceBg->GetComponent<Component::Quad2d>()->SetColor(XMFLOAT4(1, 1, 1, 0.8f));
 	diceBg->GetComponent<Component::Quad2d>()->SetDrawType(DrawType::eNoTex);
 	diceBg->GetComponent<Component::Quad2d>()->SetOrderInLayer(1);

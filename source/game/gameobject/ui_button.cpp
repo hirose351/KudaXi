@@ -225,7 +225,7 @@ void ButtonGroup::SetInitState(const char* _texName, int _divX, int _divY, int _
 
 		//F‚ÅØ‚è‘Ö‚¦‚é‚È‚ç
 		if (_trans == ButtonTransition::eColorTint)
-			b->GetComponent<Component::Quad2d>()->SetUV(i, 0);
+			b->GetComponent<Component::Quad2d>()->SetUvPos((i, 0));
 		// ‰æ‘œ‚ÅØ‚è‘Ö‚¦‚é‚È‚ç
 		else if (_trans == ButtonTransition::eImageSwap)
 		{

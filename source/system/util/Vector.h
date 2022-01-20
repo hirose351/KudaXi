@@ -117,6 +117,44 @@ struct INT3 {
 	}
 };
 
+struct INT2 {
+	int x, y;
+	INT2() { this->x = this->y = 0; }
+	INT2(int _i)
+	{
+		this->x = this->y = _i;
+	}
+	INT2(int _x, int _y)
+	{
+		this->x = _x;
+		this->y = _y;
+	}
+	INT2(const INT2& _i3)
+	{
+		this->x = _i3.x;
+		this->y = _i3.y;
+	}
+	INT2(const Float3& _f3)
+	{
+		this->x = static_cast<int>(_f3.x);
+		this->y = static_cast<int>(_f3.y);
+	}
+	INT2 operator+(const INT2& _i2)
+	{
+		INT2 i2;
+		i2.x = this->x + _i2.x;
+		i2.y = this->y + _i2.y;
+		return i2;
+	}
+	INT2 operator-(const INT2& _i2)
+	{
+		INT2 i2;
+		i2.x = this->x - _i2.x;
+		i2.y = this->y - _i2.y;
+		return i2;
+	}
+};
+
 struct FLOAT4X4 :public DirectX::XMFLOAT4X4 {
 
 	FLOAT4X4 operator=(float a) {
