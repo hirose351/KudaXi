@@ -4,6 +4,7 @@
 #include	"game/scene/title_scene.h"
 #include	"game/scene/maingame_scene.h"
 #include	"game/scene/modeselect_scene.h"
+#include	"game/scene/stagecreate_scene.h"
 #include	"game/gameobject/camera.h"
 #include	"system/dx11/CDirectInput.h"
 #include	"system/dx11/DX11Settransform.h"
@@ -64,7 +65,7 @@ void GameSceneInit()
 {
 	// シーンマネージャにタイトルシーンを登録
 	SceneManager::GetInstance()->AddScene<MaingameScene>("GameMain");
-	//SceneManager::GetInstance()->add<StageCreateScene>("Create");
+	SceneManager::GetInstance()->AddScene<StageCreateScene>("Create");
 	SceneManager::GetInstance()->AddScene<ModeSelectScene>("Mode");
 	SceneManager::GetInstance()->AddScene<TitleScene>("Title");
 	// 現在シーンをTitleにする

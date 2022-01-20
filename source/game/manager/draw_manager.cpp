@@ -8,7 +8,7 @@ void DrawManager::AddDrawComponent(DrawComponentBase* _component)
 	mpComponentList.emplace_back(_component);
 }
 
-void DrawManager::RemoveDrawComponent(DrawComponentBase * _component)
+void DrawManager::RemoveDrawComponent(DrawComponentBase* _component)
 {
 	if (mpComponentList.empty())
 		return;

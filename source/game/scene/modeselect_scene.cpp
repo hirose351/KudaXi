@@ -28,6 +28,7 @@ void ModeSelectScene::SceneInit()
 
 	Dix::sp<Skydome> skydome;
 	skydome.SetPtr(new Skydome);
+	skydome->SetType(Skydome::Type::TITLE);
 	AddGameObject(skydome);
 
 	Dix::sp<myUI::Image> modeUi;
@@ -54,9 +55,9 @@ void ModeSelectScene::SceneUpdate()
 		mpSceneManager->SetNextScene("GameMain");
 		mIsButtonPush = true;
 	}
-	else if (mpBg->GetSelectNum() == 1)
+	else if (mpBg->GetSelectNum() == 2)
 	{
-		mpSceneManager->SetNextScene("GameMain");
+		mpSceneManager->SetNextScene("Create");
 		mIsButtonPush = true;
 	}
 	mpBg->SetIsPressed(false);
