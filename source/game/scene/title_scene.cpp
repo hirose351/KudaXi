@@ -3,6 +3,7 @@
 #include		"../component/quad2d_component.h"
 #include		"../component/model_component.h"
 #include		"../component/billbord_component.h"
+#include		"../component/animation2d_component.h"
 #include		"../gameobject/skydome.h"
 #include		"../../system/dx11/CDirectInput.h"
 #include		"maingame_scene.h"
@@ -40,6 +41,7 @@ void TitleScene::SceneInit()
 	i->GetTransform()->SetScale(Float3(300, 300, 0));
 	i->GetTransform()->SetPositionXYZ(Float3(700, 500, 0));
 	i->AddComponent<Component::Quad2d>()->SetInfo("assets/image/title/player.png", XMFLOAT4(1, 1, 1, 1), 4, 2);
+	i->AddComponent<Component::Animation2d>()->SetAnim(10, 0);
 	AddGameObject(i);
 
 	Dix::sp<myUI::ButtonGroup> bG;
