@@ -14,13 +14,13 @@ bool StageDataManager::SetCurrentStage(std::string _key)
 	return false;
 }
 
-const StageData* StageDataManager::GetCurrentStage()
+const Dix::wp<StageData> StageDataManager::GetCurrentStage()
 {
 	if (LoadStage(mCurrentStageKey))
 	{
 		return GetStageData(mCurrentStageKey);
 	}
-	return nullptr;
+	return NULL;
 }
 
 bool StageDataManager::LoadStage(std::string _key)
@@ -33,9 +33,9 @@ bool StageDataManager::LoadStage(std::string _key)
 		return true;
 
 	// 存在していなければ読み込む
-	std::unique_ptr<StageData>	stagedata;
+	Dix::sp<StageData>	stagedata;
 
-	stagedata = std::make_unique<StageData>();
+	stagedata.SetPtr(new StageData);
 
 	string fileName = "assets/stage/" + _key + ".txt";	// 読み込むファイルの指定
 
@@ -96,7 +96,7 @@ bool StageDataManager::LoadStage(std::string _key)
 	fin.read((char*)&stagedata->mPlayerPos, sizeof(Float3));
 
 	// unordered_mapコンテナに格納
-	mStageHashmap[_key].swap(stagedata);
+	mStageHashmap[_key] = stagedata;
 
 	fin.close();  //ファイルを閉じる
 
@@ -171,17 +171,17 @@ void StageDataManager::SaveStage(const StageData& _stagedata)
 	fout.close();  //ファイルを閉じる
 }
 
-const StageData* StageDataManager::GetStageData(string _key)
+const Dix::wp<StageData> StageDataManager::GetStageData(string _key)
 {
 	// 存在するか確かめる
 	auto it = mStageHashmap.find(_key);
 	if (it == mStageHashmap.end())
 	{
 		MessageBox(nullptr, "指定されたデータは存在しません", "error", MB_OK);
-		return nullptr;
+		return NULL;
 	}
 
-	return mStageHashmap[_key].get();
+	return mStageHashmap[_key];
 }
 
 void StageDataManager::RemoveStageData(std::string _key)

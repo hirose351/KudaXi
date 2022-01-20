@@ -9,7 +9,7 @@ class DiceManager :Uncopyable
 {
 private:
 	std::vector<Dix::wp<Dice>> mpDiceList;
-	StageData mCurrentStageData;
+	Dix::wp<StageData> mCurrentStageData;
 
 	int mDiceMap[STAGESIZEMAX][STAGESIZEMAX];			// ブロック更新用マップ配列(-1:無し　0以上:ブロックあり,番号は生成された順)
 	int mCheckMap[STAGESIZEMAX][STAGESIZEMAX];			// 接地ブロックチェック用マップ配列

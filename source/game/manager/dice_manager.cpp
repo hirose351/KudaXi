@@ -11,12 +11,12 @@ std::uniform_int_distribution<> rand100(0, 99); // [0, 99] 範囲の一様乱数
 void DiceManager::DiceMapCreate()
 {
 	Uninit();
-	mCurrentStageData.SetStageData(StageDataManager::GetInstance().GetCurrentStage());
-	for (int z = 0; z < mCurrentStageData.mMapSizeHeight; z++)
+	mCurrentStageData = StageDataManager::GetInstance().GetCurrentStage();
+	for (int z = 0; z < mCurrentStageData->mMapSizeHeight; z++)
 	{
-		for (int x = 0; x < mCurrentStageData.mMapSizeWidth; x++)
+		for (int x = 0; x < mCurrentStageData->mMapSizeWidth; x++)
 		{
-			if (mCurrentStageData.mMap[z][x] < 0)
+			if (mCurrentStageData->mMap[z][x] < 0)
 			{
 				mDiceMap[z][x] = NODICE;
 				continue;
@@ -25,7 +25,7 @@ void DiceManager::DiceMapCreate()
 			// Dice生成
 			Dix::sp<Dice> dice;
 			dice.SetPtr(new Dice);
-			dice->GetTransform()->SetWordMtx(mCurrentStageData.mDiceMtx[mpDiceList.size()]);
+			dice->GetTransform()->SetWordMtx(mCurrentStageData->mDiceMtx[mpDiceList.size()]);
 
 			std::cout << "生成" << dice->GetObjectID() << "\n";
 
@@ -66,7 +66,7 @@ void DiceManager::Init()
 void DiceManager::Update()
 {
 	// 埋まってたら
-	if (mCurrentStageData.mMapSizeWidth*mCurrentStageData.mMapSizeHeight <= mpDiceList.size())
+	if (mCurrentStageData->mMapSizeWidth*mCurrentStageData->mMapSizeHeight <= mpDiceList.size())
 	{
 
 	}
@@ -81,14 +81,14 @@ void DiceManager::Update()
 		while (true)
 		{
 			// ランダムで出したマップ位置にDiceが存在すればコンティニュー
-			int num = rand100(mt) % (mCurrentStageData.mMapSizeWidth*mCurrentStageData.mMapSizeHeight);
-			int z = num / mCurrentStageData.mMapSizeWidth;
-			int x = num % mCurrentStageData.mMapSizeHeight;
+			int num = rand100(mt) % (mCurrentStageData->mMapSizeWidth*mCurrentStageData->mMapSizeHeight);
+			int z = num / mCurrentStageData->mMapSizeWidth;
+			int x = num % mCurrentStageData->mMapSizeHeight;
 			if (mDiceMap[z][x] != NODICE)
 				continue;
 			// プレイヤーとその周りで、他が埋まっていなければコンティニュー
 			if (x <= mPlayerPos.x + 1 && x >= mPlayerPos.x - 1 && z <= mPlayerPos.z + 1 && z >= mPlayerPos.z - 1)
-				if (mpDiceList.size() < mCurrentStageData.mMapSizeWidth*mCurrentStageData.mMapSizeHeight - 9)
+				if (mpDiceList.size() < mCurrentStageData->mMapSizeWidth*mCurrentStageData->mMapSizeHeight - 9)
 					continue;
 
 			// Dice生成
@@ -163,10 +163,10 @@ bool DiceManager::CanDiceMove(Dice* _dice, Direction _dire)
 	}
 
 	// 行き先が穴なら移動しない
-	if (afterPos.z < 0 || afterPos.x < 0 || afterPos.z >= mCurrentStageData.mMapSizeHeight || afterPos.x >= mCurrentStageData.mMapSizeWidth)
+	if (afterPos.z < 0 || afterPos.x < 0 || afterPos.z >= mCurrentStageData->mMapSizeHeight || afterPos.x >= mCurrentStageData->mMapSizeWidth)
 		return false;
 	// ステージ外なら移動しない
-	if (mCurrentStageData.mFloorMap[afterPos.z][afterPos.x] <= 0)
+	if (mCurrentStageData->mFloorMap[afterPos.z][afterPos.x] <= 0)
 		return false;
 
 	// 行き先のサイコロのポインタを取得
@@ -210,10 +210,10 @@ bool DiceManager::CanDiceMoveCheak(Dice * _dice, Direction _dire)
 	}
 
 	// 行き先が穴なら移動しない
-	if (afterPos.z < 0 || afterPos.x < 0 || afterPos.z >= mCurrentStageData.mMapSizeHeight || afterPos.x >= mCurrentStageData.mMapSizeWidth)
+	if (afterPos.z < 0 || afterPos.x < 0 || afterPos.z >= mCurrentStageData->mMapSizeHeight || afterPos.x >= mCurrentStageData->mMapSizeWidth)
 		return true;
 	// ステージ外なら移動しない
-	if (mCurrentStageData.mFloorMap[afterPos.z][afterPos.x] <= 0)
+	if (mCurrentStageData->mFloorMap[afterPos.z][afterPos.x] <= 0)
 		return true;
 	return false;
 }
@@ -229,9 +229,9 @@ void DiceManager::CheckAligned(Dice* _dice)
 		INT3 ans[4] = { INT3(mapPos.x, 0, mapPos.z - 1), INT3(mapPos.x, 0, mapPos.z + 1), INT3(mapPos.x - 1, 0, mapPos.z), INT3(mapPos.x + 1, 0, mapPos.z) };
 		for (int i = 0; i < 4; i++)
 		{
-			if ((i == 0 && ans[i].z < 0) || (i == 1 && ans[i].z > mCurrentStageData.mMapSizeHeight - 1))
+			if ((i == 0 && ans[i].z < 0) || (i == 1 && ans[i].z > mCurrentStageData->mMapSizeHeight - 1))
 				continue;
-			if ((i == 2 && ans[i].x < 0) || (i == 3 && ans[i].x > mCurrentStageData.mMapSizeWidth - 1))
+			if ((i == 2 && ans[i].x < 0) || (i == 3 && ans[i].x > mCurrentStageData->mMapSizeWidth - 1))
 				continue;
 
 			ansDice = GetListInDice(ans[i].x, ans[i].z);
@@ -257,9 +257,9 @@ void DiceManager::CheckAligned(Dice* _dice)
 	memcpy((void *)mCheckMap, (void *)mDiceMap, sizeof(mDiceMap));
 
 	// 揃っているブロックの存在確認用配列初期化
-	for (int z = 0; z < mCurrentStageData.mMapSizeHeight; z++)
+	for (int z = 0; z < mCurrentStageData->mMapSizeHeight; z++)
 	{
-		for (int x = 0; x < mCurrentStageData.mMapSizeWidth; x++)
+		for (int x = 0; x < mCurrentStageData->mMapSizeWidth; x++)
 		{
 			mCheckboolMap[z][x] = false;
 		}
@@ -277,9 +277,9 @@ void DiceManager::CheckAligned(Dice* _dice)
 		return;
 
 	// 対象のサイコロの下げる関数を呼ぶ
-	for (int z = 0; z < mCurrentStageData.mMapSizeHeight; z++)
+	for (int z = 0; z < mCurrentStageData->mMapSizeHeight; z++)
 	{
-		for (int x = 0; x < mCurrentStageData.mMapSizeWidth; x++)
+		for (int x = 0; x < mCurrentStageData->mMapSizeWidth; x++)
 		{
 			if (mCheckboolMap[z][x] && mDiceMap[z][x] != NODICE)
 			{
@@ -341,9 +341,9 @@ void DiceManager::SetRemoveDice(int _diceId)
 Dix::wp<Dice> DiceManager::GetDice(INT3 _mapPos)
 {
 	// ステージ外かDiceがなければnullptrを返す
-	if (_mapPos.z < 0 || _mapPos.z >= mCurrentStageData.mMapSizeHeight)
+	if (_mapPos.z < 0 || _mapPos.z >= mCurrentStageData->mMapSizeHeight)
 		return NULL;
-	if (_mapPos.x < 0 || _mapPos.x >= mCurrentStageData.mMapSizeWidth)
+	if (_mapPos.x < 0 || _mapPos.x >= mCurrentStageData->mMapSizeWidth)
 		return NULL;
 	if (mDiceMap[_mapPos.z][_mapPos.x] == NODICE)
 		return NULL;
@@ -355,9 +355,9 @@ void DiceManager::CheckDiceAlign(INT3 _mapPos, DiceFruit _diceType)
 	INT3 ans[4] = { INT3(_mapPos.x, 0, _mapPos.z - 1), INT3(_mapPos.x, 0, _mapPos.z + 1), INT3(_mapPos.x - 1, 0, _mapPos.z), INT3(_mapPos.x + 1, 0, _mapPos.z) };
 	for (int i = 0; i < 4; i++)
 	{
-		if ((i == 0 && ans[i].z < 0) || (i == 1 && ans[i].z > mCurrentStageData.mMapSizeHeight - 1))
+		if ((i == 0 && ans[i].z < 0) || (i == 1 && ans[i].z > mCurrentStageData->mMapSizeHeight - 1))
 			continue;
-		if ((i == 2 && ans[i].x < 0) || (i == 3 && ans[i].x > mCurrentStageData.mMapSizeWidth - 1))
+		if ((i == 2 && ans[i].x < 0) || (i == 3 && ans[i].x > mCurrentStageData->mMapSizeWidth - 1))
 			continue;
 
 		// ブロックが存在してチェックされていないマスなら

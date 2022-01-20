@@ -7,7 +7,7 @@
 class Stage : public GameObject
 {
 private:
-	StageData mCurrentStageData;
+	Dix::wp<StageData> mCurrentStageData;
 
 public:
 	Stage();

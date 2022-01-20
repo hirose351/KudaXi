@@ -20,12 +20,12 @@ MaingameScene::MaingameScene()
 void MaingameScene::SceneAfter()
 {
 	StageDataManager::GetInstance().SetCurrentStage("puzzle/10");
-	StageData stageData;
-	stageData.SetStageData(StageDataManager::GetInstance().GetCurrentStage());
+	Dix::wp<StageData> stageData;
+	stageData = StageDataManager::GetInstance().GetCurrentStage();
 
-	mCameraLookat.x = stageData.mMapSizeWidth*DICE_SCALE_HALF;
+	mCameraLookat.x = stageData->mMapSizeWidth*DICE_SCALE_HALF;
 	mCameraLookat.y = { 0 };
-	mCameraLookat.z = { -stageData.mMapSizeHeight*DICE_SCALE_HALF };
+	mCameraLookat.z = { -stageData->mMapSizeHeight*DICE_SCALE_HALF };
 	Camera::GetInstance()->SetEye(Float3(140, 130, -170));
 	Camera::GetInstance()->SetLookat(mCameraLookat);
 	Camera::GetInstance()->CreateCameraMatrix();

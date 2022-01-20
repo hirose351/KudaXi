@@ -1,5 +1,6 @@
 #pragma once
 #include		"../../system/util/vector.h"
+#include		"../../system/util/dixsmartptr.h"
 #include		<vector>
 #define		STAGESIZEMAX			(10)
 
@@ -22,8 +23,6 @@ public:
 		//	mDiceMtx.shrink_to_fit();
 		//}
 	}
-
-	void SetStageData(const StageData* _stageData);
 
 	std::string mStageName;
 
