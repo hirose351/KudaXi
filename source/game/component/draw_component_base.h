@@ -12,11 +12,10 @@ public:
 	DrawComponentBase();
 	virtual ~DrawComponentBase();
 
-	virtual void Draw() {}
+	virtual void Draw() = 0;
 
+	///* アクセサ *///
 	void SetOrderInLayer(int _num) { mOrderInLayer = _num; };
-
 	int GetOrderInLayer() const { return mOrderInLayer; }
-
 	void SetDrawPos(Float3 _f3);
 };

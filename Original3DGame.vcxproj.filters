@@ -172,9 +172,6 @@
     <Filter Include="ソース ファイル\game\component\ui">
       <UniqueIdentifier>{e5874deb-0ced-4a4d-8378-514ab52abaff}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\game\component\layout">
-      <UniqueIdentifier>{f759c248-df7f-43a6-bd3a-e618e99465e6}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ソース ファイル\game\component\ui\layout">
       <UniqueIdentifier>{9ca07aa4-dc80-46d0-9459-e42750d790f4}</UniqueIdentifier>
     </Filter>

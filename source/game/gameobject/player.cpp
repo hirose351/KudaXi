@@ -41,31 +41,3 @@ void Player::ObjectImguiDraw()
 void Player::Uninit()
 {
 }
-
-void Player::OnCollisionEnter(ComponentBase* _oher)
-{
-	//std::cout << "OnCollisionEnter@ObjectName:" + _oher->GetOwner()->GetName() + "\n";
-
-	//if ((_oher->GetTag() == ObjectTag::eDice || _oher->GetTag() == ObjectTag::eDiceTop))
-	//{
-	//	OnColEnterObj(dynamic_cast<Dice*>(_oher->GetOwner()));
-	//}
-}
-
-void Player::OnCollisionStay(ComponentBase* _oher)
-{
-	//std::cout << "OnCollisionStay@ObjectName:" + _oher->GetOwner()->GetName() + "\n";
-	//if (_oher->GetTag() == ObjectTag::eDice || _oher->GetTag() == ObjectTag::eDiceTop)
-	//{
-	//	OnColStayObj(dynamic_cast<Dice*>(_oher->GetOwner()));
-	//}
-}
-
-void Player::OnCollisionExit(ComponentBase* _oher)
-{
-	//std::cout << "OnCollisionExit@ObjectName:" + _oher->GetOwner()->GetName() + "\n";
-	//if ((_oher->GetTag() == ObjectTag::eDice || _oher->GetTag() == ObjectTag::eDiceTop))
-	//{
-	//	OnColExitObj(dynamic_cast<Dice*>(_oher->GetOwner()));
-	//}
-}

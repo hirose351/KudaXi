@@ -62,8 +62,6 @@ void GameInit() {
 
 void GameSceneInit()
 {
-	//SceneManager::GetInstance()->SetFadeColor(XMFLOAT4(0.9f, 0.8f, 0.8f, 1));
-
 	// シーンマネージャにタイトルシーンを登録
 	SceneManager::GetInstance()->AddScene<MaingameScene>("GameMain");
 	//SceneManager::GetInstance()->add<StageCreateScene>("Create");

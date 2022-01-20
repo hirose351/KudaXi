@@ -96,7 +96,7 @@ void GameObject::ImguiDraw()
 			ImGui::DragFloat3("Position", &mTransform->position.x, 0.5f);
 			ImGui::DragFloat3("Angle", &mTransform->angle.x, 0.5f);
 			ImGui::DragFloat3("Rotation", &mTransform->rotation.x, 0.5f);
-			ImGui::DragFloat3("Sclale", &mTransform->scale.x, 0.5f);
+			ImGui::DragFloat3("Sclale", &mTransform->scale.x, 0.1f);
 			ImGui::TreePop();
 		}
 

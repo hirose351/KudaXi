@@ -18,9 +18,10 @@ namespace Component {
 		int							  mStateNum;
 		Direction					  mDiceMoveDirection; // サイコロを回転させる方向
 		Dix::sp<Direction>			  mDirection;		  // プレイヤーの方向(キー参照)
+		Dix::wp<GameObject>			  mDiceModel;			  // 操作しているサイコロモデル
 		StageData					  stageData;		  // ステージ情報
 		Foot						  mFoot;
-
+		Float3						  mInfoDicePos;		  // 画面に表示する位置
 	public:
 		PlayerController();
 		~PlayerController();

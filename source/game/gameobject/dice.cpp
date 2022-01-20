@@ -326,7 +326,6 @@ void Dice::Down()
 	}
 }
 
-//‘‚µ‚½•ûŒü‚Ì–Ê‚ğ“Á’è
 void Dice::SetOverPlane() {
 	Float3 underaxis(0.0f, -1.0f, 0.0f);
 	Float3 axis;
@@ -373,15 +372,3 @@ void Dice::SetOverPlane() {
 		}
 	}
 }
-
-//void Dice::OnCollisionEnter(ComponentBase* _oher)
-//{
-//}
-//
-//void Dice::OnCollisionStay(ComponentBase* _oher)
-//{
-//}
-//
-//void Dice::OnCollisionExit(ComponentBase* _oher)
-//{
-//}

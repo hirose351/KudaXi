@@ -22,7 +22,7 @@ void Thunder::ObjectUpdate()
 	if (bilbord == nullptr)
 		return;
 
-	/// マジックコード
+	/// Todo:マジックコード
 	if (mAlha <= 0.8f)
 	{
 		bilbord->SetUV(XMFLOAT2(1, 0));

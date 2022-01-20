@@ -4,6 +4,7 @@
 #include	"../manager/draw_manager.h"
 #include	"../../system/util/dixsmartptr.h"
 #include	"XAudio2.h"
+#include	"../../Memory.h"
 
 class SceneManager;
 class GameObject;

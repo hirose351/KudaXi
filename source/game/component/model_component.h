@@ -21,5 +21,10 @@ namespace Component {
 		void SetModel(CModel* p) {
 			mpModel = p;
 		}
+
+		// ピクセルシェーダーセット
+		void SetPsShader(const char* _psfile) {
+			mpModel->SetPsShader(_psfile);
+		}
 	};
 }

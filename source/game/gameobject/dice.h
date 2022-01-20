@@ -99,9 +99,5 @@ public:
 
 	bool GetPushEnd() { return mCrrentPushCnt == mMoveCnt; }
 	bool GetRollEnd() { return mCrrentRotCnt >= mMoveCnt; }
-
-	//void OnCollisionEnter(ComponentBase* _oher) override;
-	//void OnCollisionStay(ComponentBase* _oher) override;
-	//void OnCollisionExit(ComponentBase* _oher) override;
 };
 

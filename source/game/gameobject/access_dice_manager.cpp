@@ -1,21 +1,21 @@
 #include	"access_dice_manager.h"
 #include	"../manager/dice_manager.h"
 
-AccessDiceManager::AccessDiceManager() :GameObject(("DiceManager"), ObjectType::eObstracle, true)
+DiceManagerAccess::DiceManagerAccess() :GameObject(("DiceManager"), ObjectType::eObstracle, true)
 {
 }
 
-void AccessDiceManager::ObjectInit()
+void DiceManagerAccess::ObjectInit()
 {
 	DiceManager::GetInstance()->Init();
 }
 
-void AccessDiceManager::ObjectUpdate()
+void DiceManagerAccess::ObjectUpdate()
 {
 	DiceManager::GetInstance()->Update();
 }
 
-void AccessDiceManager::ObjectImguiDraw()
+void DiceManagerAccess::ObjectImguiDraw()
 {
 	DiceManager::GetInstance()->ImguiDraw();
 }

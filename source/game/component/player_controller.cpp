@@ -1,5 +1,6 @@
-#include "player_controller.h"
+#include		"player_controller.h"
 #include		"../state/allplayerstate.h"
+#include		"model_component.h"
 
 using namespace Component;
 
@@ -9,6 +10,23 @@ std::string PlayerStateStr[] =
 PlayerController::PlayerController() :ComponentBase(("PlayerController"))
 {
 	mDirection.SetPtr(new Direction);
+	bool sts = ModelMgr::GetInstance().LoadModel(
+		"assets/model/dice/Dice.fbx",
+		"shader/vs.hlsl", "shader/toonps.hlsl",
+		"assets/model/dice/");
+	if (!sts)
+	{
+		MessageBox(nullptr, "Diceモデル 読み込みエラー", "error", MB_OK);
+	}
+	Dix::sp<GameObject> dice;
+	dice.SetPtr(new GameObject("", ObjectType::eObstracle, false));
+	SceneManager::GetInstance()->GetCurrentScene()->AddGameObject(dice);
+	dice->AddComponent<Component::Model>()->SetModel(ModelMgr::GetInstance().GetModelPtr("assets/model/dice/Dice.fbx"));
+	mDiceModel = dice;
+	mDiceModel->GetTransform()->SetScale((0.5f));
+	mDiceModel->SetIsActive(false);
+
+	transScreenToWorld(&mInfoDicePos, 200, 200, 0.9f);
 }
 
 PlayerController::~PlayerController()
@@ -42,6 +60,23 @@ void PlayerController::Update()
 {
 	mStates[mStateNum]->Exec();
 	DiceManager::GetInstance()->SetPlayerPos(mStates[mStateNum]->GetMapPos());
+
+	// 操作するサイコロが存在していれば
+	if (mStates[mStateNum]->GetOperationDice().IsExist())
+	{
+		XMFLOAT4X4 mtx = mStates[mStateNum]->GetOperationDice()->GetTransform()->GetMtx();
+		mtx._41 = mInfoDicePos.x;
+		mtx._42 = mInfoDicePos.y;
+		mtx._43 = mInfoDicePos.z;
+
+		mDiceModel->GetTransform()->SetWordMtx(mtx);
+		mDiceModel->GetTransform()->CreateScaleMtx();
+		mDiceModel->SetIsActive(true);
+	}
+	else
+	{
+		mDiceModel->SetIsActive(false);
+	}
 }
 
 void PlayerController::ImguiDraw()

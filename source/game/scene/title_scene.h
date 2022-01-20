@@ -6,7 +6,6 @@
 class TitleScene : public SceneBase
 {
 private:
-	//Dix::wp<Effect::Fruit> mpFruit;
 	Dix::wp<myUI::ButtonGroup> mpBg;
 	bool mIsButtonPush = false;
 public:

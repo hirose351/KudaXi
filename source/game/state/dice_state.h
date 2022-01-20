@@ -13,8 +13,8 @@ enum class DiceFruit {
 
 // ƒTƒCƒRƒ‚Ìó‘Ô
 enum class DiceStatus {
-	eNormal,		// ’Êí
-	eUp,			// ã‚ª‚é
+	eNormal,	// ’Êí
+	eUp,		// ã‚ª‚é
 	eHalfUp,	// ã‚ª‚é
 	eRoll,		// ‰ñ“]
 	ePush,		// ‰Ÿ‚·

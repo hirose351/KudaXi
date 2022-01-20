@@ -62,6 +62,8 @@ public:
 	void SetParent(GameObject* _obj) { mParent = _obj; }
 	GameObject* GetParent() { return  mParent; }
 
+	std::string GetScenekey() { return  mSceneKey; }
+
 	Dix::wp<Transform> GetTransform() { return mTransform; }
 
 	//コンポーネントシステム関係

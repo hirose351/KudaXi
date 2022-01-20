@@ -1,5 +1,4 @@
 #include	"maingame_scene.h"
-#include	"../../Memory.h"
 #include	"../gameobject/gameobject.h"
 #include	"../gameobject/player.h"
 #include	"../gameobject/dice.h"
@@ -51,8 +50,8 @@ void MaingameScene::SceneInit()
 	p.SetPtr(new myUI::PauseEndless);
 	AddGameObject(p);
 
-	Dix::sp<AccessDiceManager> dicemanager;
-	dicemanager.SetPtr(new AccessDiceManager);
+	Dix::sp<DiceManagerAccess> dicemanager;
+	dicemanager.SetPtr(new DiceManagerAccess);
 	AddGameObject(dicemanager);
 
 	// ÉJÉÅÉâ

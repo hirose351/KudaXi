@@ -49,7 +49,7 @@ void Quad2d::Uninit()
 {
 }
 
-void Quad2d::SetInfo(std::string _texName, const XMFLOAT4& _color, int _u, int _v, float _z)
+void Quad2d::SetInfo(std::string _texName, XMFLOAT4 _color, int _u, int _v, float _z)
 {
 	mpQuad.SetPtr(new CQuad2D);
 	mpQuad->Init(XMFLOAT2(mOwner->GetTransform()->GetScale().x, mOwner->GetTransform()->GetScale().y), _texName, _color, _u, _v, _z);

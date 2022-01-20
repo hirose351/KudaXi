@@ -22,7 +22,6 @@ void DiceManager::DiceMapCreate()
 				continue;
 			}
 
-
 			// Diceê∂ê¨
 			Dix::sp<Dice> dice;
 			dice.SetPtr(new Dice);
