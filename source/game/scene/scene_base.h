@@ -22,6 +22,9 @@ protected:
 	bool mIsPause = false;			// ポーズ状態か
 
 	Float3 mCameraLookat;			// カメラの注視点
+	Float3 mCameraEye;				// カメラの位置
+	Float3 mCameraUp = { 0,1,0 };	// カメラの上向きベクトル
+
 	class FadeScreen* fade;
 
 public:

@@ -15,7 +15,7 @@ private:
 	int mCheckMap[STAGESIZEMAX][STAGESIZEMAX];			// 接地ブロックチェック用マップ配列
 	bool mCheckboolMap[STAGESIZEMAX][STAGESIZEMAX];		// 揃っているブロックの存在確認用マップ配列
 	int mDiceAlignCnt = 0;								// チェック中にサイコロが揃った数 
-
+	int mFrameCnt = 0;
 	Float3 mSpawnAngle[9];								// 生成するサイコロの角度パターン
 	int mSpawnRate[6] = { 30,10,15,15,15,15 };			// 各サイコロが生成する割合(%)
 	INT3 mPlayerPos;

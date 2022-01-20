@@ -65,19 +65,16 @@ void DiceManager::Init()
 
 void DiceManager::Update()
 {
-	// 埋まってたら
+	/// Todo:埋まってたら
 	if (mCurrentStageData->mMapSizeWidth*mCurrentStageData->mMapSizeHeight <= mpDiceList.size())
 	{
 
+		return;
 	}
-	return;
 	// ランダム生成
-	static int cnt = 0;
-	cnt++;
-
-	if (cnt == 200)
+	if (mFrameCnt == 200)
 	{
-		cnt = 0;
+		mFrameCnt = 0;
 		while (true)
 		{
 			// ランダムで出したマップ位置にDiceが存在すればコンティニュー

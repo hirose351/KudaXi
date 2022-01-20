@@ -161,8 +161,12 @@ void SceneBase::ImguiDebug()
 		}
 		if (ImGui::TreeNode("Camera"))
 		{
+			ImGui::DragFloat3("Eye", &mCameraEye.x, 0.5f);
+			Camera::GetInstance()->SetEye(mCameraEye);
 			ImGui::DragFloat3("Lookat", &mCameraLookat.x, 0.5f);
 			Camera::GetInstance()->SetLookat(mCameraLookat);
+			ImGui::DragFloat3("Up", &mCameraUp.x, 0.5f);
+			Camera::GetInstance()->SetUp(mCameraUp);
 			Camera::GetInstance()->CreateCameraMatrix();
 			ImGui::TreePop();
 		}

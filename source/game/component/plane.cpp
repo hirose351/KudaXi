@@ -82,7 +82,7 @@ void Plane::Draw()
 
 		// テクスチャセット
 		/// このテクスチャの配列の添え字を変えることで画像を変更できる
-		devcontext->PSSetShaderResources(0, 1, mTexInfo[1].texSrv.GetAddressOf());
+		devcontext->PSSetShaderResources(0, 1, mTexInfo[mTexInfoNum].texSrv.GetAddressOf());
 		devcontext->Draw(4, 0);
 	}
 

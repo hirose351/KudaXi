@@ -26,8 +26,9 @@ void MaingameScene::SceneAfter()
 	mCameraLookat.x = stageData->mMapSizeWidth*DICE_SCALE_HALF;
 	mCameraLookat.y = { 0 };
 	mCameraLookat.z = { -stageData->mMapSizeHeight*DICE_SCALE_HALF };
-	Camera::GetInstance()->SetEye(Float3(140, 130, -170));
 	Camera::GetInstance()->SetLookat(mCameraLookat);
+	mCameraEye = { 140, 130, -170 };
+	Camera::GetInstance()->SetEye(mCameraEye);
 	Camera::GetInstance()->CreateCameraMatrix();
 }
 
@@ -53,18 +54,6 @@ void MaingameScene::SceneInit()
 	Dix::sp<DiceManagerAccess> dicemanager;
 	dicemanager.SetPtr(new DiceManagerAccess);
 	AddGameObject(dicemanager);
-
-	// カメラ
-	DirectX::XMFLOAT3 eye(140, 130, -170);	//カメラの位置
-	DirectX::XMFLOAT3 lookat(0, 0, 0);	//注視点
-	DirectX::XMFLOAT3 up(0, 1, 0);		//カメラの上向きベクトル
-	Camera::GetInstance()->Init(
-		10.0f,							// ニアクリップ
-		10000.0f,						// ファークリップ
-		XM_PI / 5.0f,					// 視野角
-		static_cast<float>(Application::CLIENT_WIDTH),		// スクリーン幅
-		static_cast<float>(Application::CLIENT_HEIGHT),		// スクリーンの高さ
-		eye, lookat, up);				// カメラのデータ
 }
 
 void MaingameScene::SceneUpdate()
