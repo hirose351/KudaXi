@@ -1,5 +1,5 @@
 #pragma once
-#include "component_base.h"
+#include	"component_base.h"
 
 ///* 選択されてるときにアクティブにする
 ///* 
@@ -7,10 +7,13 @@
 ///* 
 
 namespace Component {
+
+	class MapPos;
 	class MapMove : public ComponentBase
 	{
 	private:
-
+		Component::MapPos* pos;
+		ObjectType mOwnerType;
 
 	public:
 		MapMove();

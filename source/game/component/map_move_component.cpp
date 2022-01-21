@@ -1,4 +1,7 @@
 #include	"map_move_component.h"
+#include	"map_pos_component.h"
+#include	"../manager/input_manager.h"
+#include	"../manager/dice_manager.h"
 
 using namespace Component;
 
@@ -9,26 +12,46 @@ static int transTypeNum;
 
 MapMove::MapMove() :ComponentBase((u8"移動と回転"))
 {
+	mOwnerType = mOwner->GetObjectType();
 }
 
 void MapMove::Init()
 {
+
 }
 
 void MapMove::Update()
 {
+	/// Todo:ぶぶーてならす
+
+	// 押された瞬間の処理
+	InputDirection direction = InputManager::GetInstance().GetDirectionTrigger(InputMode::eUi, static_cast<int>(UiAction::eNavigate));
+
+	switch (direction)
+	{
+	case InputDirection::eUp:
+		if (mOwnerType == ObjectType::ePlayer)
+			pos->AddMapPos((0, -1));
+		break;
+	case InputDirection::eDown:
+		if (mOwnerType == ObjectType::ePlayer)
+			pos->AddMapPos((0, 1));
+		break;
+	case InputDirection::eLeft:
+		if (mOwnerType == ObjectType::ePlayer)
+			pos->AddMapPos((-1, 0));
+		break;
+	case InputDirection::eRight:
+		if (mOwnerType == ObjectType::ePlayer)
+			pos->AddMapPos((1, 0));
+		break;
+	}
 }
 
 void MapMove::ImguiDraw()
 {
-	ImGui::Text(u8"マップ上の位置");
-	//std::string str = u8"x：" + std::to_string(mStage.GetDiceMapPos(mGameObjectNum - mDiceNum).x);
-	//str += u8"      z：" + std::to_string(mStage.GetDiceMapPos(mGameObjectNum - mDiceNum).z);
-	//ImGui::Text(str.c_str());
-
 	ImGui::Text(" ");
 	ImGui::Text(u8"動かすモード切り替え      Spaceでも切り替え可");
 	ImGui::RadioButton(u8"移動", &transTypeNum, MOVE);
 	ImGui::RadioButton(u8"回転", &transTypeNum, ROT);
-	ImGui::TreePop();
 }

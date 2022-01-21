@@ -214,9 +214,6 @@
     <Filter Include="ソース ファイル\game\component\map\move">
       <UniqueIdentifier>{6f1d6f85-8aed-4762-88cd-ff581a3096aa}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\game\component\map\rotation">
-      <UniqueIdentifier>{c80f6506-af78-4e82-9e4d-b140ab13e89d}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ソース ファイル\game\component\map\pos">
       <UniqueIdentifier>{11bbcd2d-9c79-4e45-909b-0cfe5fccdb72}</UniqueIdentifier>
     </Filter>
@@ -491,9 +488,6 @@
     </ClCompile>
     <ClCompile Include="source\game\scene\modeselect_scene.cpp">
       <Filter>ソース ファイル\game\scene\modeserect_scene</Filter>
-    </ClCompile>
-    <ClCompile Include="source\game\component\map_rotation_component.cpp">
-      <Filter>ソース ファイル\game\component\map\rotation</Filter>
     </ClCompile>
     <ClCompile Include="source\game\component\map_move_component.cpp">
       <Filter>ソース ファイル\game\component\map\move</Filter>
@@ -820,9 +814,6 @@
     </ClInclude>
     <ClInclude Include="source\game\data\stage_data.h">
       <Filter>ソース ファイル\game\data</Filter>
-    </ClInclude>
-    <ClInclude Include="source\game\component\map_rotation_component.h">
-      <Filter>ソース ファイル\game\component\map\rotation</Filter>
     </ClInclude>
     <ClInclude Include="source\game\component\map_move_component.h">
       <Filter>ソース ファイル\game\component\map\move</Filter>
