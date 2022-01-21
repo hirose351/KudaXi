@@ -31,8 +31,8 @@ Skydome::Skydome() :GameObject(("SkyDome"), ObjectType::eDice, false) {
 		MessageBox(nullptr, "skydome_selectƒ‚ƒfƒ‹ “Ç‚İ‚İƒGƒ‰[", "error", MB_OK);
 	}
 	AddComponent<Component::Model>()->SetModel(ModelMgr::GetInstance().GetModelPtr("assets/model/skydome/skydome_pink.fbx"));
-	mTransform->scale = (15);
-	mTransform->CreateScaleMtx();
+	//mTransform->scale = (15);
+	//mTransform->CreateScaleMtx();
 	ObjectInit();
 }
 

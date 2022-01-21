@@ -57,6 +57,12 @@ void Quad2d::SetInfo(std::string _texName, const XMFLOAT4& _color, int _u, int _
 	mOwner->SetName(mOwner->GetName() + "  " + _texName);
 }
 
+void Quad2d::SetColor(const DirectX::XMFLOAT4 & _color)
+{
+	mColor = _color;
+	Update();
+}
+
 void Quad2d::SetUvPos(INT2 _uv)
 {
 	mUvPos = _uv;

@@ -129,10 +129,10 @@ struct INT2 {
 		this->x = _x;
 		this->y = _y;
 	}
-	INT2(const INT2& _i3)
+	INT2(const INT2& _i2)
 	{
-		this->x = _i3.x;
-		this->y = _i3.y;
+		this->x = _i2.x;
+		this->y = _i2.y;
 	}
 	INT2(const Float3& _f3)
 	{
@@ -152,6 +152,11 @@ struct INT2 {
 		i2.x = this->x - _i2.x;
 		i2.y = this->y - _i2.y;
 		return i2;
+	}
+	void operator+=(const INT2& _i2)
+	{
+		this->x += _i2.x;
+		this->y += _i2.y;
 	}
 };
 

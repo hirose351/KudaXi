@@ -4,6 +4,7 @@ using namespace Component;
 
 MapRotation::MapRotation() :ComponentBase(("MapRotation"))
 {
+
 }
 
 void MapRotation::Init()
@@ -12,6 +13,7 @@ void MapRotation::Init()
 
 void MapRotation::Update()
 {
+
 }
 
 void MapRotation::ImguiDraw()

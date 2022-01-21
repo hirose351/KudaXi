@@ -27,7 +27,7 @@ namespace Component {
 		// 矩形の初期化　(_texName：画像の場所と名前　_color：頂点カラー　_u：横の分割数　_v：縦の分割数　_z：奥描画サイズ)
 		void SetInfo(std::string _texName, const DirectX::XMFLOAT4& _color, int _u = 1, int _v = 1, float _z = 0.0f);
 
-		void SetColor(const DirectX::XMFLOAT4 &_color) { mColor = _color; }
+		void SetColor(const DirectX::XMFLOAT4 &_color);
 
 		void SetUvPos(INT2 _uv);
 		INT2 GetUvPos() { return mUvPos; };
