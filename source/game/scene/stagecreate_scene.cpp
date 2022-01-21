@@ -42,4 +42,5 @@ void StageCreateScene::SceneInit()
 
 void StageCreateScene::SceneUpdate()
 {
+
 }

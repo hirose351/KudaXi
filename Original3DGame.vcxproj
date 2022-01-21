@@ -142,6 +142,8 @@
     <ClCompile Include="source\game\component\component_base.cpp" />
     <ClCompile Include="source\game\component\draw_component_base.cpp" />
     <ClCompile Include="source\game\component\easing_component.cpp" />
+    <ClCompile Include="source\game\component\map_move_component.cpp" />
+    <ClCompile Include="source\game\component\map_rotation_component.cpp" />
     <ClCompile Include="source\game\component\model_component.cpp" />
     <ClCompile Include="source\game\component\plane.cpp" />
     <ClCompile Include="source\game\component\player_controller.cpp" />
@@ -235,6 +237,8 @@
     <ClInclude Include="source\game\component\component_base.h" />
     <ClInclude Include="source\game\component\draw_component_base.h" />
     <ClInclude Include="source\game\component\easing_component.h" />
+    <ClInclude Include="source\game\component\map_move_component.h" />
+    <ClInclude Include="source\game\component\map_rotation_component.h" />
     <ClInclude Include="source\game\component\model_component.h" />
     <ClInclude Include="source\game\component\plane.h" />
     <ClInclude Include="source\game\component\player_controller.h" />

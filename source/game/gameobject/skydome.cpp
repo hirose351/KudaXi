@@ -10,25 +10,25 @@ Skydome::Skydome() :GameObject(("SkyDome"), ObjectType::eDice, false) {
 		"assets/model/skydome/");						// テクスチャの格納フォルダ
 	if (!sts)
 	{
-		MessageBox(nullptr, "ColorfulSkydomeモデル 読み込みエラー", "error", MB_OK);
+		MessageBox(nullptr, "skydome_pinkモデル 読み込みエラー", "error", MB_OK);
 	}
+	//sts = ModelMgr::GetInstance().LoadModel(
+	//	"assets/model/skydome/skydome_colorful.fbx",		// ファイル名 
+	//	"shader/vs.hlsl",								// 頂点シェーダー
+	//	"shader/pstexcol.hlsl",							// ピクセルシェーダー
+	//	"assets/model/skydome/");						// テクスチャの格納フォルダ
+	//if (!sts)
+	//{
+	//	MessageBox(nullptr, "skydome_colorfulモデル 読み込みエラー", "error", MB_OK);
+	//}
 	sts = ModelMgr::GetInstance().LoadModel(
-		"assets/model/skydome/ColorfulSkydome.fbx",		// ファイル名 
+		"assets/model/skydome/skydome_select.fbx",		// ファイル名 
 		"shader/vs.hlsl",								// 頂点シェーダー
 		"shader/pstexcol.hlsl",							// ピクセルシェーダー
 		"assets/model/skydome/");						// テクスチャの格納フォルダ
 	if (!sts)
 	{
-		MessageBox(nullptr, "SelectSkydomeモデル 読み込みエラー", "error", MB_OK);
-	}
-	sts = ModelMgr::GetInstance().LoadModel(
-		"assets/model/skydome/SelectSkydome.fbx",		// ファイル名 
-		"shader/vs.hlsl",								// 頂点シェーダー
-		"shader/pstexcol.hlsl",							// ピクセルシェーダー
-		"assets/model/skydome/");						// テクスチャの格納フォルダ
-	if (!sts)
-	{
-		MessageBox(nullptr, "SelectSkydomeモデル 読み込みエラー", "error", MB_OK);
+		MessageBox(nullptr, "skydome_selectモデル 読み込みエラー", "error", MB_OK);
 	}
 	AddComponent<Component::Model>()->SetModel(ModelMgr::GetInstance().GetModelPtr("assets/model/skydome/skydome_pink.fbx"));
 	mTransform->scale = (15);
@@ -57,13 +57,13 @@ void Skydome::SetType(Type _type)
 	switch (_type)
 	{
 	case Skydome::TITLE:
-		GetComponent<Component::Model>()->SetModel(ModelMgr::GetInstance().GetModelPtr("assets/model/skydome/ColorfulSkydome.fbx"));
+		GetComponent<Component::Model>()->SetModel(ModelMgr::GetInstance().GetModelPtr("assets/model/skydome/skydome_pink.fbx"));
 		break;
 	case Skydome::GAME:
 		GetComponent<Component::Model>()->SetModel(ModelMgr::GetInstance().GetModelPtr("assets/model/skydome/skydome_pink.fbx"));
 		break;
 	case Skydome::CLEATE:
-		GetComponent<Component::Model>()->SetModel(ModelMgr::GetInstance().GetModelPtr("assets/model/skydome/SelectSkydome.fbx"));
+		GetComponent<Component::Model>()->SetModel(ModelMgr::GetInstance().GetModelPtr("assets/model/skydome/skydome_select.fbx"));
 		break;
 	}
 }
