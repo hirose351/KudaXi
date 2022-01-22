@@ -3,14 +3,22 @@
 
 using namespace Component;
 
+void MapPos::SetPos()
+{
+	mOwner->GetTransform()->SetPositionX(mPos.x*DICE_SCALE);
+	mOwner->GetTransform()->SetPositionZ(-mPos.y*DICE_SCALE);
+}
+
 MapPos::MapPos() :ComponentBase((u8"マップ位置"))
 {
+	SetIsCreate(true);
 }
 
 void MapPos::Init()
 {
 	// 現在のシーンを取得
 	mCurrentStageData = StageDataManager::GetInstance().GetCurrentStage().At();
+	SetPos();
 }
 
 void MapPos::Update()
@@ -32,5 +40,6 @@ bool MapPos::AddMapPos(INT2 _pos)
 		return false;
 
 	mPos += _pos;
+	SetPos();
 	return true;
 }

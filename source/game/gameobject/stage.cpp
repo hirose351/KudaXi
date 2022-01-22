@@ -13,6 +13,15 @@ void Stage::ObjectInit()
 
 	/// Todo:ゲーム開始時にカメラを移動できるように
 
+	Float3 mCameraLookat, mCameraEye;
+
+	mCameraLookat.x = mCurrentStageData->mMapSizeWidth*DICE_SCALE_HALF;
+	mCameraLookat.y = { 0 };
+	mCameraLookat.z = { -mCurrentStageData->mMapSizeHeight*DICE_SCALE_HALF };
+	Camera::GetInstance()->SetLookat(mCameraLookat);
+	mCameraEye = { 140, 130, -170 };
+	Camera::GetInstance()->SetEye(mCameraEye);
+	Camera::GetInstance()->CreateCameraMatrix();
 }
 
 void Stage::ObjectUpdate()

@@ -3,6 +3,7 @@
 #include	"../component/player_controller.h"
 #include	"../../system/model/ModelMgr.h"
 #include	"../component/allcomponents.h"
+#include	"../component/map_pos_component.h"
 #include	"../manager/input_manager.h"
 
 Player::Player() : GameObject(("Player"), ObjectType::ePlayer, true) {
@@ -19,6 +20,7 @@ Player::Player() : GameObject(("Player"), ObjectType::ePlayer, true) {
 	AddComponent<Component::Collision>()->SetLocalScale(mTransform->scale);
 	GetComponent<Component::Collision>()->SetColor(DirectX::XMFLOAT4(0.1f, 0.1f, 0.1f, 0.01f));
 	AddComponent<Component::PlayerController>();
+	AddComponent<Component::MapPos>();
 };
 
 Player::~Player()

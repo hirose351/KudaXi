@@ -115,3 +115,16 @@ void GameObject::ImguiDraw()
 		ImGui::TreePop();
 	}
 }
+
+void GameObject::ImguiComponentDraw()
+{
+	// コンポーネント情報表示
+	for (auto& component : mComponentList)
+	{
+		if (!component->GetIsCreate())
+			continue;
+		ImGui::Text(component->GetName().c_str());
+		component->ImguiDraw();
+		ImGui::Text("");
+	}
+}

@@ -45,7 +45,7 @@ public:
 	// オブジェクト描画
 	void Render();
 	// imguiデバッグ
-	void ImguiDebug();
+	virtual void ImguiDebug();
 	// 終了
 	bool Dispose();
 
@@ -61,6 +61,11 @@ public:
 
 	void SetIsPause(bool _flg) { mIsPause = _flg; }
 	bool GetIsPause() { return mIsPause; }
+
+	void SetCameraLookat(Float3 _f3) { mCameraLookat = _f3; };
+	Float3 GetCameraLookat() { return mCameraLookat; };
+	void SetCameraEye(Float3 _f3) { mCameraEye = _f3; };
+	Float3 GetCameraEye() { return mCameraEye; };
 
 	void AddDrawComponent(class DrawComponentBase* _c);
 	void RemoveDrawComponent(class DrawComponentBase* _c);

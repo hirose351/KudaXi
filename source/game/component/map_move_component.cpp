@@ -12,12 +12,13 @@ static int transTypeNum;
 
 MapMove::MapMove() :ComponentBase((u8"ˆÚ“®‚Æ‰ñ“]"))
 {
-	mOwnerType = mOwner->GetObjectType();
+	SetIsCreate(true);
 }
 
 void MapMove::Init()
 {
-
+	mOwnerType = mOwner->GetObjectType();
+	pos = mOwner->GetComponent<Component::MapPos>();
 }
 
 void MapMove::Update()
@@ -31,19 +32,19 @@ void MapMove::Update()
 	{
 	case InputDirection::eUp:
 		if (mOwnerType == ObjectType::ePlayer)
-			pos->AddMapPos((0, -1));
+			pos->AddMapPos(INT2(0, -1));
 		break;
 	case InputDirection::eDown:
 		if (mOwnerType == ObjectType::ePlayer)
-			pos->AddMapPos((0, 1));
+			pos->AddMapPos(INT2(0, 1));
 		break;
 	case InputDirection::eLeft:
 		if (mOwnerType == ObjectType::ePlayer)
-			pos->AddMapPos((-1, 0));
+			pos->AddMapPos(INT2(-1, 0));
 		break;
 	case InputDirection::eRight:
 		if (mOwnerType == ObjectType::ePlayer)
-			pos->AddMapPos((1, 0));
+			pos->AddMapPos(INT2(1, 0));
 		break;
 	}
 }
