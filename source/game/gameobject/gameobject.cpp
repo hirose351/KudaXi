@@ -116,7 +116,7 @@ void GameObject::ImguiDraw()
 	}
 }
 
-void GameObject::ImguiComponentDraw()
+void GameObject::ImguiCreateDraw()
 {
 	// コンポーネント情報表示
 	for (auto& component : mComponentList)

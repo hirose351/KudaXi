@@ -34,7 +34,7 @@ public:
 	void Init();
 	void Update();
 	void ImguiDraw();
-	void ImguiComponentDraw();
+	virtual void ImguiCreateDraw();
 	virtual void Uninit() {};
 
 	virtual void ObjectInit() {};

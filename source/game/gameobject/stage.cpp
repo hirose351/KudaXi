@@ -1,5 +1,23 @@
 #include	"stage.h"
 
+void Stage::CameraUpdate()
+{
+	Float3 mCameraLookat, mCameraEye;
+	Float3 cameraVector(20.5f, 4.4f, -27.5f);
+
+	mCameraLookat.x = mCurrentStageData->mMapSizeWidth*DICE_SCALE_HALF;
+	mCameraLookat.y = { 0 };
+	mCameraLookat.z = { -mCurrentStageData->mMapSizeHeight*DICE_SCALE_HALF };
+
+	mCameraEye.x = cameraVector.x * mCurrentStageData->mMapSizeWidth;
+	mCameraEye.y = 70 + cameraVector.y * (mCurrentStageData->mMapSizeWidth + mCurrentStageData->mMapSizeHeight);
+	mCameraEye.z = cameraVector.z * mCurrentStageData->mMapSizeHeight;
+
+	Camera::GetInstance()->SetLookat(mCameraLookat);
+	Camera::GetInstance()->SetEye(mCameraEye);
+	Camera::GetInstance()->CreateCameraMatrix();
+}
+
 Stage::Stage() :GameObject(("Stage"), ObjectType::eStage, false)
 {
 	AddComponent<Component::Plane>();
@@ -12,16 +30,7 @@ void Stage::ObjectInit()
 	mCurrentStageData = StageDataManager::GetInstance().GetCurrentStage();
 
 	/// Todo:ゲーム開始時にカメラを移動できるように
-
-	Float3 mCameraLookat, mCameraEye;
-
-	mCameraLookat.x = mCurrentStageData->mMapSizeWidth*DICE_SCALE_HALF;
-	mCameraLookat.y = { 0 };
-	mCameraLookat.z = { -mCurrentStageData->mMapSizeHeight*DICE_SCALE_HALF };
-	Camera::GetInstance()->SetLookat(mCameraLookat);
-	mCameraEye = { 140, 130, -170 };
-	Camera::GetInstance()->SetEye(mCameraEye);
-	Camera::GetInstance()->CreateCameraMatrix();
+	CameraUpdate();
 }
 
 void Stage::ObjectUpdate()
@@ -36,4 +45,12 @@ void Stage::ObjectUpdate()
 			}
 		}
 	}
+}
+
+void Stage::ImguiCreateDraw()
+{
+	ImGui::Text("Size");
+	ImGui::SliderInt("Width", &mCurrentStageData->mMapSizeHeight, 3, 10);
+	ImGui::SliderInt("Height", &mCurrentStageData->mMapSizeWidth, 3, 10);
+	CameraUpdate();
 }

@@ -3,7 +3,7 @@
 
 std::string sceneName;
 
-DrawComponentBase::DrawComponentBase() :ComponentBase(("DrawBase")), mOrderInLayer(0)
+DrawComponentBase::DrawComponentBase() :ComponentBase(("DrawBase")), mOrderInLayer(0), mIsDraw(true)
 {
 	// マネージャーに自身を登録
 	sceneName = SceneManager::GetInstance()->GetCurrentSceneKey();
@@ -14,7 +14,7 @@ DrawComponentBase::~DrawComponentBase()
 {
 	if (SceneManager::GetInstance()->GetScene(sceneName) == nullptr)
 		return;
-		SceneManager::GetInstance()->GetScene(sceneName)->RemoveDrawComponent(this);
+	SceneManager::GetInstance()->GetScene(sceneName)->RemoveDrawComponent(this);
 }
 
 void DrawComponentBase::SetDrawPos(Float3 _f3)

@@ -6,12 +6,11 @@ class GameObject;
 class ComponentBase
 {
 protected:
-	GameObject* mOwner;			// 自身を所有しているゲームオブジェクト
-	std::string	mName;			// 名前
+	GameObject* mOwner;		// 自身を所有しているゲームオブジェクト
+	std::string	mName;		// 名前
 	ObjectTag mTag;
 	bool mIsActive;
-	bool mIsCreate = false;		// クリエイトシーン用のコンポーネントか
-
+	bool mIsCreate = false;
 public:
 	ComponentBase(std::string mName) :mOwner(nullptr), mIsActive(true), mName(mName) {}
 	ComponentBase(GameObject* mOwner) :mOwner(mOwner) {}

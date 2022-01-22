@@ -14,6 +14,8 @@ struct Float3 : public DirectX::XMFLOAT3
 
 	void operator*=(const Float3& _f3);
 	void operator*=(float _f);
+	void operator/=(const Float3& _f3);
+	void operator/=(float _f);
 	void operator+=(const Float3& _f3);
 	void operator+=(float _f);
 	void operator-=(const Float3& _f3);

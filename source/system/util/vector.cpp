@@ -54,6 +54,20 @@ void Float3::operator*=(float _f)
 	this->z *= _f;
 }
 
+void Float3::operator/=(const Float3 & _f3)
+{
+	this->x /= _f3.x;
+	this->y /= _f3.y;
+	this->z /= _f3.z;
+}
+
+void Float3::operator/=(float _f)
+{
+	this->x /= _f;
+	this->y /= _f;
+	this->z /= _f;
+}
+
 void Float3::operator+=(const Float3& _v3)
 {
 	this->x += _v3.x;

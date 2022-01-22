@@ -7,6 +7,7 @@ class DrawComponentBase : public ComponentBase
 protected:
 	int mOrderInLayer;		// ï`âÊèá
 	std::vector<Float3>		mDrawPosList;
+	bool mIsDraw;			// ï`âÊÇ∑ÇÈÇ©
 
 public:
 	DrawComponentBase();
@@ -18,4 +19,7 @@ public:
 	void SetOrderInLayer(int _num) { mOrderInLayer = _num; };
 	int GetOrderInLayer() const { return mOrderInLayer; }
 	void SetDrawPos(Float3 _f3);
+
+	void SetIsDraw(bool _flg) { mIsDraw = _flg; }
+	bool GetIsDraw() { return mIsDraw; }
 };

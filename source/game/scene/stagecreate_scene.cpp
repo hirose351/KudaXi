@@ -7,6 +7,7 @@
 #include	"../component/map_pos_component.h"
 #include	"../component/map_move_component.h"
 #include	"../component/collision_component.h"
+#include	"../manager/stagedata_manager.h"
 #include	"../../application.h"
 #include	"../../system/dx11/DX11util.h"
 
@@ -18,6 +19,7 @@ StageCreateScene::StageCreateScene()
 
 void StageCreateScene::SceneAfter()
 {
+	mSelectObjNum = 0;
 }
 
 void StageCreateScene::SceneInit()
@@ -38,6 +40,7 @@ void StageCreateScene::SceneInit()
 	Dix::sp<Stage> stage;
 	stage.SetPtr(new Stage);
 	AddGameObject(stage);
+	mViewObjList.emplace_back(stage);
 
 	Dix::sp<Skydome> skydome;
 	skydome.SetPtr(new Skydome);
@@ -59,9 +62,11 @@ void StageCreateScene::ImguiDebug()
 	ImGui::SetNextWindowPos(ImVec2(20, 20), ImGuiCond_Once);
 	ImGui::SetNextWindowSize(ImVec2(350, 300), ImGuiCond_Once);
 	ImGui::Begin(u8"GameObject");
+	int cnt = 0;
 	for (auto &obj : mViewObjList)
 	{
-		ImGui::Text(obj->GetName().c_str());
+		ImGui::RadioButton(obj->GetName().c_str(), &mSelectObjNum, cnt);
+		cnt++;
 	}
 	ImGui::End();
 
@@ -69,10 +74,13 @@ void StageCreateScene::ImguiDebug()
 	ImGui::SetNextWindowSize(ImVec2(350, 300), ImGuiCond_Once);
 	ImGui::Begin(u8"Inspector");
 	ImGui::SetNextTreeNodeOpen(true, ImGuiCond_Once);
-	for (auto &obj : mViewObjList)
-	{
-		obj->ImguiComponentDraw();
-	}
+
+	mViewObjList[mSelectObjNum]->ImguiCreateDraw();
+	if (mSelectObjNum == 0)
+		mViewObjList[0]->GetComponent<Component::Collision>()->SetIsDraw(true);
+	else
+		mViewObjList[0]->GetComponent<Component::Collision>()->SetIsDraw(false);
+
 	ImGui::End();
 	/// SaveLoad ///////////////////////////////////////////////////////////////////////////////////////////
 
@@ -80,25 +88,37 @@ void StageCreateScene::ImguiDebug()
 	ImGui::SetNextWindowSize(ImVec2(350, 300), ImGuiCond_Once);
 	ImGui::Begin(u8"SaveLoad");
 
-	//ImGui::InputText("StageName", mStageNameText, sizeof(mStageNameText));
+	ImGui::InputText("StageName", mStageNameText, sizeof(mStageNameText));
 	if (ImGui::Button("Save"))
 	{
-		//StageDataSave();
+		StageDataSave();
 	}
 	ImGui::SameLine();
 	if (ImGui::Button("Load"))
 	{
-		//StageDataLoad();
+		StageDataLoad();
 	}
 	ImGui::SameLine();
 	if (ImGui::Button("Play"))
 	{
-		//StageDataPlay();
+		StageDataPlay();
 	}
 	ImGui::SameLine();
 	if (ImGui::Button("Remove"))
 	{
-		//StageManager::GetInstance().RemoveStageData(mStageNameText);
+		StageDataManager::GetInstance().RemoveStageData(mStageNameText);
 	}
 	ImGui::End();
+}
+
+void StageCreateScene::StageDataSave()
+{
+}
+
+void StageCreateScene::StageDataLoad()
+{
+}
+
+void StageCreateScene::StageDataPlay()
+{
 }
