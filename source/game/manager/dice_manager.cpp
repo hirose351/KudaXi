@@ -449,8 +449,9 @@ void DiceManager::CreateUpdate()
 
 	if (!mIsSelect)
 	{
-		mpCreateList[mSelectNum]->GetComponent<Component::Collision>()->SetIsDraw(true);
-		mpCreateList[mSelectNum]->GetComponent<Component::MapMove>()->SetState(ObjectState::eActive);
+		mpCreateList[mSelectNum]->GetComponent<Component::Collision>()->SetIsDraw(false);
+		mpCreateList[mSelectNum]->GetComponent<Component::MapMove>()->SetState(ObjectState::ePaused);
+		return;
 	}
 
 	for (int i = 0; i < mpCreateList.size(); ++i)

@@ -4,6 +4,7 @@
 #include	"../gameobject/stage.h"
 #include	"../gameobject/skydome.h"
 #include	"../gameobject/access_dice_create_manager.h"
+#include	"../manager/dice_manager.h"
 #include	"../component/map_pos_component.h"
 #include	"../component/map_move_component.h"
 #include	"../component/collision_component.h"
@@ -56,16 +57,17 @@ void StageCreateScene::SceneInit()
 
 void StageCreateScene::SceneUpdate()
 {
-
 	if (mSelectObjNum == 0)
 	{
 		mViewObjList[0]->GetComponent<Component::Collision>()->SetIsDraw(true);
 		mViewObjList[0]->GetComponent<Component::MapMove>()->SetState(ObjectState::eActive);
+		DiceManager::GetInstance()->SetIsSelect(false);
 	}
 	else
 	{
 		mViewObjList[0]->GetComponent<Component::Collision>()->SetIsDraw(false);
 		mViewObjList[0]->GetComponent<Component::MapMove>()->SetState(ObjectState::ePaused);
+		DiceManager::GetInstance()->SetIsSelect(true);
 	}
 }
 

@@ -32,34 +32,60 @@ void MapMove::Update()
 		return;
 
 	INT2 a;
-
-	switch (direction)
+	if (transTypeNum == 0)
 	{
-	case InputDirection::eUp:
-		a = (INT2(0, -1));
-		break;
-	case InputDirection::eDown:
-		a = (INT2(0, 1));
-		break;
-	case InputDirection::eLeft:
-		a = (INT2(-1, 0));
-		break;
-	case InputDirection::eRight:
-		a = (INT2(1, 0));
-		break;
-	}
-	if (mOwnerType == ObjectType::ePlayer)
-	{
-		pos->AddMapPos(a);
+		switch (direction)
+		{
+		case InputDirection::eUp:
+			a = (INT2(0, -1));
+			break;
+		case InputDirection::eDown:
+			a = (INT2(0, 1));
+			break;
+		case InputDirection::eLeft:
+			a = (INT2(-1, 0));
+			break;
+		case InputDirection::eRight:
+			a = (INT2(1, 0));
+			break;
+		}
+		if (mOwnerType == ObjectType::ePlayer)
+		{
+			pos->AddMapPos(a);
+		}
+		else if (mOwnerType == ObjectType::eDice)
+		{
+			pos->AddMapPos(DiceManager::GetInstance()->GetMoveMapPos(static_cast<Direction>(direction), pos->GetMapPos()));
+		}
 	}
 	else if (mOwnerType == ObjectType::eDice)
 	{
-		pos->AddMapPos(DiceManager::GetInstance()->GetMoveMapPos(static_cast<Direction>(direction), pos->GetMapPos()));
+		DirectX::XMFLOAT4X4 rotMtx;
+		Float3 rot = 0;
+		switch (direction)
+		{
+		case InputDirection::eUp:
+			DX11MtxRotationX(90, rotMtx);
+			break;
+		case InputDirection::eDown:
+			DX11MtxRotationX(-90, rotMtx);
+			break;
+		case InputDirection::eLeft:
+			DX11MtxRotationZ(-90, rotMtx);
+			break;
+		case InputDirection::eRight:
+			DX11MtxRotationZ(90, rotMtx);
+			break;
+		}
+		DX11MtxMultiply(rotMtx, rotMtx, mOwner->GetTransform()->GetMtx());
+		mOwner->GetTransform()->SetWordMtx(rotMtx);
 	}
 }
 
 void MapMove::ImguiDraw()
 {
+	if (mOwnerType == ObjectType::ePlayer)
+		return;
 	ImGui::Text(" ");
 	ImGui::Text(u8"“®‚©‚·ƒ‚[ƒhØ‚è‘Ö‚¦      Space‚Å‚àØ‚è‘Ö‚¦‰Â");
 	ImGui::RadioButton(u8"ˆÚ“®", &transTypeNum, MOVE);

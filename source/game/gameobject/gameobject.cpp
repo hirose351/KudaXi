@@ -52,7 +52,9 @@ void GameObject::Update()
 	for (auto& component : mComponentList)
 	{
 		if (component->GetState() == ObjectState::eActive)
+		{
 			component->Update();
+		}
 	}
 
 	// 死んだコンポーネントを一時配列に追加
