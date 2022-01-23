@@ -120,45 +120,45 @@ struct INT3 {
 };
 
 struct INT2 {
-	int x, y;
-	INT2() { this->x = this->y = 0; }
+	int x, z;
+	INT2() { this->x = this->z = 0; }
 	INT2(int _i)
 	{
-		this->x = this->y = _i;
+		this->x = this->z = _i;
 	}
 	INT2(int _x, int _y)
 	{
 		this->x = _x;
-		this->y = _y;
+		this->z = _y;
 	}
 	INT2(const INT2& _i2)
 	{
 		this->x = _i2.x;
-		this->y = _i2.y;
+		this->z = _i2.z;
 	}
 	INT2(const Float3& _f3)
 	{
 		this->x = static_cast<int>(_f3.x);
-		this->y = static_cast<int>(_f3.y);
+		this->z = static_cast<int>(_f3.y);
 	}
 	INT2 operator+(const INT2& _i2)
 	{
 		INT2 i2;
 		i2.x = this->x + _i2.x;
-		i2.y = this->y + _i2.y;
+		i2.z = this->z + _i2.z;
 		return i2;
 	}
 	INT2 operator-(const INT2& _i2)
 	{
 		INT2 i2;
 		i2.x = this->x - _i2.x;
-		i2.y = this->y - _i2.y;
+		i2.z = this->z - _i2.z;
 		return i2;
 	}
 	void operator+=(const INT2& _i2)
 	{
 		this->x += _i2.x;
-		this->y += _i2.y;
+		this->z += _i2.z;
 	}
 };
 

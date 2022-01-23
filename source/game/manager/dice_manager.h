@@ -9,6 +9,7 @@ class DiceManager :Uncopyable
 {
 private:
 	std::vector<Dix::wp<Dice>> mpDiceList;
+	std::vector<Dix::wp<GameObject>> mpCreateList;
 	Dix::wp<StageData> mCurrentStageData;
 
 	int mDiceMap[STAGESIZEMAX][STAGESIZEMAX];			// ブロック更新用マップ配列(-1:無し　0以上:ブロックあり,番号は生成された順)
@@ -19,6 +20,14 @@ private:
 	Float3 mSpawnAngle[9];								// 生成するサイコロの角度パターン
 	int mSpawnRate[6] = { 30,10,15,15,15,15 };			// 各サイコロが生成する割合(%)
 	INT3 mPlayerPos;
+
+	/// ↓Create用 ////////////////////
+
+	int mSelectNum;
+
+	bool CreateAddDice();
+
+	/// ↑Create用 ////////////////////
 
 	// Dice生成
 	void DiceMapCreate();
@@ -63,4 +72,22 @@ public:
 	Dix::wp<Dice> GetDice(INT3 _mapPos);
 
 	void SetPlayerPos(INT3 _pos) { mPlayerPos = _pos; };
+
+
+	/// ↓Create用 ////////////////////
+
+	// 初期化
+	void CreateInit();
+	// 更新
+	void CreateUpdate();
+
+	void CreateImguiDraw();
+
+	void CreateUninit();
+
+	INT2 GetMoveMapPos(Direction _direction, INT2 _mapPos);
+
+	// 対象のサイコロのマップ上のデータを消す
+	void SetCreateRemoveDice(int _diceId);
+	/// ↑Create用 ////////////////////
 };

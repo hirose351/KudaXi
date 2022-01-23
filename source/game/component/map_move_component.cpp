@@ -28,24 +28,33 @@ void MapMove::Update()
 	// ‰Ÿ‚³‚ê‚½uŠÔ‚Ìˆ—
 	InputDirection direction = InputManager::GetInstance().GetDirectionTrigger(InputMode::eUi, static_cast<int>(UiAction::eNavigate));
 
+	if (direction == InputDirection::eNeutral)
+		return;
+
+	INT2 a;
+
 	switch (direction)
 	{
 	case InputDirection::eUp:
-		if (mOwnerType == ObjectType::ePlayer)
-			pos->AddMapPos(INT2(0, -1));
+		a = (INT2(0, -1));
 		break;
 	case InputDirection::eDown:
-		if (mOwnerType == ObjectType::ePlayer)
-			pos->AddMapPos(INT2(0, 1));
+		a = (INT2(0, 1));
 		break;
 	case InputDirection::eLeft:
-		if (mOwnerType == ObjectType::ePlayer)
-			pos->AddMapPos(INT2(-1, 0));
+		a = (INT2(-1, 0));
 		break;
 	case InputDirection::eRight:
-		if (mOwnerType == ObjectType::ePlayer)
-			pos->AddMapPos(INT2(1, 0));
+		a = (INT2(1, 0));
 		break;
+	}
+	if (mOwnerType == ObjectType::ePlayer)
+	{
+		pos->AddMapPos(a);
+	}
+	else if (mOwnerType == ObjectType::eDice)
+	{
+		pos->AddMapPos(DiceManager::GetInstance()->GetMoveMapPos(static_cast<Direction>(direction), pos->GetMapPos()));
 	}
 }
 

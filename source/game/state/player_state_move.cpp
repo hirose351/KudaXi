@@ -1,6 +1,7 @@
 #include	"player_state_move.h"
 #include	"../manager/dice_manager.h"
 #include	"../manager/input_manager.h"
+#include	"../../system/dx11/DX11Settransform.h"
 
 //*****************************************************************************
 // ƒ}ƒNƒ’è‹`

@@ -151,6 +151,7 @@
     <ClCompile Include="source\game\component\qube.cpp" />
     <ClCompile Include="source\game\component\ui_layout.cpp" />
     <ClCompile Include="source\game\data\saveload.cpp" />
+    <ClCompile Include="source\game\gameobject\access_dice_create_manager.cpp" />
     <ClCompile Include="source\game\gameobject\access_dice_manager.cpp" />
     <ClCompile Include="source\game\gameobject\camera.cpp" />
     <ClCompile Include="source\game\gameobject\dice.cpp" />
@@ -247,6 +248,7 @@
     <ClInclude Include="source\game\component\ui_layout.h" />
     <ClInclude Include="source\game\data\saveload.h" />
     <ClInclude Include="source\game\data\stage_data.h" />
+    <ClInclude Include="source\game\gameobject\access_dice_create_manager.h" />
     <ClInclude Include="source\game\gameobject\access_dice_manager.h" />
     <ClInclude Include="source\game\gameobject\camera.h" />
     <ClInclude Include="source\game\gameobject\CLight.h" />

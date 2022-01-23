@@ -7,7 +7,7 @@ namespace Component {
 	class MapPos : public ComponentBase
 	{
 	private:
-		INT2 mPos = { 0,0 };
+		INT2 mPos;
 		StageData mCurrentStageData;
 
 		void SetPos();

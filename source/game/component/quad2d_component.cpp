@@ -66,5 +66,5 @@ void Quad2d::SetColor(const DirectX::XMFLOAT4 & _color)
 void Quad2d::SetUvPos(INT2 _uv)
 {
 	mUvPos = _uv;
-	mpQuad->SetTextureUV(_uv.x, _uv.y);
+	mpQuad->SetTextureUV(_uv.x, _uv.z);
 }

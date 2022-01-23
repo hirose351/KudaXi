@@ -1,10 +1,7 @@
 #pragma once
 #include	"gameobject.h"
-#include	"../../system/model/ModelMgr.h"
-#include	"../component/allcomponents.h"
 #include	"../state/dice_state.h"
 #include	"../../system/util/CBillboard.h"
-#include	"../../system/util/StopWatch.h"
 
 using Microsoft::WRL::ComPtr;
 

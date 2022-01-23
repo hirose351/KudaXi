@@ -3,10 +3,11 @@
 #include	"../gameobject/dice.h"
 #include	"../gameobject/stage.h"
 #include	"../gameobject/skydome.h"
-#include	"../gameobject/access_dice_manager.h"
+#include	"../gameobject/access_dice_create_manager.h"
 #include	"../component/map_pos_component.h"
 #include	"../component/map_move_component.h"
 #include	"../component/collision_component.h"
+#include	"../component/allcomponents.h"
 #include	"../manager/stagedata_manager.h"
 #include	"../../application.h"
 #include	"../../system/dx11/DX11util.h"
@@ -47,9 +48,10 @@ void StageCreateScene::SceneInit()
 	skydome->SetType(Skydome::Type::CLEATE);
 	AddGameObject(skydome);
 
-	//Dix::sp<DiceManagerAccess> dicemanager;
-	//dicemanager.SetPtr(new DiceManagerAccess);
-	//AddGameObject(dicemanager);
+	Dix::sp<DiceCreateManagerAccess> dicemanager;
+	dicemanager.SetPtr(new DiceCreateManagerAccess);
+	AddGameObject(dicemanager);
+	mViewObjList.emplace_back(dicemanager);
 }
 
 void StageCreateScene::SceneUpdate()

@@ -3,6 +3,8 @@
 //#include	"../../system/util/XAudio2.h"
 #include	"../../system/util/easing.h"
 #include	"effect_thunder.h"
+#include	"../../system/model/ModelMgr.h"
+#include	"../component/allcomponents.h"
 
 Dice::Dice() :GameObject(("Dice"), ObjectType::eDice, true)
 {
