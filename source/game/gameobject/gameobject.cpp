@@ -51,14 +51,15 @@ void GameObject::Update()
 	ObjectUpdate();
 	for (auto& component : mComponentList)
 	{
-		component->Update();
+		if (component->GetState() == ObjectState::eActive)
+			component->Update();
 	}
 
 	// 死んだコンポーネントを一時配列に追加
 	std::vector<ComponentBase*> deadComponents;
 	for (auto component : mComponentList)
 	{
-		if (!component->GetIsActive())
+		if (component->GetState() == ObjectState::eDead)
 		{
 			deadComponents.emplace_back(component);
 		}

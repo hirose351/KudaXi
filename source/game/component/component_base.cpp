@@ -3,6 +3,6 @@
 bool ComponentBase::GetIsActiveWithOwner()
 {
 	if (mOwner->GetParent() == nullptr)
-		return (mIsActive && mOwner->GetIsActive());
-	return (mIsActive && mOwner->GetIsActive() && mOwner->GetParent()->GetIsActive());
+		return (mState == ObjectState::eActive && mOwner->GetIsActive());
+	return (mState == ObjectState::eActive && mOwner->GetIsActive() && mOwner->GetParent()->GetIsActive());
 }

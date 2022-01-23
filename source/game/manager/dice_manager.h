@@ -24,6 +24,7 @@ private:
 	/// ↓Create用 ////////////////////
 
 	int mSelectNum;
+	bool mIsSelect = false;
 
 	bool CreateAddDice();
 
@@ -86,6 +87,8 @@ public:
 	void CreateUninit();
 
 	INT2 GetMoveMapPos(Direction _direction, INT2 _mapPos);
+
+	void SetIsSelect(bool _flg) { mIsSelect = _flg; }
 
 	// 対象のサイコロのマップ上のデータを消す
 	void SetCreateRemoveDice(int _diceId);

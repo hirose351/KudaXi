@@ -13,7 +13,7 @@ FadeScreen::FadeScreen() :GameObject(("FadeScreen"), ObjectType::eObstracle, fal
 	AddComponent<Component::Quad2d>()->SetInfo("", XMFLOAT4(0.9f, 0.8f, 0.8f, 1));
 	GetComponent<Component::Quad2d>()->SetOrderInLayer(100);
 	GetComponent<Component::Quad2d>()->SetDrawType(DrawType::eNoTex);
-	GetComponent<Component::Quad2d>()->SetIsActive(false);
+	GetComponent<Component::Quad2d>()->SetState(ObjectState::ePaused);
 	mIsActive = false;
 }
 
@@ -26,7 +26,7 @@ void FadeScreen::ObjectUpdate()
 {
 	if (!mIsActive)
 	{
-		GetComponent<Component::Quad2d>()->SetIsActive(false);
+		GetComponent<Component::Quad2d>()->SetState(ObjectState::ePaused);
 		return;
 	}
 
@@ -60,7 +60,7 @@ void FadeScreen::SetFadeType(FadeType _type)
 	mCurrentType = _type;
 	mIsCompleted = false;
 	mIsActive = true;
-	GetComponent<Component::Quad2d>()->SetIsActive(true);
+	GetComponent<Component::Quad2d>()->SetState(ObjectState::eActive);
 	if (mCurrentType == FadeType::eIn)
 	{
 		mAlpha = 0.0f;

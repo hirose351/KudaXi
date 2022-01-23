@@ -57,6 +57,16 @@ void StageCreateScene::SceneInit()
 void StageCreateScene::SceneUpdate()
 {
 
+	if (mSelectObjNum == 0)
+	{
+		mViewObjList[0]->GetComponent<Component::Collision>()->SetIsDraw(true);
+		mViewObjList[0]->GetComponent<Component::MapMove>()->SetState(ObjectState::eActive);
+	}
+	else
+	{
+		mViewObjList[0]->GetComponent<Component::Collision>()->SetIsDraw(false);
+		mViewObjList[0]->GetComponent<Component::MapMove>()->SetState(ObjectState::ePaused);
+	}
 }
 
 void StageCreateScene::ImguiDebug()
@@ -78,10 +88,6 @@ void StageCreateScene::ImguiDebug()
 	ImGui::SetNextTreeNodeOpen(true, ImGuiCond_Once);
 
 	mViewObjList[mSelectObjNum]->ImguiCreateDraw();
-	if (mSelectObjNum == 0)
-		mViewObjList[0]->GetComponent<Component::Collision>()->SetIsDraw(true);
-	else
-		mViewObjList[0]->GetComponent<Component::Collision>()->SetIsDraw(false);
 
 	ImGui::End();
 	/// SaveLoad ///////////////////////////////////////////////////////////////////////////////////////////

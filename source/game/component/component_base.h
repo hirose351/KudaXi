@@ -9,10 +9,10 @@ protected:
 	GameObject* mOwner;		// 自身を所有しているゲームオブジェクト
 	std::string	mName;		// 名前
 	ObjectTag mTag;
-	bool mIsActive;
+	ObjectState mState;
 	bool mIsCreate = false;
 public:
-	ComponentBase(std::string mName) :mOwner(nullptr), mIsActive(true), mName(mName) {}
+	ComponentBase(std::string mName) :mOwner(nullptr), mName(mName), mState(ObjectState::eActive) {}
 	ComponentBase(GameObject* mOwner) :mOwner(mOwner) {}
 	virtual ~ComponentBase() { Uninit(); mOwner = nullptr; }
 
@@ -32,8 +32,9 @@ public:
 	void SetName(std::string _name) { mName = _name; }
 
 	bool GetIsActiveWithOwner();
-	void SetIsActive(bool _flg) { mIsActive = _flg; }
-	bool GetIsActive() { return mIsActive; }
+
+	void SetState(ObjectState _state) { mState = _state; }
+	ObjectState GetState() { return mState; }
 
 	void SetIsCreate(bool _flg) { mIsCreate = _flg; }
 	bool GetIsCreate() { return mIsCreate; }

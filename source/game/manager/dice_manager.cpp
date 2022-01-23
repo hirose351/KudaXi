@@ -424,6 +424,49 @@ void DiceManager::CreateInit()
 
 void DiceManager::CreateUpdate()
 {
+	mCurrentStageData = StageDataManager::GetInstance().GetCurrentStage();
+
+	// ステージ外にサイコロが存在した時の処理
+	for (int i = 0; i < mpCreateList.size(); ++i)
+	{
+		if (mpCreateList[i]->GetComponent<Component::MapPos>()->GetMapPos().x > mCurrentStageData->mMapSizeWidth - 1 || mpCreateList[i]->GetComponent<Component::MapPos>()->GetMapPos().z > mCurrentStageData->mMapSizeHeight - 1)
+		{
+			mpCreateList[i]->SetObjectState(ObjectState::ePaused);
+
+			mpCreateList[i]->GetComponent<Component::Collision>()->SetIsDraw(false);
+			mpCreateList[i]->GetComponent<Component::Model>()->SetIsDraw(false);
+		}
+		else
+		{
+			mpCreateList[i]->SetObjectState(ObjectState::eActive);
+			mpCreateList[i]->GetComponent<Component::Collision>()->SetIsDraw(true);
+			mpCreateList[i]->GetComponent<Component::Model>()->SetIsDraw(true);
+		}
+	}
+
+	if (mpCreateList.empty())
+		return;
+
+	if (!mIsSelect)
+	{
+		mpCreateList[mSelectNum]->GetComponent<Component::Collision>()->SetIsDraw(true);
+		mpCreateList[mSelectNum]->GetComponent<Component::MapMove>()->SetState(ObjectState::eActive);
+	}
+
+	for (int i = 0; i < mpCreateList.size(); ++i)
+	{
+		if (i == mSelectNum)
+		{
+			mpCreateList[i]->GetComponent<Component::Collision>()->SetIsDraw(true);
+			mpCreateList[i]->GetComponent<Component::MapMove>()->SetState(ObjectState::eActive);
+		}
+		else
+		{
+			mpCreateList[i]->GetComponent<Component::Collision>()->SetIsDraw(false);
+			mpCreateList[i]->GetComponent<Component::MapMove>()->SetState(ObjectState::ePaused);
+		}
+	}
+
 }
 
 void DiceManager::CreateImguiDraw()
@@ -457,7 +500,11 @@ void DiceManager::CreateImguiDraw()
 
 	if (mpCreateList.empty())
 		return;
-	mpCreateList[mSelectNum]->ImguiCreateDraw();
+
+	if (mpCreateList[mSelectNum]->GetObjectState() != ObjectState::eActive)
+		ImGui::Text(u8"ステージ外です");
+	else
+		mpCreateList[mSelectNum]->ImguiCreateDraw();
 }
 
 void DiceManager::CreateUninit()
@@ -508,56 +555,75 @@ bool DiceManager::CreateAddDice()
 INT2 DiceManager::GetMoveMapPos(Direction _direction, INT2 _mapPos)
 {
 	mCurrentStageData = StageDataManager::GetInstance().GetCurrentStage();
+
+	INT2 ans = _mapPos;
 	switch (_direction)
 	{
 	case Direction::eUp:
 	{
-		_mapPos.z -= 1;
+		ans.z -= 1;
 		while (true)
 		{
-			if (_mapPos.z < 0)
+			if (ans.z < 0)
 				break;
-			if (mDiceMap[_mapPos.z][_mapPos.x] < 1)
-				return _mapPos;
-			_mapPos.z -= 1;
+			if (mDiceMap[ans.z][ans.x] < 1)
+			{
+				mDiceMap[ans.z][ans.x] = mDiceMap[_mapPos.z][_mapPos.x];
+				mDiceMap[_mapPos.z][_mapPos.x] = NODICE;
+				return ans - _mapPos;
+			}
+			ans.z -= 1;
 		}
+		break;
 	}
 	case Direction::eDown:
 	{
-		_mapPos.z += 1;
+		ans.z += 1;
 		while (true)
 		{
-			if (_mapPos.z > mCurrentStageData->mMapSizeHeight - 1)
+			if (ans.z > mCurrentStageData->mMapSizeHeight - 1)
 				break;
-			if (mDiceMap[_mapPos.z][_mapPos.x] < 1)
-				return _mapPos;
-			_mapPos.z += 1;
+			if (mDiceMap[ans.z][ans.x] < 1)
+			{
+				mDiceMap[ans.z][ans.x] = mDiceMap[_mapPos.z][_mapPos.x];
+				mDiceMap[_mapPos.z][_mapPos.x] = NODICE;
+				return ans - _mapPos;
+			}
+			ans.z += 1;
 		}
 		break;
 	}
 	case Direction::eLeft:
 	{
-		_mapPos.x -= 1;
+		ans.x -= 1;
 		while (true)
 		{
-			if (_mapPos.x < 0)
+			if (ans.x < 0)
 				break;
-			if (mDiceMap[_mapPos.z][_mapPos.x] < 1)
-				return _mapPos;
-			_mapPos.x -= 1;
+			if (mDiceMap[ans.z][ans.x] < 1)
+			{
+				mDiceMap[ans.z][ans.x] = mDiceMap[_mapPos.z][_mapPos.x];
+				mDiceMap[_mapPos.z][_mapPos.x] = NODICE;
+				return ans - _mapPos;
+			}
+			ans.x -= 1;
 		}
 		break;
 	}
 	case Direction::eRight:
 	{
-		_mapPos.x += 1;
+		ans.x += 1;
 		while (true)
 		{
-			if (_mapPos.x > mCurrentStageData->mMapSizeWidth - 1)
+			if (ans.x > mCurrentStageData->mMapSizeWidth - 1)
 				break;
-			if (mDiceMap[_mapPos.z][_mapPos.x] < 1)
-				return _mapPos;
-			_mapPos.x += 1;
+			if (mDiceMap[ans.z][ans.x] < 1)
+			{
+				mDiceMap[ans.z][ans.x] = mDiceMap[_mapPos.z][_mapPos.x];
+				mDiceMap[_mapPos.z][_mapPos.x] = NODICE;
+				return ans - _mapPos;
+			}
+			ans.x += 1;
 		}
 		break;
 	}
