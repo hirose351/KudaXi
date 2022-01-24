@@ -75,6 +75,8 @@ bool Qube::Init(const Primitive::AABB& _aabb, const XMFLOAT4& color) {
 	ID3D11Device* device = GetDX11Device();
 	bool sts;
 
+	mVertex.clear();
+
 	// 頂点データを作成
 	for (int i = 0; i < 8; i++)
 	{

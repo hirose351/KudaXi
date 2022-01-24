@@ -421,8 +421,11 @@ void DiceManager::CreateUpdate()
 
 	if (!mIsSelect)
 	{
-		mpDiceList[mSelectNum]->GetComponent<Component::Collision>()->SetIsDraw(false);
-		mpDiceList[mSelectNum]->GetComponent<Component::MapMove>()->SetState(ObjectState::ePaused);
+		for (int i = 0; i < mpDiceList.size(); ++i)
+		{
+			mpDiceList[i]->GetComponent<Component::Collision>()->SetIsDraw(false);
+			mpDiceList[i]->GetComponent<Component::MapMove>()->SetState(ObjectState::ePaused);
+		}
 		return;
 	}
 
@@ -431,6 +434,7 @@ void DiceManager::CreateUpdate()
 		if (i == mSelectNum)
 		{
 			mpDiceList[i]->GetComponent<Component::Collision>()->SetIsDraw(true);
+			mpDiceList[i]->GetComponent<Component::Collision>()->SetColor(XMFLOAT4(1, 1, 1, 0.5f));
 			mpDiceList[i]->GetComponent<Component::MapMove>()->SetState(ObjectState::eActive);
 		}
 		else
@@ -653,6 +657,7 @@ void DiceManager::DataCreate()
 			// Diceê∂ê¨
 			Dix::sp<Dice> dice;
 			dice.SetPtr(new Dice);
+			dice->Init();
 			dice->GetTransform()->SetWordMtx(mCurrentStageData->mDiceMtx[mpDiceList.size()]);
 
 			std::cout << "ê∂ê¨" << dice->GetObjectID() << "\n";
@@ -668,6 +673,13 @@ void DiceManager::DataCreate()
 
 			mpDiceList.emplace_back(dice);	// vectorîzóÒÇ…í«â¡
 			SceneManager::GetInstance()->GetCurrentScene()->AddGameObject(dice);
+
 		}
+	}
+	for (int i = 0; i < mpDiceList.size(); ++i)
+	{
+		mpDiceList[i]->GetComponent<Component::Collision>()->SetColor(XMFLOAT4(1, 1, 1, 0.5f));
+		mpDiceList[i]->GetComponent<Component::Collision>()->SetIsDraw(false);
+		mpDiceList[i]->GetComponent<Component::MapMove>()->SetState(ObjectState::ePaused);
 	}
 }

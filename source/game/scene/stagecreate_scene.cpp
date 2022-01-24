@@ -68,14 +68,13 @@ void StageCreateScene::SceneUpdate()
 	{
 		mViewObjList[0]->GetComponent<Component::Collision>()->SetIsDraw(true);
 		mViewObjList[0]->GetComponent<Component::MapMove>()->SetState(ObjectState::eActive);
-		DiceManager::GetInstance()->SetIsSelect(false);
 	}
 	else
 	{
 		mViewObjList[0]->GetComponent<Component::Collision>()->SetIsDraw(false);
 		mViewObjList[0]->GetComponent<Component::MapMove>()->SetState(ObjectState::ePaused);
-		DiceManager::GetInstance()->SetIsSelect(true);
 	}
+	DiceManager::GetInstance()->SetIsSelect(mSelectObjNum == eDiceM);
 }
 
 void StageCreateScene::ImguiDebug()

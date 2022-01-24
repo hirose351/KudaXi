@@ -31,27 +31,27 @@ void MapMove::Update()
 	if (direction == InputDirection::eNeutral)
 		return;
 
-	INT2 a;
+	INT2 moveP;
 	if (transTypeNum == 0)
 	{
 		switch (direction)
 		{
 		case InputDirection::eUp:
-			a = (INT2(0, -1));
+			moveP = (INT2(0, -1));
 			break;
 		case InputDirection::eDown:
-			a = (INT2(0, 1));
+			moveP = (INT2(0, 1));
 			break;
 		case InputDirection::eLeft:
-			a = (INT2(-1, 0));
+			moveP = (INT2(-1, 0));
 			break;
 		case InputDirection::eRight:
-			a = (INT2(1, 0));
+			moveP = (INT2(1, 0));
 			break;
 		}
 		if (mOwnerType == ObjectType::ePlayer)
 		{
-			pos->AddMapPos(a);
+			pos->AddMapPos(moveP);
 		}
 		else if (mOwnerType == ObjectType::eDice)
 		{
