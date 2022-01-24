@@ -87,8 +87,11 @@ void MapMove::ImguiDraw()
 	ImGui::Text(u8"↑←↓→ or WASD");
 	if (mOwnerType == ObjectType::ePlayer)
 		return;
+	// 動かすタイプ切り替え処理
+	if (InputManager::GetInstance().GetStateTrigger(InputMode::eUi, static_cast<int>(UiAction::eSwitch)))
+		transTypeNum = (transTypeNum + 1) % 2;
 	ImGui::Text(" ");
-	ImGui::Text(u8"動かすモード切り替え  Spaceでも切り替え可");
+	ImGui::Text(u8"動かすモード切り替え  Space or RTでも切り替え可");
 	ImGui::RadioButton(u8"移動", &transTypeNum, MOVE);
 	ImGui::SameLine();
 	ImGui::RadioButton(u8"回転", &transTypeNum, ROT);

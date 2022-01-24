@@ -83,6 +83,12 @@ bool InputManager::GetStateTrigger(InputMode _mode, int _action)
 				return true;
 		}
 		break;
+		case UiAction::eSwitch:
+		{
+			if (CDirectInput::GetInstance().CheckKeyBufferTrigger(DIK_SPACE) || ControllerInput::GetInstance().GetRTriggerDown(0, true))
+				return true;
+		}
+		break;
 		//default:
 		//	break;
 		}

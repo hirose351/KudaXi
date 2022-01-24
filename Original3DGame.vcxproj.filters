@@ -217,6 +217,9 @@
     <Filter Include="ソース ファイル\game\component\map\pos">
       <UniqueIdentifier>{11bbcd2d-9c79-4e45-909b-0cfe5fccdb72}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\game\state\game">
+      <UniqueIdentifier>{f71f481f-eef1-4e03-a457-5e539c8719c8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\game.cpp">

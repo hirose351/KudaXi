@@ -5,7 +5,7 @@ void GameModeController::Init(int _modeNum)
 	// Å‰‚Ìó‘Ô
 	mModeNum = _modeNum;
 
-	// ó‘ÔƒNƒ‰ƒX‚ğMap‚É“o˜^
+	//// ó‘ÔƒNƒ‰ƒX‚ğMap‚É“o˜^
 	//mStates[eSelect].SetPtr(new PlayerState::Move);
 	//mStates[ePuzzle].SetPtr(new PlayerState::Push);
 	//mStates[eEndless].SetPtr(new PlayerState::Roll);
