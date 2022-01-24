@@ -5,6 +5,8 @@
 #include	"../manager/stagedata_manager.h"
 #include	<random>
 
+#define		NODICE	(-1)
+
 class DiceManager :Uncopyable
 {
 private:
@@ -27,6 +29,7 @@ private:
 	bool mIsSelect = false;
 
 	bool CreateAddDice();
+	Dix::wp<GameObject> GetCreateListInDice(int x, int z);
 
 	/// ↑Create用 ////////////////////
 
@@ -51,7 +54,7 @@ public:
 	// 初期化
 	void Init();
 	// 更新
-	void Update();
+	void EndleesUpdate();
 
 	void ImguiDraw();
 
@@ -92,5 +95,8 @@ public:
 
 	// 対象のサイコロのマップ上のデータを消す
 	void SetCreateRemoveDice(int _diceId);
+
+	// 渡されたマップ上にあるDiceのポインタを返す
+	Dix::wp<GameObject> GetCreateDice(INT2 _mapPos);
 	/// ↑Create用 ////////////////////
 };

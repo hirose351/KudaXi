@@ -53,6 +53,7 @@ void Quad2d::SetInfo(std::string _texName, const XMFLOAT4& _color, int _u, int _
 {
 	mTexUv = { _u,_v };
 	mpQuad.SetPtr(new CQuad2D);
+	mColor = _color;
 	mpQuad->Init(XMFLOAT2(mOwner->GetTransform()->GetScale().x, mOwner->GetTransform()->GetScale().y), _texName, _color, _u, _v, _z);
 	mOwner->SetName(mOwner->GetName() + "  " + _texName);
 }

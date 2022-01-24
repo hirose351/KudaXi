@@ -1,14 +1,17 @@
 #pragma once
 #include "scene_base.h"
+#include "../data/stage_data.h"
 
-
-class Stage;
 class StageCreateScene : public SceneBase
 {
 private:
 	std::vector<Dix::wp<GameObject>> mViewObjList;	// クリエイト表示するオブジェクトリスト
+
 	char mStageNameText[128] = {};
+	StageData mStage;
 	int mSelectObjNum;
+
+	void RuleImGuiDraw();
 
 	void StageDataSave();
 	void StageDataLoad();

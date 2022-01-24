@@ -12,7 +12,7 @@ void DiceManagerAccess::ObjectInit()
 
 void DiceManagerAccess::ObjectUpdate()
 {
-	DiceManager::GetInstance()->Update();
+	DiceManager::GetInstance()->EndleesUpdate();
 }
 
 void DiceManagerAccess::ObjectImguiDraw()

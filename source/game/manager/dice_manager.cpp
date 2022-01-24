@@ -7,8 +7,6 @@
 #include	"../../system/model/ModelMgr.h"
 #include	<random>
 
-#define		NODICE	(-1)
-
 std::random_device rnd;							// 非決定的な乱数生成器
 std::mt19937 mt(rnd());							// メルセンヌ・ツイスタの32ビット版、引数は初期シード値
 std::uniform_int_distribution<> rand100(0, 99); // [0, 99] 範囲の一様乱数
@@ -71,7 +69,7 @@ void DiceManager::Init()
 	DiceMapCreate();
 }
 
-void DiceManager::Update()
+void DiceManager::EndleesUpdate()
 {
 	/// Todo:埋まってたらゲームオーバー処理
 	if (mCurrentStageData->mMapSizeWidth*mCurrentStageData->mMapSizeHeight <= mpDiceList.size())
@@ -553,6 +551,16 @@ bool DiceManager::CreateAddDice()
 	return false;
 }
 
+Dix::wp<GameObject> DiceManager::GetCreateListInDice(int x, int z)
+{
+	for (auto dice : mpCreateList)
+	{
+		if (dice->GetObjectID() == mDiceMap[z][x])
+			return dice;
+	}
+	return NULL;
+}
+
 INT2 DiceManager::GetMoveMapPos(Direction _direction, INT2 _mapPos)
 {
 	mCurrentStageData = StageDataManager::GetInstance().GetCurrentStage();
@@ -651,4 +659,16 @@ void DiceManager::SetCreateRemoveDice(int _diceId)
 		}
 		itDice++;
 	}
+}
+
+Dix::wp<GameObject> DiceManager::GetCreateDice(INT2 _mapPos)
+{
+	// ステージ外かDiceがなければnullptrを返す
+	if (_mapPos.z < 0 || _mapPos.z >= mCurrentStageData->mMapSizeHeight)
+		return NULL;
+	if (_mapPos.x < 0 || _mapPos.x >= mCurrentStageData->mMapSizeWidth)
+		return NULL;
+	if (mDiceMap[_mapPos.z][_mapPos.x] == NODICE)
+		return NULL;
+	return GetCreateListInDice(_mapPos.x, _mapPos.z);
 }

@@ -132,6 +132,7 @@ bool CQuad2D::Init(DirectX::XMFLOAT2 _scale, std::string _texName, const DirectX
 	mDivv = _v;				// c•ªŠ„”‚ğ“ü‚ê‚é
 
 	SetTextureUV(0, 0);
+	SetColor(mColor);
 	UpdateVertex(_scale, _color);
 	UpdateVbuffer();
 

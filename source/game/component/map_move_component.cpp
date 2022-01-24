@@ -10,7 +10,7 @@ using namespace Component;
 
 static int transTypeNum;
 
-MapMove::MapMove() :ComponentBase((u8"移動と回転"))
+MapMove::MapMove() :ComponentBase((u8"マップ上の操作"))
 {
 	SetIsCreate(true);
 }
@@ -84,10 +84,12 @@ void MapMove::Update()
 
 void MapMove::ImguiDraw()
 {
+	ImGui::Text(u8"↑←↓→ or WASD");
 	if (mOwnerType == ObjectType::ePlayer)
 		return;
 	ImGui::Text(" ");
-	ImGui::Text(u8"動かすモード切り替え      Spaceでも切り替え可");
+	ImGui::Text(u8"動かすモード切り替え  Spaceでも切り替え可");
 	ImGui::RadioButton(u8"移動", &transTypeNum, MOVE);
+	ImGui::SameLine();
 	ImGui::RadioButton(u8"回転", &transTypeNum, ROT);
 }

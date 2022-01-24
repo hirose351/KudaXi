@@ -63,11 +63,10 @@ public:
 	int mDiceCnt;									// Diceの総数 
 	std::vector<DirectX::XMFLOAT4X4> mDiceMtx;		// 各サイコロの行列
 
-	int mDiceAlignCnt = 3;							// 揃った判定になる数
 	int mTargetDiceType = 3;						// 揃えるサイコロの面
 	int mStep = 5;									// サイコロの移動可能数
 
-	Float3 mPlayerPos;								// プレイヤーの初期位置
+	INT2 mPlayerPos;								// プレイヤーの初期位置
 
 	float mMapChipSize = 15.0f;
 

@@ -9,7 +9,7 @@ void MapPos::SetPos()
 	mOwner->GetTransform()->SetPositionZ(-mPos.z*DICE_SCALE);
 }
 
-MapPos::MapPos() :ComponentBase((u8"マップ位置"))
+MapPos::MapPos() :ComponentBase((u8"マップ上の位置"))
 {
 	SetIsCreate(true);
 	mPos = { 0,0 };
@@ -29,7 +29,6 @@ void MapPos::Update()
 
 void MapPos::ImguiDraw()
 {
-	ImGui::Text(u8"マップ上の位置");
 	std::string str = u8"x：" + std::to_string(mPos.x);
 	str += u8"      z：" + std::to_string(mPos.z);
 	ImGui::Text(str.c_str());
