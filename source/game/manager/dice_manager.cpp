@@ -293,34 +293,6 @@ void DiceManager::CheckAligned(Dice* _dice)
 			}
 		}
 	}
-
-	///// ハッピーワンチェック ////////////////////////////////////////////////
-
-	//// 現在のブロック位置をチェック用配列にコピー
-	//memcpy((void *)mCheckMap, (void *)mDiceMap, sizeof(mDiceMap));
-
-	//// 揃っているブロックの存在確認用配列初期化
-	//for (int z = 0; z < mCurrentStageData.mMapSizeHeight; z++)
-	//{
-	//	for (int x = 0; x < mCurrentStageData.mMapSizeWidth; x++)
-	//	{
-	//		mCheckboolMap[z][x] = false;
-	//	}
-	//}
-
-	//// 探索基準のマスをチェック済みにする
-	//mCheckMap[_dice->GetMapPos().z][_dice->GetMapPos().x] = NODICE;
-	//mCheckboolMap[_dice->GetMapPos().z][_dice->GetMapPos().x] = true;
-
-	//mDiceAlignCnt = 1;
-	//CheckDiceAlign(_dice->GetMapPos(), DiceFruit::eApple);
-	//if (mDiceAlignCnt < 2)
-	//	return;
-	//for (auto d : mpDiceList)
-	//{
-	//	d->SetHappyOne();
-	//}
-	///// ハッピーワンチェック ////////////////////////////////////////////////
 }
 
 void DiceManager::SetRemoveDice(int _diceId)
@@ -418,6 +390,8 @@ void DiceManager::CreateInit()
 	{
 		MessageBox(nullptr, "Diceモデル 読み込みエラー", "error", MB_OK);
 	}
+
+
 }
 
 void DiceManager::CreateUpdate()
@@ -425,44 +399,44 @@ void DiceManager::CreateUpdate()
 	mCurrentStageData = StageDataManager::GetInstance().GetCurrentStage();
 
 	// ステージ外にサイコロが存在した時の処理
-	for (int i = 0; i < mpCreateList.size(); ++i)
+	for (int i = 0; i < mpDiceList.size(); ++i)
 	{
-		if (mpCreateList[i]->GetComponent<Component::MapPos>()->GetMapPos().x > mCurrentStageData->mMapSizeWidth - 1 || mpCreateList[i]->GetComponent<Component::MapPos>()->GetMapPos().z > mCurrentStageData->mMapSizeHeight - 1)
+		if (mpDiceList[i]->GetComponent<Component::MapPos>()->GetMapPos().x > mCurrentStageData->mMapSizeWidth - 1 || mpDiceList[i]->GetComponent<Component::MapPos>()->GetMapPos().z > mCurrentStageData->mMapSizeHeight - 1)
 		{
-			mpCreateList[i]->SetObjectState(ObjectState::ePaused);
+			mpDiceList[i]->SetObjectState(ObjectState::ePaused);
 
-			mpCreateList[i]->GetComponent<Component::Collision>()->SetIsDraw(false);
-			mpCreateList[i]->GetComponent<Component::Model>()->SetIsDraw(false);
+			mpDiceList[i]->GetComponent<Component::Collision>()->SetIsDraw(false);
+			mpDiceList[i]->GetComponent<Component::Model>()->SetIsDraw(false);
 		}
 		else
 		{
-			mpCreateList[i]->SetObjectState(ObjectState::eActive);
-			mpCreateList[i]->GetComponent<Component::Collision>()->SetIsDraw(true);
-			mpCreateList[i]->GetComponent<Component::Model>()->SetIsDraw(true);
+			mpDiceList[i]->SetObjectState(ObjectState::eActive);
+			mpDiceList[i]->GetComponent<Component::Collision>()->SetIsDraw(true);
+			mpDiceList[i]->GetComponent<Component::Model>()->SetIsDraw(true);
 		}
 	}
 
-	if (mpCreateList.empty())
+	if (mpDiceList.empty())
 		return;
 
 	if (!mIsSelect)
 	{
-		mpCreateList[mSelectNum]->GetComponent<Component::Collision>()->SetIsDraw(false);
-		mpCreateList[mSelectNum]->GetComponent<Component::MapMove>()->SetState(ObjectState::ePaused);
+		mpDiceList[mSelectNum]->GetComponent<Component::Collision>()->SetIsDraw(false);
+		mpDiceList[mSelectNum]->GetComponent<Component::MapMove>()->SetState(ObjectState::ePaused);
 		return;
 	}
 
-	for (int i = 0; i < mpCreateList.size(); ++i)
+	for (int i = 0; i < mpDiceList.size(); ++i)
 	{
 		if (i == mSelectNum)
 		{
-			mpCreateList[i]->GetComponent<Component::Collision>()->SetIsDraw(true);
-			mpCreateList[i]->GetComponent<Component::MapMove>()->SetState(ObjectState::eActive);
+			mpDiceList[i]->GetComponent<Component::Collision>()->SetIsDraw(true);
+			mpDiceList[i]->GetComponent<Component::MapMove>()->SetState(ObjectState::eActive);
 		}
 		else
 		{
-			mpCreateList[i]->GetComponent<Component::Collision>()->SetIsDraw(false);
-			mpCreateList[i]->GetComponent<Component::MapMove>()->SetState(ObjectState::ePaused);
+			mpDiceList[i]->GetComponent<Component::Collision>()->SetIsDraw(false);
+			mpDiceList[i]->GetComponent<Component::MapMove>()->SetState(ObjectState::ePaused);
 		}
 	}
 
@@ -471,44 +445,39 @@ void DiceManager::CreateUpdate()
 void DiceManager::CreateImguiDraw()
 {
 	std::string str;
-	ImGui::BeginChild(ImGui::GetID((void*)0), ImVec2(250, 100), ImGuiWindowFlags_NoTitleBar);
-	for (int i = 0; i < mpCreateList.size(); ++i)
+	ImGui::BeginChild(ImGui::GetID((void*)0), ImVec2(250, 130), ImGuiWindowFlags_NoTitleBar);
+	for (int i = 0; i < mpDiceList.size(); ++i)
 	{
 		str = "Dice " + std::to_string(i);
 		ImGui::RadioButton(str.c_str(), &mSelectNum, i);
 	}
 	ImGui::EndChild();
 
+	// サイコロ追加
 	if (ImGui::Button("DiceAdd"))
-	{
-		// サイコロ追加
 		CreateAddDice();
-	}
 
-	if (!mpCreateList.empty())
+	if (!mpDiceList.empty())
 	{
 		ImGui::SameLine();
 		if (ImGui::Button("DiceRemove"))
 		{
 			// サイコロ削除
-			SetCreateRemoveDice(mpCreateList[mSelectNum]->GetObjectID());
+			SetCreateRemoveDice(mpDiceList[mSelectNum]->GetObjectID());
 			if (mSelectNum > 0)
 				mSelectNum--;
 		}
 	}
 
-	if (mpCreateList.empty())
+	if (mpDiceList.empty())
 		return;
 
-	if (mpCreateList[mSelectNum]->GetObjectState() != ObjectState::eActive)
+	if (mpDiceList[mSelectNum]->GetObjectState() != ObjectState::eActive)
 		ImGui::Text(u8"ステージ外です");
 	else
-		mpCreateList[mSelectNum]->ImguiCreateDraw();
+		mpDiceList[mSelectNum]->ImguiCreateDraw();
 }
 
-void DiceManager::CreateUninit()
-{
-}
 
 bool DiceManager::CreateAddDice()
 {
@@ -528,20 +497,19 @@ bool DiceManager::CreateAddDice()
 					MessageBox(nullptr, "Diceモデル 読み込みエラー", "error", MB_OK);
 				}
 				// Dice生成
-				Dix::sp<GameObject> dice;
-				dice.SetPtr(new GameObject("Dice", ObjectType::eDice, false));
+				Dix::sp<Dice> dice;
+				dice.SetPtr(new Dice);
 				dice->Init();
 				dice->GetTransform()->SetPositionXYZ(Float3(DICE_SCALE*x, DICE_SCALE_HALF, -DICE_SCALE * z));
 				dice->AddComponent<Component::MapPos>()->SetMapPos(INT2(x, z));
 				dice->AddComponent<Component::MapMove>()->Init();
-				dice->AddComponent<Component::Collision>()->SetInitState(ObjectTag::eDice, Float3(0, 0, 0), Float3(DICE_SCALE_HALF), DirectX::XMFLOAT4(1, 1, 1, 0.5f));
+				dice->GetComponent<Component::Collision>()->SetInitState(ObjectTag::eDice, Float3(0, 0, 0), Float3(DICE_SCALE_HALF), DirectX::XMFLOAT4(1, 1, 1, 0.5f));
 				dice->GetComponent<Component::Collision>()->Init();
 				dice->GetComponent<Component::Collision>()->SetOrderInLayer(30);
-				dice->AddComponent<Component::Model>()->SetModel(ModelMgr::GetInstance().GetModelPtr("assets/model/dice/Dice.fbx"));
 				mDiceMap[z][x] = dice->GetObjectID();
 				dice->SetName(("Dice" + std::to_string(mDiceMap[z][x])));	// オブジェクトの名前に添え字を加える
 
-				mpCreateList.emplace_back(dice);	// vector配列に追加
+				mpDiceList.emplace_back(dice);	// vector配列に追加
 				SceneManager::GetInstance()->GetCurrentScene()->AddGameObject(dice);
 				return true;
 			}
@@ -551,9 +519,9 @@ bool DiceManager::CreateAddDice()
 	return false;
 }
 
-Dix::wp<GameObject> DiceManager::GetCreateListInDice(int x, int z)
+Dix::wp<Dice> DiceManager::GetCreateListInDice(int x, int z)
 {
-	for (auto dice : mpCreateList)
+	for (auto dice : mpDiceList)
 	{
 		if (dice->GetObjectID() == mDiceMap[z][x])
 			return dice;
@@ -644,16 +612,16 @@ INT2 DiceManager::GetMoveMapPos(Direction _direction, INT2 _mapPos)
 void DiceManager::SetCreateRemoveDice(int _diceId)
 {
 	//for (auto itDice : mpDiceList)
-	for (auto itDice = mpCreateList.begin(); itDice != mpCreateList.end();)
+	for (auto itDice = mpDiceList.begin(); itDice != mpDiceList.end();)
 	{
 		if ((*itDice)->GetObjectID() == _diceId)
 		{
 			(*itDice)->SetObjectState(ObjectState::eDead);
-			if (itDice != mpCreateList.end())
+			if (itDice != mpDiceList.end())
 			{
 				mDiceMap[(*itDice)->GetComponent<Component::MapPos>()->GetMapPos().z][(*itDice)->GetComponent<Component::MapPos>()->GetMapPos().x] = NODICE;
-				mpCreateList.erase(itDice);
-				mpCreateList.shrink_to_fit();
+				mpDiceList.erase(itDice);
+				mpDiceList.shrink_to_fit();
 			}
 			return;
 		}
@@ -661,14 +629,45 @@ void DiceManager::SetCreateRemoveDice(int _diceId)
 	}
 }
 
-Dix::wp<GameObject> DiceManager::GetCreateDice(INT2 _mapPos)
+Dix::wp<Dice> DiceManager::GetCreateDice(INT2 _mapPos)
 {
-	// ステージ外かDiceがなければnullptrを返す
-	if (_mapPos.z < 0 || _mapPos.z >= mCurrentStageData->mMapSizeHeight)
-		return NULL;
-	if (_mapPos.x < 0 || _mapPos.x >= mCurrentStageData->mMapSizeWidth)
-		return NULL;
 	if (mDiceMap[_mapPos.z][_mapPos.x] == NODICE)
 		return NULL;
 	return GetCreateListInDice(_mapPos.x, _mapPos.z);
+}
+
+void DiceManager::DataCreate()
+{
+	Uninit();
+	mCurrentStageData = StageDataManager::GetInstance().GetCurrentStage();
+	for (int z = 0; z < mCurrentStageData->mMapSizeHeight; z++)
+	{
+		for (int x = 0; x < mCurrentStageData->mMapSizeWidth; x++)
+		{
+			if (mCurrentStageData->mMap[z][x] < 0)
+			{
+				mDiceMap[z][x] = NODICE;
+				continue;
+			}
+
+			// Dice生成
+			Dix::sp<Dice> dice;
+			dice.SetPtr(new Dice);
+			dice->GetTransform()->SetWordMtx(mCurrentStageData->mDiceMtx[mpDiceList.size()]);
+
+			std::cout << "生成" << dice->GetObjectID() << "\n";
+
+			dice->GetTransform()->SetPositionXYZ(Float3(DICE_SCALE*x, DICE_SCALE_HALF, -DICE_SCALE * z));
+			dice->AddComponent<Component::MapPos>()->SetMapPos(INT2(x, z));
+			dice->AddComponent<Component::MapMove>()->Init();
+			dice->GetComponent<Component::Collision>()->SetInitState(ObjectTag::eDice, Float3(0, 0, 0), Float3(DICE_SCALE_HALF), DirectX::XMFLOAT4(1, 1, 1, 0.5f));
+			dice->GetComponent<Component::Collision>()->Init();
+			dice->GetComponent<Component::Collision>()->SetOrderInLayer(30);
+			mDiceMap[z][x] = dice->GetObjectID();
+			dice->SetName(("Dice" + std::to_string(mDiceMap[z][x])));	// オブジェクトの名前に添え字を加える
+
+			mpDiceList.emplace_back(dice);	// vector配列に追加
+			SceneManager::GetInstance()->GetCurrentScene()->AddGameObject(dice);
+		}
+	}
 }

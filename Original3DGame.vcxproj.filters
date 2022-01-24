@@ -393,9 +393,6 @@
     <ClCompile Include="source\game\component\player_controller.cpp">
       <Filter>ソース ファイル\game\component\controller</Filter>
     </ClCompile>
-    <ClCompile Include="source\game\state\state_base.cpp">
-      <Filter>ソース ファイル\game\state</Filter>
-    </ClCompile>
     <ClCompile Include="source\game\state\player_state_base.cpp">
       <Filter>ソース ファイル\game\state\player</Filter>
     </ClCompile>

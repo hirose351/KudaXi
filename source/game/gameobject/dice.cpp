@@ -5,6 +5,7 @@
 #include	"effect_thunder.h"
 #include	"../../system/model/ModelMgr.h"
 #include	"../component/allcomponents.h"
+#include	"../manager/scene_manager.h"
 
 Dice::Dice() :GameObject(("Dice"), ObjectType::eDice, true)
 {
@@ -26,6 +27,11 @@ Dice::~Dice()
 
 void Dice::ObjectInit()
 {
+	if (SceneManager::GetInstance()->GetCurrentSceneKey() != "MainGame")
+	{
+		mSts = DiceStatus::eCreate;
+		return;
+	}
 	mDirection = Direction::eNeutral;
 	SetStartUpPosition();
 	SetOverPlane();
@@ -66,7 +72,7 @@ void Dice::ObjectUpdate()
 		GetComponent<Component::Collision>()->SetColor(XMFLOAT4(1, 0, 0, 0.3f));
 		Down();
 		break;
-	default:
+	case DiceStatus::eNormal:
 		GetComponent<Component::Collision>()->SetColor(XMFLOAT4(1, 1, 1, 0));
 		break;
 	}

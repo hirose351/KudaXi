@@ -130,7 +130,7 @@ void StageCreateScene::ImguiDebug()
 	}
 	if (ImGui::Button(u8"現在のステージをPlay"))
 	{
-
+		/// Todo:処理作る
 	}
 	ImGui::End();
 }
@@ -160,16 +160,18 @@ void StageCreateScene::StageDataSave()
 	{
 		for (int x = 0; x < mStage.mMapSizeWidth; x++)
 		{
-			Dix::wp<GameObject> dice = DiceManager::GetInstance()->GetCreateDice(INT2(x, z));
+			Dix::wp<Dice> dice = DiceManager::GetInstance()->GetCreateDice(INT2(x, z));
 
-			if (dice != NULL)
+			if (dice == NULL)
 			{
-				// 配列に入れる
-				mStage.mDiceMtx.emplace_back();
-				mStage.mDiceMtx[mStage.mDiceMtx.size() - 1] = dice->GetTransform()->GetMtx();
-				mStage.mMap[z][x] = dice->GetObjectID();
+				mStage.mMap[z][x] = NODICE;
+				continue;
 			}
-			mStage.mMap[z][x] = NODICE;
+			// 配列に入れる
+			mStage.mDiceMtx.emplace_back();
+			mStage.mDiceMtx[mStage.mDiceMtx.size() - 1] = dice->GetTransform()->GetMtx();
+			mStage.mMap[z][x] = dice->GetObjectID();
+
 		}
 	}
 	StageDataManager::GetInstance().SaveStage(mStage);
@@ -178,14 +180,14 @@ void StageCreateScene::StageDataSave()
 void StageCreateScene::StageDataLoad()
 {
 	// ステージをロード
-	bool sts = StageDataManager::GetInstance().LoadStage(mStageNameText);
-	if (sts)
+	if (StageDataManager::GetInstance().LoadStage(mStageNameText))
 	{
-		// そのステージにする
+		// そのステージのポインタを取得
 		Dix::wp<StageData> p = StageDataManager::GetInstance().GetStageData(mStageNameText);
-		// そのステージにする
+
 		mStage = p.At();
 		StageDataManager::GetInstance().SetCurrentStage(mStage.mStageName);
+		DiceManager::GetInstance()->DataCreate();
 		mViewObjList[eDiceM]->Init();
 		mViewObjList[ePlayer]->GetComponent<Component::MapPos>()->SetMapPos(mStage.mPlayerPos);
 	}
@@ -196,6 +198,7 @@ void StageCreateScene::StageDataPlay()
 	bool sts = StageDataManager::GetInstance().SetCurrentStage(mStageNameText);
 	if (sts)
 	{
+		// シーン切り替え
 		StopSound(SOUND_LABEL_BGM_CREATE);
 		PlaySound(SOUND_LABEL_BGM_GAME);
 		SceneManager::GetInstance()->SetNextScene("GameMain");

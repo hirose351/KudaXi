@@ -20,4 +20,5 @@ enum class DiceStatus {
 	ePush,		// ‰Ÿ‚·
 	eDown,		// ’¾‚Þ
 	eHalfDown,	// ”¼•ª’¾‚Þ
+	eCreate,	// ”¼•ª’¾‚Þ
 };

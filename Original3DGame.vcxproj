@@ -189,7 +189,6 @@
     <ClCompile Include="source\game\state\player_state_push.cpp" />
     <ClCompile Include="source\game\state\player_state_roll.cpp" />
     <ClCompile Include="source\game\state\player_state_base.cpp" />
-    <ClCompile Include="source\game\state\state_base.cpp" />
     <ClCompile Include="source\system\dx11\CDirectXGraphics.cpp" />
     <ClCompile Include="source\system\dx11\DDSTextureLoader.cpp" />
     <ClCompile Include="source\system\dx11\dx11mathutil.cpp" />

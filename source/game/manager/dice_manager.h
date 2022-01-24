@@ -11,7 +11,6 @@ class DiceManager :Uncopyable
 {
 private:
 	std::vector<Dix::wp<Dice>> mpDiceList;
-	std::vector<Dix::wp<GameObject>> mpCreateList;
 	Dix::wp<StageData> mCurrentStageData;
 
 	int mDiceMap[STAGESIZEMAX][STAGESIZEMAX];			// ブロック更新用マップ配列(-1:無し　0以上:ブロックあり,番号は生成された順)
@@ -20,7 +19,7 @@ private:
 	int mDiceAlignCnt = 0;								// チェック中にサイコロが揃った数 
 	int mFrameCnt = 0;
 	Float3 mSpawnAngle[9];								// 生成するサイコロの角度パターン
-	int mSpawnRate[6] = { 30,10,15,15,15,15 };			// 各サイコロが生成する割合(%)
+	int mSpawnRate[6] = { 35,5,15,15,15,15 };			// 各サイコロが生成する割合(%)
 	INT3 mPlayerPos;
 
 	/// ↓Create用 ////////////////////
@@ -29,7 +28,8 @@ private:
 	bool mIsSelect = false;
 
 	bool CreateAddDice();
-	Dix::wp<GameObject> GetCreateListInDice(int x, int z);
+
+	Dix::wp<Dice> GetCreateListInDice(int x, int z);
 
 	/// ↑Create用 ////////////////////
 
@@ -82,12 +82,12 @@ public:
 
 	// 初期化
 	void CreateInit();
+	// 初期化
+	void DataCreate();
 	// 更新
 	void CreateUpdate();
 
 	void CreateImguiDraw();
-
-	void CreateUninit();
 
 	INT2 GetMoveMapPos(Direction _direction, INT2 _mapPos);
 
@@ -97,6 +97,6 @@ public:
 	void SetCreateRemoveDice(int _diceId);
 
 	// 渡されたマップ上にあるDiceのポインタを返す
-	Dix::wp<GameObject> GetCreateDice(INT2 _mapPos);
+	Dix::wp<Dice> GetCreateDice(INT2 _mapPos);
 	/// ↑Create用 ////////////////////
 };
