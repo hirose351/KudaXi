@@ -15,6 +15,7 @@ class GameModeController
 private:
 	std::map<int, Dix::sp<GameModeBase>> mStates;
 	int mModeNum;
+
 public:
 	GameModeController() {};
 	~GameModeController() {};

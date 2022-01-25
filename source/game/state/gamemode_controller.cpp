@@ -1,14 +1,15 @@
 #include "gamemode_controller.h"
+#include "allgamemode.h"
 
 void GameModeController::Init(int _modeNum)
 {
 	// Å‰‚Ìó‘Ô
 	mModeNum = _modeNum;
 
-	//// ó‘ÔƒNƒ‰ƒX‚ğMap‚É“o˜^
-	//mStates[eSelect].SetPtr(new PlayerState::Move);
-	//mStates[ePuzzle].SetPtr(new PlayerState::Push);
-	//mStates[eEndless].SetPtr(new PlayerState::Roll);
+	// ó‘ÔƒNƒ‰ƒX‚ğMap‚É“o˜^
+	mStates[eSelect].SetPtr(new GameModeState::Select);
+	mStates[ePuzzle].SetPtr(new GameModeState::Puzzle);
+	mStates[eEndless].SetPtr(new GameModeState::Endless);
 }
 
 void GameModeController::Update()

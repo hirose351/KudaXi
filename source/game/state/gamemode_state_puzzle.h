@@ -1,7 +1,7 @@
 #pragma once
 #include	"gamemode_state_base.h"
 
-namespace GameMode {
+namespace GameModeState {
 	class Puzzle : public GameModeBase
 	{
 	private:

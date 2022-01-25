@@ -133,21 +133,6 @@
     <Filter Include="ソース ファイル\game\state\dice">
       <UniqueIdentifier>{b4669fa8-a2e8-48c7-bc32-fb31c998155d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\game\mode">
-      <UniqueIdentifier>{823ae023-0e14-4516-aa2c-6e2ec9af314a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ソース ファイル\game\mode\state">
-      <UniqueIdentifier>{c29699b5-3e82-4a31-90d7-dc9e86dd576e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ソース ファイル\game\mode\state\endless">
-      <UniqueIdentifier>{0a6c9c43-99f5-4353-9bcf-2f9e3f22058f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ソース ファイル\game\mode\state\puzzle">
-      <UniqueIdentifier>{ba6e7a26-f45f-4123-a0ed-c0f8c9617daf}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ソース ファイル\game\mode\state\select">
-      <UniqueIdentifier>{7ef47c5d-2491-41a6-90a0-ed335fa13329}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ソース ファイル\game\component\draw\billbord">
       <UniqueIdentifier>{b7b01440-90a0-4cf4-b9a8-4f356ca9aa3f}</UniqueIdentifier>
     </Filter>
@@ -217,8 +202,17 @@
     <Filter Include="ソース ファイル\game\component\map\pos">
       <UniqueIdentifier>{11bbcd2d-9c79-4e45-909b-0cfe5fccdb72}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\game\state\game">
-      <UniqueIdentifier>{f71f481f-eef1-4e03-a457-5e539c8719c8}</UniqueIdentifier>
+    <Filter Include="ソース ファイル\game\state\gamemode">
+      <UniqueIdentifier>{823ae023-0e14-4516-aa2c-6e2ec9af314a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\game\state\gamemode\endless">
+      <UniqueIdentifier>{0a6c9c43-99f5-4353-9bcf-2f9e3f22058f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\game\state\gamemode\puzzle">
+      <UniqueIdentifier>{ba6e7a26-f45f-4123-a0ed-c0f8c9617daf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\game\state\gamemode\select">
+      <UniqueIdentifier>{7ef47c5d-2491-41a6-90a0-ed335fa13329}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -411,15 +405,6 @@
     <ClCompile Include="source\game\state\dice_state.cpp">
       <Filter>ソース ファイル\game\state\dice</Filter>
     </ClCompile>
-    <ClCompile Include="source\game\mode\gamemode_controller.cpp">
-      <Filter>ソース ファイル\game\mode</Filter>
-    </ClCompile>
-    <ClCompile Include="source\game\mode\gamemode_state_puzzle.cpp">
-      <Filter>ソース ファイル\game\mode\state\puzzle</Filter>
-    </ClCompile>
-    <ClCompile Include="source\game\mode\gamemode_state_base.cpp">
-      <Filter>ソース ファイル\game\mode\state</Filter>
-    </ClCompile>
     <ClCompile Include="source\game\component\billbord_component.cpp">
       <Filter>ソース ファイル\game\component\draw\billbord</Filter>
     </ClCompile>
@@ -497,6 +482,21 @@
     </ClCompile>
     <ClCompile Include="source\game\gameobject\access_dice_create_manager.cpp">
       <Filter>ソース ファイル\game\gameobject\access</Filter>
+    </ClCompile>
+    <ClCompile Include="source\game\state\gamemode_controller.cpp">
+      <Filter>ソース ファイル\game\state\gamemode</Filter>
+    </ClCompile>
+    <ClCompile Include="source\game\state\gamemode_state_base.cpp">
+      <Filter>ソース ファイル\game\state\gamemode</Filter>
+    </ClCompile>
+    <ClCompile Include="source\game\state\gamemode_state_endless.cpp">
+      <Filter>ソース ファイル\game\state\gamemode\endless</Filter>
+    </ClCompile>
+    <ClCompile Include="source\game\state\gamemode_state_puzzle.cpp">
+      <Filter>ソース ファイル\game\state\gamemode\puzzle</Filter>
+    </ClCompile>
+    <ClCompile Include="source\game\state\gamemode_state_select.cpp">
+      <Filter>ソース ファイル\game\state\gamemode\select</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -731,18 +731,6 @@
     <ClInclude Include="source\game\state\dice_state.h">
       <Filter>ソース ファイル\game\state\dice</Filter>
     </ClInclude>
-    <ClInclude Include="source\game\mode\gamemode_controller.h">
-      <Filter>ソース ファイル\game\mode</Filter>
-    </ClInclude>
-    <ClInclude Include="source\game\mode\gamemode_state_puzzle.h">
-      <Filter>ソース ファイル\game\mode\state\puzzle</Filter>
-    </ClInclude>
-    <ClInclude Include="source\game\mode\gamemode_state_base.h">
-      <Filter>ソース ファイル\game\mode\state</Filter>
-    </ClInclude>
-    <ClInclude Include="source\game\mode\allgamemode.h">
-      <Filter>ソース ファイル\game\mode\state</Filter>
-    </ClInclude>
     <ClInclude Include="source\game\component\billbord_component.h">
       <Filter>ソース ファイル\game\component\draw\billbord</Filter>
     </ClInclude>
@@ -826,6 +814,21 @@
     </ClInclude>
     <ClInclude Include="source\game\gameobject\access_dice_create_manager.h">
       <Filter>ソース ファイル\game\gameobject\access</Filter>
+    </ClInclude>
+    <ClInclude Include="source\game\state\gamemode_controller.h">
+      <Filter>ソース ファイル\game\state\gamemode</Filter>
+    </ClInclude>
+    <ClInclude Include="source\game\state\gamemode_state_base.h">
+      <Filter>ソース ファイル\game\state\gamemode</Filter>
+    </ClInclude>
+    <ClInclude Include="source\game\state\gamemode_state_endless.h">
+      <Filter>ソース ファイル\game\state\gamemode\endless</Filter>
+    </ClInclude>
+    <ClInclude Include="source\game\state\gamemode_state_puzzle.h">
+      <Filter>ソース ファイル\game\state\gamemode\puzzle</Filter>
+    </ClInclude>
+    <ClInclude Include="source\game\state\gamemode_state_select.h">
+      <Filter>ソース ファイル\game\state\gamemode\select</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

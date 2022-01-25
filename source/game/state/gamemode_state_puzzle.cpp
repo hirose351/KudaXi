@@ -1,6 +1,6 @@
 #include	"gamemode_state_puzzle.h"
 
-using namespace GameMode;
+using namespace GameModeState;
 
 void Puzzle::Exec()
 {

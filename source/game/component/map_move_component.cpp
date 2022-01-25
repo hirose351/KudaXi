@@ -32,7 +32,7 @@ void MapMove::Update()
 		return;
 
 	INT2 moveP;
-	if (transTypeNum == 0)
+	if (transTypeNum == 0 || mOwnerType == ObjectType::ePlayer)
 	{
 		switch (direction)
 		{
