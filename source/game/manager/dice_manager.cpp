@@ -32,7 +32,6 @@ void DiceManager::DiceMapCreate()
 			Dix::sp<Dice> dice;
 			dice.SetPtr(new Dice);
 			dice->GetTransform()->SetWordMtx(mCurrentStageData->mDiceMtx[mpDiceList.size()]);
-
 			std::cout << "生成" << dice->GetObjectID() << "\n";
 
 			/// todo:前プロジェクトの7培スケールに合わせる為に1/7
@@ -61,7 +60,6 @@ DiceManager::DiceManager()
 	mSpawnAngle[6] = { 0,90.0f,0 };
 	mSpawnAngle[7] = { 0,180.0f,0 };
 	mSpawnAngle[8] = { 0,-90.0f,0 };
-
 }
 
 void DiceManager::Init()
@@ -116,9 +114,7 @@ void DiceManager::EndleesUpdate()
 		mpDiceList.emplace_back(dice);	// vector配列に追加
 		SceneManager::GetInstance()->GetCurrentScene()->AddGameObject(dice);
 		return;
-
 	}
-
 }
 
 void DiceManager::ImguiDraw()

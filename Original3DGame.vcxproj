@@ -183,7 +183,6 @@
     <ClCompile Include="source\game\scene\title_scene.cpp" />
     <ClCompile Include="source\game\state\dice_state.cpp" />
     <ClCompile Include="source\game\state\gamemode_controller.cpp" />
-    <ClCompile Include="source\game\state\gamemode_state_base.cpp" />
     <ClCompile Include="source\game\state\gamemode_state_endless.cpp" />
     <ClCompile Include="source\game\state\gamemode_state_puzzle.cpp" />
     <ClCompile Include="source\game\state\gamemode_state_select.cpp" />

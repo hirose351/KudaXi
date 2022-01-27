@@ -2,6 +2,14 @@
 
 using namespace GameModeState;
 
+Endless::Endless()
+{
+}
+
+Endless::~Endless()
+{
+}
+
 void Endless::Exec()
 {
 }

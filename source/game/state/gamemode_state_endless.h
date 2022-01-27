@@ -5,9 +5,13 @@ namespace GameModeState {
 	class Endless : public GameModeBase
 	{
 	private:
-		bool mIsOver = false;		// クリアしたか
+		bool mIsOver = false;		// オーバーしたか
 
+		/// Todo:スコアの処理はここで管理したい
 	public:
+		Endless();
+		~Endless();
+
 		// 実行
 		void Exec()override;
 		// State変更前処理

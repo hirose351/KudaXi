@@ -21,20 +21,50 @@ void Quad2d::Update()
 void Quad2d::Draw()
 {
 	TurnOffZbuffer();
+	Transform transform;
+	transform.SetWordMtx(mOwner->GetTransform()->worldMtx);
 
-	switch (mDrawType)
+	// 連続描画用リストが空なら
+	if (mDrawPosList.empty())
 	{
-	case DrawType::eTex:
-		mpQuad->Draw(mOwner->GetTransform()->worldMtx);
-		break;
-	case DrawType::eNoTex:
-		mpQuad->DrawNoTex(mOwner->GetTransform()->worldMtx);
-		break;
-	case DrawType::eMokomokoTex:
-		mpQuad->DrawMokoMokoTex(mOwner->GetTransform()->worldMtx);
-		break;
-	default:
-		break;
+		switch (mDrawType)
+		{
+		case DrawType::eTex:
+			mpQuad->Draw(transform.GetMtx());
+			break;
+		case DrawType::eNoTex:
+			mpQuad->DrawNoTex(transform.GetMtx());
+			break;
+		case DrawType::eMokomokoTex:
+			mpQuad->DrawMokoMokoTex(transform.GetMtx());
+			break;
+		}
+	}
+	else
+	{
+		for (int i = 0; i < mDrawPosList.size(); i++)
+		{
+			transform.position = mDrawPosList[i];
+			transform.CreateWordMtx();
+
+			if (!mDrawUvList.empty())
+				SetUvPos(mDrawUvList[i]);
+
+			switch (mDrawType)
+			{
+			case DrawType::eTex:
+				mpQuad->Draw(transform.GetMtx());
+				break;
+			case DrawType::eNoTex:
+				mpQuad->DrawNoTex(transform.GetMtx());
+				break;
+			case DrawType::eMokomokoTex:
+				mpQuad->DrawMokoMokoTex(transform.GetMtx());
+				break;
+			}
+		}
+		mDrawPosList.clear();
+		mDrawUvList.clear();
 	}
 
 	TurnOnZbuffer();
@@ -68,4 +98,9 @@ void Quad2d::SetUvPos(INT2 _uv)
 {
 	mUvPos = _uv;
 	mpQuad->SetTextureUV(_uv.x, _uv.z);
+}
+
+void Quad2d::SetDrawUv(INT2 _uv)
+{
+	mDrawUvList.emplace_back(_uv);
 }

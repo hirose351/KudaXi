@@ -1,7 +1,10 @@
 #pragma once
 #include	"../../system/util/dixsmartptr.h"
 #include	"gamemode_state_base.h"
+#include	"../component/component_base.h"
 #include	<map>
+
+class GameModeBase;
 
 enum GameMode
 {
@@ -10,20 +13,28 @@ enum GameMode
 	eEndless,
 };
 
-class GameModeController
+class GameModeController :public ComponentBase
 {
 private:
 	std::map<int, Dix::sp<GameModeBase>> mStates;
 	int mModeNum;
+	int mSelectStage;
 
 public:
-	GameModeController() {};
-	~GameModeController() {};
+	GameModeController();
+	~GameModeController();
+
+	void Awake()override {};
+	void Init()override;
+	void Update()override;
+	void ImguiDraw()override;
+	void Uninit()override {};
 
 	void Init(int _modeNum);
-	void Update();
-	//void Draw();
 
 	void ChangeMode(int _modeNum);
+
+	int GetSelectStage() { return mSelectStage; }
+	void GetSelectStage(int _num) { mSelectStage = mSelectStage; }
 };
 

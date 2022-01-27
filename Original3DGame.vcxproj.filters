@@ -486,9 +486,6 @@
     <ClCompile Include="source\game\state\gamemode_controller.cpp">
       <Filter>ソース ファイル\game\state\gamemode</Filter>
     </ClCompile>
-    <ClCompile Include="source\game\state\gamemode_state_base.cpp">
-      <Filter>ソース ファイル\game\state\gamemode</Filter>
-    </ClCompile>
     <ClCompile Include="source\game\state\gamemode_state_endless.cpp">
       <Filter>ソース ファイル\game\state\gamemode\endless</Filter>
     </ClCompile>

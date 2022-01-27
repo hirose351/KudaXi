@@ -59,9 +59,6 @@ void Plane::Update()
 
 void Plane::Draw()
 {
-	if (mDrawPosList.empty())
-		return;
-
 	ID3D11DeviceContext* devcontext = GetDX11DeviceContext();
 	// 頂点バッファをセットする
 	unsigned int stride = sizeof(Vertex);
@@ -73,15 +70,22 @@ void Plane::Draw()
 	devcontext->VSSetShader(mpVertexShader.Get(), nullptr, 0);						// 頂点シェーダーをセット
 	devcontext->PSSetShader(mpPixelShader.Get(), nullptr, 0);						// ピクセルシェーダーをセット
 
+	if (mDrawPosList.empty())
+	{
+		DX11SetTransform::GetInstance()->SetTransform(DX11SetTransform::TYPE::eWorld, mTransform.worldMtx);
+		// テクスチャセット
+		devcontext->PSSetShaderResources(0, 1, mTexInfo[mTexInfoNum].texSrv.GetAddressOf());
+		devcontext->Draw(4, 0);
+		return;
+	}
+
 	for (Float3 pos : mDrawPosList)
 	{
 		mTransform.position = pos;
 		// ワールド変換行列セット
 		mTransform.CreateWordMtx();
 		DX11SetTransform::GetInstance()->SetTransform(DX11SetTransform::TYPE::eWorld, mTransform.worldMtx);
-
 		// テクスチャセット
-		/// このテクスチャの配列の添え字を変えることで画像を変更できる
 		devcontext->PSSetShaderResources(0, 1, mTexInfo[mTexInfoNum].texSrv.GetAddressOf());
 		devcontext->Draw(4, 0);
 	}

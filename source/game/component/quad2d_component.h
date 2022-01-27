@@ -12,6 +12,7 @@ namespace Component {
 		DrawType mDrawType;
 		INT2 mUvPos;	// Uv位置
 		INT2 mTexUv;	// テクスチャの分割数
+		std::vector<INT2>		mDrawUvList;	// 連続して描画する場合のUV位置リスト
 
 		int mWidth;
 		int mHeight;
@@ -32,6 +33,7 @@ namespace Component {
 		void SetUvPos(INT2 _uv);
 		INT2 GetUvPos() { return mUvPos; };
 		INT2 GetTexUv() { return mTexUv; };
+		void SetDrawUv(INT2 _uv);
 
 		void SetDrawType(DrawType _drawType) { mDrawType = _drawType; };
 	};

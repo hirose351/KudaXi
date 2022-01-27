@@ -1,5 +1,6 @@
 #pragma once
 #include	"gamemode_state_base.h"
+#include	"../component/quad2d_component.h"
 
 namespace GameModeState {
 	class Puzzle : public GameModeBase
@@ -9,8 +10,18 @@ namespace GameModeState {
 
 		bool mIsClear = false;		// クリアしたか
 		bool mIsAgain = false;		// ステップ使い果たしたか
+		//bool mIsSelect = false;		// 選択されたか
+
+		Component::Quad2d* mUiStage;	// ステージのUI
+		Component::Quad2d* mUiStageNum;	// ステージ番号のUI
+		Component::Quad2d* mUiStep;		// ステップのUI
+		Component::Quad2d* mUiStepNum;	// ステップ数のUI
+		Component::Quad2d* mUiClearOver;// クリアオーバー時のUI
 
 	public:
+		Puzzle();
+		~Puzzle();
+
 		// 実行
 		void Exec()override;
 		// State変更前処理
