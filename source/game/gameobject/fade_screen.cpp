@@ -2,7 +2,7 @@
 #include		"../component/quad2d_component.h"
 #include		"../../application.h"
 
-#define			FADE_FRAME			(50.0f)
+#define			FADE_FRAME			(30.0f)
 
 using namespace DirectX;
 

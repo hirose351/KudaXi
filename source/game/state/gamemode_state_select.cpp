@@ -33,6 +33,7 @@ Select::~Select()
 
 void Select::Exec()
 {
+	// “ü—Í‚É‘Î‚·‚éˆ—
 }
 
 void Select::BeforeChange()

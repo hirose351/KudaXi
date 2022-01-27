@@ -42,7 +42,6 @@ void DiceManager::DiceMapCreate()
 			mDiceMap[z][x] = dice->GetObjectID();
 			dice->SetName(("Dice" + std::to_string(mDiceMap[z][x])));	// オブジェクトの名前に添え字を加える
 			//dice->Init();
-
 			mpDiceList.emplace_back(dice);	// vector配列に追加
 			SceneManager::GetInstance()->GetCurrentScene()->AddGameObject(dice);
 		}
@@ -499,6 +498,7 @@ bool DiceManager::CreateAddDice()
 				// Dice生成
 				Dix::sp<Dice> dice;
 				dice.SetPtr(new Dice);
+				dice->SetDiceSts(DiceStatus::eCreate);
 				dice->Init();
 				dice->GetTransform()->SetPositionXYZ(Float3(DICE_SCALE*x, DICE_SCALE_HALF, -DICE_SCALE * z));
 				dice->AddComponent<Component::MapPos>()->SetMapPos(INT2(x, z));
@@ -653,6 +653,7 @@ void DiceManager::DataCreate()
 			// Dice生成
 			Dix::sp<Dice> dice;
 			dice.SetPtr(new Dice);
+			dice->SetDiceSts(DiceStatus::eCreate);
 			dice->Init();
 			dice->GetTransform()->SetWordMtx(mCurrentStageData->mDiceMtx[mpDiceList.size()]);
 

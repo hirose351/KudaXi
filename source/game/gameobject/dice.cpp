@@ -27,11 +27,9 @@ Dice::~Dice()
 
 void Dice::ObjectInit()
 {
-	if (SceneManager::GetInstance()->GetCurrentSceneKey() != "MainGame")
-	{
-		mSts = DiceStatus::eCreate;
+	if (mSts == DiceStatus::eCreate)
 		return;
-	}
+
 	mDirection = Direction::eNeutral;
 	SetStartUpPosition();
 	SetOverPlane();

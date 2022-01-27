@@ -4,6 +4,8 @@
 #include	"../component/component_base.h"
 #include	<map>
 
+#define TOTALSTAGE (10)
+
 class GameModeBase;
 
 enum GameMode

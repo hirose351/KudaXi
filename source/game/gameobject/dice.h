@@ -96,5 +96,7 @@ public:
 
 	bool GetPushEnd() { return mCrrentPushCnt == mMoveCnt; }
 	bool GetRollEnd() { return mCrrentRotCnt >= mMoveCnt; }
+
+	void SetDiceSts(DiceStatus _sts) { mSts = _sts; }
 };
 
