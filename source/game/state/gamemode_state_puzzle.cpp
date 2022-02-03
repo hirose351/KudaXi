@@ -2,11 +2,21 @@
 #include	"../gameobject/ui_image.h"
 #include	"../manager/stagedata_manager.h"
 #include	"../manager/dice_manager.h"
+#include	"../manager/input_manager.h"
 
 using namespace GameModeState;
 
 Puzzle::Puzzle()
 {
+	// StageStringUI
+	Dix::sp<myUI::Image> stageString;
+	stageString.SetPtr(new myUI::Image);
+	SceneManager::GetInstance()->GetCurrentScene()->AddGameObject(stageString);
+	mUiStage = stageString->AddComponent<Component::Quad2d>();
+	mUiStage->SetInfo("assets/image/ui/stage.png", XMFLOAT4(1, 1, 1, 1));
+	mUiStage->SetOrderInLayer(1);
+	mModeObjList.emplace_back(stageString);
+
 	// StageNumUI
 	Dix::sp<myUI::Image> stageNum;
 	stageNum.SetPtr(new myUI::Image);
@@ -15,6 +25,15 @@ Puzzle::Puzzle()
 	mUiStageNum->SetInfo("assets/image/ui/number.png", XMFLOAT4(1, 1, 1, 1), 10);
 	mUiStageNum->SetOrderInLayer(1);
 	mModeObjList.emplace_back(stageNum);
+
+	// StepStringUI
+	Dix::sp<myUI::Image> stepString;
+	stepString.SetPtr(new myUI::Image);
+	SceneManager::GetInstance()->GetCurrentScene()->AddGameObject(stepString);
+	mUiStep = stepString->AddComponent<Component::Quad2d>();
+	mUiStep->SetInfo("assets/image/ui/step.png", XMFLOAT4(1, 1, 1, 1));
+	mUiStep->SetOrderInLayer(1);
+	mModeObjList.emplace_back(stepString);
 
 	// StepNumUI
 	Dix::sp<myUI::Image> stepNum;
@@ -37,9 +56,9 @@ Puzzle::Puzzle()
 
 	// 次のステージへ、ステージセレクトへ、もう一度
 
-	//mUiStage->SetIsDraw(false);
-	//	mUiStageNum->SetIsDraw(false);
-//	mUiStep->SetIsDraw(false);
+	mUiStage->SetIsDraw(false);
+	mUiStageNum->SetIsDraw(false);
+	mUiStep->SetIsDraw(false);
 	mUiStepNum->SetIsDraw(false);
 	mUiClearOver->SetIsDraw(false);
 }
@@ -52,20 +71,30 @@ void Puzzle::Exec()
 {
 	// プレイヤーorサイコロの行動によってステップを減らす
 
+	// 戻るを押されたときの処理
+	if (InputManager::GetInstance().GetStateTrigger(InputMode::eUi, static_cast<int>(UiAction::eCancel)))
+	{
+		mHolder->ChangeMode(eSelect);
+	}
 }
 
 void Puzzle::BeforeChange()
 {
-	for (Dix::wp<GameObject> obj : mModeObjList)
-	{
-		obj->SetIsActive(true);
-	}
+	//for (Dix::wp<GameObject> obj : mModeObjList)
+	//{
+	//	obj->SetIsActive(true);
+	//}
 
+	mUiStage->SetIsDraw(true);
+	mUiStageNum->SetIsDraw(true);
+	mUiStep->SetIsDraw(true);
+	mUiStepNum->SetIsDraw(true);
 	// セレクトで選択されたステップ数を取得
 	StageData data = StageDataManager::GetInstance().GetCurrentStage().At();
 
+	mStep = data.mStep;
 	// ステージ番号更新
-	//mStageNum->SetUvPos();
+	mUiStageNum->SetUvPos(INT2(mHolder->GetSelectStage(), 0));
 	// ステップ番号更新
 	mUiStepNum->SetUvPos((data.mStep, 0));
 	// クリアオーバー非表示
@@ -76,5 +105,9 @@ void Puzzle::BeforeChange()
 
 void Puzzle::AfterChange()
 {
-
+	mUiStage->SetIsDraw(false);
+	mUiStageNum->SetIsDraw(false);
+	mUiStep->SetIsDraw(false);
+	mUiStepNum->SetIsDraw(false);
+	mUiClearOver->SetIsDraw(false);
 }

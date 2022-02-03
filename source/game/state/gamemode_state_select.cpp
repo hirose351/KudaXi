@@ -65,6 +65,7 @@ void Select::Exec()
 	// 決定を押されたときの処理（ステージはそのままでカメラを動かす感じ）
 	if (InputManager::GetInstance().GetStateTrigger(InputMode::eUi, static_cast<int>(UiAction::eClick)))
 	{
+		mHolder->SetSelectStage(mButton->GetSelectNum() + 1);
 		mHolder->ChangeMode(ePuzzle);
 	}
 	// 戻るを押されたときの処理

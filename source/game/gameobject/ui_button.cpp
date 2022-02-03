@@ -33,12 +33,12 @@ void Button::SetButtonState(ButtonState _state)
 		{
 		case ButtonState::eNomal:
 			// イージング登録
-			GetComponent<Component::Easing>()->AddEasing(EasingProcess::EasingType::eLinear, TransType::eScale, 10.0f, 0.0f, XMFLOAT2(mTransform->GetScale().x, mTransform->GetScale().y), mNomalScale);
+			GetComponent<Component::Easing>()->AddEasing(EasingProcess::EasingType::eLinear, TransType::eScale, 10.0f, 0.0f, mTransform->GetScale(), Float3(mNomalScale.x, mNomalScale.y, 0));
 
 			break;
 		case ButtonState::eSelected:
 			// イージング登録
-			GetComponent<Component::Easing>()->AddEasing(EasingProcess::EasingType::eLinear, TransType::eScale, 10.0f, 0.0f, XMFLOAT2(mTransform->GetScale().x, mTransform->GetScale().y), mSelectScale);
+			GetComponent<Component::Easing>()->AddEasing(EasingProcess::EasingType::eLinear, TransType::eScale, 10.0f, 0.0f, mTransform->GetScale(), Float3(mSelectScale.x, mSelectScale.y, 0));
 
 			break;
 		case ButtonState::ePressed:

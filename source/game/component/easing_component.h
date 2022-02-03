@@ -22,8 +22,8 @@ namespace Component {
 			TransType transType = TransType::ePos;
 			float totalFrame = 0.0f;						// 必要な時間
 			float delayFrame = 0.0f;						// 遅延時間
-			DirectX::XMFLOAT2 startValue = { 0.0f,0.0f };	// はじめの数
-			DirectX::XMFLOAT2 endValue = { 0.0f,0.0f };		// 終わりの数
+			Float3 startValue;	// はじめの数
+			Float3 endValue;		// 終わりの数
 			bool isStartAbsolute;
 			bool isEndAbsolute;
 		};
@@ -45,8 +45,8 @@ namespace Component {
 					   TransType _transType,
 					   float _totalFrame,
 					   float _delayFrame,
-					   DirectX::XMFLOAT2 _startValue,
-					   DirectX::XMFLOAT2 _endValue,
+					   Float3 _startValue,
+					   Float3 _endValue,
 					   bool _isStartAbsolute = false,
 					   bool _isEndAbsolute = false);
 	};

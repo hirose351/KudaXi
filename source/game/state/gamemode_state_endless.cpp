@@ -39,9 +39,18 @@ void Endless::BeforeChange()
 	DiceManager::GetInstance()->Init();
 	mHolder->GetStage()->ObjectInit();
 	mHolder->GetPlayer()->Init();
+
+	for (Dix::wp<GameObject> obj : mModeObjList)
+	{
+		obj->SetIsActive(true);
+	}
 }
 
 void Endless::AfterChange()
 {
+	for (Dix::wp<GameObject> obj : mModeObjList)
+	{
+		obj->SetIsActive(false);
+	}
 	DiceManager::GetInstance()->Uninit();
 }

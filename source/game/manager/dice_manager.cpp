@@ -41,7 +41,7 @@ void DiceManager::DiceMapCreate(bool _isUp = true)
 			dice->SetMapPos(INT3(x, 0, z));
 			mDiceMap[z][x] = dice->GetObjectID();
 			dice->SetName(("Dice" + std::to_string(mDiceMap[z][x])));	// オブジェクトの名前に添え字を加える
-			//dice->Init();
+			dice->Init();
 			mpDiceList.emplace_back(dice);	// vector配列に追加
 			SceneManager::GetInstance()->GetCurrentScene()->AddGameObject(dice);
 		}

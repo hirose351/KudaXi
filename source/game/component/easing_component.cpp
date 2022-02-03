@@ -27,13 +27,13 @@ void Component::Easing::Update()
 			switch (famly.transType)
 			{
 			case TransType::ePos:
-				mEasingList.front().startValue = XMFLOAT2(mOwner->GetTransform()->GetPosition().x, mOwner->GetTransform()->GetPosition().y);
+				mEasingList.front().startValue = mOwner->GetTransform()->GetPosition();
 				break;
 			case TransType::eRot:
-				mEasingList.front().startValue = XMFLOAT2(mOwner->GetTransform()->GetAngle().x, mOwner->GetTransform()->GetAngle().y);
+				mEasingList.front().startValue = mOwner->GetTransform()->GetAngle();
 				break;
 			case TransType::eScale:
-				mEasingList.front().startValue = XMFLOAT2(mOwner->GetTransform()->GetScale().x, mOwner->GetTransform()->GetScale().y);
+				mEasingList.front().startValue = mOwner->GetTransform()->GetScale();
 				break;
 			}
 		}
@@ -42,13 +42,13 @@ void Component::Easing::Update()
 			switch (famly.transType)
 			{
 			case TransType::ePos:
-				mEasingList.front().endValue = XMFLOAT2(mOwner->GetTransform()->GetPosition().x, mOwner->GetTransform()->GetPosition().y);
+				mEasingList.front().endValue = mOwner->GetTransform()->GetPosition();
 				break;
 			case TransType::eRot:
-				mEasingList.front().endValue = XMFLOAT2(mOwner->GetTransform()->GetAngle().x, mOwner->GetTransform()->GetAngle().y);
+				mEasingList.front().endValue = mOwner->GetTransform()->GetAngle();
 				break;
 			case TransType::eScale:
-				mEasingList.front().endValue = XMFLOAT2(mOwner->GetTransform()->GetScale().x, mOwner->GetTransform()->GetScale().y);
+				mEasingList.front().endValue = mOwner->GetTransform()->GetScale();
 				break;
 			}
 		}
@@ -92,7 +92,7 @@ void Component::Easing::Update()
 	isStart = false;
 }
 
-void Component::Easing::AddEasing(EasingProcess::EasingType _easingType, TransType _transType, float _totalFrame, float _delayFrame, DirectX::XMFLOAT2 _startValue, DirectX::XMFLOAT2 _endValue, bool _isStartAbsolute, bool _isEndAbsolute)
+void Component::Easing::AddEasing(EasingProcess::EasingType _easingType, TransType _transType, float _totalFrame, float _delayFrame, Float3 _startValue, Float3 _endValue, bool _isStartAbsolute, bool _isEndAbsolute)
 {
 	EasingFamily newFamily;
 

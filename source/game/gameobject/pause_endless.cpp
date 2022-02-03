@@ -37,7 +37,7 @@ void PauseEndless::ObjectUpdate()
 			SceneManager::GetInstance()->GetCurrentScene()->SetIsPause(true);
 			mButton->SetIsActive(true);
 			mButton->SetSelectedNum(0);
-			mButton->GetComponent<Component::Easing>()->AddEasing(EasingProcess::EasingType::eExpIn, TransType::ePos, 300, 0, XMFLOAT2(-100, 300), XMFLOAT2(600, 400));
+			mButton->GetComponent<Component::Easing>()->AddEasing(EasingProcess::EasingType::eExpIn, TransType::ePos, 300, 0, Float3(-100, 300, 0), Float3(600, 400, 0));
 		}
 		else
 		{
