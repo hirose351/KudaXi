@@ -1,5 +1,4 @@
 #include	"easing_component.h"
-#include	"quad2d_component.h"
 
 using namespace DirectX;
 
@@ -58,7 +57,7 @@ void Component::Easing::Update()
 
 	// ƒŠƒXƒg‚Ìæ“ª‚©‚ç’l‚ð‹‚ß‚é
 	famly = mEasingList.front();
-	XMFLOAT2 ansValue;
+	Float3 ansValue;
 
 	if (famly.startValue.x == famly.endValue.x)
 		ansValue.x = famly.startValue.x;
@@ -70,16 +69,21 @@ void Component::Easing::Update()
 	else
 		ansValue.y = EasingProcess::GetEsingAns(famly.easingType, mCurrentFrame, famly.totalFrame, famly.startValue.y, famly.endValue.y);
 
+	if (famly.startValue.z == famly.endValue.z)
+		ansValue.z = famly.startValue.z;
+	else
+		ansValue.z = EasingProcess::GetEsingAns(famly.easingType, mCurrentFrame, famly.totalFrame, famly.startValue.z, famly.endValue.z);
+
 	switch (famly.transType)
 	{
 	case TransType::ePos:
-		mOwner->GetTransform()->SetPosition(Float3(ansValue.x, ansValue.y, 1.0f));
+		mOwner->GetTransform()->SetPositionXYZ(ansValue);
 		break;
 	case TransType::eRot:
-		mOwner->GetTransform()->SetAngle(Float3(ansValue.x, ansValue.y, 1.0f));
+		mOwner->GetTransform()->SetAngle(ansValue);
 		break;
 	case TransType::eScale:
-		mOwner->GetTransform()->SetScale(Float3(ansValue.x, ansValue.y, 1.0f));
+		mOwner->GetTransform()->SetScale(ansValue);
 		break;
 	}
 
@@ -90,6 +94,19 @@ void Component::Easing::Update()
 
 	mEasingList.pop_front();
 	isStart = false;
+
+	switch (famly.transType)
+	{
+	case TransType::ePos:
+		mOwner->GetTransform()->SetPositionXYZ(famly.endValue);
+		break;
+	case TransType::eRot:
+		mOwner->GetTransform()->SetAngle(famly.endValue);
+		break;
+	case TransType::eScale:
+		mOwner->GetTransform()->SetScale(famly.endValue);
+		break;
+	}
 }
 
 void Component::Easing::AddEasing(EasingProcess::EasingType _easingType, TransType _transType, float _totalFrame, float _delayFrame, Float3 _startValue, Float3 _endValue, bool _isStartAbsolute, bool _isEndAbsolute)

@@ -1,12 +1,13 @@
 #pragma once
 #include	"gameobject.h"
 
-class CameraAccess : public GameObject
+class CameraAccessLookat : public GameObject
 {
 private:
+	Float3 mBeforePos;
 
 public:
-	CameraAccess();
+	CameraAccessLookat();
 
 	void ObjectInit() override;
 	void ObjectUpdate()override;

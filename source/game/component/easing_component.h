@@ -31,7 +31,6 @@ namespace Component {
 		float mCurrentFrame;									// 経過時間
 		bool isStart = false;								// 開始したか
 		std::list<EasingFamily> mEasingList;				// イージングの塊が入ったリスト
-		DirectX::XMFLOAT2 mStartValue = { 0, 0 };					// 現在の処理のはじめの数
 
 	public:
 		Easing();

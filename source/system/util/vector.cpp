@@ -182,14 +182,14 @@ void Float3::operator=(const XMFLOAT3 &_f3)
 
 bool Float3::operator!=(const Float3 &_v3)
 {
-	if ((this->x) == _v3.x)
-		return false;
-	if ((this->y) == _v3.y)
-		return false;
-	if ((this->z) == _v3.z)
-		return false;
+	if ((this->x) != _v3.x)
+		return true;
+	if ((this->y) != _v3.y)
+		return true;
+	if ((this->z) != _v3.z)
+		return true;
 
-	return true;
+	return false;
 }
 
 bool Float3::operator==(const Float3& _v3)

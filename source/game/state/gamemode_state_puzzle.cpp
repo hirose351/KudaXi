@@ -3,6 +3,9 @@
 #include	"../manager/stagedata_manager.h"
 #include	"../manager/dice_manager.h"
 #include	"../manager/input_manager.h"
+#include	"../gameobject/access_camera_eye.h"
+#include	"../gameobject/access_camera_lookat.h"
+#include	"../component/easing_component.h"
 
 using namespace GameModeState;
 
@@ -54,6 +57,20 @@ Puzzle::Puzzle()
 	mUiClearOver->SetOrderInLayer(1);
 	mModeObjList.emplace_back(clearOver);
 
+	// cameraEye
+	Dix::sp<CameraEyeAccess> cameraEye;
+	cameraEye.SetPtr(new CameraEyeAccess);
+	mCameraEye = cameraEye;
+	SceneManager::GetInstance()->GetCurrentScene()->AddGameObject(cameraEye);
+	mModeObjList.emplace_back(cameraEye);
+
+	// cameraEye
+	Dix::sp<CameraAccessLookat> cameralookat;
+	cameralookat.SetPtr(new CameraAccessLookat);
+	mCameraLookat = cameralookat;
+	SceneManager::GetInstance()->GetCurrentScene()->AddGameObject(cameralookat);
+	mModeObjList.emplace_back(cameralookat);
+
 	// 次のステージへ、ステージセレクトへ、もう一度
 
 	mUiStage->SetIsDraw(false);
@@ -61,6 +78,8 @@ Puzzle::Puzzle()
 	mUiStep->SetIsDraw(false);
 	mUiStepNum->SetIsDraw(false);
 	mUiClearOver->SetIsDraw(false);
+	mCameraEye->SetIsActive(false);
+	mCameraLookat->SetIsActive(false);
 }
 
 Puzzle::~Puzzle()
@@ -101,6 +120,27 @@ void Puzzle::BeforeChange()
 	mUiClearOver->SetIsDraw(false);
 	// サイコロの状態を通常に戻す
 	DiceManager::GetInstance()->SetPuzzle();
+
+	mCameraEye->SetIsActive(true);
+	mCameraLookat->SetIsActive(true);
+
+
+	mCameraEye->ObjectInit();
+	Float3 cameraVector(20.5f, 4.4f, -27.5f);
+	Float3 pos(data.mMapSizeWidth*data.mMapChipSize / 2.0f, 250, -197.5f - data.mMapSizeHeight*data.mMapChipSize / 2.0f);
+	pos.x = cameraVector.x * data.mMapSizeWidth;
+	pos.y = 70 + cameraVector.y * (data.mMapSizeWidth + data.mMapSizeHeight);
+	pos.z = cameraVector.z * data.mMapSizeHeight;
+	mCameraEye->GetComponent<Component::Easing>()->AddEasing(EasingProcess::EasingType::eLinear, TransType::ePos, 50.0f, 0.0f, 0, pos, true);
+
+
+	mCameraLookat->ObjectInit();
+	Float3 cameraLookat;
+	cameraLookat.x = data.mMapSizeWidth*DICE_SCALE_HALF;
+	cameraLookat.y = 0;
+	cameraLookat.z = -data.mMapSizeHeight*DICE_SCALE_HALF;
+	//Camera::GetInstance()->SetLookat(cameraLookat);
+	mCameraLookat->GetComponent<Component::Easing>()->AddEasing(EasingProcess::EasingType::eLinear, TransType::ePos, 50.0f, 0.0f, 0, cameraLookat, true);
 }
 
 void Puzzle::AfterChange()
@@ -110,4 +150,6 @@ void Puzzle::AfterChange()
 	mUiStep->SetIsDraw(false);
 	mUiStepNum->SetIsDraw(false);
 	mUiClearOver->SetIsDraw(false);
+	mCameraEye->SetIsActive(false);
+	mCameraLookat->SetIsActive(false);
 }

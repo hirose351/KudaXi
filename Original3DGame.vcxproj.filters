@@ -495,7 +495,10 @@
     <ClCompile Include="source\game\state\gamemode_state_select.cpp">
       <Filter>ソース ファイル\game\state\gamemode\select</Filter>
     </ClCompile>
-    <ClCompile Include="source\game\gameobject\access_camera.cpp">
+    <ClCompile Include="source\game\gameobject\access_camera_eye.cpp">
+      <Filter>ソース ファイル\game\gameobject\access</Filter>
+    </ClCompile>
+    <ClCompile Include="source\game\gameobject\access_camera_lookat.cpp">
       <Filter>ソース ファイル\game\gameobject\access</Filter>
     </ClCompile>
   </ItemGroup>
@@ -830,7 +833,10 @@
     <ClInclude Include="source\game\state\gamemode_state_select.h">
       <Filter>ソース ファイル\game\state\gamemode\select</Filter>
     </ClInclude>
-    <ClInclude Include="source\game\gameobject\access_camera.h">
+    <ClInclude Include="source\game\gameobject\access_camera_eye.h">
+      <Filter>ソース ファイル\game\gameobject\access</Filter>
+    </ClInclude>
+    <ClInclude Include="source\game\gameobject\access_camera_lookat.h">
       <Filter>ソース ファイル\game\gameobject\access</Filter>
     </ClInclude>
   </ItemGroup>

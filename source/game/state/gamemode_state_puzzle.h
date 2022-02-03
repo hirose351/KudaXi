@@ -17,6 +17,8 @@ namespace GameModeState {
 		Component::Quad2d* mUiStep;		// ステップのUI
 		Component::Quad2d* mUiStepNum;	// ステップ数のUI
 		Component::Quad2d* mUiClearOver;// クリアオーバー時のUI
+		Dix::wp<GameObject> mCameraEye;
+		Dix::wp<GameObject> mCameraLookat;
 
 	public:
 		Puzzle();
