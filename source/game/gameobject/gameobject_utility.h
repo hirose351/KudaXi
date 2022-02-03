@@ -50,3 +50,11 @@ enum class ObjectTag
 
 static const char *ObjectTagStr[] =
 { "Floor", "DiceTop", "Dice" };
+
+enum GameMode
+{
+	eTutorial,
+	eSelect,
+	ePuzzle,
+	eEndless,
+};

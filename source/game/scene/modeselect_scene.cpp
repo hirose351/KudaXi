@@ -7,6 +7,14 @@
 
 using namespace DirectX;
 
+enum class SelectMode
+{
+	eTutorial,
+	ePuzzle,
+	eEndless,
+	eEdit,
+};
+
 ModeSelectScene::ModeSelectScene()
 {
 }
@@ -20,8 +28,8 @@ void ModeSelectScene::SceneInit()
 {
 	Dix::sp<myUI::ButtonGroup> buttonG;
 	buttonG.SetPtr(new myUI::ButtonGroup);
-	buttonG->GetTransform()->SetPositionXYZ(Float3(320, 500, 0));
-	buttonG->SetInitState("assets/image/ui/mode_button.png", 3, 1, 1, ButtonTransition::eColorTint, XMFLOAT2(5, 5), XMFLOAT2(300, 300), XMFLOAT2(350, 350), ButtonArrangement::eHorizontal);
+	buttonG->GetTransform()->SetPositionXYZ(Float3(200, 500, 0));
+	buttonG->SetInitState("assets/image/ui/mode_button.png", 4, 1, 1, ButtonTransition::eColorTint, XMFLOAT2(5, 5), XMFLOAT2(300, 300), XMFLOAT2(350, 350), ButtonArrangement::eHorizontal);
 	buttonG->SetInitSelectNum(0);
 	mpBg = buttonG;
 	AddGameObject(buttonG);
@@ -45,20 +53,38 @@ void ModeSelectScene::SceneUpdate()
 		return;
 	if (!mpBg->GetIsPressed())
 		return;
-	if (mpBg->GetSelectNum() == 0)
+
+
+	switch (static_cast<SelectMode>(mpBg->GetSelectNum()))
+	{
+	case SelectMode::eTutorial:
 	{
 		mpSceneManager->SetNextScene("GameMain");
 		mIsButtonPush = true;
 	}
-	else if (mpBg->GetSelectNum() == 1)
+	break;
+	case SelectMode::ePuzzle:
+	{
+		mpSceneManager->SetNextScene("GameMain");
+		mpSceneManager->SetGameMode(GameMode::eSelect);
+		mIsButtonPush = true;
+	}
+	break;
+	case SelectMode::eEndless:
 	{
 		mpSceneManager->SetNextScene("GameMain");
 		mIsButtonPush = true;
 	}
-	else if (mpBg->GetSelectNum() == 2)
+	break;
+	case SelectMode::eEdit:
 	{
 		mpSceneManager->SetNextScene("Create");
 		mIsButtonPush = true;
 	}
+	break;
+	default:
+		break;
+	}
+
 	mpBg->SetIsPressed(false);
 }

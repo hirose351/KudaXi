@@ -33,8 +33,6 @@ private:
 
 	/// ↑Create用 ////////////////////
 
-	// Dice生成
-	void DiceMapCreate();
 
 	// 受け取ったマップ位置と面を基準にサイコロが揃ったかチェックして配列を書き換える
 	void CheckDiceAlign(INT3 _mapPos, DiceFruit _diceType);
@@ -51,6 +49,8 @@ public:
 	DiceManager();
 	~DiceManager() {};
 
+	// Dice生成
+	void DiceMapCreate(bool _isUp);
 	// 初期化
 	void Init();
 	// 更新

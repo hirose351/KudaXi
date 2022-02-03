@@ -9,6 +9,7 @@
 #include	<thread>
 #include	"../../system/util/uncopyable.h"
 #include	"../scene/scene_base.h"
+#include	"../gameobject/gameobject_utility.h"
 
 class SceneBase;
 
@@ -22,7 +23,7 @@ private:
 	std::string mAddkey;					// 追加シーン
 
 	bool mGameEndFlg = false;										// ゲームを終了するか
-
+	GameMode mGameMode;
 public:
 
 	static SceneManager* GetInstance() {
@@ -65,6 +66,9 @@ public:
 			return nullptr;
 		return mScenefactories[_key].get();
 	}
+
+	GameMode GetGameMode() { return mGameMode; };
+	void SetGameMode(GameMode _gameMode) { mGameMode = _gameMode; };
 };
 
 template <class sceneclass>

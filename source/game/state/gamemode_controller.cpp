@@ -1,15 +1,18 @@
 #include "gamemode_controller.h"
 #include "allgamemode.h"
+#include "../gameobject/gameobject_utility.h"
 
-GameModeController::GameModeController() :ComponentBase(("GameModeController"))
+using namespace Component;
+
+Component::GameModeController::GameModeController() :ComponentBase(("GameModeController"))
 {
 }
 
-GameModeController::~GameModeController()
+Component::GameModeController::~GameModeController()
 {
 }
 
-void GameModeController::Init(int _modeNum)
+void Component::GameModeController::Init(int _modeNum)
 {
 	// Å‰‚Ìó‘Ô
 	mModeNum = _modeNum;
@@ -23,24 +26,35 @@ void GameModeController::Init(int _modeNum)
 	{
 		sts.second->Start(this);
 	}
+	mStates[mModeNum]->BeforeChange();
 }
 
-void GameModeController::Init()
+void Component::GameModeController::Init()
 {
+
+	switch (SceneManager::GetInstance()->GetGameMode())
+	{
+	case ePuzzle:
+		Init(eSelect);
+		break;
+	default:
+		Init(SceneManager::GetInstance()->GetGameMode());
+		break;
+	}
 }
 
-void GameModeController::Update()
+void Component::GameModeController::Update()
 {
 	mStates[mModeNum]->Exec();
 }
 
-void GameModeController::ImguiDraw()
+void Component::GameModeController::ImguiDraw()
 {
 }
 
-void GameModeController::ChangeMode(int _modeNum)
+void Component::GameModeController::ChangeMode(int _modeNum)
 {
-	mStates[_modeNum]->AfterChange();
+	mStates[mModeNum]->AfterChange();
 	mStates[_modeNum]->BeforeChange();
 	mModeNum = _modeNum;
 }

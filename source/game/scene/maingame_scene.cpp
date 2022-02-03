@@ -10,6 +10,7 @@
 #include	"../gameobject/access_dice_manager.h"
 #include	"../../application.h"
 #include	"../../system/dx11/DX11util.h"
+#include	"../state/gamemode_controller.h"
 
 using namespace Dix;
 
@@ -54,6 +55,11 @@ void MaingameScene::SceneInit()
 	Dix::sp<DiceManagerAccess> dicemanager;
 	dicemanager.SetPtr(new DiceManagerAccess);
 	AddGameObject(dicemanager);
+
+	Dix::sp<GameObject> maingameController;
+	maingameController.SetPtr(new GameObject(("GameModeController"), ObjectType::eObstracle, false));
+	maingameController->AddComponent<Component::GameModeController>()->SetPlayer(player);
+	AddGameObject(maingameController);
 }
 
 void MaingameScene::SceneUpdate()

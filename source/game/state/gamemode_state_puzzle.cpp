@@ -26,8 +26,8 @@ Puzzle::Puzzle()
 
 	// ClearOverUI
 	Dix::sp<myUI::Image> clearOver;
-	clearOver->GetTransform()->SetScale(Float3(500.0f, 250.0f, 0));
 	clearOver.SetPtr(new myUI::Image);
+	clearOver->GetTransform()->SetScale(Float3(500.0f, 250.0f, 0));
 	SceneManager::GetInstance()->GetCurrentScene()->AddGameObject(clearOver);
 	mUiClearOver = clearOver->AddComponent<Component::Quad2d>();
 	mUiClearOver->SetInfo("assets/image/ui/clearover.png", XMFLOAT4(1, 1, 1, 1), 1, 2);
@@ -36,7 +36,11 @@ Puzzle::Puzzle()
 
 	// 次のステージへ、ステージセレクトへ、もう一度
 
-
+	//mUiStage->SetIsDraw(false);
+	//	mUiStageNum->SetIsDraw(false);
+//	mUiStep->SetIsDraw(false);
+	mUiStepNum->SetIsDraw(false);
+	mUiClearOver->SetIsDraw(false);
 }
 
 Puzzle::~Puzzle()

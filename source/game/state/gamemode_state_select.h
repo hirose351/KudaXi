@@ -8,7 +8,9 @@ namespace GameModeState {
 	{
 	private:
 		Dix::wp<myUI::ButtonGroup> mButton;
-		Dix::wp<Component::Quad2d> mStageNum;// ステージ番号オブジェクト
+		std::vector<Component::Quad2d*> mStageNumQuad;// ステージ番号オブジェクト
+		int mStageNum = 1;
+		std::string mStr;
 
 	public:
 		Select();

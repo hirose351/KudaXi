@@ -13,7 +13,7 @@ std::uniform_int_distribution<> rand100(0, 99); // [0, 99] 範囲の一様乱数
 
 using namespace DirectX;
 
-void DiceManager::DiceMapCreate()
+void DiceManager::DiceMapCreate(bool _isUp = true)
 {
 	Uninit();
 	mFrameCnt = 0;
@@ -37,7 +37,10 @@ void DiceManager::DiceMapCreate()
 			/// todo:前プロジェクトの7培スケールに合わせる為に1/7
 			dice->GetTransform()->SetScale(1.0f / 7.0f);
 			dice->GetTransform()->CreateScaleMtx();
-			dice->GetTransform()->SetPositionXYZ(Float3(DICE_SCALE*x, -DICE_SCALE_HALF, -DICE_SCALE * z));
+			if (_isUp)
+				dice->GetTransform()->SetPositionXYZ(Float3(DICE_SCALE*x, -DICE_SCALE_HALF, -DICE_SCALE * z));
+			else
+				dice->GetTransform()->SetPositionXYZ(Float3(DICE_SCALE*x, DICE_SCALE_HALF, -DICE_SCALE * z));
 			dice->SetMapPos(INT3(x, 0, z));
 			mDiceMap[z][x] = dice->GetObjectID();
 			dice->SetName(("Dice" + std::to_string(mDiceMap[z][x])));	// オブジェクトの名前に添え字を加える

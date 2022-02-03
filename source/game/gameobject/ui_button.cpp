@@ -6,6 +6,7 @@
 using namespace myUI;
 using namespace DirectX;
 
+
 Button::Button() :GameObject(("Button"), ObjectType::eObstracle, false)
 {
 	AddComponent<Component::Quad2d>();
@@ -49,6 +50,29 @@ void Button::SetButtonState(ButtonState _state)
 		}
 		break;
 	}
+}
+
+NumButton::NumButton()
+{
+	SetName("NumButton");
+}
+
+void NumButton::ObjectUpdate()
+{
+	for (int i = 0; i < mNumUvList.size(); i++)
+	{
+		GetComponent<Component::Quad2d>()->SetDrawUv((mNumUvList[i], 0));
+		GetComponent<Component::Quad2d>()->SetDrawPos((mTransform->position.x + mTransform->scale.x*mNumUvList[i], mTransform->position.y, mTransform->position.z));
+	}
+}
+
+void NumButton::Uninit()
+{
+}
+
+void NumButton::SetNum(int _uv)
+{
+	mNumUvList.emplace_back(_uv);
 }
 
 ButtonGroup::ButtonGroup() :GameObject(("ButtonGroup"), ObjectType::eObstracle, false)
@@ -202,7 +226,7 @@ void ButtonGroup::ObjectImguiDraw()
 	ImGui::Checkbox("isPressed", &isPressed);
 }
 
-void ButtonGroup::SetInitState(const char* _texName, int _divX, int _divY, int _arrayCnt, ButtonTransition _trans, XMFLOAT2 _space, XMFLOAT2 _nomalScale, XMFLOAT2 _selectScale, ButtonArrangement _ar, StartPoint _sP)
+void ButtonGroup::SetInitState(const char* _texName, int _divX, int _divY, int _arrayCnt, ButtonTransition _trans, XMFLOAT2 _space, XMFLOAT2 _nomalScale, XMFLOAT2 _selectScale, ButtonArrangement _ar, StartPoint _sP, bool _isNumButton, int _digitsNum)
 {
 	mArrayCnt = _arrayCnt;
 	mSpace = _space;
@@ -213,9 +237,27 @@ void ButtonGroup::SetInitState(const char* _texName, int _divX, int _divY, int _
 
 	for (int i = 0; i < _divX*_divY; i++)
 	{
-		// ボタン生成
 		Dix::sp<Button> b;
-		b.SetPtr(new Button);
+		// ボタン生成
+		if (_isNumButton)
+		{
+			Dix::sp<NumButton> nb;
+			nb.SetPtr(new NumButton);
+			for (int k = _digitsNum; k < 1; k--)
+			{
+				// １桁目なら
+				if (k == 1)
+					nb->SetNum(i % k * 10);
+				else
+					nb->SetNum(i / k * 10);
+			}
+			b.DownCast(nb);
+		}
+		else
+		{
+			b.SetPtr(new Button);
+		}
+
 		SceneManager::GetInstance()->GetScene(mSceneKey)->AddGameObject(b);
 
 		b->SetParent(this);
@@ -226,7 +268,7 @@ void ButtonGroup::SetInitState(const char* _texName, int _divX, int _divY, int _
 		//色で切り替えるなら
 		if (_trans == ButtonTransition::eColorTint)
 			b->GetComponent<Component::Quad2d>()->SetUvPos(INT2(i, 0));
-		// 画像で切り替えるなら
+		/// Todo:画像で切り替えるなら
 		else if (_trans == ButtonTransition::eImageSwap)
 		{
 

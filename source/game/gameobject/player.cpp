@@ -17,8 +17,6 @@ Player::Player() : GameObject(("Player"), ObjectType::ePlayer, true) {
 	}
 	mTransform->scale = Float3(4, 6, 4);
 	AddComponent<Component::Model>()->SetModel(ModelMgr::GetInstance().GetModelPtr("assets/model/player/player.fbx"));
-	AddComponent<Component::Collision>()->SetLocalScale(mTransform->scale);
-	GetComponent<Component::Collision>()->SetColor(DirectX::XMFLOAT4(0.1f, 0.1f, 0.1f, 0.01f));
 	AddComponent<Component::PlayerController>();
 	AddComponent<Component::MapPos>();
 };

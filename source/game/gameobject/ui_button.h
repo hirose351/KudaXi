@@ -47,6 +47,7 @@ enum class StartPoint
 */
 
 namespace myUI {
+
 	class Button : public GameObject
 	{
 	private:
@@ -74,6 +75,20 @@ namespace myUI {
 			mSelectScale = _selectScale;
 		}
 		void SetStartPos(Float3 _pos) { mStartPos = _pos; }
+	};
+
+	class NumButton : public Button
+	{
+	private:
+		/// NumButtonê—p
+		std::vector<int> mNumUvList;		// UVî•ñ
+	public:
+		NumButton();
+		void ObjectUpdate()override;
+		void Uninit() override;
+
+		/// NumButtonê—p
+		void SetNum(int _uv);		// UVî•ñ“o˜^
 	};
 
 	class ButtonGroup : public GameObject
@@ -107,7 +122,7 @@ namespace myUI {
 		}
 
 		// ‰Šú’l“o˜^(btCount:ƒTƒCƒRƒ‚ÌŒÂ”)
-		void SetInitState(const char* _texName, int _divX, int _divY, int _arrayCnt, ButtonTransition _trans, DirectX::XMFLOAT2 _space, DirectX::XMFLOAT2 _nomalScale, DirectX::XMFLOAT2 _selectScale, ButtonArrangement _ar = ButtonArrangement::eHorizontal, StartPoint _sP = StartPoint::eLeftUp);
+		void SetInitState(const char* _texName, int _divX, int _divY, int _arrayCnt, ButtonTransition _trans, DirectX::XMFLOAT2 _space, DirectX::XMFLOAT2 _nomalScale, DirectX::XMFLOAT2 _selectScale, ButtonArrangement _ar = ButtonArrangement::eHorizontal, StartPoint _sP = StartPoint::eLeftUp, bool _isNumButton = false, int _digitsNum = 1);
 
 		// ‰Šú‘I‘ğ”Ô†“o˜^
 		void SetInitSelectNum(int _num);

@@ -109,9 +109,6 @@
     <Filter Include="ソース ファイル\game\gameobject\camera">
       <UniqueIdentifier>{3eb226dc-5dd8-4b2a-a978-881ed6534489}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\game\scene\stagecreate">
-      <UniqueIdentifier>{d2f7b879-cb6b-4c3a-bf64-8a6d72bc317f}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ソース ファイル\game\state">
       <UniqueIdentifier>{20a5849b-c6fb-4f0d-8a0b-6354cde63573}</UniqueIdentifier>
     </Filter>
@@ -213,6 +210,9 @@
     </Filter>
     <Filter Include="ソース ファイル\game\state\gamemode\select">
       <UniqueIdentifier>{7ef47c5d-2491-41a6-90a0-ed335fa13329}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\game\scene\stagecreate_scene">
+      <UniqueIdentifier>{d2f7b879-cb6b-4c3a-bf64-8a6d72bc317f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -376,7 +376,7 @@
       <Filter>ソース ファイル\game\manager\game</Filter>
     </ClCompile>
     <ClCompile Include="source\game\scene\stagecreate_scene.cpp">
-      <Filter>ソース ファイル\game\scene\stagecreate</Filter>
+      <Filter>ソース ファイル\game\scene\stagecreate_scene</Filter>
     </ClCompile>
     <ClCompile Include="source\game\data\saveload.cpp">
       <Filter>ソース ファイル\game\data</Filter>
@@ -696,7 +696,7 @@
       <Filter>ソース ファイル\game\manager\game</Filter>
     </ClInclude>
     <ClInclude Include="source\game\scene\stagecreate_scene.h">
-      <Filter>ソース ファイル\game\scene\stagecreate</Filter>
+      <Filter>ソース ファイル\game\scene\stagecreate_scene</Filter>
     </ClInclude>
     <ClInclude Include="source\game\data\saveload.h">
       <Filter>ソース ファイル\game\data</Filter>
