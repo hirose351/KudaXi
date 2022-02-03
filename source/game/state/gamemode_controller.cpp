@@ -6,6 +6,15 @@ using namespace Component;
 
 Component::GameModeController::GameModeController() :ComponentBase(("GameModeController"))
 {
+	// ó‘ÔƒNƒ‰ƒX‚ðMap‚É“o˜^
+	mStates[eSelect].SetPtr(new GameModeState::Select);
+	mStates[ePuzzle].SetPtr(new GameModeState::Puzzle);
+	mStates[eEndless].SetPtr(new GameModeState::Endless);
+
+	for (auto sts : mStates)
+	{
+		sts.second->Start(this);
+	}
 }
 
 Component::GameModeController::~GameModeController()
@@ -16,16 +25,6 @@ void Component::GameModeController::Init(int _modeNum)
 {
 	// Å‰‚Ìó‘Ô
 	mModeNum = _modeNum;
-
-	// ó‘ÔƒNƒ‰ƒX‚ðMap‚É“o˜^
-	mStates[eSelect].SetPtr(new GameModeState::Select);
-	mStates[ePuzzle].SetPtr(new GameModeState::Puzzle);
-	mStates[eEndless].SetPtr(new GameModeState::Endless);
-
-	for (auto sts : mStates)
-	{
-		sts.second->Start(this);
-	}
 	mStates[mModeNum]->BeforeChange();
 }
 

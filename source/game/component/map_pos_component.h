@@ -24,6 +24,7 @@ namespace Component {
 		/// アクセサ
 		INT2 GetMapPos() { return mPos; }
 		void SetMapPos(INT2 _pos) { mPos = _pos; }
+		void SetMapPosMove(INT2 _pos);
 		bool AddMapPos(INT2 _pos);
 	};
 }

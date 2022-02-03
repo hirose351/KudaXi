@@ -55,14 +55,15 @@ void Button::SetButtonState(ButtonState _state)
 NumButton::NumButton()
 {
 	SetName("NumButton");
+	SetObjectType(ObjectType::eStage);
 }
 
 void NumButton::ObjectUpdate()
 {
 	for (int i = 0; i < mNumUvList.size(); i++)
 	{
-		GetComponent<Component::Quad2d>()->SetDrawUv((mNumUvList[i], 0));
-		GetComponent<Component::Quad2d>()->SetDrawPos((mTransform->position.x + mTransform->scale.x*mNumUvList[i], mTransform->position.y, mTransform->position.z));
+		GetComponent<Component::Quad2d>()->SetDrawUv(INT2(mNumUvList[i], 0));
+		GetComponent<Component::Quad2d>()->SetDrawPos(Float3(mTransform->position.x + mTransform->scale.x / 4 * 3 * i, mTransform->position.y, 0));
 	}
 }
 
@@ -243,27 +244,26 @@ void ButtonGroup::SetInitState(const char* _texName, int _divX, int _divY, int _
 		{
 			Dix::sp<NumButton> nb;
 			nb.SetPtr(new NumButton);
-			for (int k = _digitsNum; k < 1; k--)
+			nb->GetComponent<Component::Quad2d>()->SetInfo(_texName, XMFLOAT4(1, 1, 1, 1), 10, 1);
+			for (int j = _digitsNum; j > 0; j--)
 			{
 				// １桁目なら
-				if (k == 1)
-					nb->SetNum(i % k * 10);
+				if (j == 1)
+					nb->SetNum((i + 1) % 10);
 				else
-					nb->SetNum(i / k * 10);
+					nb->SetNum((i + 1) / ((j - 1) * 10));
 			}
 			b.DownCast(nb);
 		}
 		else
 		{
 			b.SetPtr(new Button);
+			b->GetComponent<Component::Quad2d>()->SetInfo(_texName, XMFLOAT4(1, 1, 1, 1), _divX, _divY);
 		}
 
 		SceneManager::GetInstance()->GetScene(mSceneKey)->AddGameObject(b);
 
 		b->SetParent(this);
-
-		b->GetTransform()->SetScale(Float3(_nomalScale.x, _nomalScale.y, 0));
-		b->GetComponent<Component::Quad2d>()->SetInfo(_texName, XMFLOAT4(1, 1, 1, 1), _divX, _divY);
 
 		//色で切り替えるなら
 		if (_trans == ButtonTransition::eColorTint)
@@ -283,6 +283,7 @@ void ButtonGroup::SetInitState(const char* _texName, int _divX, int _divY, int _
 
 		// vector配列に追加
 		mpButtonList.emplace_back(b);
+		SceneManager::GetInstance()->GetCurrentScene()->AddGameObject(b);
 	}
 	// 位置指定
 	SetButtonPosition();

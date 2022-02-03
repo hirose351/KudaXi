@@ -29,8 +29,12 @@ void Stage::ObjectInit()
 
 	mCurrentStageData = StageDataManager::GetInstance().GetCurrentStage();
 
+	for (int x = 0; x < 10; x++)
+		for (int z = 0; z < 10; z++)
+			mCurrentStageData->mFloorMap[x][z] = 1;
+
 	/// Todo:ゲーム開始時にカメラを移動できるように
-	CameraUpdate();
+	//CameraUpdate();
 }
 
 void Stage::ObjectUpdate()

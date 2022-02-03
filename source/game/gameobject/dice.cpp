@@ -27,6 +27,9 @@ Dice::~Dice()
 
 void Dice::ObjectInit()
 {
+	if (SceneManager::GetInstance()->GetGameMode() != GameMode::eEndless)
+		mSts = DiceStatus::eCreate;
+
 	if (mSts == DiceStatus::eCreate)
 		return;
 

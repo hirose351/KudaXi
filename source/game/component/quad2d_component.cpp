@@ -50,6 +50,7 @@ void Quad2d::Draw()
 			if (!mDrawUvList.empty())
 				SetUvPos(mDrawUvList[i]);
 
+			Update();
 			switch (mDrawType)
 			{
 			case DrawType::eTex:

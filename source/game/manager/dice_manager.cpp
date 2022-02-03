@@ -34,9 +34,6 @@ void DiceManager::DiceMapCreate(bool _isUp = true)
 			dice->GetTransform()->SetWordMtx(mCurrentStageData->mDiceMtx[mpDiceList.size()]);
 			std::cout << "生成" << dice->GetObjectID() << "\n";
 
-			/// todo:前プロジェクトの7培スケールに合わせる為に1/7
-			dice->GetTransform()->SetScale(1.0f / 7.0f);
-			dice->GetTransform()->CreateScaleMtx();
 			if (_isUp)
 				dice->GetTransform()->SetPositionXYZ(Float3(DICE_SCALE*x, -DICE_SCALE_HALF, -DICE_SCALE * z));
 			else
@@ -140,6 +137,14 @@ void DiceManager::Uninit()
 	}
 	mpDiceList.clear();
 	mpDiceList.shrink_to_fit();
+}
+
+void DiceManager::SetPuzzle()
+{
+	for (auto &obj : mpDiceList)
+	{
+		obj->SetDiceSts(DiceStatus::eNormal);
+	}
 }
 
 bool DiceManager::CanDiceMove(Dice* _dice, Direction _dire)

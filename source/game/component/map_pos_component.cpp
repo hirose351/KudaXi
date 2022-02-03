@@ -34,6 +34,12 @@ void MapPos::ImguiDraw()
 	ImGui::Text(str.c_str());
 }
 
+void MapPos::SetMapPosMove(INT2 _pos)
+{
+	mPos = _pos;
+	SetPos();
+}
+
 bool MapPos::AddMapPos(INT2 _pos)
 {
 	if ((mPos + _pos).x < 0 || (mPos + _pos).x >= mCurrentStageData.mMapSizeWidth || (mPos + _pos).z < 0 || (mPos + _pos).z >= mCurrentStageData.mMapSizeHeight)

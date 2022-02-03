@@ -19,6 +19,7 @@ namespace Component {
 		Direction					  mDiceMoveDirection; // サイコロを回転させる方向
 		Dix::sp<Direction>			  mDirection;		  // プレイヤーの方向(キー参照)
 		Dix::wp<GameObject>			  mDiceModel;		  // 操作しているサイコロモデル
+		Dix::wp<GameObject>			  mDiceBg;			  // 操作しているサイコロ背景
 		Dix::wp<StageData> 			  mStageData;		  // ステージ情報
 		Foot						  mFoot;
 		Float3						  mInfoDicePos;		  // 画面に表示する位置

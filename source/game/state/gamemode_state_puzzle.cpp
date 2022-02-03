@@ -1,6 +1,7 @@
 #include	"gamemode_state_puzzle.h"
 #include	"../gameobject/ui_image.h"
 #include	"../manager/stagedata_manager.h"
+#include	"../manager/dice_manager.h"
 
 using namespace GameModeState;
 
@@ -69,6 +70,8 @@ void Puzzle::BeforeChange()
 	mUiStepNum->SetUvPos((data.mStep, 0));
 	// クリアオーバー非表示
 	mUiClearOver->SetIsDraw(false);
+	// サイコロの状態を通常に戻す
+	DiceManager::GetInstance()->SetPuzzle();
 }
 
 void Puzzle::AfterChange()

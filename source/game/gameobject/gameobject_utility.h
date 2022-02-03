@@ -57,4 +57,5 @@ enum GameMode
 	eSelect,
 	ePuzzle,
 	eEndless,
+	eEdit,
 };

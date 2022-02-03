@@ -7,12 +7,12 @@ DiceManagerAccess::DiceManagerAccess() :GameObject(("DiceManager"), ObjectType::
 
 void DiceManagerAccess::ObjectInit()
 {
-	DiceManager::GetInstance()->Init();
+	//DiceManager::GetInstance()->Init();
 }
 
 void DiceManagerAccess::ObjectUpdate()
 {
-	DiceManager::GetInstance()->EndleesUpdate();
+	//DiceManager::GetInstance()->EndleesUpdate();
 }
 
 void DiceManagerAccess::ObjectImguiDraw()

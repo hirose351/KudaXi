@@ -41,6 +41,7 @@ PlayerController::PlayerController() :ComponentBase(("PlayerController"))
 	diceBg->GetTransform()->SetScale((188));
 	diceBg->GetTransform()->SetPosition(Float3(150));
 	diceBg->GetTransform()->CreateWordMtx();
+	mDiceBg = diceBg;
 
 	transScreenToWorld(&mInfoDicePos, 150, 150, 0.9f);
 }
@@ -93,6 +94,11 @@ void PlayerController::Update()
 	{
 		mDiceModel->SetIsActive(false);
 	}
+
+	if (SceneManager::GetInstance()->GetGameMode() == GameMode::ePuzzle || SceneManager::GetInstance()->GetGameMode() == GameMode::eEndless)
+		mDiceBg->SetIsActive(true);
+	else
+		mDiceBg->SetIsActive(false);
 }
 
 void PlayerController::ImguiDraw()

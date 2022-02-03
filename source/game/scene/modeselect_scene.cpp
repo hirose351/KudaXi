@@ -73,12 +73,14 @@ void ModeSelectScene::SceneUpdate()
 	case SelectMode::eEndless:
 	{
 		mpSceneManager->SetNextScene("GameMain");
+		mpSceneManager->SetGameMode(GameMode::eEndless);
 		mIsButtonPush = true;
 	}
 	break;
 	case SelectMode::eEdit:
 	{
 		mpSceneManager->SetNextScene("Create");
+		mpSceneManager->SetGameMode(GameMode::eEdit);
 		mIsButtonPush = true;
 	}
 	break;

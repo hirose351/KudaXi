@@ -60,6 +60,8 @@ public:
 
 	void Uninit();
 
+	void SetPuzzle();
+
 	// Dice‚ðˆÚ“®‚·‚éŽ–‚ª‰Â”\‚©
 	bool CanDiceMove(Dice* _dice, Direction _dire);
 
