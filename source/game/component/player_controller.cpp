@@ -42,6 +42,7 @@ PlayerController::PlayerController() :ComponentBase(("PlayerController"))
 	diceBg->GetTransform()->SetPosition(Float3(150));
 	diceBg->GetTransform()->CreateWordMtx();
 	mDiceBg = diceBg;
+	mDiceBg->SetIsActive(false);
 
 	transScreenToWorld(&mInfoDicePos, 150, 150, 0.9f);
 }
@@ -78,6 +79,9 @@ void PlayerController::Update()
 	mStates[mStateNum]->Exec();
 	DiceManager::GetInstance()->SetPlayerPos(mStates[mStateNum]->GetMapPos());
 
+	if (!mIsDiceUiDraw)
+		return;
+
 	// ‘€ì‚·‚éƒTƒCƒRƒ‚ª‘¶Ý‚µ‚Ä‚¢‚ê‚Î
 	if (mStates[mStateNum]->GetOperationDice().IsExist())
 	{
@@ -94,11 +98,6 @@ void PlayerController::Update()
 	{
 		mDiceModel->SetIsActive(false);
 	}
-
-	if (SceneManager::GetInstance()->GetGameMode() == GameMode::ePuzzle || SceneManager::GetInstance()->GetGameMode() == GameMode::eEndless)
-		mDiceBg->SetIsActive(true);
-	else
-		mDiceBg->SetIsActive(false);
 }
 
 void PlayerController::ImguiDraw()
@@ -120,6 +119,21 @@ void PlayerController::ImguiDraw()
 		ImGui::Text(str.c_str());
 		ImGui::TreePop();
 	}
+}
+
+void PlayerController::SetDiceUi()
+{
+	transScreenToWorld(&mInfoDicePos, 150, 150, 0.9f);
+	mDiceModel->SetIsActive(true);
+	mDiceBg->SetIsActive(true);
+	mIsDiceUiDraw = true;
+}
+
+void PlayerController::RemoveDiceUi()
+{
+	mDiceModel->SetIsActive(false);
+	mDiceBg->SetIsActive(false);
+	mIsDiceUiDraw = false;
 }
 
 void PlayerController::ChangeState(int _stateNum)

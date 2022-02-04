@@ -30,7 +30,6 @@ void Component::GameModeController::Init(int _modeNum)
 
 void Component::GameModeController::Init()
 {
-
 	switch (SceneManager::GetInstance()->GetGameMode())
 	{
 	case ePuzzle:

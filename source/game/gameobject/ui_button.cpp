@@ -287,6 +287,12 @@ void ButtonGroup::SetInitState(const char* _texName, int _divX, int _divY, int _
 	}
 	// ˆÊ’uŽw’è
 	SetButtonPosition();
+
+
+	for (Dix::wp<Button> b : mpButtonList)
+	{
+		b->Update();
+	}
 }
 
 void ButtonGroup::SetInitSelectNum(int _num)
@@ -329,6 +335,7 @@ void ButtonGroup::SetButtonPosition()
 		case StartPoint::eLeftUp:
 			if (mArrangement == ButtonArrangement::eHorizontal)
 				//b->SetStartPos(Float3(mTransform->position.x + i * mSpace.x + i * mNomalScale.x, mTransform->position.y /*+ i * mSpace.x + i * _nomalScale.x*/, 0));
+				//b->GetTransform()->SetPosition(Float3(mTransform->position.x + i % mArrayCnt * mSpace.x + i * mNomalScale.x, mTransform->position.y + i / mArrayCnt * mSpace.y + i / mArrayCnt * mNomalScale.y, 0));
 				b->GetTransform()->SetPosition(Float3(mTransform->position.x + i * mSpace.x + i * mNomalScale.x, mTransform->position.y /*+ i * mSpace.x + i * _nomalScale.x*/, 0));
 			if (mArrangement == ButtonArrangement::eVertical)
 				//b->SetStartPos(Float3(mTransform->position.x, mTransform->position.y + i * mSpace.y + i * mNomalScale.y, 0));

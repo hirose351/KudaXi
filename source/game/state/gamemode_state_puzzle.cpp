@@ -6,6 +6,7 @@
 #include	"../gameobject/access_camera_eye.h"
 #include	"../gameobject/access_camera_lookat.h"
 #include	"../component/easing_component.h"
+#include	"../component/player_controller.h"
 
 using namespace GameModeState;
 
@@ -14,48 +15,59 @@ Puzzle::Puzzle()
 	// StageStringUI
 	Dix::sp<myUI::Image> stageString;
 	stageString.SetPtr(new myUI::Image);
+	stageString->GetTransform()->SetPositionXYZ(Float3(1280 / 2.0f, 100.0f, 0));
+	stageString->GetTransform()->SetScale(Float3(400));
 	SceneManager::GetInstance()->GetCurrentScene()->AddGameObject(stageString);
-	mUiStage = stageString->AddComponent<Component::Quad2d>();
-	mUiStage->SetInfo("assets/image/ui/stage.png", XMFLOAT4(1, 1, 1, 1));
-	mUiStage->SetOrderInLayer(1);
+	Component::Quad2d* uiStageQuad = stageString->AddComponent<Component::Quad2d>();
+	uiStageQuad->SetInfo("assets/image/ui/stage.png", XMFLOAT4(1, 1, 1, 1));
+	uiStageQuad->SetOrderInLayer(1);
 	mModeObjList.emplace_back(stageString);
 
 	// StageNumUI
 	Dix::sp<myUI::Image> stageNum;
 	stageNum.SetPtr(new myUI::Image);
+	stageNum->GetTransform()->SetPositionXYZ(Float3(1280 / 2.0f + 200, 100.0f, 0));
+	stageNum->GetTransform()->SetScale(Float3(100));
 	SceneManager::GetInstance()->GetCurrentScene()->AddGameObject(stageNum);
-	mUiStageNum = stageNum->AddComponent<Component::Quad2d>();
-	mUiStageNum->SetInfo("assets/image/ui/number.png", XMFLOAT4(1, 1, 1, 1), 10);
-	mUiStageNum->SetOrderInLayer(1);
+	Component::Quad2d* uiStageNumQuad = stageNum->AddComponent<Component::Quad2d>();
+	uiStageNumQuad->SetInfo("assets/image/ui/number.png", XMFLOAT4(1, 1, 1, 1), 10);
+	uiStageNumQuad->SetOrderInLayer(1);
 	mModeObjList.emplace_back(stageNum);
+	mUiStageNum = stageNum;
 
 	// StepStringUI
 	Dix::sp<myUI::Image> stepString;
 	stepString.SetPtr(new myUI::Image);
+	stepString->GetTransform()->SetPositionXYZ(Float3(1140, 500, 0));
+	stepString->GetTransform()->SetScale(Float3(250, 200, 0));
 	SceneManager::GetInstance()->GetCurrentScene()->AddGameObject(stepString);
-	mUiStep = stepString->AddComponent<Component::Quad2d>();
-	mUiStep->SetInfo("assets/image/ui/step.png", XMFLOAT4(1, 1, 1, 1));
-	mUiStep->SetOrderInLayer(1);
+	Component::Quad2d* uiStepQuad = stepString->AddComponent<Component::Quad2d>();
+	uiStepQuad->SetInfo("assets/image/ui/step.png", XMFLOAT4(1, 1, 1, 1));
+	uiStepQuad->SetOrderInLayer(1);
 	mModeObjList.emplace_back(stepString);
 
 	// StepNumUI
 	Dix::sp<myUI::Image> stepNum;
 	stepNum.SetPtr(new myUI::Image);
+	stepNum->GetTransform()->SetPositionXYZ(Float3(1150, 630, 0));
+	stepNum->GetTransform()->SetScale(Float3(150));
 	SceneManager::GetInstance()->GetCurrentScene()->AddGameObject(stepNum);
-	mUiStepNum = stepNum->AddComponent<Component::Quad2d>();
-	mUiStepNum->SetInfo("assets/image/ui/number.png", XMFLOAT4(1, 1, 1, 1), 10);
-	mUiStepNum->SetOrderInLayer(1);
+	Component::Quad2d* stepNumQuad = stepNum->AddComponent<Component::Quad2d>();
+	stepNumQuad->SetInfo("assets/image/ui/number.png", XMFLOAT4(1, 1, 1, 1), 10);
+	stepNumQuad->SetOrderInLayer(1);
 	mModeObjList.emplace_back(stepNum);
+	mUiStepNum = stepNum;
 
 	// ClearOverUI
 	Dix::sp<myUI::Image> clearOver;
 	clearOver.SetPtr(new myUI::Image);
 	clearOver->GetTransform()->SetScale(Float3(500.0f, 250.0f, 0));
 	SceneManager::GetInstance()->GetCurrentScene()->AddGameObject(clearOver);
-	mUiClearOver = clearOver->AddComponent<Component::Quad2d>();
-	mUiClearOver->SetInfo("assets/image/ui/clearover.png", XMFLOAT4(1, 1, 1, 1), 1, 2);
-	mUiClearOver->SetOrderInLayer(1);
+	Component::Quad2d* clearOverQuad = clearOver->AddComponent<Component::Quad2d>();
+	clearOverQuad->SetInfo("assets/image/ui/clearover.png", XMFLOAT4(1, 1, 1, 1), 1, 2);
+	clearOverQuad->SetOrderInLayer(1);
 	mModeObjList.emplace_back(clearOver);
+	mUiClearOver = clearOver;
 
 	// cameraEye
 	Dix::sp<CameraEyeAccess> cameraEye;
@@ -73,13 +85,8 @@ Puzzle::Puzzle()
 
 	// 次のステージへ、ステージセレクトへ、もう一度
 
-	mUiStage->SetIsDraw(false);
-	mUiStageNum->SetIsDraw(false);
-	mUiStep->SetIsDraw(false);
-	mUiStepNum->SetIsDraw(false);
-	mUiClearOver->SetIsDraw(false);
-	mCameraEye->SetIsActive(false);
-	mCameraLookat->SetIsActive(false);
+	for (Dix::wp<GameObject> obj : mModeObjList)
+		obj->SetIsActive(false);
 }
 
 Puzzle::~Puzzle()
@@ -89,8 +96,14 @@ Puzzle::~Puzzle()
 void Puzzle::Exec()
 {
 	// カメラが動きを止めたらポーズ状態を解除
-
-
+	if (!mIsStart)
+	{
+		if (mCameraEye->GetComponent<Component::Easing>()->GetEasingListCnt() == 0)
+		{
+			mIsStart = true;
+			mHolder->GetPlayer()->GetComponent<Component::PlayerController>()->SetDiceUi();
+		}
+	}
 	// プレイヤーorサイコロの行動によってステップを減らす
 
 
@@ -123,32 +136,25 @@ void Puzzle::Exec()
 
 void Puzzle::BeforeChange()
 {
-	//for (Dix::wp<GameObject> obj : mModeObjList)
-	//{
-	//	obj->SetIsActive(true);
-	//}
+	for (Dix::wp<GameObject> obj : mModeObjList)
+	{
+		obj->SetIsActive(true);
+	}
 	mIsBack = false;
+	mIsStart = false;
 
-	mUiStage->SetIsDraw(true);
-	mUiStageNum->SetIsDraw(true);
-	mUiStep->SetIsDraw(true);
-	mUiStepNum->SetIsDraw(true);
 	// セレクトで選択されたステップ数を取得
 	StageData data = StageDataManager::GetInstance().GetCurrentStage().At();
 
 	mStep = data.mStep;
 	// ステージ番号更新
-	mUiStageNum->SetUvPos(INT2(mHolder->GetSelectStage(), 0));
+	mUiStageNum->GetComponent<Component::Quad2d>()->SetUvPos(INT2(mHolder->GetSelectStage(), 0));
 	// ステップ番号更新
-	mUiStepNum->SetUvPos((data.mStep, 0));
+	mUiStepNum->GetComponent<Component::Quad2d>()->SetUvPos((data.mStep, 0));
 	// クリアオーバー非表示
-	mUiClearOver->SetIsDraw(false);
+	mUiClearOver->SetIsActive(false);
 	// サイコロの状態を通常に戻す
 	DiceManager::GetInstance()->SetPuzzle();
-
-	mCameraEye->SetIsActive(true);
-	mCameraLookat->SetIsActive(true);
-
 
 	mCameraEye->ObjectInit();
 	Float3 cameraVector(20.5f, 4.4f, -27.5f);
@@ -164,17 +170,13 @@ void Puzzle::BeforeChange()
 	cameraLookat.x = data.mMapSizeWidth*DICE_SCALE_HALF;
 	cameraLookat.y = 0;
 	cameraLookat.z = -data.mMapSizeHeight*DICE_SCALE_HALF;
-	//Camera::GetInstance()->SetLookat(cameraLookat);
 	mCameraLookat->GetComponent<Component::Easing>()->AddEasing(EasingProcess::EasingType::eLinear, TransType::ePos, 50.0f, 0.0f, 0, cameraLookat, true);
 }
 
 void Puzzle::AfterChange()
 {
-	mUiStage->SetIsDraw(false);
-	mUiStageNum->SetIsDraw(false);
-	mUiStep->SetIsDraw(false);
-	mUiStepNum->SetIsDraw(false);
-	mUiClearOver->SetIsDraw(false);
-	mCameraEye->SetIsActive(false);
-	mCameraLookat->SetIsActive(false);
+	for (Dix::wp<GameObject> obj : mModeObjList)
+	{
+		obj->SetIsActive(false);
+	}
 }

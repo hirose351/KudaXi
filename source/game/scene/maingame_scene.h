@@ -20,6 +20,7 @@ using Microsoft::WRL::ComPtr;
 class MaingameScene : public SceneBase
 {
 private:
+	Dix::wp<GameObject> mMaingameController;
 
 public:
 	MaingameScene();

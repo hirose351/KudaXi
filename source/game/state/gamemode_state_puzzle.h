@@ -11,13 +11,12 @@ namespace GameModeState {
 		bool mIsClear = false;		// クリアしたか
 		bool mIsAgain = false;		// ステップ使い果たしたか
 		bool mIsBack = false;		// 戻るボタン押されたか
+		bool mIsStart = false;		// 始まったか
 		//bool mIsSelect = false;		// 選択されたか
 
-		Component::Quad2d* mUiStage;	// ステージのUI
-		Component::Quad2d* mUiStageNum;	// ステージ番号のUI
-		Component::Quad2d* mUiStep;		// ステップのUI
-		Component::Quad2d* mUiStepNum;	// ステップ数のUI
-		Component::Quad2d* mUiClearOver;// クリアオーバー時のUI
+		Dix::wp<GameObject> mUiStageNum;	// ステージ番号のUI
+		Dix::wp<GameObject> mUiStepNum;	// ステップ数のUI
+		Dix::wp<GameObject> mUiClearOver;// クリアオーバー時のUI
 		Dix::wp<GameObject> mCameraEye;
 		Dix::wp<GameObject> mCameraLookat;
 

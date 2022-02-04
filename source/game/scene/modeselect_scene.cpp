@@ -4,6 +4,7 @@
 #include	"../gameobject/skydome.h"
 #include	"../gameobject/ui_image.h"
 #include	"../component/quad2d_component.h"
+#include	"../manager/input_manager.h"
 
 using namespace DirectX;
 
@@ -54,6 +55,10 @@ void ModeSelectScene::SceneUpdate()
 	if (!mpBg->GetIsPressed())
 		return;
 
+	if (InputManager::GetInstance().GetStateTrigger(InputMode::eUi, static_cast<int>(UiAction::eCancel)))
+	{
+		SceneManager::GetInstance()->SetNextScene("Title");
+	}
 
 	switch (static_cast<SelectMode>(mpBg->GetSelectNum()))
 	{
@@ -65,22 +70,22 @@ void ModeSelectScene::SceneUpdate()
 	break;
 	case SelectMode::ePuzzle:
 	{
-		mpSceneManager->SetNextScene("GameMain");
 		mpSceneManager->SetGameMode(GameMode::eSelect);
+		mpSceneManager->SetNextScene("GameMain");
 		mIsButtonPush = true;
 	}
 	break;
 	case SelectMode::eEndless:
 	{
-		mpSceneManager->SetNextScene("GameMain");
 		mpSceneManager->SetGameMode(GameMode::eEndless);
+		mpSceneManager->SetNextScene("GameMain");
 		mIsButtonPush = true;
 	}
 	break;
 	case SelectMode::eEdit:
 	{
-		mpSceneManager->SetNextScene("Create");
 		mpSceneManager->SetGameMode(GameMode::eEdit);
+		mpSceneManager->SetNextScene("Create");
 		mIsButtonPush = true;
 	}
 	break;

@@ -23,7 +23,7 @@ namespace Component {
 		Dix::wp<StageData> 			  mStageData;		  // ステージ情報
 		Foot						  mFoot;
 		Float3						  mInfoDicePos;		  // 画面に表示する位置
-
+		bool mIsDiceUiDraw = false;
 	public:
 		PlayerController();
 		~PlayerController();
@@ -33,6 +33,9 @@ namespace Component {
 		void Update()override;
 		void ImguiDraw()override;
 		void Uninit()override {};
+
+		void SetDiceUi();
+		void RemoveDiceUi();
 
 		/// アクセサ //////////////////////////////////////////////////////////////////////////////////
 

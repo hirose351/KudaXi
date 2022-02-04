@@ -2,6 +2,7 @@
 #include	"../manager/dice_manager.h"
 #include	"../manager/input_manager.h"
 #include	"../gameobject/pause_endless.h"
+#include	"../component/player_controller.h"
 
 using namespace GameModeState;
 
@@ -51,6 +52,8 @@ void Endless::BeforeChange()
 	{
 		obj->SetIsActive(true);
 	}
+
+	mHolder->GetPlayer()->GetComponent<Component::PlayerController>()->SetDiceUi();
 }
 
 void Endless::AfterChange()

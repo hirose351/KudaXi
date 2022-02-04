@@ -42,7 +42,7 @@ void GameObject::Update()
 {
 	if (mParent != nullptr)
 	{
-		if (!mParent->GetIsActive())
+		if (!mParent->GetIsActive() && mObjectType != ObjectType::eStage&&mName != "NumButton")
 			return;
 		/*mTransform->CreateLocalMtx();
 		DX11MtxMultiply(mTransform->worldMtx, mParent->GetTransform()->GetMtx(), mTransform->localMtx);*/

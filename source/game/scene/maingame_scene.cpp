@@ -19,6 +19,8 @@ MaingameScene::MaingameScene()
 
 void MaingameScene::SceneAfter()
 {
+	//if (mMaingameController.IsExist())
+	//	mMaingameController->Init();
 }
 
 void MaingameScene::SceneInit()
@@ -45,6 +47,7 @@ void MaingameScene::SceneInit()
 	maingameController->AddComponent<Component::GameModeController>()->SetPlayer(player);
 	maingameController->GetComponent<Component::GameModeController>()->SetStage(stage);
 	AddGameObject(maingameController);
+	mMaingameController = maingameController;
 }
 
 void MaingameScene::SceneUpdate()
