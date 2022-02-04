@@ -1,5 +1,6 @@
 #include	"gamemode_state_endless.h"
 #include	"../manager/dice_manager.h"
+#include	"../manager/input_manager.h"
 #include	"../gameobject/pause_endless.h"
 
 using namespace GameModeState;
@@ -20,6 +21,12 @@ Endless::~Endless()
 void Endless::Exec()
 {
 	DiceManager::GetInstance()->EndleesUpdate();
+	// –ß‚é‚ğ‰Ÿ‚³‚ê‚½‚Æ‚«‚Ìˆ—
+	if (InputManager::GetInstance().GetStateTrigger(InputMode::eUi, static_cast<int>(UiAction::eCancel)))
+	{
+		AfterChange();
+		SceneManager::GetInstance()->SetNextScene("Mode");
+	}
 }
 
 void Endless::BeforeChange()

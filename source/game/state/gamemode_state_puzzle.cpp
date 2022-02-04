@@ -88,12 +88,36 @@ Puzzle::~Puzzle()
 
 void Puzzle::Exec()
 {
+	// カメラが動きを止めたらポーズ状態を解除
+
+
 	// プレイヤーorサイコロの行動によってステップを減らす
 
+
+
+
+	if (mIsBack)
+	{
+		if (mCameraEye->GetComponent<Component::Easing>()->GetEasingListCnt() == 0)
+			mHolder->ChangeMode(eSelect);
+		return;
+	}
 	// 戻るを押されたときの処理
+
 	if (InputManager::GetInstance().GetStateTrigger(InputMode::eUi, static_cast<int>(UiAction::eCancel)))
 	{
-		mHolder->ChangeMode(eSelect);
+		mIsBack = true;
+
+		StageData data = StageDataManager::GetInstance().GetCurrentStage().At();
+
+		Float3 eye(data.mMapSizeWidth*data.mMapChipSize / 2.0f, 250, -197.5f - data.mMapSizeHeight*data.mMapChipSize / 2.0f);
+		Float3 lookat(data.mMapSizeWidth*data.mMapChipSize / 2.0f, 0, -data.mMapSizeHeight*data.mMapChipSize / 2.0f);
+
+		mCameraEye->ObjectInit();
+		mCameraEye->GetComponent<Component::Easing>()->AddEasing(EasingProcess::EasingType::eLinear, TransType::ePos, 50.0f, 0.0f, 0, eye, true);
+
+		mCameraLookat->ObjectInit();
+		mCameraLookat->GetComponent<Component::Easing>()->AddEasing(EasingProcess::EasingType::eLinear, TransType::ePos, 50.0f, 0.0f, 0, lookat, true);
 	}
 }
 
@@ -103,6 +127,7 @@ void Puzzle::BeforeChange()
 	//{
 	//	obj->SetIsActive(true);
 	//}
+	mIsBack = false;
 
 	mUiStage->SetIsDraw(true);
 	mUiStageNum->SetIsDraw(true);

@@ -48,6 +48,8 @@ namespace Component {
 					   Float3 _endValue,
 					   bool _isStartAbsolute = false,
 					   bool _isEndAbsolute = false);
+
+		int GetEasingListCnt();
 	};
 }
 

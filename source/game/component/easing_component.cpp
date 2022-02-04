@@ -125,3 +125,8 @@ void Component::Easing::AddEasing(EasingProcess::EasingType _easingType, TransTy
 
 	mEasingList.push_back(newFamily);	// ƒŠƒXƒg‚É’Ç‰Á
 }
+
+int Component::Easing::GetEasingListCnt()
+{
+	return mEasingList.size();
+}

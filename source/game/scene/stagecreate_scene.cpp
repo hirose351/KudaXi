@@ -10,6 +10,7 @@
 #include	"../component/collision_component.h"
 #include	"../component/allcomponents.h"
 #include	"../manager/stagedata_manager.h"
+#include	"../manager/input_manager.h"
 #include	"../../application.h"
 #include	"../../system/dx11/DX11util.h"
 #include	"../../system/util/XAudio2.h"
@@ -75,6 +76,11 @@ void StageCreateScene::SceneUpdate()
 		mViewObjList[0]->GetComponent<Component::MapMove>()->SetState(ObjectState::ePaused);
 	}
 	DiceManager::GetInstance()->SetIsSelect(mSelectObjNum == eDiceM);
+
+	// –ß‚é‚ğ‰Ÿ‚³‚ê‚½‚Æ‚«‚Ìˆ—
+	if (InputManager::GetInstance().GetStateTrigger(InputMode::eUi, static_cast<int>(UiAction::eCancel)))
+		// ƒV[ƒ“‚ğ•ÏX
+		SceneManager::GetInstance()->SetNextScene("Mode");
 }
 
 void StageCreateScene::ImguiDebug()

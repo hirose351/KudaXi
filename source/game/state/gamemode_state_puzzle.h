@@ -10,6 +10,7 @@ namespace GameModeState {
 
 		bool mIsClear = false;		// クリアしたか
 		bool mIsAgain = false;		// ステップ使い果たしたか
+		bool mIsBack = false;		// 戻るボタン押されたか
 		//bool mIsSelect = false;		// 選択されたか
 
 		Component::Quad2d* mUiStage;	// ステージのUI
