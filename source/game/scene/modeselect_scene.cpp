@@ -50,15 +50,15 @@ void ModeSelectScene::SceneInit()
 
 void ModeSelectScene::SceneUpdate()
 {
+	if (InputManager::GetInstance().GetStateTrigger(InputMode::eUi, static_cast<int>(UiAction::eCancel)))
+	{
+		SceneManager::GetInstance()->SetNextScene("Title");
+	}
 	if (mIsButtonPush)
 		return;
 	if (!mpBg->GetIsPressed())
 		return;
 
-	if (InputManager::GetInstance().GetStateTrigger(InputMode::eUi, static_cast<int>(UiAction::eCancel)))
-	{
-		SceneManager::GetInstance()->SetNextScene("Title");
-	}
 
 	switch (static_cast<SelectMode>(mpBg->GetSelectNum()))
 	{
