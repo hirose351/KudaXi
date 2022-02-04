@@ -12,6 +12,9 @@ namespace GameModeState {
 		int mStageNum = 1;
 		std::string mStr;
 
+		// ステージ設定
+		void SetStage();
+
 	public:
 		Select();
 		~Select();

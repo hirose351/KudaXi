@@ -64,7 +64,7 @@ Puzzle::Puzzle()
 	SceneManager::GetInstance()->GetCurrentScene()->AddGameObject(cameraEye);
 	mModeObjList.emplace_back(cameraEye);
 
-	// cameraEye
+	// cameralookat
 	Dix::sp<CameraAccessLookat> cameralookat;
 	cameralookat.SetPtr(new CameraAccessLookat);
 	mCameraLookat = cameralookat;
