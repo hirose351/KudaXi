@@ -106,7 +106,8 @@ void Puzzle::Exec()
 	}
 	// プレイヤーorサイコロの行動によってステップを減らす
 
-
+	// ステップ番号更新
+	mUiStepNum->GetComponent<Component::Quad2d>()->SetUvPos(INT2(mStep - DiceManager::GetInstance()->GetStepCount(), 0));
 
 
 	if (mIsCameraMove)
@@ -119,25 +120,31 @@ void Puzzle::Exec()
 	// 戻るを押されたときの処理
 	if (InputManager::GetInstance().GetStateTrigger(InputMode::eUi, static_cast<int>(UiAction::eCancel)))
 	{
-		mIsCameraMove = true;
-
-		StageData data = StageDataManager::GetInstance().GetCurrentStage().At();
-
-		Float3 eye(data.mMapSizeWidth*data.mMapChipSize / 2.0f, 250, -197.5f - data.mMapSizeHeight*data.mMapChipSize / 2.0f);
-		Float3 lookat(data.mMapSizeWidth*data.mMapChipSize / 2.0f, 0, -data.mMapSizeHeight*data.mMapChipSize / 2.0f);
-
-		for (Dix::wp<GameObject> obj : mModeObjList)
+		// 前のシーンがクリエイトならそのシーンに戻る
+		if (SceneManager::GetInstance()->GetBeforeSceneKey() == "Create")
+			SceneManager::GetInstance()->SetNextScene(SceneManager::GetInstance()->GetBeforeSceneKey());
+		else
 		{
-			obj->SetIsActive(false);
+			mIsCameraMove = true;
+
+			StageData data = StageDataManager::GetInstance().GetCurrentStage().At();
+
+			Float3 eye(data.mMapSizeWidth*data.mMapChipSize / 2.0f, 250, -197.5f - data.mMapSizeHeight*data.mMapChipSize / 2.0f);
+			Float3 lookat(data.mMapSizeWidth*data.mMapChipSize / 2.0f, 0, -data.mMapSizeHeight*data.mMapChipSize / 2.0f);
+
+			for (Dix::wp<GameObject> obj : mModeObjList)
+			{
+				obj->SetIsActive(false);
+			}
+
+			mCameraEye->ObjectInit();
+			mCameraEye->GetComponent<Component::Easing>()->AddEasing(EasingProcess::EasingType::eLinear, TransType::ePos, 50.0f, 0.0f, 0, eye, true);
+			mCameraEye->SetIsActive(true);
+
+			mCameraLookat->ObjectInit();
+			mCameraLookat->GetComponent<Component::Easing>()->AddEasing(EasingProcess::EasingType::eLinear, TransType::ePos, 50.0f, 0.0f, 0, lookat, true);
+			mCameraLookat->SetIsActive(true);
 		}
-
-		mCameraEye->ObjectInit();
-		mCameraEye->GetComponent<Component::Easing>()->AddEasing(EasingProcess::EasingType::eLinear, TransType::ePos, 50.0f, 0.0f, 0, eye, true);
-		mCameraEye->SetIsActive(true);
-
-		mCameraLookat->ObjectInit();
-		mCameraLookat->GetComponent<Component::Easing>()->AddEasing(EasingProcess::EasingType::eLinear, TransType::ePos, 50.0f, 0.0f, 0, lookat, true);
-		mCameraLookat->SetIsActive(true);
 	}
 }
 
@@ -154,17 +161,18 @@ void Puzzle::BeforeChange()
 	StageData data = StageDataManager::GetInstance().GetCurrentStage().At();
 
 	mStep = data.mStep;
+
 	// ステージ番号更新
 	mUiStageNum->GetComponent<Component::Quad2d>()->SetUvPos(INT2(mHolder->GetSelectStage(), 0));
 	// ステップ番号更新
-	mUiStepNum->GetComponent<Component::Quad2d>()->SetUvPos((data.mStep, 0));
+	mUiStepNum->GetComponent<Component::Quad2d>()->SetUvPos(INT2(data.mStep, 0));
 	// クリアオーバー非表示
 	mUiClearOver->SetIsActive(false);
 	// サイコロの状態を通常に戻す
+	DiceManager::GetInstance()->SetIsStepCount(true);
 	DiceManager::GetInstance()->SetPuzzle();
 
 	mCameraEye->ObjectInit();
-	//Float3 cameraVector(20.5f, 4.4f, -27.5f);
 	Float3 cameraVector(30.5f, 20.0f, -30.5f);
 	Float3 pos;
 	pos.x = cameraVector.x * data.mMapSizeWidth;
@@ -189,4 +197,5 @@ void Puzzle::AfterChange()
 	{
 		obj->SetIsActive(false);
 	}
+	DiceManager::GetInstance()->SetIsStepCount(false);
 }

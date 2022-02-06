@@ -26,9 +26,9 @@ PlayerController::PlayerController() :ComponentBase(("PlayerController"))
 	SceneManager::GetInstance()->GetCurrentScene()->AddGameObject(dice);
 	dice->AddComponent<Component::Model>()->SetModel(ModelMgr::GetInstance().GetModelPtr("assets/model/dice/Dice.fbx"));
 	dice->GetComponent<Component::Model>()->SetOrderInLayer(5);
-	//dice->GetComponent<Component::Model>()->SetPsShader("shader/pstexcol.hlsl");
 	mDiceModel = dice;
 	mDiceModel->GetTransform()->SetScale((0.5f));
+	mDiceModel->Update();
 	mDiceModel->SetIsActive(false);
 
 	Dix::sp<myUI::Image> diceBg;

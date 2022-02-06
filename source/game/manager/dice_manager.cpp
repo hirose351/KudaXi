@@ -15,8 +15,8 @@ using namespace DirectX;
 
 void DiceManager::DiceMapCreate(bool _isUp = true)
 {
-	Uninit();
 	mCurrentStageData = StageDataManager::GetInstance().GetCurrentStage();
+	int diceCnt = 0;
 	for (int z = 0; z < mCurrentStageData->mMapSizeHeight; z++)
 	{
 		for (int x = 0; x < mCurrentStageData->mMapSizeWidth; x++)
@@ -27,27 +27,39 @@ void DiceManager::DiceMapCreate(bool _isUp = true)
 				continue;
 			}
 
-			// Dice生成
-			Dix::sp<Dice> dice;
-			dice.SetPtr(new Dice);
-			dice->GetTransform()->SetWordMtx(mCurrentStageData->mDiceMtx[mpDiceList.size()]);
+			if (diceCnt >= mpDiceList.size())
+			{
+				// Dice生成
+				Dix::sp<Dice> dice;
+				dice.SetPtr(new Dice);
+				SceneManager::GetInstance()->GetCurrentScene()->AddGameObject(dice);
+				mpDiceList.emplace_back(dice);	// vector配列に追加
+				std::cout << "生成" << dice->GetObjectID() << "\n";
+			}
 
-			dice->SetMapPos(INT3(x, 0, z));
-			dice->SetName(("Dice" + std::to_string(mDiceMap[z][x])));	// オブジェクトの名前に添え字を加える
+			mpDiceList[diceCnt]->GetTransform()->SetWordMtx(mCurrentStageData->mDiceMtx[diceCnt]);
+
+			mDiceMap[z][x] = mpDiceList[diceCnt]->GetObjectID();
+
+			mpDiceList[diceCnt]->GetComponent<Component::Collision>()->SetColor(DirectX::XMFLOAT4(1, 1, 1, 0.0f));
+			mpDiceList[diceCnt]->SetMapPos(INT3(x, 0, z));
+			mpDiceList[diceCnt]->SetName(("Dice" + std::to_string(mDiceMap[z][x])));	// オブジェクトの名前に添え字を加える
 
 			if (_isUp)
-				dice->GetTransform()->SetPositionXYZ(Float3(DICE_SCALE*x, -DICE_SCALE_HALF, -DICE_SCALE * z));
+				mpDiceList[diceCnt]->GetTransform()->SetPositionXYZ(Float3(DICE_SCALE*x, -DICE_SCALE_HALF, -DICE_SCALE * z));
 			else
-				dice->GetTransform()->SetPositionXYZ(Float3(DICE_SCALE*x, DICE_SCALE_HALF, -DICE_SCALE * z));
-			dice->Init();
-			mpDiceList.emplace_back(dice);	// vector配列に追加
+				mpDiceList[diceCnt]->GetTransform()->SetPositionXYZ(Float3(DICE_SCALE*x, DICE_SCALE_HALF, -DICE_SCALE * z));
 
-			std::cout << "生成" << dice->GetObjectID() << "\n";
-			mDiceMap[z][x] = dice->GetObjectID();
-			dice->SetOverPlane();
-			SceneManager::GetInstance()->GetCurrentScene()->AddGameObject(dice);
+			mpDiceList[diceCnt]->Init();
+			mpDiceList[diceCnt]->SetOverPlane();
+			diceCnt++;
 		}
 	}
+	for (int i = diceCnt; i < mpDiceList.size(); i++)
+		mpDiceList[i]->SetObjectState(ObjectState::eDead);
+
+	mpDiceList.erase(mpDiceList.begin() + diceCnt, mpDiceList.end());
+	mpDiceList.shrink_to_fit();
 }
 
 DiceManager::DiceManager()

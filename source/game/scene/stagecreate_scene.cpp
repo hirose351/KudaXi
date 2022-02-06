@@ -218,8 +218,9 @@ void StageCreateScene::StageDataPlay()
 	if (sts)
 	{
 		// シーン切り替え
-		StopSound(SOUND_LABEL_BGM_CREATE);
-		PlaySound(SOUND_LABEL_BGM_GAME);
+		//StopSound(SOUND_LABEL_BGM_CREATE);
+		//PlaySound(SOUND_LABEL_BGM_GAME);
+		SceneManager::GetInstance()->SetGameMode(GameMode::ePuzzle);
 		SceneManager::GetInstance()->SetNextScene("GameMain");
 	}
 	else
@@ -231,5 +232,18 @@ void StageCreateScene::StageDataPlay()
 
 void StageCreateScene::Play()
 {
-
+	bool sts = StageDataManager::GetInstance().SetCurrentStage(mStageNameText);
+	if (sts)
+	{
+		// シーン切り替え
+		//StopSound(SOUND_LABEL_BGM_CREATE);
+		//PlaySound(SOUND_LABEL_BGM_GAME);
+		SceneManager::GetInstance()->SetGameMode(GameMode::ePuzzle);
+		SceneManager::GetInstance()->SetNextScene("GameMain");
+	}
+	else
+	{
+		MessageBox(nullptr, "指定されたステージデータは存在しません", "error", MB_OK);
+		return;
+	}
 }

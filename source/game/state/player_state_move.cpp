@@ -6,8 +6,8 @@
 //*****************************************************************************
 // マクロ定義
 //*****************************************************************************
-//#define	VALUE_MOVE_MODEL	(0.085f)				// 移動速度
-#define	VALUE_MOVE_MODEL	(0.7f)				// 移動速度
+#define	VALUE_MOVE_MODEL	(0.085f)				// 移動速度
+//#define	VALUE_MOVE_MODEL	(0.7f)				// 移動速度
 #define	VALUE_ROTATE_MODEL	(XM_PI * 0.025f)		// 回転速度
 #define	RATE_ROTATE_MODEL	(0.10f)					// 回転慣性係数
 #define	RATE_MOVE_MODEL		(0.1f)
@@ -51,7 +51,7 @@ bool Move::CheckRoll()
 	// 回転可能位置にいたら
 	if (mpOperationDice->SetRollAction(*mDirection))
 	{
-		mTransform->move = Float3(0, 0, 0);
+		mTransform->move = 0;
 		mHolder->ChangeState(eRoll);	// 状態を変える
 		mTransform->SetPositionY(mpOperationDice->GetTransform()->GetPosition().y + DICE_SCALE + mTransform->scale.y);
 		return true;
@@ -59,7 +59,6 @@ bool Move::CheckRoll()
 	// 回転出来なければ
 	else
 	{
-		/// Todo:行き先が穴だった時の移動制限
 		if (!mpOperationDice->CheckDiceDirection(*mDirection))
 			return false;
 		switch (*mDirection)
@@ -77,6 +76,7 @@ bool Move::CheckRoll()
 			mTransform->SetPositionX(basePoint.x - mTransform->scale.x / 2.0f);
 			break;
 		}
+		mTransform->move = 0;
 	}
 	return false;
 }
@@ -184,7 +184,6 @@ void Move::Exec()
 {
 	Float3 rotCamera;
 	float radian;
-	mTransform->move = Float3(0, 0, 0);
 	InputDirection inputDirection = InputManager::GetInstance().GetDirection(InputMode::eGame, static_cast<int>(GameAction::Move));
 	if (inputDirection == InputDirection::eLeft)
 	{
@@ -273,16 +272,28 @@ void Move::Exec()
 	// 上下左右壁の処理
 	// 下
 	if (-mStageSize.z*DICE_SCALE + DICE_SCALE_HALF + mTransform->scale.z / 2.0f > mTransform->position.z)
+	{
 		mTransform->SetPositionZ(-mStageSize.z*DICE_SCALE + DICE_SCALE_HALF + mTransform->scale.z / 2.0f);
+		mTransform->move = 0;
+	}
 	// 上
 	if (0 + DICE_SCALE_HALF - mTransform->scale.z / 2.0f < mTransform->position.z)
+	{
 		mTransform->SetPositionZ(0 + DICE_SCALE_HALF - mTransform->scale.z / 2.0f);
+		mTransform->move = 0;
+	}
 	// 右
 	if (mStageSize.x*DICE_SCALE - DICE_SCALE_HALF - mTransform->scale.x / 2.0f < mTransform->position.x)
+	{
 		mTransform->SetPositionX(mStageSize.x*DICE_SCALE - DICE_SCALE_HALF - mTransform->scale.x / 2.0f);
+		mTransform->move = 0;
+	}
 	// 左
 	if (0 - DICE_SCALE_HALF + mTransform->scale.x / 2.0f > mTransform->position.x)
+	{
 		mTransform->SetPositionX(0 - DICE_SCALE_HALF + mTransform->scale.x / 2.0f);
+		mTransform->move = 0;
+	}
 
 	mTransform->CreateWordMtx();
 
@@ -329,13 +340,25 @@ void Move::Exec()
 		case DiceStatus::eHalfUp:
 			// 移動制限
 			if (dicePos.x + DICE_SCALE_HALF + mTransform->scale.x / 2.0f < mTransform->GetPosition().x)
+			{
 				mTransform->SetPositionX(dicePos.x + DICE_SCALE_HALF + mTransform->scale.x / 2.0f);
+				mTransform->move = 0;
+			}
 			if (dicePos.x - DICE_SCALE_HALF - mTransform->scale.x / 2.0f > mTransform->GetPosition().x)
+			{
 				mTransform->SetPositionX(dicePos.x - DICE_SCALE_HALF - mTransform->scale.x / 2.0f);
+				mTransform->move = 0;
+			}
 			if (dicePos.z + DICE_SCALE_HALF + mTransform->scale.z / 2.0f < mTransform->GetPosition().z)
+			{
 				mTransform->SetPositionZ(dicePos.z + DICE_SCALE_HALF + mTransform->scale.z / 2.0f);
+				mTransform->move = 0;
+			}
 			if (dicePos.z - DICE_SCALE_HALF - mTransform->scale.z / 2.0f > mTransform->GetPosition().z)
+			{
 				mTransform->SetPositionZ(dicePos.z - DICE_SCALE_HALF - mTransform->scale.z / 2.0f);
+				mTransform->move = 0;
+			}
 			break;
 		case DiceStatus::eRoll:
 			return;
