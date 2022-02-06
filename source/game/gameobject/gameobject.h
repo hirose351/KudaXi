@@ -15,14 +15,14 @@ class ComponentBase;
 class GameObject
 {
 protected:
-	GameObject*			mParent;		// 親オブジェクト
-	Dix::sp<Transform>	mTransform;		// 位置回転大きさ
-	std::string			mName;			// 名前
-	unsigned int		mObjectID;		// オブジェクトID番号
-	ObjectType			mObjectType;	// オブジェクトタイプ
-	ObjectState			mObjectState;	// 状態
-	bool				mIsActive;		// アクティブか(UpdateもDrawも止まる)
-	bool				mIsStopPause;	// ポーズ時に止めるか
+	GameObject*			mParent = nullptr;		// 親オブジェクト
+	Dix::sp<Transform>	mTransform;				// 位置回転大きさ
+	std::string			mName;					// 名前
+	unsigned int		mObjectID;				// オブジェクトID番号
+	ObjectType			mObjectType;			// オブジェクトタイプ
+	ObjectState			mObjectState;			// 状態
+	bool				mIsActive;				// アクティブか(UpdateもDrawも止まる)
+	bool				mIsStopPause;			// ポーズ時に止めるか
 	std::string			mSceneKey;
 
 	std::vector<ComponentBase*> mComponentList;

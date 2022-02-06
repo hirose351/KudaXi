@@ -7,6 +7,7 @@
 #include	"../gameobject/access_camera_lookat.h"
 #include	"../component/easing_component.h"
 #include	"../component/player_controller.h"
+#include	"../../application.h"
 
 using namespace GameModeState;
 
@@ -61,10 +62,11 @@ Puzzle::Puzzle()
 	// ClearOverUI
 	Dix::sp<myUI::Image> clearOver;
 	clearOver.SetPtr(new myUI::Image);
+	clearOver->GetTransform()->SetPositionXYZ(Float3((float)Application::CLIENT_WIDTH / 2.0f, (float)Application::CLIENT_HEIGHT / 2.0f, 0));
 	clearOver->GetTransform()->SetScale(Float3(500.0f, 250.0f, 0));
 	SceneManager::GetInstance()->GetCurrentScene()->AddGameObject(clearOver);
 	Component::Quad2d* clearOverQuad = clearOver->AddComponent<Component::Quad2d>();
-	clearOverQuad->SetInfo("assets/image/ui/clearover.png", XMFLOAT4(1, 1, 1, 1), 1, 2);
+	clearOverQuad->SetInfo("assets/image/ui/clearover.png", XMFLOAT4(1, 1, 1, 1), 2);
 	clearOverQuad->SetOrderInLayer(1);
 	mModeObjList.emplace_back(clearOver);
 	mUiClearOver = clearOver;
@@ -109,6 +111,23 @@ void Puzzle::Exec()
 	// ステップ番号更新
 	mUiStepNum->GetComponent<Component::Quad2d>()->SetUvPos(INT2(mStep - DiceManager::GetInstance()->GetStepCount(), 0));
 
+	// ステップが0になった時
+	if (mStep - DiceManager::GetInstance()->GetStepCount() <= 0)
+	{
+		// クリアオーバー表示
+		mUiClearOver->SetIsActive(true);
+		// サイコロが全て揃っていれば
+		if (DiceManager::GetInstance()->GetIsAllAligned())
+		{
+			// クリア
+			mUiClearOver->GetComponent<Component::Quad2d>()->SetUvPos(INT2(1, 0));
+		}
+		else
+		{
+			// オーバー
+			mUiClearOver->GetComponent<Component::Quad2d>()->SetUvPos(INT2(0, 0));
+		}
+	}
 
 	if (mIsCameraMove)
 	{
