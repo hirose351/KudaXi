@@ -35,6 +35,9 @@ void Endless::BeforeChange()
 	StageDataManager::GetInstance().SetCurrentStage("endless");
 	Dix::wp<StageData> stageData;
 	stageData = StageDataManager::GetInstance().GetCurrentStage();
+	stageData->mMapSizeWidth = stageData->mMapSizeHeight = 7;
+
+	DiceManager::GetInstance()->Init();
 
 	Float3 cameraLookat;
 	cameraLookat.x = stageData->mMapSizeWidth*DICE_SCALE_HALF;
@@ -44,7 +47,7 @@ void Endless::BeforeChange()
 	Camera::GetInstance()->SetEye(Float3(140, 130, -170));
 	Camera::GetInstance()->CreateCameraMatrix();
 
-	DiceManager::GetInstance()->Init();
+	DiceManager::GetInstance()->EndlessInit();
 	mHolder->GetStage()->ObjectInit();
 	mHolder->GetPlayer()->Init();
 

@@ -45,6 +45,8 @@ PlayerController::PlayerController() :ComponentBase(("PlayerController"))
 	mDiceBg->SetIsActive(false);
 
 	transScreenToWorld(&mInfoDicePos, 150, 150, 0.9f);
+
+	RemoveDiceUi();
 }
 
 PlayerController::~PlayerController()
@@ -72,6 +74,8 @@ void PlayerController::Init()
 	{
 		sts.second->Start(this);
 	}
+
+	RemoveDiceUi();
 }
 
 void PlayerController::Update()
@@ -124,9 +128,14 @@ void PlayerController::ImguiDraw()
 void PlayerController::SetDiceUi()
 {
 	transScreenToWorld(&mInfoDicePos, 150, 150, 0.9f);
-	mDiceModel->SetIsActive(true);
-	mDiceBg->SetIsActive(true);
 	mIsDiceUiDraw = true;
+	mDiceBg->SetIsActive(true);
+	mStageData = StageDataManager::GetInstance().GetCurrentStage();
+
+	for (auto sts : mStates)
+	{
+		sts.second->Init();
+	}
 }
 
 void PlayerController::RemoveDiceUi()

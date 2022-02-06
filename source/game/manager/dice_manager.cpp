@@ -16,7 +16,6 @@ using namespace DirectX;
 void DiceManager::DiceMapCreate(bool _isUp = true)
 {
 	Uninit();
-	mFrameCnt = 0;
 	mCurrentStageData = StageDataManager::GetInstance().GetCurrentStage();
 	for (int z = 0; z < mCurrentStageData->mMapSizeHeight; z++)
 	{
@@ -32,17 +31,20 @@ void DiceManager::DiceMapCreate(bool _isUp = true)
 			Dix::sp<Dice> dice;
 			dice.SetPtr(new Dice);
 			dice->GetTransform()->SetWordMtx(mCurrentStageData->mDiceMtx[mpDiceList.size()]);
-			std::cout << "生成" << dice->GetObjectID() << "\n";
+
+			dice->SetMapPos(INT3(x, 0, z));
+			dice->SetName(("Dice" + std::to_string(mDiceMap[z][x])));	// オブジェクトの名前に添え字を加える
 
 			if (_isUp)
 				dice->GetTransform()->SetPositionXYZ(Float3(DICE_SCALE*x, -DICE_SCALE_HALF, -DICE_SCALE * z));
 			else
 				dice->GetTransform()->SetPositionXYZ(Float3(DICE_SCALE*x, DICE_SCALE_HALF, -DICE_SCALE * z));
-			dice->SetMapPos(INT3(x, 0, z));
-			mDiceMap[z][x] = dice->GetObjectID();
-			dice->SetName(("Dice" + std::to_string(mDiceMap[z][x])));	// オブジェクトの名前に添え字を加える
 			dice->Init();
 			mpDiceList.emplace_back(dice);	// vector配列に追加
+
+			std::cout << "生成" << dice->GetObjectID() << "\n";
+			mDiceMap[z][x] = dice->GetObjectID();
+			dice->SetOverPlane();
 			SceneManager::GetInstance()->GetCurrentScene()->AddGameObject(dice);
 		}
 	}
@@ -63,7 +65,12 @@ DiceManager::DiceManager()
 
 void DiceManager::Init()
 {
-	DiceMapCreate();
+	Uninit();
+	mFrameCnt = 0;
+	mCurrentStageData = StageDataManager::GetInstance().GetCurrentStage();
+	for (int z = 0; z < mCurrentStageData->mMapSizeHeight; z++)
+		for (int x = 0; x < mCurrentStageData->mMapSizeWidth; x++)
+			mDiceMap[z][x] = NODICE;
 }
 
 void DiceManager::EndleesUpdate()
@@ -131,6 +138,10 @@ void DiceManager::ImguiDraw()
 
 void DiceManager::Uninit()
 {
+	for (int z = 0; z < STAGESIZEMAX; z++)
+		for (int x = 0; x < STAGESIZEMAX; x++)
+			mDiceMap[z][x] = NODICE;
+
 	for (auto &obj : mpDiceList)
 	{
 		obj->SetObjectState(ObjectState::eDead);
@@ -229,6 +240,9 @@ bool DiceManager::CanDiceMoveCheak(Dice * _dice, Direction _dire)
 void DiceManager::CheckAligned(Dice* _dice)
 {
 	Dix::wp<Dice> ansDice;
+
+	if (mIsStepCount)
+		mStepCount++;
 
 	/// ハッピーワンチェック ////////////////////////////////////////////////
 	if (_dice->GetTopDiceTypeNum() == 1)
@@ -642,6 +656,29 @@ Dix::wp<Dice> DiceManager::GetCreateDice(INT2 _mapPos)
 	if (mDiceMap[_mapPos.z][_mapPos.x] == NODICE)
 		return NULL;
 	return GetCreateListInDice(_mapPos.x, _mapPos.z);
+}
+
+void DiceManager::SetIsStepCount(bool _flg)
+{
+	mIsStepCount = _flg;
+	mStepCount = 0;
+}
+
+bool DiceManager::GetIsAllAligned()
+{
+	for (Dix::wp<Dice> dice : mpDiceList)
+	{
+		// Diceが揃っている状態じゃなかったらfalseを返す
+		if (dice->GetDiceStatus() != DiceStatus::eDown)
+			return false;
+	}
+	return true;
+}
+
+void DiceManager::EndlessInit()
+{
+	Uninit();
+	/// Todo:ランダムでいくつか生成
 }
 
 void DiceManager::DataCreate()

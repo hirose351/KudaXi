@@ -35,7 +35,7 @@ namespace Component {
 		void ChangeMode(int _modeNum);
 
 		int GetSelectStage() { return mSelectStage; }
-		void SetSelectStage(int _num) { mSelectStage = mSelectStage; }
+		void SetSelectStage(int _num) { mSelectStage = _num; }
 
 		Dix::wp<Player> GetPlayer() { return mpPlayer; };
 		void SetPlayer(Dix::wp<Player> _player) { mpPlayer = _player; };

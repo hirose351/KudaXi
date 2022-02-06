@@ -8,7 +8,7 @@ namespace Component {
 	{
 	private:
 		INT2 mPos;
-		StageData mCurrentStageData;
+		Dix::wp<StageData> mpCurrentStageData;
 
 		void SetPos();
 

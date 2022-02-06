@@ -20,7 +20,7 @@ void Select::SetStage()
 	stageData = StageDataManager::GetInstance().GetCurrentStage();
 
 	DiceManager::GetInstance()->DiceMapCreate(false);
-	mHolder->GetStage()->ObjectInit();
+	mHolder->GetStage()->Init();
 	mHolder->GetPlayer()->GetComponent<Component::MapPos>()->SetMapPosMove(stageData->mPlayerPos);
 	if (DiceManager::GetInstance()->GetDice(INT3(stageData->mPlayerPos.x, 0, stageData->mPlayerPos.z)) != NULL)
 		mHolder->GetPlayer()->GetTransform()->SetPositionY(DICE_SCALE + mHolder->GetPlayer()->GetTransform()->scale.y);

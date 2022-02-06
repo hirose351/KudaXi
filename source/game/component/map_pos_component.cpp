@@ -18,7 +18,7 @@ MapPos::MapPos() :ComponentBase((u8"マップ上の位置"))
 void MapPos::Init()
 {
 	// 現在のシーンを取得
-	mCurrentStageData = StageDataManager::GetInstance().GetCurrentStage().At();
+	mpCurrentStageData = StageDataManager::GetInstance().GetCurrentStage();
 	SetPos();
 }
 
@@ -42,7 +42,7 @@ void MapPos::SetMapPosMove(INT2 _pos)
 
 bool MapPos::AddMapPos(INT2 _pos)
 {
-	if ((mPos + _pos).x < 0 || (mPos + _pos).x >= mCurrentStageData.mMapSizeWidth || (mPos + _pos).z < 0 || (mPos + _pos).z >= mCurrentStageData.mMapSizeHeight)
+	if ((mPos + _pos).x < 0 || (mPos + _pos).x >= mpCurrentStageData->mMapSizeWidth || (mPos + _pos).z < 0 || (mPos + _pos).z >= mpCurrentStageData->mMapSizeHeight)
 		return false;
 
 	mPos += _pos;

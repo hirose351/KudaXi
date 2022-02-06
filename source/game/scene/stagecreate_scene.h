@@ -2,13 +2,15 @@
 #include "scene_base.h"
 #include "../data/stage_data.h"
 
+class Stage;
 class StageCreateScene : public SceneBase
 {
 private:
 	std::vector<Dix::wp<GameObject>> mViewObjList;	// クリエイト表示するオブジェクトリスト
 
 	char mStageNameText[128] = {};
-	StageData mStage;
+	Dix::wp<StageData> mStageData;
+	Dix::wp<Stage> mStage;
 	int mSelectObjNum;
 
 	void RuleImGuiDraw();
@@ -16,6 +18,7 @@ private:
 	void StageDataSave();
 	void StageDataLoad();
 	void StageDataPlay();
+	void Play();
 
 public:
 	StageCreateScene();

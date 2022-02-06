@@ -34,6 +34,13 @@ private:
 	/// ↑Create用 ////////////////////
 
 
+	/// ↓Puzzle用 ////////////////////
+
+	int mStepCount;				// Diceが動いた回数
+	bool mIsStepCount = false;	// ステップを数えるか
+
+	/// ↑Puzzle用 ////////////////////
+
 	// 受け取ったマップ位置と面を基準にサイコロが揃ったかチェックして配列を書き換える
 	void CheckDiceAlign(INT3 _mapPos, DiceFruit _diceType);
 
@@ -101,4 +108,15 @@ public:
 	// 渡されたマップ上にあるDiceのポインタを返す
 	Dix::wp<Dice> GetCreateDice(INT2 _mapPos);
 	/// ↑Create用 ////////////////////
+
+
+	/// ↓Puzzle用 ////////////////////
+
+	int GetStepCount() { return mStepCount; };
+	void SetIsStepCount(bool _flg);
+	bool GetIsAllAligned();
+
+	/// ↑Puzzle用 ////////////////////
+
+	void EndlessInit();
 };

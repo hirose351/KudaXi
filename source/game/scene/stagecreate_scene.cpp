@@ -29,7 +29,12 @@ StageCreateScene::StageCreateScene()
 
 void StageCreateScene::SceneAfter()
 {
+	StageDataManager::GetInstance().SetCurrentStage("create/init");
+	mStageData = StageDataManager::GetInstance().GetCurrentStage();
 	mSelectObjNum = 0;
+	mStage->Reset();
+	mStage->CameraUpdate();
+	DiceManager::GetInstance()->Uninit();
 }
 
 void StageCreateScene::SceneInit()
@@ -49,6 +54,7 @@ void StageCreateScene::SceneInit()
 
 	Dix::sp<Stage> stage;
 	stage.SetPtr(new Stage);
+	mStage = stage;
 	AddGameObject(stage);
 	mViewObjList.emplace_back(stage);
 
@@ -78,7 +84,7 @@ void StageCreateScene::SceneUpdate()
 	DiceManager::GetInstance()->SetIsSelect(mSelectObjNum == eDiceM);
 
 	// 戻るを押されたときの処理
-	if (InputManager::GetInstance().GetStateTrigger(InputMode::eUi, static_cast<int>(UiAction::eCancel)))
+	if (InputManager::GetInstance().GetStateTrigger(InputMode::eUi, static_cast<int>(UiAction::eCancel2)))
 		// シーンを変更
 		SceneManager::GetInstance()->SetNextScene("Mode");
 }
@@ -146,40 +152,46 @@ void StageCreateScene::RuleImGuiDraw()
 	ImGui::SetNextWindowSize(ImVec2(350, 150), ImGuiCond_Once);
 	ImGui::Begin(u8"ゲームルール");
 	ImGui::Text(u8"揃える例の面(数字)");
-	ImGui::SliderInt("TargetDiceType", &mStage.mTargetDiceType, 1, 6);
+	ImGui::SliderInt("TargetDiceType", &mStageData->mTargetDiceType, 1, 6);
 	ImGui::Text(u8"STEP数");
-	ImGui::SliderInt("step", &mStage.mStep, 1, 30);
+	ImGui::SliderInt("step", &mStageData->mStep, 1, 30);
 	ImGui::End();
 }
 
 void StageCreateScene::StageDataSave()
 {
-	mStage.mStageName = mStageNameText;
-	mStage.mPlayerPos = mViewObjList[0]->GetComponent<Component::MapPos>()->GetMapPos();
+	StageData data = mStageData.At();
 
-	mStage.mDiceMtx.clear();
-	mStage.mDiceMtx.shrink_to_fit();
+	data.mStageName = mStageNameText;
+	data.mPlayerPos = mViewObjList[0]->GetComponent<Component::MapPos>()->GetMapPos();
+
+	data.mMapSizeHeight;
+	data.mMapSizeWidth;
+
+	data.mDiceMtx.clear();
+	data.mDiceMtx.shrink_to_fit();
 
 	// サイコロの数とMtx記憶
-	for (int z = 0; z < mStage.mMapSizeHeight; z++)
+	for (int z = 0; z < data.mMapSizeHeight; z++)
 	{
-		for (int x = 0; x < mStage.mMapSizeWidth; x++)
+		for (int x = 0; x < data.mMapSizeWidth; x++)
 		{
 			Dix::wp<Dice> dice = DiceManager::GetInstance()->GetCreateDice(INT2(x, z));
 
 			if (dice == NULL)
 			{
-				mStage.mMap[z][x] = NODICE;
+				data.mMap[z][x] = NODICE;
 				continue;
 			}
 			// 配列に入れる
-			mStage.mDiceMtx.emplace_back();
-			mStage.mDiceMtx[mStage.mDiceMtx.size() - 1] = dice->GetTransform()->GetMtx();
-			mStage.mMap[z][x] = dice->GetObjectID();
+			data.mDiceMtx.emplace_back();
+			data.mDiceMtx[data.mDiceMtx.size() - 1] = dice->GetTransform()->GetMtx();
+			data.mMap[z][x] = dice->GetObjectID();
 
 		}
 	}
-	StageDataManager::GetInstance().SaveStage(mStage);
+	StageDataManager::GetInstance().SaveStage(data);
+	mStageData->mStageName = "create/init";
 }
 
 void StageCreateScene::StageDataLoad()
@@ -190,11 +202,13 @@ void StageCreateScene::StageDataLoad()
 		// そのステージのポインタを取得
 		Dix::wp<StageData> p = StageDataManager::GetInstance().GetStageData(mStageNameText);
 
-		mStage = p.At();
-		StageDataManager::GetInstance().SetCurrentStage(mStage.mStageName);
+		mStageData.At() = p.At();
+		mStageData->mStageName = "create/init";
+		StageDataManager::GetInstance().SetCurrentStage(mStageData->mStageName);
 		DiceManager::GetInstance()->DataCreate();
 		mViewObjList[eDiceM]->Init();
-		mViewObjList[ePlayer]->GetComponent<Component::MapPos>()->SetMapPos(mStage.mPlayerPos);
+		mStage->Init();
+		mViewObjList[ePlayer]->GetComponent<Component::MapPos>()->SetMapPos(mStageData->mPlayerPos);
 	}
 }
 
@@ -213,4 +227,9 @@ void StageCreateScene::StageDataPlay()
 		MessageBox(nullptr, "指定されたステージデータは存在しません", "error", MB_OK);
 		return;
 	}
+}
+
+void StageCreateScene::Play()
+{
+
 }

@@ -11,6 +11,7 @@ enum class UiAction
 	eNavigate,		// ‘€ì(•ûŒü)
 	eClick,			// Œˆ’è(bool)
 	eCancel,		// –ß‚é(bool)
+	eCancel2,		// –ß‚é(bool)
 	ePause,			// ƒ|[ƒY(bool)
 	eSwitch,		// Ø‚è‘Ö‚¦(bool)
 	MaxUiAction

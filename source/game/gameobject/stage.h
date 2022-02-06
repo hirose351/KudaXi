@@ -8,7 +8,8 @@ class Stage : public GameObject
 {
 private:
 	Dix::wp<StageData> mCurrentStageData;
-	void CameraUpdate();
+	INT2 mStagesize;
+
 public:
 	Stage();
 	void ObjectInit() override;
@@ -16,5 +17,9 @@ public:
 	void ObjectImguiDraw()override {};
 	void ImguiCreateDraw()override;
 	void Uninit() override {};
+
+	void CameraUpdate();
+	void Reset();
+	INT2 GetStageSize() { return mStagesize; };
 };
 

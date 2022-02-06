@@ -10,7 +10,7 @@ namespace GameModeState {
 
 		bool mIsClear = false;		// クリアしたか
 		bool mIsAgain = false;		// ステップ使い果たしたか
-		bool mIsBack = false;		// 戻るボタン押されたか
+		bool mIsCameraMove = false;		// 戻るボタン押されたか
 		bool mIsStart = false;		// 始まったか
 		//bool mIsSelect = false;		// 選択されたか
 

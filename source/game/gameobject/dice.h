@@ -29,8 +29,6 @@ private:
 	const int mUpCnt = 150;
 	const float mUpPositionPerFrame = DICE_SCALE / mUpCnt;
 
-	// 上の面を特定
-	void SetOverPlane();
 	// 回転移動セット
 	void SetRollDirection(Direction _direction);
 
@@ -59,6 +57,9 @@ public:
 
 	void SetStartUpPosition();
 	void SetDownPosition();
+
+	// 上の面を特定
+	void SetOverPlane();
 
 	// 指定方向に移動
 	bool SetPushAction(Direction _direction);

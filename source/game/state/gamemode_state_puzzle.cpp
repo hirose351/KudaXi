@@ -109,28 +109,35 @@ void Puzzle::Exec()
 
 
 
-	if (mIsBack)
+	if (mIsCameraMove)
 	{
 		if (mCameraEye->GetComponent<Component::Easing>()->GetEasingListCnt() == 0)
 			mHolder->ChangeMode(eSelect);
 		return;
 	}
-	// 戻るを押されたときの処理
 
+	// 戻るを押されたときの処理
 	if (InputManager::GetInstance().GetStateTrigger(InputMode::eUi, static_cast<int>(UiAction::eCancel)))
 	{
-		mIsBack = true;
+		mIsCameraMove = true;
 
 		StageData data = StageDataManager::GetInstance().GetCurrentStage().At();
 
 		Float3 eye(data.mMapSizeWidth*data.mMapChipSize / 2.0f, 250, -197.5f - data.mMapSizeHeight*data.mMapChipSize / 2.0f);
 		Float3 lookat(data.mMapSizeWidth*data.mMapChipSize / 2.0f, 0, -data.mMapSizeHeight*data.mMapChipSize / 2.0f);
 
+		for (Dix::wp<GameObject> obj : mModeObjList)
+		{
+			obj->SetIsActive(false);
+		}
+
 		mCameraEye->ObjectInit();
 		mCameraEye->GetComponent<Component::Easing>()->AddEasing(EasingProcess::EasingType::eLinear, TransType::ePos, 50.0f, 0.0f, 0, eye, true);
+		mCameraEye->SetIsActive(true);
 
 		mCameraLookat->ObjectInit();
 		mCameraLookat->GetComponent<Component::Easing>()->AddEasing(EasingProcess::EasingType::eLinear, TransType::ePos, 50.0f, 0.0f, 0, lookat, true);
+		mCameraLookat->SetIsActive(true);
 	}
 }
 
@@ -140,7 +147,7 @@ void Puzzle::BeforeChange()
 	{
 		obj->SetIsActive(true);
 	}
-	mIsBack = false;
+	mIsCameraMove = false;
 	mIsStart = false;
 
 	// セレクトで選択されたステップ数を取得
@@ -157,8 +164,9 @@ void Puzzle::BeforeChange()
 	DiceManager::GetInstance()->SetPuzzle();
 
 	mCameraEye->ObjectInit();
-	Float3 cameraVector(20.5f, 4.4f, -27.5f);
-	Float3 pos(data.mMapSizeWidth*data.mMapChipSize / 2.0f, 250, -197.5f - data.mMapSizeHeight*data.mMapChipSize / 2.0f);
+	//Float3 cameraVector(20.5f, 4.4f, -27.5f);
+	Float3 cameraVector(30.5f, 20.0f, -30.5f);
+	Float3 pos;
 	pos.x = cameraVector.x * data.mMapSizeWidth;
 	pos.y = 70 + cameraVector.y * (data.mMapSizeWidth + data.mMapSizeHeight);
 	pos.z = cameraVector.z * data.mMapSizeHeight;
@@ -171,6 +179,8 @@ void Puzzle::BeforeChange()
 	cameraLookat.y = 0;
 	cameraLookat.z = -data.mMapSizeHeight*DICE_SCALE_HALF;
 	mCameraLookat->GetComponent<Component::Easing>()->AddEasing(EasingProcess::EasingType::eLinear, TransType::ePos, 50.0f, 0.0f, 0, cameraLookat, true);
+
+	mHolder->GetPlayer()->GetComponent<Component::PlayerController>()->SetDiceUi();
 }
 
 void Puzzle::AfterChange()

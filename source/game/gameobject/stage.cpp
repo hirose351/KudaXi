@@ -18,6 +18,17 @@ void Stage::CameraUpdate()
 	Camera::GetInstance()->CreateCameraMatrix();
 }
 
+void Stage::Reset()
+{
+	mCurrentStageData = StageDataManager::GetInstance().GetCurrentStage();
+
+	for (int x = 0; x < 10; x++)
+		for (int z = 0; z < 10; z++)
+			mCurrentStageData->mFloorMap[x][z] = 1;
+
+	mCurrentStageData->mMapSizeWidth = mCurrentStageData->mMapSizeHeight = 3;
+}
+
 Stage::Stage() :GameObject(("Stage"), ObjectType::eStage, false)
 {
 	AddComponent<Component::Plane>();
