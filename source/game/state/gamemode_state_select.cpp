@@ -22,14 +22,20 @@ void Select::SetStage()
 	DiceManager::GetInstance()->DiceMapCreate(false);
 	mHolder->GetStage()->Init();
 	mHolder->GetPlayer()->GetComponent<Component::MapPos>()->SetMapPosMove(stageData->mPlayerPos);
+
 	if (DiceManager::GetInstance()->GetDice(INT3(stageData->mPlayerPos.x, 0, stageData->mPlayerPos.z)) != NULL)
 		mHolder->GetPlayer()->GetTransform()->SetPositionY(DICE_SCALE + mHolder->GetPlayer()->GetTransform()->scale.y);
 	else
 		mHolder->GetPlayer()->GetTransform()->SetPositionY(mHolder->GetPlayer()->GetTransform()->scale.y / 2.0f);
 
-	Camera::GetInstance()->SetLookat(XMFLOAT3(stageData->mMapSizeWidth*stageData->mMapChipSize / 2.0f, 0, -stageData->mMapSizeHeight*stageData->mMapChipSize / 2.0f));
-	Camera::GetInstance()->SetEye(XMFLOAT3(stageData->mMapSizeWidth*stageData->mMapChipSize / 2.0f, 250, -197.5f - stageData->mMapSizeHeight*stageData->mMapChipSize / 2.0f));
-	Camera::GetInstance()->CreateCameraMatrix();
+	if (!mHolder->GetIsSetCamera())
+	{
+		Camera::GetInstance()->SetLookat(XMFLOAT3(stageData->mMapSizeWidth*stageData->mMapChipSize / 2.0f, 0, -stageData->mMapSizeHeight*stageData->mMapChipSize / 2.0f));
+		Camera::GetInstance()->SetEye(XMFLOAT3(stageData->mMapSizeWidth*stageData->mMapChipSize / 2.0f, 250, -197.5f - stageData->mMapSizeHeight*stageData->mMapChipSize / 2.0f));
+		Camera::GetInstance()->CreateCameraMatrix();
+	}
+	else
+		mHolder->SetIsSetCamera(false);
 }
 
 Select::Select()
@@ -89,7 +95,6 @@ void Select::Exec()
 
 void Select::BeforeChange()
 {
-	SceneManager::GetInstance()->GetCurrentScene()->SetIsPause(true);
 	SetStage();
 
 	for (Dix::wp<GameObject> obj : mModeObjList)
@@ -98,11 +103,13 @@ void Select::BeforeChange()
 	mButton->SetInitSelectNum(mStageNum - 1);
 
 	mHolder->GetPlayer()->GetComponent<Component::PlayerController>()->RemoveDiceUi();
+	SceneManager::GetInstance()->GetCurrentScene()->SetIsPause(true);
 }
 
 void Select::AfterChange()
 {
 	SceneManager::GetInstance()->GetCurrentScene()->SetIsPause(false);
+	mHolder->SetIsSetCamera(false);
 
 	for (Dix::wp<GameObject> obj : mModeObjList)
 		obj->SetIsActive(false);

@@ -137,6 +137,8 @@ void DiceManager::EndleesUpdate()
 
 void DiceManager::ImguiDraw()
 {
+	ImGui::Text(std::to_string(mpDiceList.size()).c_str());
+
 	ImGui::SetNextWindowPos(ImVec2(1000, 20), ImGuiCond_Once);
 	ImGui::SetNextWindowSize(ImVec2(280, 200), ImGuiCond_Once);
 	ImGui::Begin(u8"DiceManager");
@@ -310,7 +312,7 @@ void DiceManager::CheckAligned(Dice* _dice)
 	if (mDiceAlignCnt < _dice->GetTopDiceTypeNum())
 		return;
 
-	// 対象のサイコロの下げる関数を呼ぶ
+	// 対象サイコロの下げる関数を呼ぶ
 	for (int z = 0; z < mCurrentStageData->mMapSizeHeight; z++)
 	{
 		for (int x = 0; x < mCurrentStageData->mMapSizeWidth; x++)
@@ -521,14 +523,6 @@ bool DiceManager::CreateAddDice()
 		{
 			if (mDiceMap[z][x] < 1)
 			{
-				bool sts = ModelMgr::GetInstance().LoadModel(
-					"assets/model/dice/Dice.fbx",
-					"shader/vs.hlsl", "shader/toonps.hlsl",
-					"assets/model/dice/");
-				if (!sts)
-				{
-					MessageBox(nullptr, "Diceモデル 読み込みエラー", "error", MB_OK);
-				}
 				// Dice生成
 				Dix::sp<Dice> dice;
 				dice.SetPtr(new Dice);
@@ -536,6 +530,7 @@ bool DiceManager::CreateAddDice()
 				dice->Init();
 				dice->GetTransform()->SetPositionXYZ(Float3(DICE_SCALE*x, DICE_SCALE_HALF, -DICE_SCALE * z));
 				dice->AddComponent<Component::MapPos>()->SetMapPos(INT2(x, z));
+				dice->GetComponent<Component::MapPos>()->Init();
 				dice->AddComponent<Component::MapMove>()->Init();
 				dice->GetComponent<Component::Collision>()->SetInitState(ObjectTag::eDice, Float3(0, 0, 0), Float3(DICE_SCALE_HALF), DirectX::XMFLOAT4(1, 1, 1, 0.5f));
 				dice->GetComponent<Component::Collision>()->Init();
@@ -712,11 +707,11 @@ void DiceManager::DataCreate()
 			dice.SetPtr(new Dice);
 			dice->SetDiceSts(DiceStatus::eCreate);
 			dice->Init();
-			dice->GetTransform()->SetWordMtx(mCurrentStageData->mDiceMtx[mpDiceList.size()]);
 
 			std::cout << "生成" << dice->GetObjectID() << "\n";
 
 			dice->GetTransform()->SetPositionXYZ(Float3(DICE_SCALE*x, DICE_SCALE_HALF, -DICE_SCALE * z));
+			dice->AddComponent<Component::MapPos>()->Init();
 			dice->AddComponent<Component::MapPos>()->SetMapPos(INT2(x, z));
 			dice->AddComponent<Component::MapMove>()->Init();
 			dice->GetComponent<Component::Collision>()->SetInitState(ObjectTag::eDice, Float3(0, 0, 0), Float3(DICE_SCALE_HALF), DirectX::XMFLOAT4(1, 1, 1, 0.5f));
@@ -725,6 +720,7 @@ void DiceManager::DataCreate()
 			mDiceMap[z][x] = dice->GetObjectID();
 			dice->SetName(("Dice" + std::to_string(mDiceMap[z][x])));	// オブジェクトの名前に添え字を加える
 
+			dice->GetTransform()->SetWordMtx(mCurrentStageData->mDiceMtx[mpDiceList.size()]);
 			mpDiceList.emplace_back(dice);	// vector配列に追加
 			SceneManager::GetInstance()->GetCurrentScene()->AddGameObject(dice);
 

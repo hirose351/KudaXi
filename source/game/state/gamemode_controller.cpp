@@ -21,16 +21,11 @@ Component::GameModeController::~GameModeController()
 {
 }
 
-void Component::GameModeController::Init(int _modeNum)
-{
-	// Å‰‚Ìó‘Ô
-	mModeNum = _modeNum;
-	mStates[mModeNum]->BeforeChange();
-}
-
 void Component::GameModeController::Init()
 {
-	Init(SceneManager::GetInstance()->GetGameMode());
+	// Å‰‚Ìó‘Ô
+	mModeNum = SceneManager::GetInstance()->GetGameMode();
+	mStates[mModeNum]->BeforeChange();
 }
 
 void Component::GameModeController::Update()

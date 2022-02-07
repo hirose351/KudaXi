@@ -8,6 +8,7 @@ protected:
 	int mOrderInLayer;		// 描画順
 	bool mIsDraw;			// 描画するか
 	std::vector<Float3>		mDrawPosList;	// 連続して描画する場合の位置リスト
+	std::string mSceneName = "";
 
 public:
 	DrawComponentBase();

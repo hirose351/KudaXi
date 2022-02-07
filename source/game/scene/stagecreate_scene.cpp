@@ -29,12 +29,22 @@ StageCreateScene::StageCreateScene()
 
 void StageCreateScene::SceneAfter()
 {
-	StageDataManager::GetInstance().SetCurrentStage("create/init");
-	mStageData = StageDataManager::GetInstance().GetCurrentStage();
-	mSelectObjNum = 0;
-	mStage->Reset();
-	mStage->CameraUpdate();
-	DiceManager::GetInstance()->Uninit();
+	if (SceneManager::GetInstance()->GetBeforeSceneKey() == "Mode")
+	{
+		StageDataManager::GetInstance().SetCurrentStage("create/init");
+		mStageData = StageDataManager::GetInstance().GetCurrentStage();
+		mSelectObjNum = 0;
+		mStage->Reset();
+		mStage->CameraUpdate();
+		DiceManager::GetInstance()->Uninit();
+	}
+	else
+	{
+		DiceManager::GetInstance()->DataCreate();
+		mViewObjList[eDiceM]->Init();
+		mStage->Init();
+		mViewObjList[ePlayer]->GetComponent<Component::MapPos>()->SetMapPos(mStageData->mPlayerPos);
+	}
 }
 
 void StageCreateScene::SceneInit()
@@ -220,6 +230,10 @@ void StageCreateScene::StageDataPlay()
 		// ƒV[ƒ“Ø‚è‘Ö‚¦
 		//StopSound(SOUND_LABEL_BGM_CREATE);
 		//PlaySound(SOUND_LABEL_BGM_GAME);
+		mStageData->mStageName = "create/init";
+		StageDataSave();
+		StageDataManager::GetInstance().SetCurrentStage("create/init");
+		DiceManager::GetInstance()->Uninit();
 		SceneManager::GetInstance()->SetGameMode(GameMode::ePuzzle);
 		SceneManager::GetInstance()->SetNextScene("GameMain");
 	}

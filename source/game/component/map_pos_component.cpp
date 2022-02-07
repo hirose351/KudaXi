@@ -5,8 +5,15 @@ using namespace Component;
 
 void MapPos::SetPos()
 {
-	mOwner->GetTransform()->SetPositionX(mPos.x*DICE_SCALE);
-	mOwner->GetTransform()->SetPositionZ(-mPos.z*DICE_SCALE);
+	Float3 pos(mPos.x*DICE_SCALE, mOwner->GetTransform()->GetPosition().y, -mPos.z*DICE_SCALE);
+	if (mOwner->GetObjectType() != ObjectType::ePlayer)
+	{
+		mOwner->GetTransform()->SetPositionXYZ(pos);
+		return;
+	}
+	mOwner->GetTransform()->angle = 0;
+	mOwner->GetTransform()->position = pos;
+	mOwner->GetTransform()->CreateWordMtx();
 }
 
 MapPos::MapPos() :ComponentBase((u8"マップ上の位置"))

@@ -19,6 +19,7 @@ namespace Component {
 		int mSelectStage;
 		Dix::wp<Player> mpPlayer;
 		Dix::wp<Stage> mpStage;
+		bool mIsSetCamera = false;
 
 	public:
 		GameModeController();
@@ -30,8 +31,6 @@ namespace Component {
 		void ImguiDraw()override;
 		void Uninit()override {};
 
-		void Init(int _modeNum);
-
 		void ChangeMode(int _modeNum);
 
 		int GetSelectStage() { return mSelectStage; }
@@ -41,5 +40,7 @@ namespace Component {
 		void SetPlayer(Dix::wp<Player> _player) { mpPlayer = _player; };
 		Dix::wp<Stage> GetStage() { return mpStage; };
 		void SetStage(Dix::wp<Stage> _stage) { mpStage = _stage; };
+		bool GetIsSetCamera() { return mIsSetCamera; }
+		void SetIsSetCamera(bool _flg) { mIsSetCamera = _flg; }
 	};
 }

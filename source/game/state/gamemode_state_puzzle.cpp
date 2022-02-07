@@ -16,8 +16,8 @@ Puzzle::Puzzle()
 	// StageStringUI
 	Dix::sp<myUI::Image> stageString;
 	stageString.SetPtr(new myUI::Image);
-	stageString->GetTransform()->SetPositionXYZ(Float3(1280 / 2.0f, 100.0f, 0));
-	stageString->GetTransform()->SetScale(Float3(400));
+	stageString->GetTransform()->SetPositionXYZ(Float3(1280 / 2.0f, 50.0f, 0));
+	stageString->GetTransform()->SetScale(Float3(200));
 	SceneManager::GetInstance()->GetCurrentScene()->AddGameObject(stageString);
 	Component::Quad2d* uiStageQuad = stageString->AddComponent<Component::Quad2d>();
 	uiStageQuad->SetInfo("assets/image/ui/stage.png", XMFLOAT4(1, 1, 1, 1));
@@ -27,7 +27,7 @@ Puzzle::Puzzle()
 	// StageNumUI
 	Dix::sp<myUI::Image> stageNum;
 	stageNum.SetPtr(new myUI::Image);
-	stageNum->GetTransform()->SetPositionXYZ(Float3(1280 / 2.0f + 200, 100.0f, 0));
+	stageNum->GetTransform()->SetPositionXYZ(Float3(1280 / 2.0f + 200, 50.0f, 0));
 	stageNum->GetTransform()->SetScale(Float3(100));
 	SceneManager::GetInstance()->GetCurrentScene()->AddGameObject(stageNum);
 	Component::Quad2d* uiStageNumQuad = stageNum->AddComponent<Component::Quad2d>();
@@ -104,6 +104,7 @@ void Puzzle::Exec()
 		{
 			mIsStart = true;
 			mHolder->GetPlayer()->GetComponent<Component::PlayerController>()->SetDiceUi();
+			DiceManager::GetInstance()->SetPuzzle();
 		}
 	}
 	// プレイヤーorサイコロの行動によってステップを減らす
@@ -114,8 +115,10 @@ void Puzzle::Exec()
 	// ステップが0になった時
 	if (mStep - DiceManager::GetInstance()->GetStepCount() <= 0)
 	{
+		SceneManager::GetInstance()->GetCurrentScene()->SetIsPause(true);
 		// クリアオーバー表示
 		mUiClearOver->SetIsActive(true);
+
 		// サイコロが全て揃っていれば
 		if (DiceManager::GetInstance()->GetIsAllAligned())
 		{
@@ -141,7 +144,11 @@ void Puzzle::Exec()
 	{
 		// 前のシーンがクリエイトならそのシーンに戻る
 		if (SceneManager::GetInstance()->GetBeforeSceneKey() == "Create")
+		{
+			AfterChange();
+			DiceManager::GetInstance()->Uninit();
 			SceneManager::GetInstance()->SetNextScene(SceneManager::GetInstance()->GetBeforeSceneKey());
+		}
 		else
 		{
 			mIsCameraMove = true;
@@ -163,6 +170,8 @@ void Puzzle::Exec()
 			mCameraLookat->ObjectInit();
 			mCameraLookat->GetComponent<Component::Easing>()->AddEasing(EasingProcess::EasingType::eLinear, TransType::ePos, 50.0f, 0.0f, 0, lookat, true);
 			mCameraLookat->SetIsActive(true);
+
+			mHolder->SetIsSetCamera(true);
 		}
 	}
 }
@@ -187,6 +196,14 @@ void Puzzle::BeforeChange()
 	mUiStepNum->GetComponent<Component::Quad2d>()->SetUvPos(INT2(data.mStep, 0));
 	// クリアオーバー非表示
 	mUiClearOver->SetIsActive(false);
+
+
+	// 前のシーンがクリエイトならDice生成
+	if (SceneManager::GetInstance()->GetBeforeSceneKey() == "Create")
+	{
+		DiceManager::GetInstance()->DiceMapCreate(false);
+	}
+
 	// サイコロの状態を通常に戻す
 	DiceManager::GetInstance()->SetIsStepCount(true);
 	DiceManager::GetInstance()->SetPuzzle();

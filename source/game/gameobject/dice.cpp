@@ -66,7 +66,7 @@ void Dice::ObjectUpdate()
 		Push();
 		break;
 	case DiceStatus::eDown:
-		GetComponent<Component::Collision>()->SetColor(XMFLOAT4(1, 0, 0, 0.5f));
+		//GetComponent<Component::Collision>()->SetColor(XMFLOAT4(1, 0, 0, 0.5f));
 		Down();
 		break;
 	case DiceStatus::eHalfDown:
@@ -217,9 +217,9 @@ void Dice::SetStartUpPosition()
 
 void Dice::SetDownPosition()
 {
-	mTransform->move = 0;
-	mTransform->move.y = -mUpPositionPerFrame;
+	mTransform->move = (0, -mUpPositionPerFrame, 0);
 	mSts = DiceStatus::eDown;
+	GetComponent<Component::Collision>()->SetColor(XMFLOAT4(1, 0, 0, 0.5f));
 }
 
 void Dice::Push()
