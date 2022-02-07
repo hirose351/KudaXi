@@ -10,6 +10,7 @@
 #include	"../../application.h"
 #include	"../../system/dx11/DX11util.h"
 #include	"../state/gamemode_controller.h"
+#include	"../../system/util/XAudio2.h"
 
 using namespace Dix;
 

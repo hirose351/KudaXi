@@ -8,6 +8,8 @@
 #include	"../component/easing_component.h"
 #include	"../component/player_controller.h"
 #include	"../../application.h"
+#include	"../component/map_pos_component.h"
+#include	"../../system/util/XAudio2.h"
 
 using namespace GameModeState;
 
@@ -107,7 +109,6 @@ void Puzzle::Exec()
 			DiceManager::GetInstance()->SetPuzzle();
 		}
 	}
-	// プレイヤーorサイコロの行動によってステップを減らす
 
 	// ステップ番号更新
 	mUiStepNum->GetComponent<Component::Quad2d>()->SetUvPos(INT2(mStep - DiceManager::GetInstance()->GetStepCount(), 0));
@@ -172,6 +173,10 @@ void Puzzle::Exec()
 			mCameraLookat->SetIsActive(true);
 
 			mHolder->SetIsSetCamera(true);
+
+			// BGM設定
+			StopSound(SOUND_LABEL_BGM_GAME);
+			PlaySound(SOUND_LABEL_BGM_TITLE);
 		}
 	}
 }
@@ -197,11 +202,16 @@ void Puzzle::BeforeChange()
 	// クリアオーバー非表示
 	mUiClearOver->SetIsActive(false);
 
-
 	// 前のシーンがクリエイトならDice生成
 	if (SceneManager::GetInstance()->GetBeforeSceneKey() == "Create")
 	{
 		DiceManager::GetInstance()->DiceMapCreate(false);
+		mHolder->GetPlayer()->GetComponent<Component::MapPos>()->SetMapPosMove(data.mPlayerPos);
+
+		if (DiceManager::GetInstance()->GetDice(INT3(data.mPlayerPos.x, 0, data.mPlayerPos.z)) != NULL)
+			mHolder->GetPlayer()->GetTransform()->SetPositionY(DICE_SCALE + mHolder->GetPlayer()->GetTransform()->scale.y);
+		else
+			mHolder->GetPlayer()->GetTransform()->SetPositionY(mHolder->GetPlayer()->GetTransform()->scale.y / 2.0f);
 	}
 
 	// サイコロの状態を通常に戻す
@@ -225,6 +235,18 @@ void Puzzle::BeforeChange()
 	mCameraLookat->GetComponent<Component::Easing>()->AddEasing(EasingProcess::EasingType::eLinear, TransType::ePos, 50.0f, 0.0f, 0, cameraLookat, true);
 
 	mHolder->GetPlayer()->GetComponent<Component::PlayerController>()->SetDiceUi();
+
+
+	// BGM設定
+	if (SceneManager::GetInstance()->GetBeforeSceneKey() == "Create")
+	{
+		StopSound(SOUND_LABEL_BGM_CREATE);
+	}
+	else
+	{
+		StopSound(SOUND_LABEL_BGM_TITLE);
+	}
+	PlaySound(SOUND_LABEL_BGM_GAME);
 }
 
 void Puzzle::AfterChange()

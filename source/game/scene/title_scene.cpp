@@ -7,11 +7,13 @@
 #include		"../gameobject/skydome.h"
 #include		"../../system/dx11/CDirectInput.h"
 #include		"maingame_scene.h"
+#include		"../../system/util/XAudio2.h"
 
 using namespace DirectX;
 
 TitleScene::TitleScene()
 {
+	PlaySound(SOUND_LABEL_BGM_TITLE);
 }
 
 void TitleScene::SceneAfter()

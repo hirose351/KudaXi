@@ -37,6 +37,8 @@ void StageCreateScene::SceneAfter()
 		mStage->Reset();
 		mStage->CameraUpdate();
 		DiceManager::GetInstance()->Uninit();
+
+		StopSound(SOUND_LABEL_BGM_TITLE);
 	}
 	else
 	{
@@ -44,7 +46,11 @@ void StageCreateScene::SceneAfter()
 		mViewObjList[eDiceM]->Init();
 		mStage->Init();
 		mViewObjList[ePlayer]->GetComponent<Component::MapPos>()->SetMapPos(mStageData->mPlayerPos);
+
+		PlaySound(SOUND_LABEL_BGM_GAME);
 	}
+
+	StopSound(SOUND_LABEL_BGM_CREATE);
 }
 
 void StageCreateScene::SceneInit()
@@ -149,10 +155,6 @@ void StageCreateScene::ImguiDebug()
 	{
 		StageDataManager::GetInstance().RemoveStageData(mStageNameText);
 	}
-	if (ImGui::Button(u8"現在のステージをPlay"))
-	{
-		/// Todo:処理作る
-	}
 	ImGui::End();
 }
 
@@ -234,24 +236,6 @@ void StageCreateScene::StageDataPlay()
 		StageDataSave();
 		StageDataManager::GetInstance().SetCurrentStage("create/init");
 		DiceManager::GetInstance()->Uninit();
-		SceneManager::GetInstance()->SetGameMode(GameMode::ePuzzle);
-		SceneManager::GetInstance()->SetNextScene("GameMain");
-	}
-	else
-	{
-		MessageBox(nullptr, "指定されたステージデータは存在しません", "error", MB_OK);
-		return;
-	}
-}
-
-void StageCreateScene::Play()
-{
-	bool sts = StageDataManager::GetInstance().SetCurrentStage(mStageNameText);
-	if (sts)
-	{
-		// シーン切り替え
-		//StopSound(SOUND_LABEL_BGM_CREATE);
-		//PlaySound(SOUND_LABEL_BGM_GAME);
 		SceneManager::GetInstance()->SetGameMode(GameMode::ePuzzle);
 		SceneManager::GetInstance()->SetNextScene("GameMain");
 	}

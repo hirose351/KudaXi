@@ -5,6 +5,7 @@
 #include	"../gameobject/ui_image.h"
 #include	"../component/quad2d_component.h"
 #include	"../manager/input_manager.h"
+#include	"../../system/util/XAudio2.h"
 
 using namespace DirectX;
 
@@ -23,6 +24,15 @@ ModeSelectScene::ModeSelectScene()
 void ModeSelectScene::SceneAfter()
 {
 	mIsButtonPush = false;
+
+	if (mpSceneManager->GetBeforeSceneKey() == "Create")
+	{
+		PlaySound(SOUND_LABEL_BGM_TITLE);
+	}
+	if (mpSceneManager->GetBeforeSceneKey() == "GameMain")
+	{
+		PlaySound(SOUND_LABEL_BGM_TITLE);
+	}
 }
 
 void ModeSelectScene::SceneInit()
@@ -64,7 +74,6 @@ void ModeSelectScene::SceneUpdate()
 	{
 	case SelectMode::eTutorial:
 	{
-		mpSceneManager->SetNextScene("GameMain");
 		mIsButtonPush = true;
 	}
 	break;

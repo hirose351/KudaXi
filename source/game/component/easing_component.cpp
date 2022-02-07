@@ -128,5 +128,5 @@ void Component::Easing::AddEasing(EasingProcess::EasingType _easingType, TransTy
 
 int Component::Easing::GetEasingListCnt()
 {
-	return mEasingList.size();
+	return static_cast<int>(mEasingList.size());
 }

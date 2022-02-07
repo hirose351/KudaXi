@@ -18,7 +18,6 @@ private:
 	void StageDataSave();
 	void StageDataLoad();
 	void StageDataPlay();
-	void Play();
 
 public:
 	StageCreateScene();

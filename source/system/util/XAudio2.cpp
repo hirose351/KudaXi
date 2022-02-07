@@ -13,23 +13,23 @@ typedef struct
 	bool bLoop;			// trueでループ。通常BGMはture、SEはfalse。
 } PARAM;
 
-PARAM g_param[SOUND_LABEL_MAX] =
+PARAM gParam[SOUND_LABEL_MAX] =
 {
 	// BGM
-	{"assets/audio/bgm/TitleBgm.wav", true},	// タイトルBGM（ループさせるのでtrue設定）
-	{"assets/audio/bgm/GameBgm.wav", true},		// ゲームBGM
-	{"assets/audio/bgm/CreateBgm.wav", true},	// ステージクリエイトBGM
+	{"assets/audio/bgm/title.wav", true},		// タイトルBGM（ループさせるのでtrue設定）
+	{"assets/audio/bgm/game.wav", true},		// ゲームBGM
+	{"assets/audio/bgm/create.wav", true},		// ステージクリエイトBGM
 	// SE
-	{"assets/audio/se/Switch.wav", false},  	// 切り替えSE（ループしないのでfalse設定）
-	{"assets/audio/se/Ok.wav", false},			// 決定SE
-	{"assets/audio/se/Dice.wav", false},		// サイコロSE
+	{"assets/audio/se/switch.wav", false},  	// 切り替えSE（ループしないのでfalse設定）
+	{"assets/audio/se/ok.wav", false},			// 決定SE
+	{"assets/audio/se/dice.wav", false},		// サイコロSE
 
-	{"assets/audio/se/MISS.wav", false},		// ミスSE
-	{"assets/audio/se/YEAH.wav", false},		// クリアSE
-	{"assets/audio/se/START.wav", false},		// スタートSE
-	{"assets/audio/se/ONE.wav", false},			// 1SE
-	{"assets/audio/se/TWO.wav", false},			// 2SE
-	{"assets/audio/se/THREE.wav", false},		// 3SE
+	{"assets/audio/se/miss.wav", false},		// ミスSE
+	{"assets/audio/se/yeah.wav", false},		// クリアSE
+	{"assets/audio/se/start.wav", false},		// スタートSE
+	{"assets/audio/se/one.wav", false},			// 1SE
+	{"assets/audio/se/two.wav", false},			// 2SE
+	{"assets/audio/se/three.wav", false},		// 3SE
 };
 
 #ifdef _XBOX //Big-Endian
@@ -53,13 +53,13 @@ PARAM g_param[SOUND_LABEL_MAX] =
 //-----------------------------------------------------------------
 //    グローバル変数
 //-----------------------------------------------------------------
-IXAudio2               *g_pXAudio2 = NULL;
-IXAudio2MasteringVoice *g_pMasteringVoice = NULL;
-IXAudio2SourceVoice    *g_pSourceVoice[SOUND_LABEL_MAX];
+IXAudio2               *gpXAudio2 = NULL;
+IXAudio2MasteringVoice *gpMasteringVoice = NULL;
+IXAudio2SourceVoice    *gpSourceVoice[SOUND_LABEL_MAX];
 
-WAVEFORMATEXTENSIBLE	g_wfx[SOUND_LABEL_MAX];			// WAVフォーマット
-XAUDIO2_BUFFER			g_buffer[SOUND_LABEL_MAX];
-BYTE					*g_DataBuffer[SOUND_LABEL_MAX];
+WAVEFORMATEXTENSIBLE	gWfx[SOUND_LABEL_MAX];			// WAVフォーマット
+XAUDIO2_BUFFER			gBuffer[SOUND_LABEL_MAX];
+BYTE					*gDataBuffer[SOUND_LABEL_MAX];
 
 //-----------------------------------------------------------------
 //    プロトタイプ宣言
@@ -83,7 +83,7 @@ HRESULT InitSound()
 	CoInitializeEx(NULL, COINIT_MULTITHREADED);
 
 	/**** Create XAudio2 ****/
-	hr = XAudio2Create(&g_pXAudio2, 0);		// 第二引数は､動作フラグ デバッグモードの指定(現在は未使用なので0にする)
+	hr = XAudio2Create(&gpXAudio2, 0);		// 第二引数は､動作フラグ デバッグモードの指定(現在は未使用なので0にする)
 	//hr=XAudio2Create(&g_pXAudio2, 0, XAUDIO2_DEFAULT_PROCESSOR);		// 第三引数は、windowsでは無視
 	if (FAILED(hr))
 	{
@@ -92,11 +92,11 @@ HRESULT InitSound()
 	}
 
 	/**** Create Mastering Voice ****/
-	hr = g_pXAudio2->CreateMasteringVoice(&g_pMasteringVoice);			// 今回はＰＣのデフォルト設定に任せている
+	hr = gpXAudio2->CreateMasteringVoice(&gpMasteringVoice);			// 今回はＰＣのデフォルト設定に任せている
 	/*, XAUDIO2_DEFAULT_CHANNELS, XAUDIO2_DEFAULT_SAMPLERATE, 0, 0, NULL*/		// 本当６個の引数を持っている
 	if (FAILED(hr))
 	{
-		if (g_pXAudio2)	g_pXAudio2->Release();
+		if (gpXAudio2)	gpXAudio2->Release();
 		CoUninitialize();
 		return -1;
 	}
@@ -104,10 +104,10 @@ HRESULT InitSound()
 	/**** Initalize Sound ****/
 	for (int i = 0; i < SOUND_LABEL_MAX; i++)
 	{
-		memset(&g_wfx[i], 0, sizeof(WAVEFORMATEXTENSIBLE));
-		memset(&g_buffer[i], 0, sizeof(XAUDIO2_BUFFER));
+		memset(&gWfx[i], 0, sizeof(WAVEFORMATEXTENSIBLE));
+		memset(&gBuffer[i], 0, sizeof(XAUDIO2_BUFFER));
 
-		hFile = CreateFile(g_param[i].filename, GENERIC_READ, FILE_SHARE_READ, NULL,
+		hFile = CreateFile(gParam[i].filename, GENERIC_READ, FILE_SHARE_READ, NULL,
 						   OPEN_EXISTING, 0, NULL);
 		if (hFile == INVALID_HANDLE_VALUE)
 		{
@@ -124,30 +124,30 @@ HRESULT InitSound()
 		if (filetype != fourccWAVE)		return S_FALSE;
 
 		FindChunk(hFile, fourccFMT, dwChunkSize, dwChunkPosition);
-		ReadChunkData(hFile, &g_wfx[i], dwChunkSize, dwChunkPosition);
+		ReadChunkData(hFile, &gWfx[i], dwChunkSize, dwChunkPosition);
 
 		//fill out the audio data buffer with the contents of the fourccDATA chunk
 		FindChunk(hFile, fourccDATA, dwChunkSize, dwChunkPosition);
-		g_DataBuffer[i] = new BYTE[dwChunkSize];
-		ReadChunkData(hFile, g_DataBuffer[i], dwChunkSize, dwChunkPosition);
+		gDataBuffer[i] = new BYTE[dwChunkSize];
+		ReadChunkData(hFile, gDataBuffer[i], dwChunkSize, dwChunkPosition);
 
 		CloseHandle(hFile);
 
 		// 	サブミットボイスで利用するサブミットバッファの設定
-		g_buffer[i].AudioBytes = dwChunkSize;
-		g_buffer[i].pAudioData = g_DataBuffer[i];
-		g_buffer[i].Flags = XAUDIO2_END_OF_STREAM;
-		if (g_param[i].bLoop)
-			g_buffer[i].LoopCount = XAUDIO2_LOOP_INFINITE;
+		gBuffer[i].AudioBytes = dwChunkSize;
+		gBuffer[i].pAudioData = gDataBuffer[i];
+		gBuffer[i].Flags = XAUDIO2_END_OF_STREAM;
+		if (gParam[i].bLoop)
+			gBuffer[i].LoopCount = XAUDIO2_LOOP_INFINITE;
 		else
-			g_buffer[i].LoopCount = 0;
+			gBuffer[i].LoopCount = 0;
 
-		g_pXAudio2->CreateSourceVoice(&g_pSourceVoice[i], &(g_wfx[i].Format));
+		gpXAudio2->CreateSourceVoice(&gpSourceVoice[i], &(gWfx[i].Format));
 
-		if (g_param[i].bLoop)
-			g_pSourceVoice[i]->SetVolume(0.1f);
+		if (gParam[i].bLoop)
+			gpSourceVoice[i]->SetVolume(0.1f);
 		else
-			g_pSourceVoice[i]->SetVolume(0.3f);
+			gpSourceVoice[i]->SetVolume(0.3f);
 	}
 
 	return hr;
@@ -160,18 +160,18 @@ void UninitSound(void)
 {
 	for (int i = 0; i < SOUND_LABEL_MAX; i++)
 	{
-		if (g_pSourceVoice[i])
+		if (gpSourceVoice[i])
 		{
-			g_pSourceVoice[i]->Stop(0);
-			g_pSourceVoice[i]->FlushSourceBuffers();
-			g_pSourceVoice[i]->DestroyVoice();			// オーディオグラフからソースボイスを削除
-			delete[]  g_DataBuffer[i];
+			gpSourceVoice[i]->Stop(0);
+			gpSourceVoice[i]->FlushSourceBuffers();
+			gpSourceVoice[i]->DestroyVoice();			// オーディオグラフからソースボイスを削除
+			delete[]  gDataBuffer[i];
 		}
 	}
 
-	g_pMasteringVoice->DestroyVoice();
+	gpMasteringVoice->DestroyVoice();
 
-	if (g_pXAudio2) g_pXAudio2->Release();
+	if (gpXAudio2) gpXAudio2->Release();
 
 	// ＣＯＭの破棄
 	CoUninitialize();
@@ -184,10 +184,10 @@ void PlaySound(SOUND_LABEL label)
 {
 	// ソースボイス作成
 	//g_pXAudio2->CreateSourceVoice(&(g_pSourceVoice[(int)label]), &(g_wfx[(int)label].Format));
-	g_pSourceVoice[(int)label]->SubmitSourceBuffer(&(g_buffer[(int)label]));	// ボイスキューに新しいオーディオバッファーを追加
+	gpSourceVoice[(int)label]->SubmitSourceBuffer(&(gBuffer[(int)label]));	// ボイスキューに新しいオーディオバッファーを追加
 
 	// 再生
-	g_pSourceVoice[(int)label]->Start(0);
+	gpSourceVoice[(int)label]->Start(0);
 
 }
 
@@ -196,13 +196,13 @@ void PlaySound(SOUND_LABEL label)
 //=============================================================================
 void StopSound(SOUND_LABEL label)
 {
-	if (g_pSourceVoice[(int)label] == NULL) return;
+	if (gpSourceVoice[(int)label] == NULL) return;
 
 	XAUDIO2_VOICE_STATE xa2state;
-	g_pSourceVoice[(int)label]->GetState(&xa2state);
+	gpSourceVoice[(int)label]->GetState(&xa2state);
 	if (xa2state.BuffersQueued)
 	{
-		g_pSourceVoice[(int)label]->Stop(0);
+		gpSourceVoice[(int)label]->Stop(0);
 	}
 }
 
