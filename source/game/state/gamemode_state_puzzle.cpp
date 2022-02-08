@@ -213,6 +213,7 @@ void Puzzle::BeforeChange()
 	if (SceneManager::GetInstance()->GetBeforeSceneKey() == "Create")
 	{
 		DiceManager::GetInstance()->DiceMapCreate(false);
+		mHolder->GetStage()->ObjectInit();
 		mHolder->GetPlayer()->GetComponent<Component::MapPos>()->SetMapPosMove(data.mPlayerPos);
 
 		if (DiceManager::GetInstance()->GetDice(INT3(data.mPlayerPos.x, 0, data.mPlayerPos.z)) != NULL)

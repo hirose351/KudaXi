@@ -12,12 +12,16 @@ private:
 	Dix::wp<StageData> mStageData;
 	Dix::wp<Stage> mStage;
 	int mSelectObjNum;
+	bool mIsPlay = false;
+	bool mIsStagePlay = false;
+	std::string mBeforeStageName;
 
 	void RuleImGuiDraw();
 
 	void StageDataSave();
 	void StageDataLoad();
 	void StageDataPlay();
+	void StagePlay();
 
 public:
 	StageCreateScene();

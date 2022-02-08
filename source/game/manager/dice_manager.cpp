@@ -7,6 +7,7 @@
 #include	"../../system/model/ModelMgr.h"
 #include	<random>
 #include	"../../system/util/XAudio2.h"
+#include	"../../system/dx11/CDirectInput.h"
 
 std::random_device rnd;							// 非決定的な乱数生成器
 std::mt19937 mt(rnd());							// メルセンヌ・ツイスタの32ビット版、引数は初期シード値
@@ -445,6 +446,21 @@ void DiceManager::CreateUpdate()
 {
 	mCurrentStageData = StageDataManager::GetInstance().GetCurrentStage();
 
+	if (mpDiceList.size() > 1)
+	{
+		if (CDirectInput::GetInstance().CheckKeyBufferTrigger(DIK_Q))
+		{
+			mSelectNum--;
+			if (mSelectNum < 0)
+				mSelectNum = mpDiceList.size() - 1;
+		}
+		if (CDirectInput::GetInstance().CheckKeyBufferTrigger(DIK_E))
+		{
+			mSelectNum++;
+			mSelectNum = mSelectNum % mpDiceList.size();
+		}
+	}
+
 	// ステージ外にサイコロが存在した時の処理
 	for (int i = 0; i < mpDiceList.size(); ++i)
 	{
@@ -490,12 +506,13 @@ void DiceManager::CreateUpdate()
 			mpDiceList[i]->GetComponent<Component::MapMove>()->SetState(ObjectState::ePaused);
 		}
 	}
-
 }
 
 void DiceManager::CreateImguiDraw()
 {
 	std::string str;
+	ImGui::Text(u8"Q E：Dice切り替え");
+
 	ImGui::BeginChild(ImGui::GetID((void*)0), ImVec2(250, 130), ImGuiWindowFlags_NoTitleBar);
 	for (int i = 0; i < mpDiceList.size(); ++i)
 	{

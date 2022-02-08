@@ -1,3 +1,6 @@
+
+#define _CRT_SECURE_NO_WARNINGS
+
 #include	"stagecreate_scene.h"
 #include	"../gameobject/gameobject.h"
 #include	"../gameobject/dice.h"
@@ -14,8 +17,10 @@
 #include	"../../application.h"
 #include	"../../system/dx11/DX11util.h"
 #include	"../../system/util/XAudio2.h"
-
+#include <stdio.h>
+#include <string.h>
 using namespace Dix;
+
 
 enum {
 	ePlayer,
@@ -33,9 +38,9 @@ void StageCreateScene::SceneAfter()
 	{
 		StageDataManager::GetInstance().SetCurrentStage("create/init");
 		mStageData = StageDataManager::GetInstance().GetCurrentStage();
+		mStageData->mStageName = "create/init";
 		mSelectObjNum = 0;
 		mStage->Reset();
-		mStage->CameraUpdate();
 		DiceManager::GetInstance()->Uninit();
 
 		StopSound(SOUND_LABEL_BGM_TITLE);
@@ -46,11 +51,18 @@ void StageCreateScene::SceneAfter()
 		mViewObjList[eDiceM]->Init();
 		mStage->Init();
 		mViewObjList[ePlayer]->GetComponent<Component::MapPos>()->SetMapPos(mStageData->mPlayerPos);
+		char stageNameText[128] = "create/play";
+		if (mIsStagePlay)
+		{
+			strcpy(mStageNameText, mBeforeStageName.c_str());
+		}
 
-		PlaySound(SOUND_LABEL_BGM_GAME);
+		StopSound(SOUND_LABEL_BGM_GAME);
 	}
 
-	StopSound(SOUND_LABEL_BGM_CREATE);
+	mStage->CameraUpdate();
+	PlaySound(SOUND_LABEL_BGM_CREATE);
+	mIsStagePlay = false;
 }
 
 void StageCreateScene::SceneInit()
@@ -136,22 +148,30 @@ void StageCreateScene::ImguiDebug()
 	ImGui::Begin(u8"SaveLoad");
 
 	ImGui::InputText("StageName", mStageNameText, sizeof(mStageNameText));
-	if (ImGui::Button("Save"))
+	if (ImGui::Button(u8"保存"))
 	{
 		StageDataSave();
 	}
 	ImGui::SameLine();
-	if (ImGui::Button("Load"))
+	if (ImGui::Button(u8"上書き保存"))
+	{
+		StageDataManager::GetInstance().RemoveStageData(mStageNameText);
+		StageDataSave();
+	}
+	if (ImGui::Button(u8"読み込み"))
 	{
 		StageDataLoad();
 	}
-	ImGui::SameLine();
 	if (ImGui::Button("Play"))
 	{
 		StageDataPlay();
 	}
+	if (ImGui::Button(u8"現在のステージでPlay"))
+	{
+		StagePlay();
+	}
 	ImGui::SameLine();
-	if (ImGui::Button("Remove"))
+	if (ImGui::Button(u8"削除"))
 	{
 		StageDataManager::GetInstance().RemoveStageData(mStageNameText);
 	}
@@ -177,9 +197,6 @@ void StageCreateScene::StageDataSave()
 	data.mStageName = mStageNameText;
 	data.mPlayerPos = mViewObjList[0]->GetComponent<Component::MapPos>()->GetMapPos();
 
-	data.mMapSizeHeight;
-	data.mMapSizeWidth;
-
 	data.mDiceMtx.clear();
 	data.mDiceMtx.shrink_to_fit();
 
@@ -199,7 +216,6 @@ void StageCreateScene::StageDataSave()
 			data.mDiceMtx.emplace_back();
 			data.mDiceMtx[data.mDiceMtx.size() - 1] = dice->GetTransform()->GetMtx();
 			data.mMap[z][x] = dice->GetObjectID();
-
 		}
 	}
 	StageDataManager::GetInstance().SaveStage(data);
@@ -230,18 +246,36 @@ void StageCreateScene::StageDataPlay()
 	if (sts)
 	{
 		// シーン切り替え
-		//StopSound(SOUND_LABEL_BGM_CREATE);
-		//PlaySound(SOUND_LABEL_BGM_GAME);
-		mStageData->mStageName = "create/init";
-		StageDataSave();
-		StageDataManager::GetInstance().SetCurrentStage("create/init");
 		DiceManager::GetInstance()->Uninit();
 		SceneManager::GetInstance()->SetGameMode(GameMode::ePuzzle);
 		SceneManager::GetInstance()->SetNextScene("GameMain");
+
+		if (mIsStagePlay)
+			strcpy(mStageNameText, mBeforeStageName.c_str());
 	}
 	else
 	{
 		MessageBox(nullptr, "指定されたステージデータは存在しません", "error", MB_OK);
 		return;
 	}
+}
+
+void StageCreateScene::StagePlay()
+{
+	// プレイ用ステージに保存
+	mBeforeStageName = mStageNameText;
+	mStageData->mStageName = "create/play";
+	strcpy(mStageNameText, mStageData->mStageName.c_str());
+
+	if (mIsPlay)
+		StageDataManager::GetInstance().RemoveStageData(mStageNameText);
+
+	StageDataSave();
+	StageDataPlay();
+	mStage->Init();
+
+	mIsStagePlay = true;
+
+	if (!mIsPlay)
+		mIsPlay = true;
 }

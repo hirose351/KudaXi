@@ -65,7 +65,7 @@ void Stage::ObjectUpdate()
 void Stage::ImguiCreateDraw()
 {
 	ImGui::Text("Size");
-	ImGui::SliderInt("Width", &mCurrentStageData->mMapSizeHeight, 3, 10);
-	ImGui::SliderInt("Height", &mCurrentStageData->mMapSizeWidth, 3, 10);
+	ImGui::SliderInt("Width", &mCurrentStageData->mMapSizeWidth, 3, 10);
+	ImGui::SliderInt("Height", &mCurrentStageData->mMapSizeHeight, 3, 10);
 	CameraUpdate();
 }
