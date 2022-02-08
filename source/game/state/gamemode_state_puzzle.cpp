@@ -199,6 +199,7 @@ void Puzzle::BeforeChange()
 	mUiStageNum->GetComponent<Component::Quad2d>()->SetUvPos(INT2(mHolder->GetSelectStage(), 0));
 	// ステップ番号更新
 	mUiStepNum->GetComponent<Component::Quad2d>()->SetUvPos(INT2(data.mStep, 0));
+
 	// クリアオーバー非表示
 	mUiClearOver->SetIsActive(false);
 
@@ -256,4 +257,5 @@ void Puzzle::AfterChange()
 		obj->SetIsActive(false);
 	}
 	DiceManager::GetInstance()->SetIsStepCount(false);
+	SceneManager::GetInstance()->GetCurrentScene()->SetIsPause(false);
 }

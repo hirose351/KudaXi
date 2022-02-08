@@ -1,6 +1,6 @@
 #include	"dice.h"
 #include	"../manager/dice_manager.h"
-//#include	"../../system/util/XAudio2.h"
+#include	"../../system/util/XAudio2.h"
 #include	"../../system/util/easing.h"
 #include	"effect_thunder.h"
 #include	"../../system/model/ModelMgr.h"
@@ -217,7 +217,7 @@ void Dice::SetStartUpPosition()
 
 void Dice::SetDownPosition()
 {
-	mTransform->move = (0, -mUpPositionPerFrame, 0);
+	mTransform->move = Float3(0, -mUpPositionPerFrame, 0);
 	mSts = DiceStatus::eDown;
 	GetComponent<Component::Collision>()->SetColor(XMFLOAT4(1, 0, 0, 0.5f));
 }
@@ -230,9 +230,9 @@ void Dice::Push()
 	{
 		mDirection = Direction::eNeutral;
 		mSts = DiceStatus::eNormal;
-		/// 接しているブロックと面が同じかチェック
+		// 接しているブロックと面が同じかチェック
 		DiceManager::GetInstance()->CheckAligned(this);
-		/// ステップ数減らす
+		PlaySound(SOUND_LABEL_SE_DICE);
 	}
 }
 
@@ -297,9 +297,9 @@ void Dice::Roll()
 		mSts = DiceStatus::eNormal;
 		// 回転後の面に設定
 		SetOverPlane();
-		/// 接しているブロックと面が同じかチェック
+		// 接しているブロックと面が同じかチェック
 		DiceManager::GetInstance()->CheckAligned(this);
-		/// Todo:ステップ数減らす
+		PlaySound(SOUND_LABEL_SE_DICE);
 	}
 	// 回転数をカウントアップ
 	mCrrentRotCnt++;

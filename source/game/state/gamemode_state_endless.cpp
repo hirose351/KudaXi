@@ -3,6 +3,7 @@
 #include	"../manager/input_manager.h"
 #include	"../gameobject/pause_endless.h"
 #include	"../component/player_controller.h"
+#include	"../../system/util/XAudio2.h"
 
 using namespace GameModeState;
 
@@ -57,6 +58,10 @@ void Endless::BeforeChange()
 	}
 
 	mHolder->GetPlayer()->GetComponent<Component::PlayerController>()->SetDiceUi();
+
+	// BGMê›íË
+	StopSound(SOUND_LABEL_BGM_TITLE);
+	PlaySound(SOUND_LABEL_BGM_GAME);
 }
 
 void Endless::AfterChange()
@@ -66,4 +71,8 @@ void Endless::AfterChange()
 		obj->SetIsActive(false);
 	}
 	DiceManager::GetInstance()->Uninit();
+
+	// BGMê›íË
+	StopSound(SOUND_LABEL_BGM_GAME);
+	PlaySound(SOUND_LABEL_BGM_TITLE);
 }

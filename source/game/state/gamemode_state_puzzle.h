@@ -13,6 +13,7 @@ namespace GameModeState {
 		bool mIsCameraMove = false;		// 戻るボタン押されたか
 		bool mIsStart = false;		// 始まったか
 		//bool mIsSelect = false;		// 選択されたか
+		bool mIsSound[4];
 
 		Dix::wp<GameObject> mUiStageNum;	// ステージ番号のUI
 		Dix::wp<GameObject> mUiStepNum;	// ステップ数のUI
