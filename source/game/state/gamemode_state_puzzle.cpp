@@ -105,31 +105,36 @@ void Puzzle::Exec()
 		if (mCameraEye->GetComponent<Component::Easing>()->GetEasingListCnt() == 0)
 		{
 			mIsStart = true;
+			mIsClear = false;
 			mHolder->GetPlayer()->GetComponent<Component::PlayerController>()->SetDiceUi();
 			DiceManager::GetInstance()->SetPuzzle();
 		}
 	}
 
+	mStep = DiceManager::GetInstance()->GetStepCount();
+
 	// ステップ番号更新
-	mUiStepNum->GetComponent<Component::Quad2d>()->SetUvPos(INT2(mStep - DiceManager::GetInstance()->GetStepCount(), 0));
+	mUiStepNum->GetComponent<Component::Quad2d>()->SetUvPos(INT2(mStep, 0));
 
 	// ステップが0になった時
-	if (mStep - DiceManager::GetInstance()->GetStepCount() <= 0)
+	if (mStep <= 0 && !mIsClear)
 	{
 		SceneManager::GetInstance()->GetCurrentScene()->SetIsPause(true);
 		// クリアオーバー表示
 		mUiClearOver->SetIsActive(true);
-
+		mIsClear = true;
 		// サイコロが全て揃っていれば
 		if (DiceManager::GetInstance()->GetIsAllAligned())
 		{
 			// クリア
 			mUiClearOver->GetComponent<Component::Quad2d>()->SetUvPos(INT2(1, 0));
+			PlaySound(SOUND_LABEL_SE_CLEAR);
 		}
 		else
 		{
 			// オーバー
 			mUiClearOver->GetComponent<Component::Quad2d>()->SetUvPos(INT2(0, 0));
+			PlaySound(SOUND_LABEL_SE_RETRY);
 		}
 	}
 
@@ -152,6 +157,7 @@ void Puzzle::Exec()
 		}
 		else
 		{
+			mHolder->GetPlayer()->GetComponent<Component::PlayerController>()->RemoveDiceUi();
 			mIsCameraMove = true;
 
 			StageData data = StageDataManager::GetInstance().GetCurrentStage().At();
@@ -213,6 +219,7 @@ void Puzzle::BeforeChange()
 			mHolder->GetPlayer()->GetTransform()->SetPositionY(DICE_SCALE + mHolder->GetPlayer()->GetTransform()->scale.y);
 		else
 			mHolder->GetPlayer()->GetTransform()->SetPositionY(mHolder->GetPlayer()->GetTransform()->scale.y / 2.0f);
+		mHolder->GetPlayer()->GetTransform()->angle = 0;
 	}
 
 	// サイコロの状態を通常に戻す
@@ -235,9 +242,6 @@ void Puzzle::BeforeChange()
 	cameraLookat.z = -data.mMapSizeHeight*DICE_SCALE_HALF;
 	mCameraLookat->GetComponent<Component::Easing>()->AddEasing(EasingProcess::EasingType::eLinear, TransType::ePos, 50.0f, 0.0f, 0, cameraLookat, true);
 
-	mHolder->GetPlayer()->GetComponent<Component::PlayerController>()->SetDiceUi();
-
-
 	// BGM設定
 	if (SceneManager::GetInstance()->GetBeforeSceneKey() == "Create")
 	{
@@ -248,6 +252,7 @@ void Puzzle::BeforeChange()
 		StopSound(SOUND_LABEL_BGM_TITLE);
 	}
 	PlaySound(SOUND_LABEL_BGM_GAME);
+	PlaySound(SOUND_LABEL_SE_START);
 }
 
 void Puzzle::AfterChange()

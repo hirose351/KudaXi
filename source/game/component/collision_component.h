@@ -16,7 +16,7 @@ namespace Component {
 		Qube mQube;
 		Float3 mLocalScaleHalf;
 		Float3 mLocalPos;
-		DirectX::XMFLOAT4 mColor{ 1, 1, 1, 1 };
+		DirectX::XMFLOAT4 mColor{ 0, 0, 0, 0 };
 		DirectX::XMFLOAT4X4 mLocalMtx;
 		DirectX::XMFLOAT4X4 mWorldMtx;
 

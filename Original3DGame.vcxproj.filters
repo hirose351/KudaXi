@@ -103,9 +103,6 @@
     <Filter Include="ソース ファイル\game\gameobject\stage">
       <UniqueIdentifier>{498f6ac7-8290-4d56-8715-fbcc922458cf}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\game\manager\game">
-      <UniqueIdentifier>{e4efe162-cf26-4ce5-bc02-95a4617514a3}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ソース ファイル\game\gameobject\camera">
       <UniqueIdentifier>{3eb226dc-5dd8-4b2a-a978-881ed6534489}</UniqueIdentifier>
     </Filter>
@@ -371,9 +368,6 @@
     </ClCompile>
     <ClCompile Include="source\game\gameobject\stage.cpp">
       <Filter>ソース ファイル\game\gameobject\stage</Filter>
-    </ClCompile>
-    <ClCompile Include="source\game\manager\game_manager.cpp">
-      <Filter>ソース ファイル\game\manager\game</Filter>
     </ClCompile>
     <ClCompile Include="source\game\scene\stagecreate_scene.cpp">
       <Filter>ソース ファイル\game\scene\stagecreate_scene</Filter>
@@ -697,9 +691,6 @@
     </ClInclude>
     <ClInclude Include="source\game\gameobject\stage.h">
       <Filter>ソース ファイル\game\gameobject\stage</Filter>
-    </ClInclude>
-    <ClInclude Include="source\game\manager\game_manager.h">
-      <Filter>ソース ファイル\game\manager\game</Filter>
     </ClInclude>
     <ClInclude Include="source\game\scene\stagecreate_scene.h">
       <Filter>ソース ファイル\game\scene\stagecreate_scene</Filter>

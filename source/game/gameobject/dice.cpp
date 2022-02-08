@@ -19,6 +19,7 @@ Dice::Dice() :GameObject(("Dice"), ObjectType::eDice, true)
 	}
 	AddComponent<Component::Model>()->SetModel(ModelMgr::GetInstance().GetModelPtr("assets/model/dice/Dice.fbx"));
 	AddComponent<Component::Collision>()->SetInitState(ObjectTag::eDice, Float3(0, 0, 0), Float3(DICE_SCALE_HALF), DirectX::XMFLOAT4(1, 1, 1, 0.0f));
+	GetComponent<Component::Collision>()->SetColor(XMFLOAT4(1, 1, 1, 0));
 }
 
 Dice::~Dice()

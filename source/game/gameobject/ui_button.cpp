@@ -2,10 +2,10 @@
 #include	"../component/quad2d_component.h"
 #include	"../component/easing_component.h"
 #include	"../manager/input_manager.h"
+#include	"../../system/util/XAudio2.h"
 
 using namespace myUI;
 using namespace DirectX;
-
 
 Button::Button() :GameObject(("Button"), ObjectType::eObstracle, false)
 {
@@ -198,6 +198,7 @@ void ButtonGroup::ObjectUpdate()
 	if (InputManager::GetInstance().GetStateTrigger(InputMode::eUi, static_cast<int>(UiAction::eClick)))
 	{
 		isPressed = true;
+		PlaySound(SOUND_LABEL_SE_OK);
 	}
 
 	//if (mParent != nullptr)
@@ -315,6 +316,7 @@ void ButtonGroup::SetSelectedNum(int _num)
 	if (mSelectNum == _num)
 		return;
 
+	PlaySound(SOUND_LABEL_SE_SWITCH);
 	// 現在のボタンと変更後のボタンの状態と色を変える
 	mpButtonList[mSelectNum]->SetButtonState(ButtonState::eNomal);
 	mpButtonList[mSelectNum]->GetComponent<Component::Quad2d>()->SetColor(mStateColor[(int)ButtonState::eNomal]);

@@ -6,6 +6,7 @@
 #include	"../component/collision_component.h"
 #include	"../../system/model/ModelMgr.h"
 #include	<random>
+#include	"../../system/util/XAudio2.h"
 
 std::random_device rnd;							// 非決定的な乱数生成器
 std::mt19937 mt(rnd());							// メルセンヌ・ツイスタの32ビット版、引数は初期シード値
@@ -255,8 +256,23 @@ void DiceManager::CheckAligned(Dice* _dice)
 {
 	Dix::wp<Dice> ansDice;
 
+	// ステップ数減らす
 	if (mIsStepCount)
-		mStepCount++;
+	{
+		mStepCount--;
+		if (mStepCount == 1)
+		{
+			PlaySound(SOUND_LABEL_SE_ONE);
+		}
+		else if (mStepCount == 2)
+		{
+			PlaySound(SOUND_LABEL_SE_TWO);
+		}
+		else if (mStepCount == 3)
+		{
+			PlaySound(SOUND_LABEL_SE_THREE);
+		}
+	}
 
 	/// ハッピーワンチェック ////////////////////////////////////////////////
 	if (_dice->GetTopDiceTypeNum() == 1)
@@ -668,7 +684,7 @@ Dix::wp<Dice> DiceManager::GetCreateDice(INT2 _mapPos)
 void DiceManager::SetIsStepCount(bool _flg)
 {
 	mIsStepCount = _flg;
-	mStepCount = 0;
+	mStepCount = mCurrentStageData->mStep;
 }
 
 bool DiceManager::GetIsAllAligned()
