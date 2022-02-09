@@ -19,6 +19,7 @@ void DiceManager::DiceMapCreate(bool _isUp = true)
 {
 	mCurrentStageData = StageDataManager::GetInstance().GetCurrentStage();
 	int diceCnt = 0;
+
 	for (int z = 0; z < mCurrentStageData->mMapSizeHeight; z++)
 	{
 		for (int x = 0; x < mCurrentStageData->mMapSizeWidth; x++)
@@ -48,9 +49,9 @@ void DiceManager::DiceMapCreate(bool _isUp = true)
 			mpDiceList[diceCnt]->SetName(("Dice" + std::to_string(mDiceMap[z][x])));	// オブジェクトの名前に添え字を加える
 
 			if (_isUp)
-				mpDiceList[diceCnt]->GetTransform()->SetPositionXYZ(Float3(DICE_SCALE*x, -DICE_SCALE_HALF, -DICE_SCALE * z));
+				mpDiceList[diceCnt]->GetTransform()->SetPositionY(-DICE_SCALE_HALF);
 			else
-				mpDiceList[diceCnt]->GetTransform()->SetPositionXYZ(Float3(DICE_SCALE*x, DICE_SCALE_HALF, -DICE_SCALE * z));
+				mpDiceList[diceCnt]->GetTransform()->SetPositionY(DICE_SCALE_HALF);
 
 			mpDiceList[diceCnt]->Init();
 			mpDiceList[diceCnt]->SetOverPlane();

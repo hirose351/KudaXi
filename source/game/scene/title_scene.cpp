@@ -44,6 +44,7 @@ void TitleScene::SceneInit()
 	i->GetTransform()->SetPositionXYZ(Float3(700, 500, 0));
 	i->AddComponent<Component::Quad2d>()->SetInfo("assets/image/title/player.png", XMFLOAT4(1, 1, 1, 1), 4, 2);
 	i->AddComponent<Component::Animation2d>()->SetAnim(10, 0);
+	mpPlayerImage = i->GetComponent<Component::Animation2d>();
 	AddGameObject(i);
 
 	Dix::sp<myUI::ButtonGroup> bG;
@@ -59,6 +60,12 @@ void TitleScene::SceneInit()
 
 void TitleScene::SceneUpdate()
 {
+	// ボタンの位置に合わせてプレイヤー画像アニメーションを変更
+	if (mpBg->GetSelectNum() == 0)
+		mpPlayerImage->SetAnim(10, 0);
+	else if (mpBg->GetSelectNum() == 1)
+		mpPlayerImage->SetAnim(10, 1);
+
 	if (mIsButtonPush)
 		return;
 	if (!mpBg->GetIsPressed())

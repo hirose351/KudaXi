@@ -195,7 +195,7 @@ void StageCreateScene::StageDataSave()
 	StageData data = mStageData.At();
 
 	data.mStageName = mStageNameText;
-	data.mPlayerPos = mViewObjList[0]->GetComponent<Component::MapPos>()->GetMapPos();
+	data.mPlayerPos = mViewObjList[ePlayer]->GetComponent<Component::MapPos>()->GetMapPos();
 
 	data.mDiceMtx.clear();
 	data.mDiceMtx.shrink_to_fit();
@@ -236,7 +236,7 @@ void StageCreateScene::StageDataLoad()
 		DiceManager::GetInstance()->DataCreate();
 		mViewObjList[eDiceM]->Init();
 		mStage->Init();
-		mViewObjList[ePlayer]->GetComponent<Component::MapPos>()->SetMapPos(mStageData->mPlayerPos);
+		mViewObjList[ePlayer]->GetComponent<Component::MapPos>()->SetMapPosMove(mStageData->mPlayerPos);
 	}
 }
 

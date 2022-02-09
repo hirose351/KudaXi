@@ -5,6 +5,7 @@ using namespace Component;
 Animation2d::Animation2d() :ComponentBase(("Layout")), isRepeat(false), mFrameCnt(0)
 {
 	SetName("Animation2d");
+	mCurrentFrame = 0;
 }
 
 void Animation2d::Update()
@@ -31,6 +32,5 @@ void Animation2d::ImguiDraw()
 void Animation2d::SetAnim(int _speed, int array)
 {
 	mFrameCnt = _speed;
-	mCurrentFrame = 0;
 	mArray = array;
 }
