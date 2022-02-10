@@ -48,6 +48,8 @@ private:
 
 	int GetDiceRandomNum(int _rndNum);
 
+
+	int mEndlessCnt = 0;
 public:
 	static DiceManager* GetInstance() {
 		static DiceManager Instance;

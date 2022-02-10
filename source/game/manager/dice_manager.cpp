@@ -41,6 +41,7 @@ void DiceManager::DiceMapCreate(bool _isUp = true)
 			}
 
 			mpDiceList[diceCnt]->GetTransform()->SetWordMtx(mCurrentStageData->mDiceMtx[diceCnt]);
+			mpDiceList[diceCnt]->GetTransform()->SetPositionMove(Float3(DICE_SCALE*x, -DICE_SCALE_HALF, -DICE_SCALE * z));
 
 			mDiceMap[z][x] = mpDiceList[diceCnt]->GetObjectID();
 
@@ -90,6 +91,42 @@ void DiceManager::Init()
 
 void DiceManager::EndleesUpdate()
 {
+	if (mEndlessCnt < 6)
+	{
+		mEndlessCnt++;
+
+		// ランダムで出したマップ位置にDiceが存在すればコンティニュー
+		int num = rand100(mt) % (mCurrentStageData->mMapSizeWidth*mCurrentStageData->mMapSizeHeight);
+		int z = num / mCurrentStageData->mMapSizeWidth;
+		int x = num % mCurrentStageData->mMapSizeHeight;
+		if (mDiceMap[z][x] != NODICE)
+			return;
+		// プレイヤーとその周りで、他が埋まっていなければコンティニュー
+		if (x <= mPlayerPos.x + 1 && x >= mPlayerPos.x - 1 && z <= mPlayerPos.z + 1 && z >= mPlayerPos.z - 1)
+			if (mpDiceList.size() < mCurrentStageData->mMapSizeWidth*mCurrentStageData->mMapSizeHeight - 9)
+				return;
+
+		// Dice生成
+		Dix::sp<Dice> dice;
+		dice.SetPtr(new Dice);
+		dice->GetTransform()->SetPositionMove(Float3(DICE_SCALE*x, -DICE_SCALE_HALF, -DICE_SCALE * z));
+		dice->GetTransform()->SetAngle(mSpawnAngle[GetDiceRandomNum(rand100(mt))]);
+		dice->GetTransform()->CreateWordMtx();
+
+		// Y軸をランダムで回転
+		XMFLOAT4X4 angleMtx;
+		DX11MtxRotationY(mSpawnAngle[5 + rand100(mt) % 4].y, angleMtx);
+		DX11MtxMultiply(dice->GetTransform()->worldMtx, angleMtx, dice->GetTransform()->worldMtx);
+
+		dice->SetMapPos(INT3(x, 0, z));
+		mDiceMap[z][x] = dice->GetObjectID();
+		dice->SetName(("Dice" + std::to_string(mDiceMap[z][x])));	// オブジェクトの名前に添え字を加える
+		dice->Init();
+
+		mpDiceList.emplace_back(dice);	// vector配列に追加
+		SceneManager::GetInstance()->GetCurrentScene()->AddGameObject(dice);
+	}
+
 	/// Todo:埋まってたらゲームオーバー処理
 	if (mCurrentStageData->mMapSizeWidth*mCurrentStageData->mMapSizeHeight <= mpDiceList.size())
 	{
@@ -694,9 +731,15 @@ void DiceManager::SetCreateRemoveDice(int _diceId)
 
 Dix::wp<Dice> DiceManager::GetCreateDice(INT2 _mapPos)
 {
-	if (mDiceMap[_mapPos.z][_mapPos.x] == NODICE)
-		return NULL;
-	return GetCreateListInDice(_mapPos.x, _mapPos.z);
+	for (Dix::wp<Dice> dice : mpDiceList)
+	{
+		if (dice->GetComponent<Component::MapPos>()->GetMapPos() == _mapPos)
+		{
+			return dice;
+		}
+	}
+
+	return NULL;
 }
 
 void DiceManager::SetIsStepCount(bool _flg)
@@ -720,6 +763,7 @@ void DiceManager::EndlessInit()
 {
 	Uninit();
 	/// Todo:ランダムでいくつか生成
+	mEndlessCnt = 0;
 }
 
 void DiceManager::DataCreate()
@@ -744,7 +788,7 @@ void DiceManager::DataCreate()
 
 			std::cout << "生成" << dice->GetObjectID() << "\n";
 
-			dice->GetTransform()->SetPositionXYZ(Float3(DICE_SCALE*x, DICE_SCALE_HALF, -DICE_SCALE * z));
+			//dice->GetTransform()->SetPositionXYZ(Float3(DICE_SCALE*x, DICE_SCALE_HALF, -DICE_SCALE * z));
 			dice->AddComponent<Component::MapPos>()->Init();
 			dice->AddComponent<Component::MapPos>()->SetMapPos(INT2(x, z));
 			dice->AddComponent<Component::MapMove>()->Init();

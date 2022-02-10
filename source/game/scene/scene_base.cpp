@@ -128,10 +128,10 @@ void SceneBase::Render()
 {
 	mDrawManager.Draw();
 
-	static bool isimguidraw = true;
+	static bool isImguiDraw = false;
 	if (CDirectInput::GetInstance().CheckKeyBufferTrigger(DIK_TAB))
-		isimguidraw = !isimguidraw;
-	if (isimguidraw)
+		isImguiDraw = !isImguiDraw;
+	if (isImguiDraw)
 		imguiDraw(std::bind(&SceneBase::ImguiDebug, std::ref(*this)));
 }
 

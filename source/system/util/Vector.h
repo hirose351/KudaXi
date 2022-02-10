@@ -160,6 +160,10 @@ struct INT2 {
 		this->x += _i2.x;
 		this->z += _i2.z;
 	}
+	bool operator==(const INT2& _i2)
+	{
+		return ((this->x == _i2.x) && (this->z == _i2.z));
+	}
 };
 
 struct FLOAT4X4 :public DirectX::XMFLOAT4X4 {

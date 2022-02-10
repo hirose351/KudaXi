@@ -27,10 +27,7 @@ void ModeSelectScene::SceneAfter()
 
 	if (mpSceneManager->GetBeforeSceneKey() == "Create")
 	{
-		PlaySound(SOUND_LABEL_BGM_TITLE);
-	}
-	if (mpSceneManager->GetBeforeSceneKey() == "GameMain")
-	{
+		StopSound(SOUND_LABEL_BGM_CREATE);
 		PlaySound(SOUND_LABEL_BGM_TITLE);
 	}
 }
