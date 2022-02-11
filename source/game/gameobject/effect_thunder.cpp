@@ -17,6 +17,12 @@ void Thunder::ObjectInit()
 
 void Thunder::ObjectUpdate()
 {
+	if (SceneManager::GetInstance()->GetGameMode() != GameMode::eEndless)
+		SetObjectState(ObjectState::eDead);
+
+	if (SceneManager::GetInstance()->GetCurrentScene()->GetIsPause())
+		return;
+
 	Component::Billbord* bilbord = GetComponent<Component::Billbord>();
 
 	if (bilbord == nullptr)

@@ -23,6 +23,7 @@ void SceneManager::ChangeNextScene()
 	mAddkey = mCurrentSceneKey;
 	mScenefactories[mCurrentSceneKey]->Init();
 	mScenefactories[mCurrentSceneKey]->SceneAfter();
+	mScenefactories[mCurrentSceneKey]->Update();
 	mScenefactories[mNextSceneKey].get()->DrawFadeOut();
 }
 

@@ -23,8 +23,6 @@ ModeSelectScene::ModeSelectScene()
 
 void ModeSelectScene::SceneAfter()
 {
-	mIsButtonPush = false;
-
 	if (mpSceneManager->GetBeforeSceneKey() == "Create")
 	{
 		StopSound(SOUND_LABEL_BGM_CREATE);
@@ -61,38 +59,32 @@ void ModeSelectScene::SceneUpdate()
 	{
 		SceneManager::GetInstance()->SetNextScene("Title");
 	}
-	if (mIsButtonPush)
-		return;
+
 	if (!mpBg->GetIsPressed())
 		return;
-
 
 	switch (static_cast<SelectMode>(mpBg->GetSelectNum()))
 	{
 	case SelectMode::eTutorial:
 	{
-		mIsButtonPush = true;
 	}
 	break;
 	case SelectMode::ePuzzle:
 	{
 		mpSceneManager->SetGameMode(GameMode::eSelect);
 		mpSceneManager->SetNextScene("GameMain");
-		mIsButtonPush = true;
 	}
 	break;
 	case SelectMode::eEndless:
 	{
 		mpSceneManager->SetGameMode(GameMode::eEndless);
 		mpSceneManager->SetNextScene("GameMain");
-		mIsButtonPush = true;
 	}
 	break;
 	case SelectMode::eEdit:
 	{
 		mpSceneManager->SetGameMode(GameMode::eEdit);
 		mpSceneManager->SetNextScene("Create");
-		mIsButtonPush = true;
 	}
 	break;
 	default:

@@ -9,7 +9,6 @@ class ModeSelectScene : public SceneBase
 {
 private:
 	Dix::wp<myUI::ButtonGroup> mpBg;
-	bool mIsButtonPush = false;
 
 public:
 	ModeSelectScene();
