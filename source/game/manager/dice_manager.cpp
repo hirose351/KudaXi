@@ -34,7 +34,7 @@ void DiceManager::DiceMapCreate(bool _isUp = true)
 	mCurrentStageData = StageDataManager::GetInstance().GetCurrentStage();
 	int diceCnt = 0;
 
-	Uninit();
+	//	Uninit();
 
 	for (int z = 0; z < mCurrentStageData->mMapSizeHeight; z++)
 	{
@@ -46,52 +46,52 @@ void DiceManager::DiceMapCreate(bool _isUp = true)
 
 	for (diceCnt = 0; diceCnt < mCurrentStageData->mDiceMtx.size(); diceCnt++)
 	{
-		// Dice生成
-		Dix::sp<Dice> dice;
-		dice.SetPtr(new Dice);
+		if (diceCnt >= mpDiceList.size())
+		{
+			// Dice生成
+			Dix::sp<Dice> dice;
+			dice.SetPtr(new Dice);
 
-		std::cout << "生成" << dice->GetObjectID() << "\n";
-		//mpDiceList[diceCnt]->SetIsActive(true);
-		dice->GetTransform()->SetWordMtx(mCurrentStageData->mDiceMtx[diceCnt]);
-		//mpDiceList[diceCnt]->GetTransform()->SetPositionMove(Float3(DICE_SCALE*x, -DICE_SCALE_HALF, -DICE_SCALE * z));
+			std::cout << "生成" << dice->GetObjectID() << "\n";
 
-		Float3 dicePos = dice->GetTransform()->GetPosition();
-		dice->GetTransform()->SetPositionMove(dicePos);
+			SceneManager::GetInstance()->GetCurrentScene()->AddGameObject(dice);
+			mpDiceList.emplace_back(dice);	// vector配列に追加
+		}
+
+		mpDiceList[diceCnt]->GetTransform()->SetWordMtx(mCurrentStageData->mDiceMtx[diceCnt]);
+		Float3 dicePos = mpDiceList[diceCnt]->GetTransform()->GetPosition();
+		mpDiceList[diceCnt]->GetTransform()->SetPositionMove(dicePos);
 
 
 		INT2 mapPos(static_cast<int>(dicePos.x / DICE_SCALE), static_cast<int>(-dicePos.z / DICE_SCALE));
 		std::cout << "x" << mapPos.x << "z" << mapPos.z;
 
-		mDiceMap[mapPos.z][mapPos.x] = dice->GetObjectID();
+		mDiceMap[mapPos.z][mapPos.x] = mpDiceList[diceCnt]->GetObjectID();
 
-		dice->GetComponent<Component::Collision>()->SetColor(DirectX::XMFLOAT4(1, 1, 1, 0.0f));
-		dice->SetMapPos(INT3(mapPos.x, 0, mapPos.z));
-		dice->SetName(("Dice" + std::to_string(mDiceMap[mapPos.z][mapPos.x])));	// オブジェクトの名前に添え字を加える
+		mpDiceList[diceCnt]->GetComponent<Component::Collision>()->SetColor(DirectX::XMFLOAT4(1, 1, 1, 0.0f));
+		mpDiceList[diceCnt]->SetMapPos(INT3(mapPos.x, 0, mapPos.z));
+		mpDiceList[diceCnt]->SetName(("Dice" + std::to_string(mDiceMap[mapPos.z][mapPos.x])));	// オブジェクトの名前に添え字を加える
 
 		if (_isUp)
-			dice->GetTransform()->SetPositionY(-DICE_SCALE_HALF);
+			mpDiceList[diceCnt]->GetTransform()->SetPositionY(-DICE_SCALE_HALF);
 		else
-			dice->GetTransform()->SetPositionY(DICE_SCALE_HALF);
+			mpDiceList[diceCnt]->GetTransform()->SetPositionY(DICE_SCALE_HALF);
 
-		dice->Init();
-		dice->SetOverPlane();
-
-		SceneManager::GetInstance()->GetCurrentScene()->AddGameObject(dice);
-		mpDiceList.emplace_back(dice);	// vector配列に追加
+		mpDiceList[diceCnt]->Init();
+		mpDiceList[diceCnt]->SetOverPlane();
 	}
 
-	//for (int i = diceCnt; i < mpDiceList.size(); i++)
-	//{
-	//	//mpDiceList[i]->SetObjectState(ObjectState::eDead);
-	//	//mpDiceList.erase(mpDiceList.begin() + i);
-	//	mpDiceList[i]->SetIsActive(false);
-	//}
+	for (int i = diceCnt; i < mpDiceList.size(); i++)
+	{
+		mpDiceList[i]->SetObjectState(ObjectState::eDead);
+		//mpDiceList.erase(mpDiceList.begin() + i);
+	}
 
-	//if (diceCnt < mpDiceList.size())
-	//{
-	//	mpDiceList.erase(mpDiceList.begin() + diceCnt, mpDiceList.end());
-	//	mpDiceList.shrink_to_fit();
-	//}
+	if (diceCnt < mpDiceList.size())
+	{
+		mpDiceList.erase(mpDiceList.begin() + diceCnt, mpDiceList.end());
+		mpDiceList.shrink_to_fit();
+	}
 }
 
 DiceManager::DiceManager()
