@@ -95,6 +95,7 @@ void Select::Exec()
 
 void Select::BeforeChange()
 {
+	DiceManager::GetInstance()->PuzzleInit();
 	SetStage();
 
 	for (Dix::wp<GameObject> obj : mModeObjList)

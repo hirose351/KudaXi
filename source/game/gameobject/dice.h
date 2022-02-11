@@ -13,7 +13,7 @@ private:
 	INT3 mMapPos;										// マップ上の位置
 	DiceFruit mTopDiceTypeFruit;						// 上面の果物
 	int mTopDiceTypeNum;								// 上面の数字
-	DiceStatus mSts;									// 状態
+	DiceStatus mSts = DiceStatus::eNormal;				// 状態
 	Direction mDirection = Direction::eNeutral;			// サイコロの移動方向	
 
 	DirectX::XMFLOAT4X4 mStartMtx;						// 1フレームでの変化を表す行列	

@@ -200,7 +200,16 @@ void StageCreateScene::StageDataSave()
 	data.mDiceMtx.clear();
 	data.mDiceMtx.shrink_to_fit();
 
+	DiceManager::GetInstance()->SetCreateDiceMap();
 	// サイコロの数とMtx記憶
+	for (int z = 0; z < data.mMapSizeHeight; z++)
+	{
+		for (int x = 0; x < data.mMapSizeWidth; x++)
+		{
+			data.mMap[z][x] = NODICE;
+			continue;
+		}
+	}
 	for (int z = 0; z < data.mMapSizeHeight; z++)
 	{
 		for (int x = 0; x < data.mMapSizeWidth; x++)
@@ -208,16 +217,14 @@ void StageCreateScene::StageDataSave()
 			Dix::wp<Dice> dice = DiceManager::GetInstance()->GetCreateDice(INT2(x, z));
 
 			if (dice == NULL)
-			{
-				data.mMap[z][x] = NODICE;
 				continue;
-			}
 			// 配列に入れる
 			data.mDiceMtx.emplace_back();
 			data.mDiceMtx[data.mDiceMtx.size() - 1] = dice->GetTransform()->GetMtx();
 			data.mMap[z][x] = dice->GetObjectID();
 		}
 	}
+
 	StageDataManager::GetInstance().SaveStage(data);
 	mStageData->mStageName = "create/init";
 }

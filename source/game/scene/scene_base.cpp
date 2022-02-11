@@ -132,7 +132,7 @@ void SceneBase::Render()
 	if (CDirectInput::GetInstance().CheckKeyBufferTrigger(DIK_TAB))
 		isImguiDraw = !isImguiDraw;
 	if (isImguiDraw || mpSceneManager->GetCurrentSceneKey() == "Create")
-		imguiDraw(std::bind(&SceneBase::ImguiDebug, std::ref(*this)));
+		ImguiDraw(std::bind(&SceneBase::ImguiDebug, std::ref(*this)));
 }
 
 void SceneBase::ImguiDebug()

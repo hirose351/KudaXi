@@ -1047,7 +1047,7 @@ void imguiCustom() {
 }
 
 // ‰Šú‰»
-void imguiInit() {
+void ImguiInit() {
 
 	// im gui ‰Šú‰»
 	ImGui::CreateContext();
@@ -1061,7 +1061,7 @@ void imguiInit() {
 
 }
 
-void imguiDraw(std::function<void(void)> func) {
+void ImguiDraw(std::function<void(void)> func) {
 
 	// Start the Dear ImGui frame
 	ImGui_ImplDX11_NewFrame();
@@ -1075,7 +1075,7 @@ void imguiDraw(std::function<void(void)> func) {
 	ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
 }
 
-void imguiExit() {
+void ImguiExit() {
 	ImGui_ImplDX11_Shutdown();
 	ImGui::DestroyContext();
 }

@@ -15,55 +15,83 @@ std::uniform_int_distribution<> rand100(0, 99); // [0, 99] 範囲の一様乱数
 
 using namespace DirectX;
 
+void DiceManager::PuzzleInit()
+{
+	//for (int i = 0; i < 10; i++)
+	//{
+	//	// Dice生成
+	//	Dix::sp<Dice> dice;
+	//	dice.SetPtr(new Dice);
+	//	mpDiceList.emplace_back(dice);	// vector配列に追加
+	//	dice->Init();
+	//	SceneManager::GetInstance()->GetCurrentScene()->AddGameObject(dice);
+	//	std::cout << "生成" << dice->GetObjectID() << "\n";
+	//}
+}
+
 void DiceManager::DiceMapCreate(bool _isUp = true)
 {
 	mCurrentStageData = StageDataManager::GetInstance().GetCurrentStage();
 	int diceCnt = 0;
 
+	Uninit();
+
 	for (int z = 0; z < mCurrentStageData->mMapSizeHeight; z++)
 	{
 		for (int x = 0; x < mCurrentStageData->mMapSizeWidth; x++)
 		{
-			if (mCurrentStageData->mMap[z][x] < 0)
-			{
-				mDiceMap[z][x] = NODICE;
-				continue;
-			}
-
-			if (diceCnt >= mpDiceList.size())
-			{
-				// Dice生成
-				Dix::sp<Dice> dice;
-				dice.SetPtr(new Dice);
-				SceneManager::GetInstance()->GetCurrentScene()->AddGameObject(dice);
-				mpDiceList.emplace_back(dice);	// vector配列に追加
-				std::cout << "生成" << dice->GetObjectID() << "\n";
-			}
-
-			mpDiceList[diceCnt]->GetTransform()->SetWordMtx(mCurrentStageData->mDiceMtx[diceCnt]);
-			mpDiceList[diceCnt]->GetTransform()->SetPositionMove(Float3(DICE_SCALE*x, -DICE_SCALE_HALF, -DICE_SCALE * z));
-
-			mDiceMap[z][x] = mpDiceList[diceCnt]->GetObjectID();
-
-			mpDiceList[diceCnt]->GetComponent<Component::Collision>()->SetColor(DirectX::XMFLOAT4(1, 1, 1, 0.0f));
-			mpDiceList[diceCnt]->SetMapPos(INT3(x, 0, z));
-			mpDiceList[diceCnt]->SetName(("Dice" + std::to_string(mDiceMap[z][x])));	// オブジェクトの名前に添え字を加える
-
-			if (_isUp)
-				mpDiceList[diceCnt]->GetTransform()->SetPositionY(-DICE_SCALE_HALF);
-			else
-				mpDiceList[diceCnt]->GetTransform()->SetPositionY(DICE_SCALE_HALF);
-
-			mpDiceList[diceCnt]->Init();
-			mpDiceList[diceCnt]->SetOverPlane();
-			diceCnt++;
+			mDiceMap[z][x] = NODICE;
 		}
 	}
-	for (int i = diceCnt; i < mpDiceList.size(); i++)
-		mpDiceList[i]->SetObjectState(ObjectState::eDead);
 
-	mpDiceList.erase(mpDiceList.begin() + diceCnt, mpDiceList.end());
-	mpDiceList.shrink_to_fit();
+	for (diceCnt = 0; diceCnt < mCurrentStageData->mDiceMtx.size(); diceCnt++)
+	{
+		// Dice生成
+		Dix::sp<Dice> dice;
+		dice.SetPtr(new Dice);
+
+		std::cout << "生成" << dice->GetObjectID() << "\n";
+		//mpDiceList[diceCnt]->SetIsActive(true);
+		dice->GetTransform()->SetWordMtx(mCurrentStageData->mDiceMtx[diceCnt]);
+		//mpDiceList[diceCnt]->GetTransform()->SetPositionMove(Float3(DICE_SCALE*x, -DICE_SCALE_HALF, -DICE_SCALE * z));
+
+		Float3 dicePos = dice->GetTransform()->GetPosition();
+		dice->GetTransform()->SetPositionMove(dicePos);
+
+
+		INT2 mapPos(static_cast<int>(dicePos.x / DICE_SCALE), static_cast<int>(-dicePos.z / DICE_SCALE));
+		std::cout << "x" << mapPos.x << "z" << mapPos.z;
+
+		mDiceMap[mapPos.z][mapPos.x] = dice->GetObjectID();
+
+		dice->GetComponent<Component::Collision>()->SetColor(DirectX::XMFLOAT4(1, 1, 1, 0.0f));
+		dice->SetMapPos(INT3(mapPos.x, 0, mapPos.z));
+		dice->SetName(("Dice" + std::to_string(mDiceMap[mapPos.z][mapPos.x])));	// オブジェクトの名前に添え字を加える
+
+		if (_isUp)
+			dice->GetTransform()->SetPositionY(-DICE_SCALE_HALF);
+		else
+			dice->GetTransform()->SetPositionY(DICE_SCALE_HALF);
+
+		dice->Init();
+		dice->SetOverPlane();
+
+		SceneManager::GetInstance()->GetCurrentScene()->AddGameObject(dice);
+		mpDiceList.emplace_back(dice);	// vector配列に追加
+	}
+
+	//for (int i = diceCnt; i < mpDiceList.size(); i++)
+	//{
+	//	//mpDiceList[i]->SetObjectState(ObjectState::eDead);
+	//	//mpDiceList.erase(mpDiceList.begin() + i);
+	//	mpDiceList[i]->SetIsActive(false);
+	//}
+
+	//if (diceCnt < mpDiceList.size())
+	//{
+	//	mpDiceList.erase(mpDiceList.begin() + diceCnt, mpDiceList.end());
+	//	mpDiceList.shrink_to_fit();
+	//}
 }
 
 DiceManager::DiceManager()
@@ -79,7 +107,7 @@ DiceManager::DiceManager()
 	mSpawnAngle[8] = { 0,-90.0f,0 };
 }
 
-void DiceManager::Init()
+void DiceManager::EndllesInit()
 {
 	Uninit();
 	mFrameCnt = 0;
@@ -201,7 +229,6 @@ void DiceManager::Uninit()
 		obj->SetObjectState(ObjectState::eDead);
 	}
 	mpDiceList.clear();
-	mpDiceList.shrink_to_fit();
 }
 
 void DiceManager::SetPuzzle()
@@ -490,7 +517,7 @@ void DiceManager::CreateUpdate()
 		{
 			mSelectNum--;
 			if (mSelectNum < 0)
-				mSelectNum = mpDiceList.size() - 1;
+				mSelectNum = static_cast<int>(mpDiceList.size()) - 1;
 		}
 		if (CDirectInput::GetInstance().CheckKeyBufferTrigger(DIK_E))
 		{
@@ -742,6 +769,15 @@ Dix::wp<Dice> DiceManager::GetCreateDice(INT2 _mapPos)
 	return NULL;
 }
 
+void DiceManager::SetCreateDiceMap()
+{
+	for (Dix::wp<Dice> dice : mpDiceList)
+	{
+		INT2 mapPos = dice->GetComponent<Component::MapPos>()->GetMapPos();
+		mDiceMap[mapPos.z][mapPos.x] = dice->GetObjectID();
+	}
+}
+
 void DiceManager::SetIsStepCount(bool _flg)
 {
 	mIsStepCount = _flg;
@@ -790,7 +826,7 @@ void DiceManager::DataCreate()
 
 			//dice->GetTransform()->SetPositionXYZ(Float3(DICE_SCALE*x, DICE_SCALE_HALF, -DICE_SCALE * z));
 			dice->AddComponent<Component::MapPos>()->Init();
-			dice->AddComponent<Component::MapPos>()->SetMapPos(INT2(x, z));
+			dice->GetComponent<Component::MapPos>()->SetMapPos(INT2(x, z));
 			dice->AddComponent<Component::MapMove>()->Init();
 			dice->GetComponent<Component::Collision>()->SetInitState(ObjectTag::eDice, Float3(0, 0, 0), Float3(DICE_SCALE_HALF), DirectX::XMFLOAT4(1, 1, 1, 0.5f));
 			dice->GetComponent<Component::Collision>()->Init();

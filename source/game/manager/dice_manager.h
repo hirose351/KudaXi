@@ -59,9 +59,11 @@ public:
 	~DiceManager() {};
 
 	// Dice生成
+	void PuzzleInit();
+
 	void DiceMapCreate(bool _isUp);
 	// 初期化
-	void Init();
+	void EndllesInit();
 	// 更新
 	void EndleesUpdate();
 
@@ -109,6 +111,10 @@ public:
 
 	// 渡されたマップ上にあるDiceのポインタを返す
 	Dix::wp<Dice> GetCreateDice(INT2 _mapPos);
+
+	// マップにDiceの値を入れる
+	void SetCreateDiceMap();
+
 	/// ↑Create用 ////////////////////
 
 

@@ -52,10 +52,8 @@ void GameInit() {
 		Application::CLIENT_WIDTH,
 		Application::CLIENT_HEIGHT);
 
-	// IMGUIèâä˙âª
-	imguiInit();
+	ImguiInit();
 
-	// 
 	InitSound();
 
 	GameSceneInit();
@@ -112,6 +110,6 @@ void GameRender(uint64_t dt) {
 
 void GameDispose() {
 	UninitSound();
-	imguiExit();
+	ImguiExit();
 	DX11Uninit();
 }
