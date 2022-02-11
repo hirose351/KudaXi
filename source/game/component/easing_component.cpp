@@ -92,8 +92,6 @@ void Component::Easing::Update()
 	if (mCurrentFrame < famly.totalFrame)
 		return;
 
-	mEasingList.pop_front();
-	isStart = false;
 
 	switch (famly.transType)
 	{
@@ -106,6 +104,20 @@ void Component::Easing::Update()
 	case TransType::eScale:
 		mOwner->GetTransform()->SetScale(famly.endValue);
 		break;
+	}
+
+	// 繰り返すなら先頭の要素を末尾に入れて初期状態に戻し、繰り返さないならリストから消す
+
+	isStart = false;
+	if (!mIsRepeat)
+	{
+		mEasingList.pop_front();
+	}
+	else
+	{
+		EasingFamily frontEasing = mEasingList.front();
+		mEasingList.pop_front();
+		mEasingList.push_back(frontEasing);
 	}
 }
 

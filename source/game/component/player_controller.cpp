@@ -111,7 +111,7 @@ void PlayerController::ImguiDraw()
 	str = DirectionStr[static_cast<int>(*mDirection)];
 	ImGui::Text(str.c_str());
 
-	str = "現在のステート：　" + (PlayerStateStr[mStateNum]);
+	str = u8"現在のステート：　" + (PlayerStateStr[mStateNum]);
 	ImGui::Text(str.c_str());
 
 	if (ImGui::TreeNode("MapPos"))
@@ -144,6 +144,11 @@ void PlayerController::RemoveDiceUi()
 	mDiceModel->SetIsActive(false);
 	mDiceBg->SetIsActive(false);
 	mIsDiceUiDraw = false;
+}
+
+void PlayerController::StateInit(int _stateNum)
+{
+	mStates[_stateNum]->Init();
 }
 
 void PlayerController::ChangeState(int _stateNum)

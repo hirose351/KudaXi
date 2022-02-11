@@ -177,6 +177,7 @@ void Move::SetMapPos()
 
 void Move::Init()
 {
+	SetMapPos();
 	mStageSize = mHolder->GetStageSize();
 }
 
@@ -223,11 +224,11 @@ void Move::Exec()
 		mDestrot.y = rotCamera.y;
 		(*mDirection) = Direction::eDown;
 	}
-	//else
-	//{
-	//	// “ü—Í‚µ‚Ä‚¢‚È‚¯‚ê‚Îƒjƒ…[ƒgƒ‰ƒ‹‚É
-	//	(*mDirection) = Direction::eNeutral;
-	//}
+	else
+	{
+		// “ü—Í‚µ‚Ä‚¢‚È‚¯‚ê‚Î“®‚©‚È‚¢
+		mTransform->move = 0;
+	}
 
 	//if (CDirectInput::GetInstance().CheckKeyBuffer(DIK_RETURN))
 	//{

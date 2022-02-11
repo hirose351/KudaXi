@@ -28,9 +28,10 @@ namespace Component {
 			bool isEndAbsolute;
 		};
 
-		float mCurrentFrame;									// 経過時間
+		float mCurrentFrame;								// 経過時間
 		bool isStart = false;								// 開始したか
 		std::list<EasingFamily> mEasingList;				// イージングの塊が入ったリスト
+		bool mIsRepeat = false;								// 繰り返すか
 
 	public:
 		Easing();
@@ -50,6 +51,7 @@ namespace Component {
 					   bool _isEndAbsolute = false);
 
 		int GetEasingListCnt();
+		void SetIsRepeat(bool _flg) { mIsRepeat = _flg; }
 	};
 }
 

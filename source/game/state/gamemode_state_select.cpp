@@ -55,7 +55,7 @@ Select::Select()
 	selectString->GetTransform()->SetScale(Float3(400));
 	SceneManager::GetInstance()->GetCurrentScene()->AddGameObject(selectString);
 	Component::Quad2d* uiStageQuad = selectString->AddComponent<Component::Quad2d>();
-	uiStageQuad->SetInfo("assets/image/ui/Select.png", XMFLOAT4(1, 1, 1, 1));
+	uiStageQuad->SetInfo("assets/image/ui/stageselect.png", XMFLOAT4(1, 1, 1, 1));
 	uiStageQuad->SetOrderInLayer(1);
 	selectString->GetTransform()->SetPositionXYZ(Float3(1280 / 2.0f, 100.0f, 0));
 	mModeObjList.emplace_back(selectString);
@@ -95,7 +95,6 @@ void Select::Exec()
 
 void Select::BeforeChange()
 {
-	DiceManager::GetInstance()->PuzzleInit();
 	SetStage();
 
 	for (Dix::wp<GameObject> obj : mModeObjList)

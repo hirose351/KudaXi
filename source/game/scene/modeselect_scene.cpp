@@ -4,6 +4,7 @@
 #include	"../gameobject/skydome.h"
 #include	"../gameobject/ui_image.h"
 #include	"../component/quad2d_component.h"
+#include	"../component/easing_component.h"
 #include	"../manager/input_manager.h"
 #include	"../../system/util/XAudio2.h"
 
@@ -51,6 +52,30 @@ void ModeSelectScene::SceneInit()
 	modeUi->GetTransform()->SetPositionXYZ(Float3(600, 150, 0));
 	modeUi->AddComponent<Component::Quad2d>()->SetInfo("assets/image/ui/mode.png", XMFLOAT4(1, 1, 1, 1));
 	AddGameObject(modeUi);
+
+	// •¶Žš
+	Dix::sp<myUI::Image> backUiDice;
+	backUiDice.SetPtr(new myUI::Image);
+	backUiDice->GetTransform()->SetScale(Float3(120));
+	Component::Quad2d* uiStageQuad = backUiDice->AddComponent<Component::Quad2d>();
+	uiStageQuad->SetInfo("assets/image/ui/back.png", XMFLOAT4(1, 1, 1, 0.8f), 2);
+	uiStageQuad->SetOrderInLayer(10);
+	backUiDice->GetTransform()->SetPositionXYZ(Float3(80, 640.0f, 0));
+	AddGameObject(backUiDice);
+
+	Dix::sp<myUI::Image> backUiArrow;
+	backUiArrow.SetPtr(new myUI::Image);
+	backUiArrow->SetIsStopPause(false);
+	backUiArrow->GetTransform()->SetScale(Float3(120));
+	uiStageQuad = backUiArrow->AddComponent<Component::Quad2d>();
+	uiStageQuad->SetInfo("assets/image/ui/back.png", XMFLOAT4(1, 1, 1, 0.7f), 2);
+	uiStageQuad->SetOrderInLayer(11);
+	uiStageQuad->SetUvPos(INT2(1, 0));
+	backUiArrow->GetTransform()->SetPositionXYZ(Float3(80, 640.0f, 0));
+	backUiArrow->AddComponent<Component::Easing>()->SetIsRepeat(true);
+	backUiArrow->GetComponent<Component::Easing>()->AddEasing(EasingProcess::EasingType::eLinear, TransType::ePos, 70, 0, Float3(0, 0, 0), Float3(85, 640.0f, 0), true);
+	backUiArrow->GetComponent<Component::Easing>()->AddEasing(EasingProcess::EasingType::eLinear, TransType::ePos, 70, 0, Float3(0, 0, 0), Float3(75, 640.0f, 0), true);
+	AddGameObject(backUiArrow);
 }
 
 void ModeSelectScene::SceneUpdate()

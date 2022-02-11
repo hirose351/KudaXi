@@ -24,6 +24,7 @@ namespace Component {
 		Foot						  mFoot;
 		Float3						  mInfoDicePos;		  // 画面に表示する位置
 		bool mIsDiceUiDraw = false;
+
 	public:
 		PlayerController();
 		~PlayerController();
@@ -36,6 +37,8 @@ namespace Component {
 
 		void SetDiceUi();
 		void RemoveDiceUi();
+
+		void StateInit(int _stateNum);
 
 		/// アクセサ //////////////////////////////////////////////////////////////////////////////////
 

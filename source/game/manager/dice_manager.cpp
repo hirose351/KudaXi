@@ -17,24 +17,16 @@ using namespace DirectX;
 
 void DiceManager::PuzzleInit()
 {
-	//for (int i = 0; i < 10; i++)
-	//{
-	//	// Dice生成
-	//	Dix::sp<Dice> dice;
-	//	dice.SetPtr(new Dice);
-	//	mpDiceList.emplace_back(dice);	// vector配列に追加
-	//	dice->Init();
-	//	SceneManager::GetInstance()->GetCurrentScene()->AddGameObject(dice);
-	//	std::cout << "生成" << dice->GetObjectID() << "\n";
-	//}
+	for (auto &obj : mpDiceList)
+	{
+		obj->GetComponent<Component::Collision>()->SetIsDraw(true);
+	}
 }
 
 void DiceManager::DiceMapCreate(bool _isUp = true)
 {
 	mCurrentStageData = StageDataManager::GetInstance().GetCurrentStage();
 	int diceCnt = 0;
-
-	//	Uninit();
 
 	for (int z = 0; z < mCurrentStageData->mMapSizeHeight; z++)
 	{
@@ -69,6 +61,7 @@ void DiceManager::DiceMapCreate(bool _isUp = true)
 		mDiceMap[mapPos.z][mapPos.x] = mpDiceList[diceCnt]->GetObjectID();
 
 		mpDiceList[diceCnt]->GetComponent<Component::Collision>()->SetColor(DirectX::XMFLOAT4(1, 1, 1, 0.0f));
+		//mpDiceList[diceCnt]->GetComponent<Component::Collision>()->SetIsDraw(false);
 		mpDiceList[diceCnt]->SetMapPos(INT3(mapPos.x, 0, mapPos.z));
 		mpDiceList[diceCnt]->SetName(("Dice" + std::to_string(mDiceMap[mapPos.z][mapPos.x])));	// オブジェクトの名前に添え字を加える
 
@@ -84,7 +77,6 @@ void DiceManager::DiceMapCreate(bool _isUp = true)
 	for (int i = diceCnt; i < mpDiceList.size(); i++)
 	{
 		mpDiceList[i]->SetObjectState(ObjectState::eDead);
-		//mpDiceList.erase(mpDiceList.begin() + i);
 	}
 
 	if (diceCnt < mpDiceList.size())

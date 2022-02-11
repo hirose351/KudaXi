@@ -69,7 +69,7 @@ Puzzle::Puzzle()
 	SceneManager::GetInstance()->GetCurrentScene()->AddGameObject(clearOver);
 	Component::Quad2d* clearOverQuad = clearOver->AddComponent<Component::Quad2d>();
 	clearOverQuad->SetInfo("assets/image/ui/clearover.png", XMFLOAT4(1, 1, 1, 1), 2);
-	clearOverQuad->SetOrderInLayer(1);
+	clearOverQuad->SetOrderInLayer(20);
 	mModeObjList.emplace_back(clearOver);
 	mUiClearOver = clearOver;
 
@@ -209,6 +209,10 @@ void Puzzle::BeforeChange()
 	// クリアオーバー非表示
 	mUiClearOver->SetIsActive(false);
 
+	//mHolder->GetPlayer()->Init();
+	mHolder->GetPlayer()->GetTransform()->angle = 0;
+	mHolder->GetPlayer()->GetTransform()->move = 0;
+
 	// 前のシーンがクリエイトならDice生成
 	if (SceneManager::GetInstance()->GetBeforeSceneKey() == "Create")
 	{
@@ -222,6 +226,8 @@ void Puzzle::BeforeChange()
 			mHolder->GetPlayer()->GetTransform()->SetPositionY(mHolder->GetPlayer()->GetTransform()->scale.y / 2.0f);
 		mHolder->GetPlayer()->GetTransform()->angle = 0;
 	}
+
+	mHolder->GetPlayer()->GetComponent<Component::PlayerController>()->StateInit(eMove);
 
 	// サイコロの状態を通常に戻す
 	DiceManager::GetInstance()->SetIsStepCount(true);
@@ -263,5 +269,5 @@ void Puzzle::AfterChange()
 		obj->SetIsActive(false);
 	}
 	DiceManager::GetInstance()->SetIsStepCount(false);
-	SceneManager::GetInstance()->GetCurrentScene()->SetIsPause(false);
+	//SceneManager::GetInstance()->GetCurrentScene()->SetIsPause(false);
 }

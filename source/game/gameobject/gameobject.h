@@ -56,6 +56,7 @@ public:
 
 	int GetObjectID() { return mObjectID; }
 	bool GetIsStopPause() { return mIsStopPause; }
+	void SetIsStopPause(bool _flg) { mIsStopPause = _flg; }
 
 	void SetIsActive(bool _isActive) { mIsActive = _isActive; }
 	bool GetIsActive() { return mIsActive; }
