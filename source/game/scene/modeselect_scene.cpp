@@ -37,7 +37,7 @@ void ModeSelectScene::SceneInit()
 	Dix::sp<myUI::ButtonGroup> buttonG;
 	buttonG.SetPtr(new myUI::ButtonGroup);
 	buttonG->GetTransform()->SetPositionXYZ(Float3(200, 500, 0));
-	buttonG->SetInitState("assets/image/ui/mode_button.png", 4, 1, 1, ButtonTransition::eColorTint, XMFLOAT2(5, 5), XMFLOAT2(300, 300), XMFLOAT2(350, 350), ButtonArrangement::eHorizontal);
+	buttonG->SetInitState("assets/image/ui/mode_button.png", 4, 1, 4, ButtonTransition::eColorTint, XMFLOAT2(5, 5), XMFLOAT2(300, 300), XMFLOAT2(350, 350), ButtonArrangement::eHorizontal);
 	buttonG->SetInitSelectNum(0);
 	mpBg = buttonG;
 	AddGameObject(buttonG);

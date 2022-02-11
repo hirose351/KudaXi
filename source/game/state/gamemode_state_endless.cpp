@@ -2,6 +2,7 @@
 #include	"../manager/dice_manager.h"
 #include	"../manager/input_manager.h"
 #include	"../gameobject/pause_endless.h"
+#include	"../gameobject/access_dice_manager.h"
 #include	"../component/player_controller.h"
 #include	"../../system/util/XAudio2.h"
 
@@ -14,6 +15,12 @@ Endless::Endless()
 	SceneManager::GetInstance()->GetCurrentScene()->AddGameObject(p);
 	p->SetIsActive(false);
 	mModeObjList.emplace_back(p);
+
+	Dix::sp<DiceManagerAccess> dicemanager;
+	dicemanager.SetPtr(new DiceManagerAccess);
+	dicemanager->SetIsActive(false);
+	SceneManager::GetInstance()->GetCurrentScene()->AddGameObject(dicemanager);
+	mModeObjList.emplace_back(dicemanager);
 }
 
 Endless::~Endless()
@@ -22,7 +29,6 @@ Endless::~Endless()
 
 void Endless::Exec()
 {
-	DiceManager::GetInstance()->EndleesUpdate();
 	// –ß‚é‚ğ‰Ÿ‚³‚ê‚½‚Æ‚«‚Ìˆ—
 	if (InputManager::GetInstance().GetStateTrigger(InputMode::eUi, static_cast<int>(UiAction::eCancel)))
 	{

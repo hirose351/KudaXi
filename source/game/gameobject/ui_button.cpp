@@ -107,93 +107,71 @@ void ButtonGroup::ObjectUpdate()
 	—ñ‚ª‚ ‚é‚Æc‰¡—¼•û‚É‚È‚é
 	*/
 
-
 	// ‰Ÿ‚³‚ê‚½uŠÔ‚Ìˆ—
-	InputDirection i = InputManager::GetInstance().GetDirectionTrigger(InputMode::eUi, static_cast<int>(UiAction::eNavigate));
-	switch (i)
+	InputDirection buttonDirection = InputManager::GetInstance().GetDirectionTrigger(InputMode::eUi, static_cast<int>(UiAction::eNavigate));
+
+	if (buttonDirection != InputDirection::eNeutral)
 	{
-		// ¶
-	case InputDirection::eLeft:
-	{
-		if ((mSelectNum - 1) >= 0)
-			SetSelectedNum((mSelectNum - 1) % mArrayCnt);
-		else
-			SetSelectedNum(mArrayCnt - 1);
 		pressFrame = 0;
-		break;
 	}
-	// ‰E
-	case InputDirection::eRight:
+	else
 	{
-		SetSelectedNum((mSelectNum + 1) % mArrayCnt);
-		pressFrame = 0;
-		break;
-	}
-	// ã
-	case InputDirection::eUp:
-	{
-		SetSelectedNum((mSelectNum + mArrayCnt) % mpButtonList.size());
-		pressFrame = 0;
-		break;
-	}
-	// ‰º
-	case InputDirection::eDown:
-	{
-		SetSelectedNum((mSelectNum - mArrayCnt) % mpButtonList.size());
-		pressFrame = 0;
-		break;
-	}
-	default:
-		break;
+		// ’·‰Ÿ‚µ‚Ìˆ—
+		buttonDirection = InputManager::GetInstance().GetDirection(InputMode::eUi, static_cast<int>(UiAction::eNavigate));
+		if (buttonDirection != InputDirection::eNeutral)
+		{
+			pressFrame++;
+			if (pressFrame < mPressingTriggerFrame)
+			{
+				buttonDirection = InputDirection::eNeutral;
+			}
+			else
+			{
+				pressFrame = 0;
+			}
+		}
 	}
 
-	// ’·‰Ÿ‚µ‚Ìˆ—
-	i = InputManager::GetInstance().GetDirection(InputMode::eUi, static_cast<int>(UiAction::eNavigate));
-	switch (i)
+	switch (buttonDirection)
 	{
 		// ¶
 	case InputDirection::eLeft:
 	{
-		pressFrame++;
-		if (pressFrame >= mPressingTriggerFrame)
-		{
+		if (mArrangement == ButtonArrangement::eHorizontal)
 			if ((mSelectNum - 1) >= 0)
 				SetSelectedNum((mSelectNum - 1) % mArrayCnt);
 			else
 				SetSelectedNum(mArrayCnt - 1);
-		}
 		break;
 	}
 	// ‰E
 	case InputDirection::eRight:
 	{
-		pressFrame++;
-		if (pressFrame >= mPressingTriggerFrame)
+		if (mArrangement == ButtonArrangement::eHorizontal)
 			SetSelectedNum((mSelectNum + 1) % mArrayCnt);
 		break;
 	}
 	// ã
 	case InputDirection::eUp:
 	{
-		pressFrame++;
-		if (pressFrame >= mPressingTriggerFrame)
-			SetSelectedNum((mSelectNum + mArrayCnt) % mpButtonList.size());
+		if (mArrangement == ButtonArrangement::eVertical)
+			if ((mSelectNum - 1) >= 0)
+				SetSelectedNum((mSelectNum - 1) % mArrayCnt);
+			else
+				SetSelectedNum(mArrayCnt - 1);
+		//SetSelectedNum((mSelectNum + mArrayCnt) % mpButtonList.size());
 		break;
 	}
 	// ‰º
 	case InputDirection::eDown:
 	{
-		pressFrame++;
-		if (pressFrame >= mPressingTriggerFrame)
-			SetSelectedNum((mSelectNum - mArrayCnt) % mpButtonList.size());
+		if (mArrangement == ButtonArrangement::eVertical)
+			SetSelectedNum((mSelectNum + 1) % mArrayCnt);
+		//SetSelectedNum((mSelectNum - mArrayCnt) % mpButtonList.size());
 		break;
 	}
-	default:
-		break;
 	}
 
-	if (pressFrame >= mPressingTriggerFrame)
-		pressFrame = 0;
 
 	if (InputManager::GetInstance().GetStateTrigger(InputMode::eUi, static_cast<int>(UiAction::eClick)))
 	{

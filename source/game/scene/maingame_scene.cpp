@@ -39,10 +39,6 @@ void MaingameScene::SceneInit()
 	skydome.SetPtr(new Skydome);
 	AddGameObject(skydome);
 
-	Dix::sp<DiceManagerAccess> dicemanager;
-	dicemanager.SetPtr(new DiceManagerAccess);
-	AddGameObject(dicemanager);
-
 	Dix::sp<GameObject> maingameController;
 	maingameController.SetPtr(new GameObject(("GameModeController"), ObjectType::eObstracle, false));
 	maingameController->AddComponent<Component::GameModeController>()->SetPlayer(player);

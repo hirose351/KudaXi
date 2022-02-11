@@ -44,7 +44,7 @@ Select::Select()
 	Dix::sp<myUI::ButtonGroup> b;
 	b.SetPtr(new myUI::ButtonGroup);
 	b->GetTransform()->SetPositionXYZ(Float3(150, 500, 0));
-	b->SetInitState("assets/image/ui/number.png", 10, 1, 1, ButtonTransition::eColorTint, XMFLOAT2(50, 0), XMFLOAT2(50, 50), XMFLOAT2(70, 70), ButtonArrangement::eHorizontal, StartPoint::eLeftUp, true, 2);
+	b->SetInitState("assets/image/ui/number.png", 10, 1, 10, ButtonTransition::eColorTint, XMFLOAT2(50, 0), XMFLOAT2(50, 50), XMFLOAT2(70, 70), ButtonArrangement::eHorizontal, StartPoint::eLeftUp, true, 2);
 	mButton = b; mButton->SetInitSelectNum(0);
 	SceneManager::GetInstance()->GetCurrentScene()->AddGameObject(b);
 	mModeObjList.emplace_back(mButton);
