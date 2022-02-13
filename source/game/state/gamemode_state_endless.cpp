@@ -20,6 +20,7 @@ Endless::Endless()
 	dicemanager.SetPtr(new DiceManagerAccess);
 	dicemanager->SetIsActive(false);
 	SceneManager::GetInstance()->GetCurrentScene()->AddGameObject(dicemanager);
+	dicemanager->SetIsActive(false);
 	mModeObjList.emplace_back(dicemanager);
 }
 
@@ -72,11 +73,11 @@ void Endless::BeforeChange()
 
 void Endless::AfterChange()
 {
+	DiceManager::GetInstance()->Uninit();
 	for (Dix::wp<GameObject> obj : mModeObjList)
 	{
 		obj->SetIsActive(false);
 	}
-	DiceManager::GetInstance()->Uninit();
 
 	// BGMê›íË
 	StopSound(SOUND_LABEL_BGM_GAME);

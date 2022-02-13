@@ -6,6 +6,7 @@
 #include	"../gameobject/access_camera_eye.h"
 #include	"../gameobject/access_camera_lookat.h"
 #include	"../component/easing_component.h"
+#include	"../component/number_component.h"
 #include	"../component/player_controller.h"
 #include	"../../application.h"
 #include	"../component/map_pos_component.h"
@@ -32,6 +33,7 @@ Puzzle::Puzzle()
 	stageNum->GetTransform()->SetPositionXYZ(Float3(1280 / 2.0f + 200, 50.0f, 0));
 	stageNum->GetTransform()->SetScale(Float3(100));
 	SceneManager::GetInstance()->GetCurrentScene()->AddGameObject(stageNum);
+	stageNum->AddComponent<Component::Number>();
 	Component::Quad2d* uiStageNumQuad = stageNum->AddComponent<Component::Quad2d>();
 	uiStageNumQuad->SetInfo("assets/image/ui/number.png", XMFLOAT4(1, 1, 1, 1), 10);
 	uiStageNumQuad->SetOrderInLayer(1);
@@ -41,7 +43,7 @@ Puzzle::Puzzle()
 	// StepStringUI
 	Dix::sp<myUI::Image> stepString;
 	stepString.SetPtr(new myUI::Image);
-	stepString->GetTransform()->SetPositionXYZ(Float3(1140, 500, 0));
+	stepString->GetTransform()->SetPositionXYZ(Float3(1150, 500, 0));
 	stepString->GetTransform()->SetScale(Float3(250, 200, 0));
 	SceneManager::GetInstance()->GetCurrentScene()->AddGameObject(stepString);
 	Component::Quad2d* uiStepQuad = stepString->AddComponent<Component::Quad2d>();
@@ -52,9 +54,10 @@ Puzzle::Puzzle()
 	// StepNumUI
 	Dix::sp<myUI::Image> stepNum;
 	stepNum.SetPtr(new myUI::Image);
-	stepNum->GetTransform()->SetPositionXYZ(Float3(1150, 630, 0));
+	stepNum->GetTransform()->SetPositionXYZ(Float3(1140, 630, 0));
 	stepNum->GetTransform()->SetScale(Float3(150));
 	SceneManager::GetInstance()->GetCurrentScene()->AddGameObject(stepNum);
+	stepNum->AddComponent<Component::Number>();
 	Component::Quad2d* stepNumQuad = stepNum->AddComponent<Component::Quad2d>();
 	stepNumQuad->SetInfo("assets/image/ui/number.png", XMFLOAT4(1, 1, 1, 1), 10);
 	stepNumQuad->SetOrderInLayer(1);
@@ -114,7 +117,7 @@ void Puzzle::Exec()
 	mStep = DiceManager::GetInstance()->GetStepCount();
 
 	// ステップ番号更新
-	mUiStepNum->GetComponent<Component::Quad2d>()->SetUvPos(INT2(mStep, 0));
+	mUiStepNum->GetComponent<Component::Number>()->SetNum(mStep, -30);
 
 	// ステップが0になった時
 	if (mStep <= 0 && !mIsClear)
@@ -202,9 +205,9 @@ void Puzzle::BeforeChange()
 	mStep = data.mStep;
 
 	// ステージ番号更新
-	mUiStageNum->GetComponent<Component::Quad2d>()->SetUvPos(INT2(mHolder->GetSelectStage(), 0));
+	mUiStageNum->GetComponent<Component::Number>()->SetNum(mHolder->GetSelectStage(), -30);
 	// ステップ番号更新
-	mUiStepNum->GetComponent<Component::Quad2d>()->SetUvPos(INT2(data.mStep, 0));
+	mUiStepNum->GetComponent<Component::Number>()->SetNum(data.mStep);
 
 	// クリアオーバー非表示
 	mUiClearOver->SetIsActive(false);

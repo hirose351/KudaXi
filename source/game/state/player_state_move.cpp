@@ -227,7 +227,7 @@ void Move::Exec()
 	else
 	{
 		// “ü—Í‚µ‚Ä‚¢‚È‚¯‚ê‚Î“®‚©‚È‚¢
-		mTransform->move = 0;
+		//mTransform->move = 0;
 	}
 
 	//if (CDirectInput::GetInstance().CheckKeyBuffer(DIK_RETURN))
