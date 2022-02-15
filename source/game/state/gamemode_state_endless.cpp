@@ -3,7 +3,9 @@
 #include	"../manager/input_manager.h"
 #include	"../gameobject/pause_endless.h"
 #include	"../gameobject/access_dice_manager.h"
+#include	"../gameobject/ui_image.h"
 #include	"../component/player_controller.h"
+#include	"../component/quad2d_component.h"
 #include	"../../system/util/XAudio2.h"
 
 #define ENDLESSMAPSIZE (7)
@@ -24,6 +26,17 @@ Endless::Endless()
 	SceneManager::GetInstance()->GetCurrentScene()->AddGameObject(dicemanager);
 	dicemanager->SetIsActive(false);
 	mModeObjList.emplace_back(dicemanager);
+
+	// PauseUI
+	Dix::sp<myUI::Image> pauseUi;
+	pauseUi.SetPtr(new myUI::Image);
+	pauseUi->GetTransform()->SetPositionXYZ(Float3(1170.0f, 80.0f, 0));
+	pauseUi->GetTransform()->SetScale(Float3(150));
+	Component::Quad2d* quadComponent = pauseUi->AddComponent<Component::Quad2d>();
+	quadComponent->SetInfo("assets/image/ui/pause_ui.png", XMFLOAT4(1, 1, 1, 1));
+	quadComponent->SetOrderInLayer(1);
+	SceneManager::GetInstance()->GetCurrentScene()->AddGameObject(pauseUi);
+	mModeObjList.emplace_back(pauseUi);
 }
 
 Endless::~Endless()

@@ -173,24 +173,44 @@ void Move::SetMapPos()
 
 void Move::MoveLimitDice(INT3 _dicePos)
 {
+	// ‰E
 	if (_dicePos.x*DICE_SCALE + DICE_SCALE_HALF - mTransform->scale.x / 2.0f < mTransform->GetPosition().x)
 	{
 		mTransform->SetPositionX(_dicePos.x*DICE_SCALE + DICE_SCALE_HALF - mTransform->scale.x / 2.0f);
+		if (DiceManager::GetInstance()->GetDice(INT3(_dicePos.x + 1, _dicePos.y, _dicePos.z)) != NULL)
+		{
+			mDiceDownFrame += GETOFFDICE_FRAME;
+		}
 		mDiceDownFrame++;
 	}
+	// ¶
 	if (_dicePos.x*DICE_SCALE - DICE_SCALE_HALF + mTransform->scale.x / 2.0f > mTransform->GetPosition().x)
 	{
 		mTransform->SetPositionX(_dicePos.x*DICE_SCALE - DICE_SCALE_HALF + mTransform->scale.x / 2.0f);
+		if (DiceManager::GetInstance()->GetDice(INT3(_dicePos.x - 1, _dicePos.y, _dicePos.z)) != NULL)
+		{
+			mDiceDownFrame += GETOFFDICE_FRAME;
+		}
 		mDiceDownFrame++;
 	}
+	// ã
 	if (-_dicePos.z*DICE_SCALE + DICE_SCALE_HALF - mTransform->scale.z / 2.0f < mTransform->GetPosition().z)
 	{
 		mTransform->SetPositionZ(-_dicePos.z*DICE_SCALE + DICE_SCALE_HALF - mTransform->scale.z / 2.0f);
+		if (DiceManager::GetInstance()->GetDice(INT3(_dicePos.x, _dicePos.y, _dicePos.z - 1)) != NULL)
+		{
+			mDiceDownFrame += GETOFFDICE_FRAME;
+		}
 		mDiceDownFrame++;
 	}
+	// ‰º
 	if (-_dicePos.z*DICE_SCALE - DICE_SCALE_HALF + mTransform->scale.z / 2.0f > mTransform->GetPosition().z)
 	{
 		mTransform->SetPositionZ(-_dicePos.z*DICE_SCALE - DICE_SCALE_HALF + mTransform->scale.z / 2.0f);
+		if (DiceManager::GetInstance()->GetDice(INT3(_dicePos.x, _dicePos.y, _dicePos.z + 1)) != NULL)
+		{
+			mDiceDownFrame += GETOFFDICE_FRAME;
+		}
 		mDiceDownFrame++;
 	}
 }
@@ -348,10 +368,12 @@ void Move::Exec()
 		switch (mpOperationDice->GetDiceStatus())
 		{
 		case DiceStatus::eUp:
+			if (mDiceDownFrame < GETOFFDICE_FRAME)
+				MoveLimitDice(dicePos);
 			break;
 		case DiceStatus::eHalfUp:
-			// ˆÚ“®§ŒÀ
-			//MoveLimitDice(dicePos);
+			if (mDiceDownFrame < GETOFFDICE_FRAME)
+				MoveLimitDice(dicePos);
 			break;
 		case DiceStatus::eRoll:
 			return;

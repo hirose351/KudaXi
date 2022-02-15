@@ -175,6 +175,7 @@ void StageCreateScene::ImguiDebug()
 	{
 		StageDataManager::GetInstance().RemoveStageData(mStageNameText);
 	}
+	ImGui::Text(u8"F1キーでモードセレクトに戻る");
 	ImGui::End();
 }
 
