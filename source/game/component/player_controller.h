@@ -15,15 +15,15 @@ namespace Component {
 	{
 	private:
 		std::map<int, Dix::sp<PlayerStateBase>> mStates;
-		int							  mStateNum;
-		Direction					  mDiceMoveDirection; // サイコロを回転させる方向
-		Dix::sp<Direction>			  mDirection;		  // プレイヤーの方向(キー参照)
-		Dix::wp<GameObject>			  mDiceModel;		  // 操作しているサイコロモデル
-		Dix::wp<GameObject>			  mDiceBg;			  // 操作しているサイコロ背景
-		Dix::wp<StageData> 			  mStageData;		  // ステージ情報
-		Foot						  mFoot;
-		Float3						  mInfoDicePos;		  // 画面に表示する位置
-		bool mIsDiceUiDraw = false;
+		int							  mStateNum;			// 現在のステート番号
+		Direction					  mDiceMoveDirection;	// サイコロを回転させる方向
+		Dix::sp<Direction>			  mDirection;			// プレイヤーの方向(キー参照)
+		Dix::wp<GameObject>			  mDiceModel;			// 操作しているサイコロモデル
+		Dix::wp<GameObject>			  mDiceBg;				// 操作しているサイコロ背景
+		Dix::wp<StageData> 			  mStageData;			// ステージ情報
+		Foot						  mFoot;				// 足元のオブジェクト
+		Float3						  mInfoDicePos;			// 画面に表示する位置
+		bool mIsDiceUiDraw = false;							// 左上UIのサイコロを描画するか
 
 	public:
 		PlayerController();
@@ -39,10 +39,10 @@ namespace Component {
 		void RemoveDiceUi();
 
 		void StateInit(int _stateNum);
+		void ChangeState(int _stateNum);
 
 		/// アクセサ //////////////////////////////////////////////////////////////////////////////////
 
-		void ChangeState(int _stateNum);
 		int GetCurrentState() { return mStateNum; }
 
 		Dix::wp<Direction> GetDirection() { return mDirection; }

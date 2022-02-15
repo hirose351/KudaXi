@@ -58,7 +58,6 @@ void PlayerController::Init()
 	mFoot = Foot::eFloor;
 	(*mDirection) = Direction::eDown;
 	mStageData = StageDataManager::GetInstance().GetCurrentStage();
-	//mOwner->GetTransform()->SetPosition(Float3(1 * DICE_SCALE, DICE_SCALE_HALF, -1 * DICE_SCALE));
 	mOwner->GetTransform()->SetPosition(Float3(mStageData->mPlayerPos.x*DICE_SCALE, DICE_SCALE_HALF, -mStageData->mPlayerPos.z*DICE_SCALE));
 	mOwner->GetTransform()->CreateWordMtx();
 

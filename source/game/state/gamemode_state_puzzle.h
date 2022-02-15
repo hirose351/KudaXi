@@ -6,18 +6,16 @@ namespace GameModeState {
 	class Puzzle : public GameModeBase
 	{
 	private:
-		int mStep;	// ステップ数
+		int mStep;							// ステップ数
 
-		bool mIsClear = false;		// クリアしたか
-		bool mIsAgain = false;		// ステップ使い果たしたか
-		bool mIsCameraMove = false;		// 戻るボタン押されたか
-		bool mIsStart = false;		// 始まったか
-		//bool mIsSelect = false;		// 選択されたか
-		bool mIsSound[4];
+		bool mIsClear = false;				// クリアしたか
+		bool mIsAgain = false;				// ステップ使い果たしたか
+		bool mIsCameraMove = false;			// 戻るボタン押されたか
+		bool mIsStart = false;				// 始まったか
 
 		Dix::wp<GameObject> mUiStageNum;	// ステージ番号のUI
-		Dix::wp<GameObject> mUiStepNum;	// ステップ数のUI
-		Dix::wp<GameObject> mUiClearOver;// クリアオーバー時のUI
+		Dix::wp<GameObject> mUiStepNum;		// ステップ数のUI
+		Dix::wp<GameObject> mUiClearOver;	// クリアオーバー時のUI
 		Dix::wp<GameObject> mCameraEye;
 		Dix::wp<GameObject> mCameraLookat;
 

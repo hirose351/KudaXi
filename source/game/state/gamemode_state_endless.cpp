@@ -6,6 +6,8 @@
 #include	"../component/player_controller.h"
 #include	"../../system/util/XAudio2.h"
 
+#define ENDLESSMAPSIZE (7)
+
 using namespace GameModeState;
 
 Endless::Endless()
@@ -43,7 +45,7 @@ void Endless::BeforeChange()
 	StageDataManager::GetInstance().SetCurrentStage("endless");
 	Dix::wp<StageData> stageData;
 	stageData = StageDataManager::GetInstance().GetCurrentStage();
-	stageData->mMapSizeWidth = stageData->mMapSizeHeight = 7;
+	stageData->mMapSizeWidth = stageData->mMapSizeHeight = ENDLESSMAPSIZE;
 
 	DiceManager::GetInstance()->EndllesInit();
 

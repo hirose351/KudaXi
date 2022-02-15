@@ -22,10 +22,10 @@ namespace Component {
 			TransType transType = TransType::ePos;
 			float totalFrame = 0.0f;						// 必要な時間
 			float delayFrame = 0.0f;						// 遅延時間
-			Float3 startValue;	// はじめの数
-			Float3 endValue;		// 終わりの数
-			bool isStartAbsolute;
-			bool isEndAbsolute;
+			Float3 startValue;								// 開始時の値
+			Float3 endValue;								// 終了時の値
+			bool isStartAbsolute;							// 開始時の値が相対値か
+			bool isEndAbsolute;								// 終了時の値が相対値か
 		};
 
 		float mCurrentFrame;								// 経過時間
@@ -40,7 +40,7 @@ namespace Component {
 		void ImguiDraw()override {};
 		void Uninit() override {};
 
-		// startValueが0,0なら相対座標
+		// イージング追加
 		void AddEasing(EasingProcess::EasingType _easingType,
 					   TransType _transType,
 					   float _totalFrame,
@@ -50,7 +50,9 @@ namespace Component {
 					   bool _isStartAbsolute = false,
 					   bool _isEndAbsolute = false);
 
+		// リストに存在するイージング処理の数を返す
 		int GetEasingListCnt();
+
 		void SetIsRepeat(bool _flg) { mIsRepeat = _flg; }
 	};
 }

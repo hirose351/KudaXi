@@ -102,6 +102,18 @@ Puzzle::~Puzzle()
 
 void Puzzle::Exec()
 {
+	if (mIsCameraMove)
+	{
+		if (mCameraEye->GetComponent<Component::Easing>()->GetEasingListCnt() == 0)
+		{
+			mHolder->ChangeMode(eSelect);
+			// BGM設定
+			StopSound(SOUND_LABEL_BGM_GAME);
+			PlaySound(SOUND_LABEL_BGM_TITLE);
+		}
+		return;
+	}
+
 	// カメラが動きを止めたらポーズ状態を解除
 	if (!mIsStart)
 	{
@@ -141,12 +153,6 @@ void Puzzle::Exec()
 		}
 	}
 
-	if (mIsCameraMove)
-	{
-		if (mCameraEye->GetComponent<Component::Easing>()->GetEasingListCnt() == 0)
-			mHolder->ChangeMode(eSelect);
-		return;
-	}
 
 	// 戻るを押されたときの処理
 	if (InputManager::GetInstance().GetStateTrigger(InputMode::eUi, static_cast<int>(UiAction::eCancel)))
@@ -168,11 +174,6 @@ void Puzzle::Exec()
 			Float3 eye(data.mMapSizeWidth*data.mMapChipSize / 2.0f, 250, -197.5f - data.mMapSizeHeight*data.mMapChipSize / 2.0f);
 			Float3 lookat(data.mMapSizeWidth*data.mMapChipSize / 2.0f, 0, -data.mMapSizeHeight*data.mMapChipSize / 2.0f);
 
-			for (Dix::wp<GameObject> obj : mModeObjList)
-			{
-				obj->SetIsActive(false);
-			}
-
 			mCameraEye->ObjectInit();
 			mCameraEye->GetComponent<Component::Easing>()->AddEasing(EasingProcess::EasingType::eLinear, TransType::ePos, 50.0f, 0.0f, 0, eye, true);
 			mCameraEye->SetIsActive(true);
@@ -182,10 +183,6 @@ void Puzzle::Exec()
 			mCameraLookat->SetIsActive(true);
 
 			mHolder->SetIsSetCamera(true);
-
-			// BGM設定
-			StopSound(SOUND_LABEL_BGM_GAME);
-			PlaySound(SOUND_LABEL_BGM_TITLE);
 		}
 	}
 }
@@ -208,11 +205,9 @@ void Puzzle::BeforeChange()
 	mUiStageNum->GetComponent<Component::Number>()->SetNum(mHolder->GetSelectStage(), -30);
 	// ステップ番号更新
 	mUiStepNum->GetComponent<Component::Number>()->SetNum(data.mStep);
-
 	// クリアオーバー非表示
 	mUiClearOver->SetIsActive(false);
 
-	//mHolder->GetPlayer()->Init();
 	mHolder->GetPlayer()->GetTransform()->angle = 0;
 	mHolder->GetPlayer()->GetTransform()->move = 0;
 
@@ -272,5 +267,4 @@ void Puzzle::AfterChange()
 		obj->SetIsActive(false);
 	}
 	DiceManager::GetInstance()->SetIsStepCount(false);
-	//SceneManager::GetInstance()->GetCurrentScene()->SetIsPause(false);
 }

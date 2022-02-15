@@ -10,12 +10,13 @@ using namespace GameModeState;
 
 void Select::SetStage()
 {
+	std::string str;
 	if (mStageNum / 10 > 0)
-		mStr = "puzzle/" + std::to_string(mStageNum);
+		str = "puzzle/" + std::to_string(mStageNum);
 	else
-		mStr = "puzzle/0" + std::to_string(mStageNum);
+		str = "puzzle/0" + std::to_string(mStageNum);
 
-	StageDataManager::GetInstance().SetCurrentStage(mStr);
+	StageDataManager::GetInstance().SetCurrentStage(str);
 	Dix::wp<StageData> stageData;
 	stageData = StageDataManager::GetInstance().GetCurrentStage();
 
@@ -28,6 +29,7 @@ void Select::SetStage()
 	else
 		mHolder->GetPlayer()->GetTransform()->SetPositionY(mHolder->GetPlayer()->GetTransform()->scale.y / 2.0f);
 
+	// カメラがセットされていない時
 	if (!mHolder->GetIsSetCamera())
 	{
 		Camera::GetInstance()->SetLookat(XMFLOAT3(stageData->mMapSizeWidth*stageData->mMapChipSize / 2.0f, 0, -stageData->mMapSizeHeight*stageData->mMapChipSize / 2.0f));

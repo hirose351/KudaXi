@@ -38,7 +38,6 @@ void Number::ImguiDraw()
 void Number::SetNum(int _num, float _space)
 {
 	mNum = _num;
-	//mSpace = mOwner->GetTransform()->scale.x / 4;
 	mSpace = _space;
 	int digit = GetDigit(mNum);
 	float scale = mOwner->GetTransform()->scale.x;
