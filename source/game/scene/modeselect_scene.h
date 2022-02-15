@@ -9,6 +9,8 @@ class ModeSelectScene : public SceneBase
 {
 private:
 	Dix::wp<myUI::ButtonGroup> mpBg;
+	Dix::wp<GameObject> mpRuleImage;
+	bool mIsRuleDraw = false;
 
 public:
 	ModeSelectScene();
