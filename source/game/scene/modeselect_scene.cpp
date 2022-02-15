@@ -32,7 +32,6 @@ void ModeSelectScene::SceneAfter()
 		PlaySound(SOUND_LABEL_BGM_TITLE);
 	}
 	mIsRuleDraw = false;
-	mpRuleImage->SetIsActive(false);
 }
 
 void ModeSelectScene::SceneInit()
@@ -55,15 +54,16 @@ void ModeSelectScene::SceneInit()
 	modeUi->GetTransform()->SetScale(Float3(1000, 150, 0));
 	modeUi->GetTransform()->SetPositionXYZ(Float3(600, 150, 0));
 	modeUi->AddComponent<Component::Quad2d>()->SetInfo("assets/image/ui/mode.png", XMFLOAT4(1, 1, 1, 1));
+	modeUi->GetComponent<Component::Quad2d>()->SetOrderInLayer(10);
 	AddGameObject(modeUi);
 
 	// –ß‚éUI‚Ì•¶Žš
 	Dix::sp<myUI::Image> backUiDice;
 	backUiDice.SetPtr(new myUI::Image);
 	backUiDice->GetTransform()->SetScale(Float3(120));
-	Component::Quad2d* uiStageQuad = backUiDice->AddComponent<Component::Quad2d>();
-	uiStageQuad->SetInfo("assets/image/ui/back.png", XMFLOAT4(1, 1, 1, 0.8f), 2);
-	uiStageQuad->SetOrderInLayer(10);
+	Component::Quad2d* quadComponent = backUiDice->AddComponent<Component::Quad2d>();
+	quadComponent->SetInfo("assets/image/ui/back.png", XMFLOAT4(1, 1, 1, 0.8f), 2);
+	quadComponent->SetOrderInLayer(10);
 	backUiDice->GetTransform()->SetPositionXYZ(Float3(80, 640.0f, 0));
 	AddGameObject(backUiDice);
 
@@ -72,10 +72,10 @@ void ModeSelectScene::SceneInit()
 	backUiArrow.SetPtr(new myUI::Image);
 	backUiArrow->SetIsStopPause(false);
 	backUiArrow->GetTransform()->SetScale(Float3(120));
-	uiStageQuad = backUiArrow->AddComponent<Component::Quad2d>();
-	uiStageQuad->SetInfo("assets/image/ui/back.png", XMFLOAT4(1, 1, 1, 0.7f), 2);
-	uiStageQuad->SetOrderInLayer(11);
-	uiStageQuad->SetUvPos(INT2(1, 0));
+	quadComponent = backUiArrow->AddComponent<Component::Quad2d>();
+	quadComponent->SetInfo("assets/image/ui/back.png", XMFLOAT4(1, 1, 1, 0.7f), 2);
+	quadComponent->SetOrderInLayer(11);
+	quadComponent->SetUvPos(INT2(1, 0));
 	backUiArrow->GetTransform()->SetPositionXYZ(Float3(80, 640.0f, 0));
 	backUiArrow->AddComponent<Component::Easing>()->SetIsRepeat(true);
 	backUiArrow->GetComponent<Component::Easing>()->AddEasing(EasingProcess::EasingType::eLinear, TransType::ePos, 70, 0, Float3(0, 0, 0), Float3(85, 640.0f, 0), true);
@@ -86,15 +86,14 @@ void ModeSelectScene::SceneInit()
 	Dix::sp<myUI::Image> ruleImage;
 	ruleImage.SetPtr(new myUI::Image);
 	ruleImage->SetIsStopPause(false);
-	ruleImage->GetTransform()->SetScale(Float3(Application::CLIENT_HEIGHT));
-	uiStageQuad = ruleImage->AddComponent<Component::Quad2d>();
-	uiStageQuad->SetInfo("assets/image/ui/rule.png", XMFLOAT4(1, 1, 1, 1));
-	uiStageQuad->SetOrderInLayer(0);
+	ruleImage->GetTransform()->SetScale(Float3(0));
+	quadComponent = ruleImage->AddComponent<Component::Quad2d>();
+	quadComponent->SetInfo("assets/image/ui/rule.png", XMFLOAT4(1, 1, 1, 1));
+	quadComponent->SetOrderInLayer(100);
 	ruleImage->GetTransform()->SetPositionXYZ(Float3(Application::CLIENT_WIDTH / 2.0f, Application::CLIENT_HEIGHT / 2.0f, 0));
 	ruleImage->AddComponent<Component::Easing>();
 	AddGameObject(ruleImage);
 	mpRuleImage = ruleImage;
-	mpRuleImage->SetIsActive(false);
 }
 
 void ModeSelectScene::SceneUpdate()
@@ -105,7 +104,6 @@ void ModeSelectScene::SceneUpdate()
 		{
 			mpRuleImage->GetComponent<Component::Easing>()->AddEasing(EasingProcess::EasingType::eLinear, TransType::eScale, 10, 0, Float3(0, 0, 0), Float3(0.0f, 0.0f, 0), true);
 			mIsRuleDraw = false;
-			mpRuleImage->SetIsActive(false);
 			mpBg->SetObjectState(ObjectState::eActive);
 		}
 		return;
@@ -127,8 +125,7 @@ void ModeSelectScene::SceneUpdate()
 	{
 		// •`‰æ
 		mIsRuleDraw = true;
-		mpRuleImage->SetIsActive(true);
-		mpRuleImage->GetComponent<Component::Easing>()->AddEasing(EasingProcess::EasingType::eLinear, TransType::eScale, 10, 0, Float3(0, 0, 0), Float3(500.0f, 500.0f, 0));
+		mpRuleImage->GetComponent<Component::Easing>()->AddEasing(EasingProcess::EasingType::eLinear, TransType::eScale, 7, 0, Float3(0, 0, 0), Float3(static_cast<float>(Application::CLIENT_HEIGHT)));
 		mpBg->SetObjectState(ObjectState::ePaused);
 	}
 	break;
