@@ -6,11 +6,10 @@
 //*****************************************************************************
 // マクロ定義
 //*****************************************************************************
-#define	VALUE_MOVE_MODEL	(0.085f)				// 移動速度
-//#define	VALUE_MOVE_MODEL	(0.7f)				// 移動速度
-#define	VALUE_ROTATE_MODEL	(XM_PI * 0.025f)		// 回転速度
-#define	RATE_ROTATE_MODEL	(0.10f)					// 回転慣性係数
-#define	RATE_MOVE_MODEL		(0.1f)
+#define	VALUE_MOVE_MODEL		(0.085f)		// 移動速度
+#define	RATE_ROTATE_MODEL		(0.10f)			// 回転慣性係数
+#define	RATE_MOVE_MODEL			(0.10f)			// 
+#define	GETOFFDICE_FRAME		(20)			// Diceから降りるのに必要なフレーム数
 
 using namespace PlayerState;
 
@@ -116,7 +115,6 @@ bool Move::CheckPush()
 	}
 
 	// 移動する先にDiceがあるか
-
 	Dix::wp<Dice> checkDice = DiceManager::GetInstance()->GetDice(checkMapPos);
 
 	if (!checkDice.IsExist())
@@ -143,7 +141,7 @@ bool Move::CheckPush()
 		return false;
 	}
 
-	mTransform->move = Float3(0, 0, 0);
+	mTransform->move = 0;
 
 	// 移動制限
 	switch (*mDirection)
@@ -169,27 +167,49 @@ void Move::SetMapPos()
 	mMapPos.x = static_cast<int>((mTransform->position.x + DICE_SCALE_HALF) / DICE_SCALE);
 	mMapPos.z = static_cast<int>((mTransform->position.z - DICE_SCALE_HALF) / DICE_SCALE) * -1;
 
-	if (mMapPos.x < 0)
-		mMapPos.x = 0;
-	if (mMapPos.z < 0)
-		mMapPos.z = 0;
+	if (mMapPos.x < 0)	mMapPos.x = 0;
+	if (mMapPos.z < 0)	mMapPos.z = 0;
+}
+
+void Move::MoveLimitDice(INT3 _dicePos)
+{
+	if (_dicePos.x*DICE_SCALE + DICE_SCALE_HALF - mTransform->scale.x / 2.0f < mTransform->GetPosition().x)
+	{
+		mTransform->SetPositionX(_dicePos.x*DICE_SCALE + DICE_SCALE_HALF - mTransform->scale.x / 2.0f);
+		mDiceDownFrame++;
+	}
+	if (_dicePos.x*DICE_SCALE - DICE_SCALE_HALF + mTransform->scale.x / 2.0f > mTransform->GetPosition().x)
+	{
+		mTransform->SetPositionX(_dicePos.x*DICE_SCALE - DICE_SCALE_HALF + mTransform->scale.x / 2.0f);
+		mDiceDownFrame++;
+	}
+	if (-_dicePos.z*DICE_SCALE + DICE_SCALE_HALF - mTransform->scale.z / 2.0f < mTransform->GetPosition().z)
+	{
+		mTransform->SetPositionZ(-_dicePos.z*DICE_SCALE + DICE_SCALE_HALF - mTransform->scale.z / 2.0f);
+		mDiceDownFrame++;
+	}
+	if (-_dicePos.z*DICE_SCALE - DICE_SCALE_HALF + mTransform->scale.z / 2.0f > mTransform->GetPosition().z)
+	{
+		mTransform->SetPositionZ(-_dicePos.z*DICE_SCALE - DICE_SCALE_HALF + mTransform->scale.z / 2.0f);
+		mDiceDownFrame++;
+	}
 }
 
 void Move::Init()
 {
 	SetMapPos();
 	mStageSize = mHolder->GetStageSize();
+	mDiceDownFrame = 0;
 }
 
 void Move::Exec()
 {
-	Float3 rotCamera;
 	float radian;
 	InputDirection inputDirection = InputManager::GetInstance().GetDirection(InputMode::eGame, static_cast<int>(GameAction::Move));
 	if (inputDirection == InputDirection::eLeft)
 	{
 		// 左移動
-		radian = rotCamera.y + XM_PI * 0.50f;
+		radian = XM_PI * 0.50f;
 		mTransform->move.x -= sinf(XM_PI * 0.50f) * VALUE_MOVE_MODEL;
 		mTransform->move.z -= cosf(XM_PI * 0.50f) * VALUE_MOVE_MODEL;
 		// 目標角度をセット
@@ -199,7 +219,7 @@ void Move::Exec()
 	else if (inputDirection == InputDirection::eRight)
 	{
 		// 右移動
-		radian = rotCamera.y - XM_PI * 0.50f;
+		radian = -XM_PI * 0.50f;
 		mTransform->move.x -= sinf(radian) * VALUE_MOVE_MODEL;
 		mTransform->move.z -= cosf(radian) * VALUE_MOVE_MODEL;
 		// 目標角度をセット
@@ -212,28 +232,25 @@ void Move::Exec()
 		mTransform->move.x -= sinf(XM_PI) * VALUE_MOVE_MODEL;
 		mTransform->move.z -= cosf(XM_PI) * VALUE_MOVE_MODEL;
 		// 目標角度をセット
-		mDestrot.y = rotCamera.y + XM_PI;
+		mDestrot.y = XM_PI;
 		(*mDirection) = Direction::eUp;
 	}
 	else if (inputDirection == InputDirection::eDown)
 	{
 		// 後移動
-		mTransform->move.x -= sinf(rotCamera.y) * VALUE_MOVE_MODEL;
-		mTransform->move.z -= cosf(rotCamera.y) * VALUE_MOVE_MODEL;
+		mTransform->move.x -= sinf(0) * VALUE_MOVE_MODEL;
+		mTransform->move.z -= cosf(0) * VALUE_MOVE_MODEL;
 		// 目標角度をセット
-		mDestrot.y = rotCamera.y;
+		mDestrot.y = 0;
 		(*mDirection) = Direction::eDown;
 	}
 	else
 	{
 		// 入力していなければ動かない
 		//mTransform->move = 0;
+		mDiceDownFrame = 0;
 	}
 
-	//if (CDirectInput::GetInstance().CheckKeyBuffer(DIK_RETURN))
-	//{
-	//	mTransform->ReSetValue();
-	//}
 	// 目標角度と現在角度との差分を求める
 	float diffrot = mDestrot.y - mTransform->rotation.y;
 	if (diffrot > XM_PI)
@@ -298,10 +315,8 @@ void Move::Exec()
 
 	mTransform->CreateWordMtx();
 
-
 	// 自分のマップ位置にあるDiceのポインタ取得
 	mpOperationDice = DiceManager::GetInstance()->GetDice(mMapPos);
-
 
 	// Diceの有無で足元の状態変更
 	if (!mpOperationDice.IsExist())
@@ -311,11 +326,6 @@ void Move::Exec()
 		SetMapPos();
 		return;
 	}
-	//else
-	//{
-	//	*mFoot = Foot::eDice;
-	//}
-
 
 	if (mpOperationDice->GetTransform()->GetPosition().y < mTransform->position.y)
 		*mFoot = Foot::eDice;
@@ -326,13 +336,14 @@ void Move::Exec()
 		{
 			mTransform->SetPositionY(mpOperationDice->GetTransform()->GetPosition().y + DICE_SCALE_HALF + mTransform->scale.y - 0.5f);
 		}
+		mDiceDownFrame = 0;
 	}
 	else if (*mFoot == Foot::eDice)
 	{
 		if (CheckRoll())
 			return;
 
-		Float3 dicePos = (mpOperationDice->GetTransform()->position);
+		INT3 dicePos = mpOperationDice->GetMapPos();
 		/// Todo:足元がダイスの時の移動制限しっかりつける(長押ししたら降りれる、降りようとしても降りれない時の処理)
 		switch (mpOperationDice->GetDiceStatus())
 		{
@@ -340,32 +351,17 @@ void Move::Exec()
 			break;
 		case DiceStatus::eHalfUp:
 			// 移動制限
-			if (dicePos.x + DICE_SCALE_HALF + mTransform->scale.x / 2.0f < mTransform->GetPosition().x)
-			{
-				mTransform->SetPositionX(dicePos.x + DICE_SCALE_HALF + mTransform->scale.x / 2.0f);
-				mTransform->move = 0;
-			}
-			if (dicePos.x - DICE_SCALE_HALF - mTransform->scale.x / 2.0f > mTransform->GetPosition().x)
-			{
-				mTransform->SetPositionX(dicePos.x - DICE_SCALE_HALF - mTransform->scale.x / 2.0f);
-				mTransform->move = 0;
-			}
-			if (dicePos.z + DICE_SCALE_HALF + mTransform->scale.z / 2.0f < mTransform->GetPosition().z)
-			{
-				mTransform->SetPositionZ(dicePos.z + DICE_SCALE_HALF + mTransform->scale.z / 2.0f);
-				mTransform->move = 0;
-			}
-			if (dicePos.z - DICE_SCALE_HALF - mTransform->scale.z / 2.0f > mTransform->GetPosition().z)
-			{
-				mTransform->SetPositionZ(dicePos.z - DICE_SCALE_HALF - mTransform->scale.z / 2.0f);
-				mTransform->move = 0;
-			}
+			//MoveLimitDice(dicePos);
 			break;
 		case DiceStatus::eRoll:
 			return;
 		case DiceStatus::eDown:
+			if (mDiceDownFrame < GETOFFDICE_FRAME)
+				MoveLimitDice(dicePos);
 			break;
 		case DiceStatus::eHalfDown:
+			if (mDiceDownFrame < GETOFFDICE_FRAME)
+				MoveLimitDice(dicePos);
 			break;
 		}
 		mTransform->SetPositionY(mpOperationDice->GetTransform()->GetPosition().y + DICE_SCALE_HALF + mTransform->scale.y);

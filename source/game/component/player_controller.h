@@ -47,6 +47,6 @@ namespace Component {
 
 		Dix::wp<Direction> GetDirection() { return mDirection; }
 		Foot* GetFoot() { return &mFoot; };
-		INT3 GetStageSize() { return (mStageData->mMapSizeWidth, 0, mStageData->mMapSizeHeight); }
+		INT2 GetStageSize() { return INT2(mStageData->mMapSizeWidth, mStageData->mMapSizeHeight); }
 	};
 }

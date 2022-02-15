@@ -5,12 +5,17 @@ namespace PlayerState {
 	class Move : public PlayerStateBase
 	{
 	private:
-		Float3	mDestrot;			// 目標姿勢
-		INT3	mStageSize;
+		Float3	mDestrot;				// 目標の姿勢
+		INT2	mStageSize;				// ステージの大きさ
+		unsigned int mDiceDownFrame;	// Diceから降りる為の長押しのフレーム数
 
 		bool CheckPush();
 		bool CheckRoll();
 		void SetMapPos();
+
+		// サイコロから出ないよう移動制限
+		void MoveLimitDice(INT3 _dicePos);
+
 	public:
 		// 初期処理
 		void Init()override;

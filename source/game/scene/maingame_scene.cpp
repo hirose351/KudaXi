@@ -20,7 +20,6 @@ void MaingameScene::SceneAfter()
 
 void MaingameScene::SceneInit()
 {
-	SceneAfter();
 	Dix::sp<Player> player;
 	player.SetPtr(new Player);
 	AddGameObject(player);
@@ -62,7 +61,6 @@ void MaingameScene::SceneInit()
 	maingameController->AddComponent<Component::GameModeController>()->SetPlayer(player);
 	maingameController->GetComponent<Component::GameModeController>()->SetStage(stage);
 	AddGameObject(maingameController);
-
 }
 
 void MaingameScene::SceneUpdate()

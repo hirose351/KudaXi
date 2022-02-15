@@ -1,11 +1,11 @@
 #include	"dice.h"
+#include	"effect_thunder.h"
 #include	"../manager/dice_manager.h"
+#include	"../manager/scene_manager.h"
+#include	"../component/allcomponents.h"
 #include	"../../system/util/XAudio2.h"
 #include	"../../system/util/easing.h"
-#include	"effect_thunder.h"
 #include	"../../system/model/ModelMgr.h"
-#include	"../component/allcomponents.h"
-#include	"../manager/scene_manager.h"
 
 Dice::Dice() :GameObject(("Dice"), ObjectType::eDice, true)
 {
@@ -94,25 +94,6 @@ void Dice::SetHappyOne()
 	SetDownPosition();
 }
 
-void Dice::MoveDiceScale(Direction _direction)
-{
-	switch (_direction)
-	{
-	case Direction::eUp:
-		mTransform->worldMtx._43 += DICE_SCALE;
-		break;
-	case Direction::eDown:
-		mTransform->worldMtx._43 -= DICE_SCALE;
-		break;
-	case Direction::eLeft:
-		mTransform->worldMtx._41 -= DICE_SCALE;
-		break;
-	case Direction::eRight:
-		mTransform->worldMtx._41 += DICE_SCALE;
-		break;
-	}
-}
-
 bool Dice::SetPushAction(Direction _direction)
 {
 	if (mSts != DiceStatus::eNormal)
@@ -148,9 +129,7 @@ bool Dice::SetRollAction(Direction _direction)
 		return false;
 	if (!DiceManager::GetInstance()->CanDiceMove(this, _direction))
 		return false;
-	mTransform->angle = 0;
-	mBeforeFramePos = 0;
-	mBeforeFrameAng = 0;
+	mTransform->angle = mBeforeFramePos = mBeforeFrameAng = 0;
 	switch (_direction)
 	{
 	case Direction::eUp:
@@ -182,44 +161,15 @@ bool Dice::CheckDiceDirection(Direction _direction)
 	return DiceManager::GetInstance()->CanDiceMoveCheak(this, _direction);
 }
 
-void Dice::SetRollDirection(Direction _direction)
-{
-	//ニュートラルの時だけキー入力を認める
-	if (mDirection == Direction::eNeutral)
-	{
-		mDirection = _direction;
-
-		//switch (_direction)
-		//{
-		//case Direction::eUp:
-		//	mTransform.angle.x = mRotAnglePerFrame;
-		//	break;
-		//case Direction::eDown:
-		//	mTransform.angle.x = -mRotAnglePerFrame;
-		//	break;
-		//case Direction::eLeft:
-		//	mTransform.angle.z = mRotAnglePerFrame;
-		//	break;
-		//case Direction::eRight:
-		//	mTransform.angle.z = -mRotAnglePerFrame;
-		//	break;
-		//}
-		//mCrrentRotCnt = 0;
-		//DX11MakeWorldMatrix(mMtxFrame, mTransform.angle, XMFLOAT3(0, 0, 0));
-		//開始位置を保存
-		mRotateStartPos = { mTransform->worldMtx._41, mTransform->worldMtx._42,mTransform->worldMtx._43 };
-	}
-}
-
 void Dice::SetStartUpPosition()
 {
-	mTransform->move.y = mUpPositionPerFrame;
+	mTransform->move.y = mUpDownPositionPerFrame;
 	mSts = DiceStatus::eHalfUp;
 }
 
 void Dice::SetDownPosition()
 {
-	mTransform->move = Float3(0, -mUpPositionPerFrame, 0);
+	mTransform->move = Float3(0, -mUpDownPositionPerFrame, 0);
 	mSts = DiceStatus::eDown;
 	GetComponent<Component::Collision>()->SetColor(XMFLOAT4(1, 0, 0, 0.5f));
 }
@@ -311,12 +261,12 @@ void Dice::Up()
 {
 	mTransform->MovePosition();
 	mCrrentPushCnt++;
-	if (mCrrentPushCnt >= mUpCnt)
+	if (mCrrentPushCnt >= mUpDownCnt)
 	{
 		mDirection = Direction::eNeutral;
 		mSts = DiceStatus::eNormal;
 	}
-	else if (mCrrentPushCnt >= mUpCnt / 2)
+	else if (mCrrentPushCnt >= mUpDownCnt / 2)
 	{
 		mDirection = Direction::eNeutral;
 		mSts = DiceStatus::eUp;

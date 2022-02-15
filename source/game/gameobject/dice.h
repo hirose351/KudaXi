@@ -8,29 +8,26 @@ using Microsoft::WRL::ComPtr;
 class Dice : public GameObject
 {
 private:
-	float mBeforeFrameAng = 0;							// 
-	float mBeforeFramePos = 0;							// 
-	INT3 mMapPos;										// マップ上の位置
-	DiceFruit mTopDiceTypeFruit;						// 上面の果物
-	int mTopDiceTypeNum;								// 上面の数字
-	DiceStatus mSts = DiceStatus::eNormal;				// 状態
-	Direction mDirection = Direction::eNeutral;			// サイコロの移動方向	
+	float mBeforeFrameAng = 0;										// 
+	float mBeforeFramePos = 0;										// 
+	INT3 mMapPos;													// マップ上の位置
+	DiceFruit mTopDiceTypeFruit;									// 上面の果物
+	int mTopDiceTypeNum;											// 上面の数字
+	DiceStatus mSts = DiceStatus::eNormal;							// 状態
+	Direction mDirection = Direction::eNeutral;						// サイコロの移動方向	
 
-	DirectX::XMFLOAT4X4 mStartMtx;						// 1フレームでの変化を表す行列	
-	DirectX::XMFLOAT4X4 mTargetMtx;						// 1回転での変化を表す行列
-	Float3 mRotateStartPos;								// キー入力された際の開始位置	
+	DirectX::XMFLOAT4X4 mStartMtx;									// 1フレームでの変化を表す行列	
+	DirectX::XMFLOAT4X4 mTargetMtx;									// 1回転での変化を表す行列
+	Float3 mRotateStartPos;										// キー入力された際の開始位置	
 
-	const int mMoveCnt = 16;							// 90度回転、押されるのに必要な更新回数
-	int mCrrentRotCnt = 0;								// 今の回転回数	
+	const int mMoveCnt = 16;										// 90度回転、押されるのに必要な更新回数
+	int mCrrentRotCnt = 0;											// 今の回転回数	
 
-	int mCrrentPushCnt = 0;								// 今の回転回数
-	const float mPushPositionPerFrame = DICE_SCALE / mMoveCnt;
+	int mCrrentPushCnt = 0;										// 今の回転回数
+	const float mPushPositionPerFrame = DICE_SCALE / mMoveCnt;		// 
 
-	const int mUpCnt = 150;
-	const float mUpPositionPerFrame = DICE_SCALE / mUpCnt;
-
-	// 回転移動セット
-	void SetRollDirection(Direction _direction);
+	const int mUpDownCnt = 200;									// 
+	const float mUpDownPositionPerFrame = DICE_SCALE / mUpDownCnt;		// 
 
 	// 移動する
 	void Push();
@@ -88,9 +85,6 @@ public:
 
 	// ハッピーワン呼び出し
 	void SetHappyOne();
-
-	// 1マス分移動
-	void MoveDiceScale(Direction _direction);
 
 	void SetMapPos(INT3 _i3) { mMapPos = _i3; };
 	INT3 GetMapPos() { return mMapPos; };
