@@ -33,6 +33,8 @@ namespace Component {
 
 		void ChangeMode(int _modeNum);
 
+		// アクセサ ////////////////////////////////////////////////////////
+
 		int GetSelectStage() { return mSelectStage; }
 		void SetSelectStage(int _num) { mSelectStage = _num; }
 

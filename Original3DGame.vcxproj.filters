@@ -94,9 +94,6 @@
     <Filter Include="ソース ファイル\game\manager\scene">
       <UniqueIdentifier>{93fbf689-c2d1-44de-9733-12e20728a1ec}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\game\manager\not used">
-      <UniqueIdentifier>{8da5b57a-034e-4015-866b-cbe259cc65ff}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ソース ファイル\game\manager\stage">
       <UniqueIdentifier>{69bf4d7d-31bd-4ff3-8687-bc385448a1b9}</UniqueIdentifier>
     </Filter>
@@ -180,9 +177,6 @@
     </Filter>
     <Filter Include="ソース ファイル\game\scene\modeserect_scene">
       <UniqueIdentifier>{b352e7d9-109c-4378-b7f4-4233a4e47a60}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ソース ファイル\game\manager\create">
-      <UniqueIdentifier>{21f3cac3-81a1-464e-ae6c-3989065955bc}</UniqueIdentifier>
     </Filter>
     <Filter Include="ソース ファイル\game\component\map">
       <UniqueIdentifier>{aa88d103-ade6-4fe1-bde8-a784052cc36e}</UniqueIdentifier>
@@ -362,9 +356,6 @@
     </ClCompile>
     <ClCompile Include="source\game\manager\stagedata_manager.cpp">
       <Filter>ソース ファイル\game\manager\stage</Filter>
-    </ClCompile>
-    <ClCompile Include="source\game\manager\SelectManager.cpp">
-      <Filter>ソース ファイル\game\manager\not used</Filter>
     </ClCompile>
     <ClCompile Include="source\game\gameobject\stage.cpp">
       <Filter>ソース ファイル\game\gameobject\stage</Filter>
@@ -679,12 +670,6 @@
     </ClInclude>
     <ClInclude Include="source\game\manager\stagedata_manager.h">
       <Filter>ソース ファイル\game\manager\stage</Filter>
-    </ClInclude>
-    <ClInclude Include="source\game\manager\IGameManager.h">
-      <Filter>ソース ファイル\game\manager\not used</Filter>
-    </ClInclude>
-    <ClInclude Include="source\game\manager\SelectManager.h">
-      <Filter>ソース ファイル\game\manager\not used</Filter>
     </ClInclude>
     <ClInclude Include="source\application.h">
       <Filter>ヘッダー ファイル</Filter>

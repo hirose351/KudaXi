@@ -9,7 +9,7 @@ namespace GameModeState {
 	private:
 		Dix::wp<myUI::ButtonGroup> mButton;				// ステージ選択ボタン
 		std::vector<Component::Quad2d*> mStageNumQuad;	// ステージ番号オブジェクト
-		int mStageNum = 1;
+		int mStageNum = 1;								// 選択されているステージ番号
 
 		// ステージ設定
 		void SetStage();

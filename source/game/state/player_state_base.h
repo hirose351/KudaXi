@@ -30,6 +30,7 @@ protected:
 	INT3						 mMapPos;			// マップ上の位置
 
 	/// Todo:アニメーション管理もここで宣言
+
 public:
 	virtual ~PlayerStateBase() {};
 

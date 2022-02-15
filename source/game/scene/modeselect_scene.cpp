@@ -98,6 +98,7 @@ void ModeSelectScene::SceneInit()
 
 void ModeSelectScene::SceneUpdate()
 {
+	// à–¾‚ª•`‰æ‚³‚ê‚Ä‚¢‚é‚Æ‚«‘¼ˆ—‚Ü‚Å’Ê‚³‚È‚¢
 	if (mIsRuleDraw)
 	{
 		if (InputManager::GetInstance().GetStateTrigger(InputMode::eUi, static_cast<int>(UiAction::eCancel)))
@@ -115,7 +116,7 @@ void ModeSelectScene::SceneUpdate()
 		SceneManager::GetInstance()->SetNextScene("Title");
 	}
 
-
+	// ƒ{ƒ^ƒ“‚ÌŒˆ’è‚ª‰Ÿ‚³‚ê‚Ä‚¢‚È‚¢•Ô‚·
 	if (!mpBg->GetIsPressed())
 		return;
 

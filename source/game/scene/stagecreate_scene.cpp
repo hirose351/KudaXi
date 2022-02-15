@@ -17,10 +17,10 @@
 #include	"../../application.h"
 #include	"../../system/dx11/DX11util.h"
 #include	"../../system/util/XAudio2.h"
-#include <stdio.h>
-#include <string.h>
-using namespace Dix;
+#include	<stdio.h>
+#include	<string.h>
 
+using namespace Dix;
 
 enum {
 	ePlayer,
@@ -243,6 +243,7 @@ void StageCreateScene::StageDataLoad()
 		DiceManager::GetInstance()->DataCreate();
 		mViewObjList[eDiceM]->Init();
 		mStage->Init();
+		mStage->CameraUpdate();
 		mViewObjList[ePlayer]->GetComponent<Component::MapPos>()->SetMapPosMove(mStageData->mPlayerPos);
 	}
 }

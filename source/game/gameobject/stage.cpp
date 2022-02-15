@@ -2,8 +2,7 @@
 
 void Stage::CameraUpdate()
 {
-	Float3 mCameraLookat, mCameraEye;
-	Float3 cameraVector(20.5f, 4.4f, -27.5f);
+	Float3 mCameraLookat, mCameraEye, cameraVector(20.5f, 4.4f, -27.5f);
 
 	mCameraLookat.x = mCurrentStageData->mMapSizeWidth*DICE_SCALE_HALF;
 	mCameraLookat.y = { 0 };
@@ -36,16 +35,11 @@ Stage::Stage() :GameObject(("Stage"), ObjectType::eStage, false)
 
 void Stage::ObjectInit()
 {
-	/// Todo:現在のステージを取得する処理を加える
-
 	mCurrentStageData = StageDataManager::GetInstance().GetCurrentStage();
 
 	for (int x = 0; x < 10; x++)
 		for (int z = 0; z < 10; z++)
 			mCurrentStageData->mFloorMap[x][z] = 1;
-
-	/// Todo:ゲーム開始時にカメラを移動できるように
-	//CameraUpdate();
 }
 
 void Stage::ObjectUpdate()

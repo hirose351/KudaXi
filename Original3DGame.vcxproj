@@ -176,7 +176,6 @@
     <ClCompile Include="source\game\manager\draw_manager.cpp" />
     <ClCompile Include="source\game\manager\input_manager.cpp" />
     <ClCompile Include="source\game\manager\scene_manager.cpp" />
-    <ClCompile Include="source\game\manager\SelectManager.cpp" />
     <ClCompile Include="source\game\manager\stagedata_manager.cpp" />
     <ClCompile Include="source\game\scene\modeselect_scene.cpp" />
     <ClCompile Include="source\game\scene\scene_base.cpp" />
@@ -275,11 +274,9 @@
     <ClInclude Include="source\game\manager\collision_manager.h" />
     <ClInclude Include="source\game\manager\dice_manager.h" />
     <ClInclude Include="source\game\manager\draw_manager.h" />
-    <ClInclude Include="source\game\manager\IGameManager.h" />
     <ClInclude Include="source\game\manager\input_manager.h" />
     <ClInclude Include="source\game\manager\input_utility.h" />
     <ClInclude Include="source\game\manager\scene_manager.h" />
-    <ClInclude Include="source\game\manager\SelectManager.h" />
     <ClInclude Include="source\game\manager\stagedata_manager.h" />
     <ClInclude Include="source\game\scene\modeselect_scene.h" />
     <ClInclude Include="source\game\scene\scene_base.h" />

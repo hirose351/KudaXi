@@ -127,7 +127,6 @@ namespace myUI {
 		// ‰Šú‘I‘ğ”Ô†“o˜^
 		void SetInitSelectNum(int _num);
 
-		// 
 		void SetPosition(int _num, DirectX::XMFLOAT2 _pos);
 
 		// ‘I‘ğ‚³‚ê‚½”‚Ìˆ—

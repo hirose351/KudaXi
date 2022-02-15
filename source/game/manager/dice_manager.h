@@ -48,8 +48,8 @@ private:
 
 	int GetDiceRandomNum(int _rndNum);
 
-
 	int mEndlessCnt = 0;
+
 public:
 	static DiceManager* GetInstance() {
 		static DiceManager Instance;
@@ -90,7 +90,6 @@ public:
 
 	void SetPlayerPos(INT3 _pos) { mPlayerPos = _pos; };
 
-
 	/// «Create—p ////////////////////
 
 	// ‰Šú‰»
@@ -116,7 +115,6 @@ public:
 	void SetCreateDiceMap();
 
 	/// ªCreate—p ////////////////////
-
 
 	/// «Puzzle—p ////////////////////
 
