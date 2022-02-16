@@ -22,7 +22,6 @@ Endless::Endless()
 
 	Dix::sp<DiceManagerAccess> dicemanager;
 	dicemanager.SetPtr(new DiceManagerAccess);
-	dicemanager->SetIsActive(false);
 	SceneManager::GetInstance()->GetCurrentScene()->AddGameObject(dicemanager);
 	dicemanager->SetIsActive(false);
 	mModeObjList.emplace_back(dicemanager);
@@ -36,6 +35,7 @@ Endless::Endless()
 	quadComponent->SetInfo("assets/image/ui/pause_ui.png", XMFLOAT4(1, 1, 1, 1));
 	quadComponent->SetOrderInLayer(1);
 	SceneManager::GetInstance()->GetCurrentScene()->AddGameObject(pauseUi);
+	pauseUi->SetIsActive(false);
 	mModeObjList.emplace_back(pauseUi);
 }
 
