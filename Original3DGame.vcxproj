@@ -71,12 +71,12 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>C:\assimp\include;C:\directxtex\include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\assimp\lib;C:\directxtex\lib\x64\debug;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\Users\81808\Desktop\KudaXi\include\directxtex\include;C:\Users\81808\Desktop\KudaXi\include\assimp\include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Users\81808\Desktop\KudaXi\include\assimp\lib;C:\Users\81808\Desktop\KudaXi\include\directxtex\lib\x64\debug;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>C:\assimp\include;C:\directxtex\include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\assimp\lib;C:\directxtex\lib\x64\release;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\Users\81808\Desktop\KudaXi\include\assimp\include;C:\Users\81808\Desktop\KudaXi\include\directxtex\include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Users\81808\Desktop\KudaXi\include\assimp\lib;C:\Users\81808\Desktop\KudaXi\include\directxtex\lib\x64\release;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>

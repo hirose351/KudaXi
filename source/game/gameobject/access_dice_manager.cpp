@@ -7,7 +7,7 @@ DiceManagerAccess::DiceManagerAccess() :GameObject(("DiceManager"), ObjectType::
 
 void DiceManagerAccess::ObjectInit()
 {
-	DiceManager::GetInstance()->EndllesInit();
+	DiceManager::GetInstance()->EndlessInit();
 }
 
 void DiceManagerAccess::ObjectUpdate()
