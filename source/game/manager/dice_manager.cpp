@@ -99,16 +99,6 @@ DiceManager::DiceManager()
 	mSpawnAngle[8] = { 0,-90.0f,0 };
 }
 
-void DiceManager::EndllesInit()
-{
-	Uninit();
-	mFrameCnt = 0;
-	mCurrentStageData = StageDataManager::GetInstance().GetCurrentStage();
-	for (int z = 0; z < mCurrentStageData->mMapSizeHeight; z++)
-		for (int x = 0; x < mCurrentStageData->mMapSizeWidth; x++)
-			mDiceMap[z][x] = NODICE;
-}
-
 void DiceManager::EndleesUpdate()
 {
 	if (mEndlessCnt < 6)
@@ -809,7 +799,11 @@ bool DiceManager::GetIsAllAligned()
 void DiceManager::EndlessInit()
 {
 	Uninit();
-	/// Todo:ƒ‰ƒ“ƒ_ƒ€‚Å‚¢‚­‚Â‚©¶¬
+	mFrameCnt = 0;
+	mCurrentStageData = StageDataManager::GetInstance().GetCurrentStage();
+	for (int z = 0; z < mCurrentStageData->mMapSizeHeight; z++)
+		for (int x = 0; x < mCurrentStageData->mMapSizeWidth; x++)
+			mDiceMap[z][x] = NODICE;
 	mEndlessCnt = 0;
 }
 
@@ -835,7 +829,6 @@ void DiceManager::DataCreate()
 
 			std::cout << "¶¬" << dice->GetObjectID() << "\n";
 
-			//dice->GetTransform()->SetPositionXYZ(Float3(DICE_SCALE*x, DICE_SCALE_HALF, -DICE_SCALE * z));
 			dice->AddComponent<Component::MapPos>()->Init();
 			dice->GetComponent<Component::MapPos>()->SetMapPos(INT2(x, z));
 			dice->AddComponent<Component::MapMove>()->Init();
@@ -848,7 +841,6 @@ void DiceManager::DataCreate()
 			dice->GetTransform()->SetWordMtx(mCurrentStageData->mDiceMtx[mpDiceList.size()]);
 			mpDiceList.emplace_back(dice);	// vector”z—ñ‚É’Ç‰Á
 			SceneManager::GetInstance()->GetCurrentScene()->AddGameObject(dice);
-
 		}
 	}
 	for (int i = 0; i < mpDiceList.size(); ++i)

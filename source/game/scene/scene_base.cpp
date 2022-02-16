@@ -147,7 +147,7 @@ void SceneBase::ImguiDebug()
 
 	static DirectX::XMFLOAT4 lightPos = { -50, -87, 66, 0 };
 
-	ImGui::SetNextWindowPos(ImVec2(20, 300), ImGuiCond_Once);
+	ImGui::SetNextWindowPos(ImVec2(20, 320), ImGuiCond_Once);
 	ImGui::SetNextWindowSize(ImVec2(350, 180), ImGuiCond_Once);
 	ImGui::Begin(u8"Scene");
 	{

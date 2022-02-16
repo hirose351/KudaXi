@@ -64,10 +64,6 @@ public:
 	void PuzzleInit();
 
 	void DiceMapCreate(bool _isUp);
-	// ‰Šú‰»
-	void EndllesInit();
-	// XV
-	void EndleesUpdate();
 
 	void ImguiDraw();
 
@@ -127,4 +123,5 @@ public:
 	/// ªPuzzle—p ////////////////////
 
 	void EndlessInit();
+	void EndleesUpdate();
 };

@@ -60,8 +60,6 @@ void Endless::BeforeChange()
 	stageData = StageDataManager::GetInstance().GetCurrentStage();
 	stageData->mMapSizeWidth = stageData->mMapSizeHeight = ENDLESSMAPSIZE;
 
-	DiceManager::GetInstance()->EndllesInit();
-
 	Float3 cameraLookat;
 	cameraLookat.x = stageData->mMapSizeWidth*DICE_SCALE_HALF;
 	cameraLookat.y = { 0 };
