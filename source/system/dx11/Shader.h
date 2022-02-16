@@ -23,33 +23,33 @@ HRESULT CompileShaderFromFile(
 bool CreateConstantBuffer(
 	ID3D11Device* device,
 	unsigned int bytesize,
-	ID3D11Buffer** pConstantBuffer			// コンスタントバッファ
+	ID3D11Buffer** pConstantBuffer		// コンスタントバッファ
 );
 
 bool CreateConstantBufferWrite(
-	ID3D11Device* device,					// デバイスオブジェクト
-	unsigned int bytesize,					// コンスタントバッファサイズ
-	ID3D11Buffer** pConstantBuffer			// コンスタントバッファ
+	ID3D11Device* device,				// デバイスオブジェクト
+	unsigned int bytesize,				// コンスタントバッファサイズ
+	ID3D11Buffer** pConstantBuffer		// コンスタントバッファ
 );
 
 bool CreateIndexBuffer(
 	ID3D11Device* device,
-	unsigned int indexnum,	// 頂点数
-	void* indexdata,							// インデックスデータ格納メモリ先頭アドレス
+	unsigned int indexnum,				// 頂点数
+	void* indexdata,					// インデックスデータ格納メモリ先頭アドレス
 	ID3D11Buffer** pIndexBuffer);
 
 bool CreateIndexBufferWrite(
-	ID3D11Device* device,						// デバイスオブジェクト
-	unsigned int indexnum,						// インデックス数
-	void* indexdata,							// インデックスデータ格納メモリ先頭アドレス
-	ID3D11Buffer** pIndexBuffer);				// インデックスバッファ
+	ID3D11Device* device,				// デバイスオブジェクト
+	unsigned int indexnum,				// インデックス数
+	void* indexdata,					// インデックスデータ格納メモリ先頭アドレス
+	ID3D11Buffer** pIndexBuffer);		// インデックスバッファ
 
 bool CreateVertexBuffer(
 	ID3D11Device* device,
 	unsigned int stride,				// １頂点当たりバイト数
 	unsigned int vertexnum,				// 頂点数
-	void* vertexdata,										// 頂点データ格納メモリ先頭アドレス
-	ID3D11Buffer** pVertexBuffer							// 頂点バッファ
+	void* vertexdata,					// 頂点データ格納メモリ先頭アドレス
+	ID3D11Buffer** pVertexBuffer		// 頂点バッファ
 );
 
 bool CreateVertexBufferWrite(
@@ -79,13 +79,14 @@ bool CreateStructuredBuffer(
 ID3D11Buffer* CreateAndCopyToBuffer(
 	ID3D11Device* device,
 	ID3D11DeviceContext* devicecontext,
-	ID3D11Buffer* pBuffer	// RWStructuredBuffer
+	ID3D11Buffer* pBuffer				// RWStructuredBuffer
 );
 
 bool CreateShaderResourceView(			// バッファからシェーダーリソースビューを作成する	
 							  ID3D11Device* device,
 							  ID3D11Buffer* pBuffer,	// Buffer
-							  ID3D11ShaderResourceView** ppSRV);
+							  ID3D11ShaderResourceView** ppSRV
+);
 
 bool CreateUnOrderAccessView(
 	ID3D11Device* device,

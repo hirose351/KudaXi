@@ -22,7 +22,6 @@ void TitleScene::SceneAfter()
 	Camera::GetInstance()->SetLookat(mCameraLookat);
 	Camera::GetInstance()->SetEye(Float3(0, 0, -100));
 	Camera::GetInstance()->CreateCameraMatrix();
-	mIsButtonPush = false;
 }
 
 void TitleScene::SceneInit()
@@ -66,15 +65,12 @@ void TitleScene::SceneUpdate()
 	else if (mpBg->GetSelectNum() == 1)
 		mpPlayerImage->SetAnim(10, 1);
 
-	if (mIsButtonPush)
-		return;
+	// ƒ{ƒ^ƒ“‚ª‰Ÿ‚³‚ê‚Ä‚¢‚È‚¯‚ê‚Î•Ô‚·
 	if (!mpBg->GetIsPressed())
 		return;
+
 	if (mpBg->GetSelectNum() == 0)
-	{
 		mpSceneManager->SetNextScene("Mode");
-		mIsButtonPush = true;
-	}
 	else if (mpBg->GetSelectNum() == 1)
 		mpSceneManager->SetGameEndFlg(true);
 }

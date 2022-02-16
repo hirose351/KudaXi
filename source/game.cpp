@@ -13,8 +13,8 @@
 #include	"system/util/XAudio2.h"
 #include	"system/util/controller_input.h"
 
-void GameInit() {
-
+void GameInit()
+{
 	// DX11初期化
 	DX11Init(
 		Application::Instance()->GetHWnd(),
@@ -23,17 +23,17 @@ void GameInit() {
 		false);
 
 	// カメラ
-	DirectX::XMFLOAT3 eye(140, 130, -170);	//カメラの位置
-	DirectX::XMFLOAT3 lookat(0, 0, 0);	//注視点
-	DirectX::XMFLOAT3 up(0, 1, 0);		//カメラの上向きベクトル
+	DirectX::XMFLOAT3 eye(140, 130, -170);	// カメラの位置
+	DirectX::XMFLOAT3 lookat(0, 0, 0);		// 注視点
+	DirectX::XMFLOAT3 up(0, 1, 0);			// カメラの上向きベクトル
 
 	Camera::GetInstance()->Init(
-		10.0f,							// ニアクリップ
-		10000.0f,						// ファークリップ
-		XM_PI / 5.0f,					// 視野角
-		static_cast<float>(Application::CLIENT_WIDTH),		// スクリーン幅
-		static_cast<float>(Application::CLIENT_HEIGHT),		// スクリーンの高さ
-		eye, lookat, up);				// カメラのデータ
+		10.0f,											// ニアクリップ
+		10000.0f,										// ファークリップ
+		XM_PI / 5.0f,									// 視野角
+		static_cast<float>(Application::CLIENT_WIDTH),	// スクリーン幅
+		static_cast<float>(Application::CLIENT_HEIGHT),	// スクリーンの高さ
+		eye, lookat, up);								// カメラのデータ
 
 	// 平行光源をセット
 	DX11LightInit(
@@ -53,9 +53,7 @@ void GameInit() {
 		Application::CLIENT_HEIGHT);
 
 	ImguiInit();
-
 	InitSound();
-
 	GameSceneInit();
 }
 
@@ -70,7 +68,8 @@ void GameSceneInit()
 	SceneManager::GetInstance()->SetCurrentScene("Title");
 }
 
-void GameInput(uint64_t dt) {
+void GameInput(uint64_t dt)
+{
 	CDirectInput::GetInstance().GetKeyBuffer();
 	CDirectInput::GetInstance().GetMouseState();
 	ControllerInput::GetInstance().Input();
@@ -78,15 +77,15 @@ void GameInput(uint64_t dt) {
 
 void UpdateCamera()
 {
-
 }
 
-void GameUpdate(uint64_t dt) {
+void GameUpdate(uint64_t dt)
+{
 	SceneManager::GetInstance()->Update();
 }
 
-void GameRender(uint64_t dt) {
-
+void GameRender(uint64_t dt)
+{
 	float col[4] = { 0,0,1,1 };	// 塗りつぶしカラー
 
 	// 描画前処理
@@ -108,7 +107,8 @@ void GameRender(uint64_t dt) {
 	DX11AfterRender();
 }
 
-void GameDispose() {
+void GameDispose()
+{
 	UninitSound();
 	ImguiExit();
 	DX11Uninit();

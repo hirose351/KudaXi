@@ -13,7 +13,6 @@ SceneBase::SceneBase()
 
 SceneBase::~SceneBase()
 {
-	//Dispose();
 	mpObjectList.clear();
 }
 
@@ -33,8 +32,8 @@ void SceneBase::AddGameObject(Dix::sp<GameObject> _object)
 bool SceneBase::Init()
 {
 	mIsPause = false;
-	if (fade == nullptr)
-		fade = new FadeScreen;
+	if (mpfade == nullptr)
+		mpfade = new FadeScreen;
 
 	DiceManager::GetInstance()->Uninit();
 	// 死んだオブジェクトを消す（リストから削除）
@@ -73,9 +72,9 @@ bool SceneBase::Init()
 
 void SceneBase::Update()
 {
-	if (!fade->GetIsCompleted())
+	if (!mpfade->GetIsCompleted())
 	{
-		fade->Update();
+		mpfade->Update();
 		for (auto obj : mpObjectList)
 		{
 			if (obj->GetObjectType() == ObjectType::eStage)
@@ -188,12 +187,12 @@ bool SceneBase::Dispose()
 
 void SceneBase::DrawFadeIn()
 {
-	fade->SetFadeType(FadeType::eIn);
+	mpfade->SetFadeType(FadeType::eIn);
 }
 
 void SceneBase::DrawFadeOut()
 {
-	fade->SetFadeType(FadeType::eOut);
+	mpfade->SetFadeType(FadeType::eOut);
 }
 
 void SceneBase::AddDrawComponent(DrawComponentBase* _c)

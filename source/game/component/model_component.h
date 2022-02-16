@@ -3,7 +3,7 @@
 #include	<d3d11.h>
 #include	<vector>
 #include	<wrl/client.h>
-#include	"../../system/model/ModelMgr.h"
+#include	"../../system/model/model_manager.h"
 
 using Microsoft::WRL::ComPtr;
 

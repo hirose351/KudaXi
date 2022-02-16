@@ -7,7 +7,6 @@ namespace GameModeState {
 	{
 	private:
 		int mStep;							// ステップ数
-
 		bool mIsClear = false;				// クリアしたか
 		bool mIsAgain = false;				// ステップ使い果たしたか
 		bool mIsCameraMove = false;			// 戻るボタン押されたか

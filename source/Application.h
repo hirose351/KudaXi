@@ -1,24 +1,25 @@
-//*****************************************************************************
-//!	@file	application.h
-//!	@brief	
-//!	@note	アプリケーションクラス
-//!	@author	T.Suzuki
-//*****************************************************************************
 #pragma once
-
-//-----------------------------------------------------------------------------
-//	Include header files.
-//-----------------------------------------------------------------------------
 #include	<Windows.h>
 #include	<stdio.h>
 #include	<cinttypes>
 
-//==============================================================================
-//!	@class	Application
-//!	@brief	アプリケーション(シングルトン)
-//==============================================================================
 class Application
 {
+private:
+	HWND					mHwnd;							// Windowハンドル
+	HINSTANCE				mHinst;							// インスタンスハンドル
+	uint32_t				mSystemCounter;					// システムカウンタ
+	FILE*					mpFile;							// デバッグ用コンソール
+
+	Application();
+
+	Application(const Application&);					// コピー
+	Application& operator = (const Application&) {}		// =
+
+	void Input(uint64_t deltataime);					// 入力
+	void Update(uint64_t deltataime);					// 更新
+	void Render(uint64_t deltataime);					// 描画
+
 public:
 	static const char*			WINDOW_TITLE;					// = "アプリケーションクラス";
 	static const char*			WINDOW_CLASS_NAME;				// = "win32app";
@@ -36,36 +37,20 @@ public:
 
 	static const float			FPS;							// = 60;
 
-private:
-	HWND					mHwnd;							// Windowハンドル
-	HINSTANCE				mHinst;							// インスタンスハンドル
-	uint32_t				mSystemCounter;					// システムカウンタ
-	FILE*					mFp;							// デバッグ用コンソール
+	virtual ~Application();
+	// システム幅高さ初期化
+	static void InitSystemWH();
 
-private:
-	Application();											// コンストラクタ
+	// システム有効化
+	bool Init(HINSTANCE h_cpInstance);
+	// システム無効化
+	void Dispose();
+	unsigned long MainLoop();
 
-	Application(const Application&);					// コピー
-	Application& operator = (const Application&) {}		// =
-
-	void Input(uint64_t deltataime);					// 入力
-	void Update(uint64_t deltataime);					// 更新
-	void Render(uint64_t deltataime);					// 描画
-
-public:
-	virtual ~Application();								// デストラクタ
-	static void InitSystemWH();							// システム幅高さ初期化
-
-	bool Init(HINSTANCE h_cpInstance);					// システム有効化
-	void Dispose();										// システム無効化
-	unsigned long MainLoop();							// メインループ
-
-	// メンバ取得関数
-	static Application* Instance();						// インスタンス取得
-	HWND			 	GetHWnd();						// ウィンドウハンドル
-	HINSTANCE			GetHInst();						// インスタンスハンドル
+	// インスタンス取得
+	static Application* Instance();
+	// ウィンドウハンドル取得
+	HWND			 	GetHWnd();
+	// インスタンスハンドル取得
+	HINSTANCE			GetHInst();
 };
-
-//******************************************************************************
-//	End of file.
-//******************************************************************************

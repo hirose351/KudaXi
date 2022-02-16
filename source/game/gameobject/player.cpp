@@ -1,10 +1,10 @@
 #include	"Player.h"
-#include	<string>
 #include	"../component/player_controller.h"
-#include	"../../system/model/ModelMgr.h"
 #include	"../component/allcomponents.h"
 #include	"../component/map_pos_component.h"
 #include	"../manager/input_manager.h"
+#include	"../../system/model/model_manager.h"
+#include	<string>
 
 Player::Player() : GameObject(("Player"), ObjectType::ePlayer, true) {
 	bool sts = ModelMgr::GetInstance().LoadModel(

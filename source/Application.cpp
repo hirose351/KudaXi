@@ -1,16 +1,4 @@
-//*****************************************************************************
-//!	@file	Application.cpp
-//!	@brief	
-//!	@note	アプリケーションクラス
-//!	@author	
-//*****************************************************************************
-
 #define _CRTDBG_MAP_ALLOC
-//-----------------------------------------------------------------------------
-//	Include header files.
-//-----------------------------------------------------------------------------
-//#include	<cstdlib>
-//#include	<crtdbg.h>
 #include	<Windows.h>
 #include	<chrono>
 #include	<thread>
@@ -20,10 +8,7 @@
 #include	"game.h"
 #include	"game/manager/scene_manager.h"
 
-//-----------------------------------------------------------------------------
-// スタティック　メンバー
-//-----------------------------------------------------------------------------
-const char*			Application::WINDOW_TITLE = "3Dgame";
+const char*			Application::WINDOW_TITLE = "くだXi";
 const char*			Application::WINDOW_CLASS_NAME = "win32app";
 
 const uint32_t		Application::WINDOW_STYLE_WINDOWED = (WS_VISIBLE | WS_CAPTION | WS_SYSMENU);
@@ -39,32 +24,15 @@ uint32_t			Application::SYSTEM_HEIGHT = 0;
 
 const float			Application::FPS = 60;
 
-//==============================================================================
-//!	@fn		CApplication
-//!	@brief	コンストラクタ
-//!	@param	
-//!	@retval	
-//==============================================================================
 Application::Application() : mSystemCounter(0)
-{}
+{
+}
 
-//==============================================================================
-//!	@fn		~Application
-//!	@brief	デストラクタ
-//!	@param	
-//!	@retval	
-//==============================================================================
 Application :: ~Application()
 {
 	Dispose();
 }
 
-//==============================================================================
-//!	@fn		GetInstance
-//!	@brief	インスタンス取得
-//!	@param	
-//!	@retval	インスタンス
-//==============================================================================
 Application* Application::Instance()
 {
 	static Application Instance;
@@ -72,23 +40,10 @@ Application* Application::Instance()
 	return &Instance;
 }
 
-//==============================================================================
-//!	@fn		InitSystemWH
-//!	@brief	システム領域の幅と高さを初期化
-//!	@param	
-//!	@retval	
-//==============================================================================
 void Application::InitSystemWH()
 {
-
 }
 
-//==============================================================================
-//!	@fn		Init
-//!	@brief	初期化
-//!	@param	インスタンスハンドル
-//!	@retval	
-//==============================================================================
 bool Application::Init(HINSTANCE h_Instance)
 {
 	// メモリーリーク検出設定
@@ -98,7 +53,7 @@ bool Application::Init(HINSTANCE h_Instance)
 	AllocConsole();
 
 	// 標準出力の割り当て
-	freopen_s(&mFp, "CON", "w", stdout);
+	freopen_s(&mpFile, "CON", "w", stdout);
 
 	// 幅と高さ初期化
 	InitSystemWH();
@@ -125,28 +80,15 @@ bool Application::Init(HINSTANCE h_Instance)
 	return true;
 }
 
-//==============================================================================
-//!	@fn		Dispose
-//!	@brief  終了処理
-//!	@param	
-//!	@retval	
-//==============================================================================
 void Application::Dispose()
 {
 	// 標準出力クローズ
-	fclose(mFp);
+	fclose(mpFile);
 	// コンソール開放
 	::FreeConsole();
-
 	return;
 }
 
-//==============================================================================
-//!	@fn		MainLoop
-//!	@brief	メインループ
-//!	@param	
-//!	@retval	メッセージID
-//==============================================================================
 unsigned long Application::MainLoop()
 {
 	MSG		msg;
@@ -201,60 +143,26 @@ unsigned long Application::MainLoop()
 	return window->GetMessage();
 }
 
-//==============================================================================
-//!	@fn		Input
-//!	@brief	キー入力
-//!	@param	
-//!	@retval	
-//==============================================================================
 void Application::Input(uint64_t deltataime)
 {
 }
 
-//==============================================================================
-//!	@fn		Update
-//!	@brief	更新
-//!	@param	
-//!	@retval	
-//==============================================================================
 void Application::Update(uint64_t deltataime)
 {
 	// システムカウンタ
 	mSystemCounter++;
 }
 
-//==============================================================================
-//!	@fn		Render
-//!	@brief	描画
-//!	@param	
-//!	@retval	
-//==============================================================================
 void Application::Render(uint64_t deltatime)
 {
 }
 
-//==============================================================================
-//!	@fn		GetHWnd
-//!	@brief	HWND 取得
-//!	@param	
-//!	@retval	HWND
-//==============================================================================
 HWND Application::GetHWnd()
 {
 	return mHwnd;
 }
 
-//==============================================================================
-//!	@fn		GetHInst
-//!	@brief	HINSTANCE 取得
-//!	@param	
-//!	@retval	HINSTANCE
-//==============================================================================
 HINSTANCE Application::GetHInst()
 {
 	return mHinst;
 }
-
-//******************************************************************************
-//	End of file.
-//******************************************************************************

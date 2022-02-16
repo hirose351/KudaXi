@@ -11,9 +11,8 @@ namespace Component
 class TitleScene : public SceneBase
 {
 private:
-	Dix::wp<myUI::ButtonGroup> mpBg;
-	Component::Animation2d* mpPlayerImage;
-	bool mIsButtonPush = false;
+	Dix::wp<myUI::ButtonGroup> mpBg;		// ボタン
+	Component::Animation2d* mpPlayerImage;	// プレイヤーの画像
 
 public:
 	TitleScene();

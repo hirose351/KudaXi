@@ -1,15 +1,15 @@
-#include	"Sphere.h"
+#include	"sphere.h"
 #include	"../dx11/dx11mathutil.h"
 
-// 法線ベクトルを計算
-// ノーマライズ
-void Sphere::Normalize(XMFLOAT3 vector, XMFLOAT3& Normal) {
+// 法線ベクトルを計算,ノーマライズ
+void Sphere::Normalize(XMFLOAT3 vector, XMFLOAT3& Normal)
+{
 	DX11Vec3Normalize(Normal, Normal);
 }
 
 // インデックスデータを作成
-void Sphere::CreateIndex() {
-
+void Sphere::CreateIndex()
+{
 	// インデックス生成
 	for (unsigned int y = 0; y < mDivY; y++)
 	{
@@ -37,8 +37,8 @@ void Sphere::CreateIndex() {
 }
 
 // 頂点データを作成
-void Sphere::CreateVertex() {
-
+void Sphere::CreateVertex()
+{
 	float azimuth = 0.0f;			// 方位角
 	float elevation = 0.0f;			// 仰角
 
@@ -46,7 +46,7 @@ void Sphere::CreateVertex() {
 	// 方位角と仰角から球メッシュの頂点データを作成
 	for (unsigned int y = 0; y <= mDivY; y++)
 	{
-		elevation = (PI * (float)y) / (float)mDivY;    // 仰角をセット
+		elevation = (PI * (float)y) / (float)mDivY;			// 仰角をセット
 		float r = mRadius * sinf(elevation);				// 仰角に応じた半径を計算
 
 		for (unsigned int x = 0; x <= mDivX; x++)
@@ -69,32 +69,32 @@ void Sphere::CreateVertex() {
 }
 
 // 描画
-void Sphere::Draw(ID3D11DeviceContext* _device) {
-
+void Sphere::Draw(ID3D11DeviceContext* _device)
+{
 	// 頂点バッファをセットする
 	unsigned int stride = sizeof(Vertex);
 	unsigned  offset = 0;
 	_device->IASetVertexBuffers(0, 1, mpVertexBuffer.GetAddressOf(), &stride, &offset);
 
-	_device->IASetIndexBuffer(mpIndexBuffer.Get(), DXGI_FORMAT_R32_UINT, 0);			// インデックスバッファをセット
+	_device->IASetIndexBuffer(mpIndexBuffer.Get(), DXGI_FORMAT_R32_UINT, 0);	// インデックスバッファをセット
 	_device->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);		// トポロジーをセット（旧プリミティブタイプ）
-	_device->IASetInputLayout(mpVertexLayout.Get());					// 頂点レイアウトセット
+	_device->IASetInputLayout(mpVertexLayout.Get());							// 頂点レイアウトセット
 
 	_device->VSSetShader(mpVertexShader.Get(), nullptr, 0);			// 頂点シェーダーをセット
 	_device->PSSetShader(mpPixelShader.Get(), nullptr, 0);			// ピクセルシェーダーをセット
 
 	_device->DrawIndexed(
 		static_cast<unsigned int>(mFace.size() * 3),		// 描画するインデックス数（面数×３）
-		0,									// 最初のインデックスバッファの位置
-		0);									// 頂点バッファの最初から使う
+		0,													// 最初のインデックスバッファの位置
+		0);													// 頂点バッファの最初から使う
 }
 
-bool Sphere::Init(float _r,				// 半径
-				  int _divisionHorizontal,			// 水平方向の分割数
-				  int _divisionVertical,				// 垂直方向の分割数
+bool Sphere::Init(float _r,					// 半径
+				  int _divisionHorizontal,	// 水平方向の分割数
+				  int _divisionVertical,	// 垂直方向の分割数
 				  XMFLOAT4 color,
-				  ID3D11Device* device) {
-
+				  ID3D11Device* device)
+{
 	bool sts;
 	// 分割数を保存
 	mDivX = _divisionHorizontal;
@@ -115,10 +115,10 @@ bool Sphere::Init(float _r,				// 半径
 	// 頂点バッファ作成
 	sts = CreateVertexBufferWrite(
 		device,
-		sizeof(Vertex),						// １頂点当たりバイト数
-		static_cast<unsigned int>(mVertex.size()),					// 頂点数
-		mVertex.data(),					// 頂点データ格納メモリ先頭アドレス
-		mpVertexBuffer.GetAddressOf());	// 頂点バッファ
+		sizeof(Vertex),								// １頂点当たりバイト数
+		static_cast<unsigned int>(mVertex.size()),	// 頂点数
+		mVertex.data(),								// 頂点データ格納メモリ先頭アドレス
+		mpVertexBuffer.GetAddressOf());				// 頂点バッファ
 	if (!sts)
 	{
 		MessageBox(NULL, "CreateBuffer(vertex buffer) error", "Error", MB_OK);
@@ -127,10 +127,10 @@ bool Sphere::Init(float _r,				// 半径
 
 	// インデックスバッファ作成
 	sts = CreateIndexBuffer(
-		device,								// デバイスオブジェクト
-		static_cast<unsigned int>(mFace.size()) * 3,					// インデックス数
-		mFace.data(),						// インデックスデータ先頭アドレス
-		mpIndexBuffer.GetAddressOf());		// インデックスバッファ
+		device,											// デバイスオブジェクト
+		static_cast<unsigned int>(mFace.size()) * 3,	// インデックス数
+		mFace.data(),									// インデックスデータ先頭アドレス
+		mpIndexBuffer.GetAddressOf());					// インデックスバッファ
 
 	if (!sts)
 	{
@@ -163,8 +163,8 @@ bool Sphere::Init(float _r,				// 半径
 	}
 
 	// ピクセルシェーダーを生成
-	sts = CreatePixelShader(			// ピクセルシェーダーオブジェクトを生成
-							device,							// デバイスオブジェクト
+	sts = CreatePixelShader(						// ピクセルシェーダーオブジェクトを生成
+							device,					// デバイスオブジェクト
 							"shader/pssphere.hlsl",
 							"main",
 							"ps_5_0",
@@ -174,6 +174,5 @@ bool Sphere::Init(float _r,				// 半径
 		MessageBox(nullptr, "CreatePixelShader error", "error", MB_OK);
 		return false;
 	}
-
 	return true;
 }

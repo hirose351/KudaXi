@@ -8,39 +8,39 @@
 class CBillboard
 {
 private:
-	//テクスチャ情報構造体
+	// テクスチャ情報構造体
 	struct TextureInfo
 	{
 		ComPtr <ID3D11Resource> texRes;
 		ComPtr <ID3D11ShaderResourceView> texSrv;
 	};
+
 protected:
-	//定数バッファ構造体
+	// 定数バッファ構造体
 	struct CB_DATA
 	{
-		float r, g, b, a;			//カラー
-		float u0, v0, u3, v3;		//テクスチャ
+		float r, g, b, a;			// カラー
+		float u0, v0, u3, v3;		// テクスチャ
 	};
 
-	static ComPtr <ID3D11InputLayout> smIL;		//入力レイアウト
-	static ComPtr <ID3D11VertexShader> smVS;	//頂点シェーダー
-	static ComPtr <ID3D11PixelShader> smPS;		//ピクセルシェーダー
+	static ComPtr <ID3D11InputLayout> smIL;		// 入力レイアウト
+	static ComPtr <ID3D11VertexShader> smVS;	// 頂点シェーダー
+	static ComPtr <ID3D11PixelShader> smPS;		// ピクセルシェーダー
 
-	static std::unordered_map<std::string, TextureInfo> smTextureInfo;		//テクスチャ格納辞書
+	static std::unordered_map<std::string, TextureInfo> smTextureInfo;		// テクスチャ格納辞書
 
-	//XMFLOAT3 mPos;								//ポジション
+	DirectX::XMFLOAT2 mScale, mUV0, mUV3, mDivUv;				// スケール,UV情報
+	DirectX::XMFLOAT4 mColor;									// カラー
 
-	DirectX::XMFLOAT2 mScale, mUV0, mUV3, mDivUv;		//スケール,UV情報
-	DirectX::XMFLOAT4 mColor;							//カラー
+	DirectX::XMFLOAT4X4 mMatrixWorld;							// ワールド変換行列
 
-	DirectX::XMFLOAT4X4 mMatrixWorld;					//ワールド変換行列
-
-	ComPtr <ID3D11Buffer> mpVetexBuffer = nullptr;				//頂点バッファ
-	ComPtr <ID3D11Resource> mpTexRes = nullptr;					//テクスチャ情報
+	ComPtr <ID3D11Buffer> mpVetexBuffer = nullptr;				// 頂点バッファ
+	ComPtr <ID3D11Resource> mpTexRes = nullptr;					// テクスチャ情報
 	ComPtr <ID3D11ShaderResourceView> mpTexSRV = nullptr;
-	ComPtr <ID3D11Buffer> mpConstantBuffer = nullptr;			//定数バッファ
+	ComPtr <ID3D11Buffer> mpConstantBuffer = nullptr;			// 定数バッファ
 
-	bool mShouldErase = false;		//消すべきか
+	bool mShouldErase = false;									// 消すべきか
+
 public:
 	CBillboard();
 	virtual ~CBillboard() = default;
@@ -53,22 +53,17 @@ public:
 
 	static HRESULT CreateShader(void);
 
-	//const XMFLOAT3& GetPos()const {
-	//	return mPos;
-	//}
+	/// アクセサ ////////////////////////////////////////////////
 
-	const DirectX::XMFLOAT4& GetColor()const {
+	const DirectX::XMFLOAT4& GetColor()const
+	{
 		return mColor;
 	}
 
-	const bool& GetShouldErase()const {
+	const bool& GetShouldErase()const
+	{
 		return mShouldErase;
 	}
-
-	//void SetPos(XMFLOAT3 pos)
-	//{
-	//	mPos = pos;
-	//}
 
 	void SetScale(const DirectX::XMFLOAT2& scale)
 	{

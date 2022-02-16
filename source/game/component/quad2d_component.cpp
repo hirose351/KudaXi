@@ -35,8 +35,8 @@ void Quad2d::Draw()
 		case DrawType::eNoTex:
 			mpQuad->DrawNoTex(transform.GetMtx());
 			break;
-		case DrawType::eMokomokoTex:
-			mpQuad->DrawMokoMokoTex(transform.GetMtx());
+		case DrawType::eMokomokoShaderTex:
+			mpQuad->DrawMokoMokoShaderTex(transform.GetMtx());
 			break;
 		}
 	}
@@ -59,8 +59,8 @@ void Quad2d::Draw()
 			case DrawType::eNoTex:
 				mpQuad->DrawNoTex(transform.GetMtx());
 				break;
-			case DrawType::eMokomokoTex:
-				mpQuad->DrawMokoMokoTex(transform.GetMtx());
+			case DrawType::eMokomokoShaderTex:
+				mpQuad->DrawMokoMokoShaderTex(transform.GetMtx());
 				break;
 			}
 		}

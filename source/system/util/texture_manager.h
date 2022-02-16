@@ -17,24 +17,24 @@ private:
 	std::unordered_map<std::string, TextureInfo> mTextureInfo;	// テクスチャ格納辞書
 	ID3D11Device* mpDevice;
 
-
 	void Finalize();
+
 public:
-	static TextureManager& GetInstance() {
+	static TextureManager& GetInstance()
+	{
 		static TextureManager Instance;
 		return Instance;
 	}
 
 	TextureManager();
 
-	~TextureManager() {
+	~TextureManager()
+	{
 		Finalize();
 	}
 
 	// ロード
 	bool LoadTexture(std::string _texFileName);
-
-	void Draw(TextureInfo _info, DirectX::XMFLOAT4X4 _mtx);
 
 	// ポインタ取得
 	TextureInfo* GetTexturePtr(std::string _key);

@@ -42,8 +42,5 @@ void Push::BeforeChange()
 
 void Push::AfterChange()
 {
-	//mTransform->move = mTransform->move * -1.0f;
-	//mTransform->AddPosition();
-	//mTransform->CreateMtx();
 	mTransform->move = 0;
 }

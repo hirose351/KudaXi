@@ -2,9 +2,12 @@
 
 using namespace Component;
 
-Animation2d::Animation2d() :ComponentBase(("Layout")), isRepeat(false), mFrameCnt(0)
+Animation2d::Animation2d() :ComponentBase(("Animation2d")), isRepeat(false), mFrameCnt(0), mCurrentFrame(0)
 {
-	SetName("Animation2d");
+}
+
+void Animation2d::Init()
+{
 	mCurrentFrame = 0;
 }
 

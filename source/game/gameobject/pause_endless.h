@@ -1,8 +1,8 @@
 #pragma once
 #include	"gameobject.h"
-#include	"ui_button.h"
 
 namespace myUI {
+	class ButtonGroup;
 	class PauseEndless : public GameObject
 	{
 	private:

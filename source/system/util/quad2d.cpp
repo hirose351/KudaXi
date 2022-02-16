@@ -196,8 +196,6 @@ void CQuad2D::Draw(DirectX::XMFLOAT4X4 _mtx) {
 		4,						// インデックス数
 		0,						// 開始インデックス
 		0);						// 基準頂点インデックス
-
-	//TextureManager::GetInstance().Draw(mTexInfo, mWorldmtx);
 }
 
 // 描画
@@ -259,7 +257,7 @@ void CQuad2D::DrawNoTex(DirectX::XMFLOAT4X4 _mtx) {
 		0);						// 基準頂点インデックス
 }
 
-void CQuad2D::DrawMokoMokoTex(DirectX::XMFLOAT4X4 _mtx)
+void CQuad2D::DrawMokoMokoShaderTex(DirectX::XMFLOAT4X4 _mtx)
 {
 	if (mColor.w <= 0.0f)
 		return;
@@ -321,19 +319,6 @@ void CQuad2D::DrawMokoMokoTex(DirectX::XMFLOAT4X4 _mtx)
 		0);						// 基準頂点インデックス
 }
 
-//
-//// 拡大、縮小
-//void Quad2D::SetScale(Float3 _size) {
-//	DX11MtxScale(_size.x, _size.y, _size.z, mWorldmtx);
-//}
-//
-//// 位置をセット
-//void Quad2D::SetPosition(Float3 _pos) {
-//	mWorldmtx._41 = _pos.x;
-//	mWorldmtx._42 = _pos.y;
-//	mWorldmtx._43 = _pos.z;
-//}
-
 void CQuad2D::SetColor(const DirectX::XMFLOAT4 &_color)
 {
 	mColor = _color;
@@ -351,16 +336,6 @@ void CQuad2D::SetColor(const DirectX::XMFLOAT4 &_color)
 		mVertex[i] = v[i];
 	}
 }
-
-//// Z軸回転
-//void Quad2D::SetZRotation(float angle) {
-//	DX11MtxRotationZ(angle, mWorldmtx);
-//}
-//
-//// X軸回転
-//void Quad2D::SetXRotation(float angle) {
-//	DX11MtxRotationX(angle, mWorldmtx);
-//}
 
 // 頂点データ更新
 void CQuad2D::UpdateVertex(DirectX::XMFLOAT2 _scale, const DirectX::XMFLOAT4 &color, float z) {

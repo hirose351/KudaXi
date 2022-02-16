@@ -5,6 +5,7 @@
 #include	"../manager/scene_manager.h"
 #include	"../manager/input_manager.h"
 #include	"../../application.h"
+#include	"ui_button.h"
 
 using namespace myUI;
 using namespace DirectX;

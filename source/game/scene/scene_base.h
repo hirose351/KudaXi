@@ -12,10 +12,10 @@ class GameObject;
 class SceneBase : Uncopyable {
 protected:
 	SceneManager*	mpSceneManager;
-	DrawManager mDrawManager;
+	DrawManager		mDrawManager;
 
 	std::list<Dix::sp<GameObject>> mpObjectList;			// ゲームオブジェクトを全部まとめて管理できるオブジェクトリスト
-	std::list<Dix::sp<GameObject>> mpPendingObjectList;	// 待ち状態のオブジェクト
+	std::list<Dix::sp<GameObject>> mpPendingObjectList;		// 待ち状態のオブジェクト
 
 	bool mInitingObjects;			// オブジェクトを初期化しているかどうか
 	bool mUpdatingObjects;			// オブジェクトを更新しているかどうか
@@ -25,13 +25,14 @@ protected:
 	Float3 mCameraEye;				// カメラの位置
 	Float3 mCameraUp = { 0,1,0 };	// カメラの上向きベクトル
 
-	class FadeScreen* fade;
+	class FadeScreen* mpfade;
 
 public:
 	SceneBase();
 	virtual ~SceneBase();
 
-	void SetSceneManager(SceneManager* _sm) {
+	void SetSceneManager(SceneManager* _sm)
+	{
 		mpSceneManager = _sm;
 	}
 
@@ -58,6 +59,8 @@ public:
 
 	void DrawFadeIn();
 	void DrawFadeOut();
+
+	/// アクセサ ////////////////////////////////////////////////////
 
 	void SetIsPause(bool _flg) { mIsPause = _flg; }
 	bool GetIsPause() { return mIsPause; }

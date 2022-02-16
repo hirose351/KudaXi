@@ -6,20 +6,27 @@
 #include	"../dx11/Shader.h"
 
 class ShaderHashmap {
+private:
+	ShaderHashmap() {}
+	std::unordered_map<std::string, ID3D11VertexShader*> mVsHashMap;
+	std::unordered_map<std::string, ID3D11PixelShader*> mPsHashMap;
+	std::unordered_map<std::string, ID3D11InputLayout*> mLayoutHashMap;
+
 public:
 	ShaderHashmap(const ShaderHashmap&) = delete;
 	ShaderHashmap& operator=(const ShaderHashmap&) = delete;
 	ShaderHashmap(ShaderHashmap&&) = delete;
 	ShaderHashmap& operator=(ShaderHashmap&&) = delete;
 
-	static ShaderHashmap* GetInstance() {
+	static ShaderHashmap* GetInstance()
+	{
 		static ShaderHashmap instance;
 		return &instance;
 	}
 
-public:
 	// ピクセルシェーダーセット
-	bool SetPixelShader(std::string filename) {
+	bool SetPixelShader(std::string filename)
+	{
 		ID3D11PixelShader* psh;
 
 		// デバイス取得
@@ -48,7 +55,8 @@ public:
 	// 頂点シェーダーセット
 	bool SetVertexShader(std::string filename,
 						 D3D11_INPUT_ELEMENT_DESC* layout,
-						 unsigned int numElements) {
+						 unsigned int numElements)
+	{
 
 		ID3D11VertexShader* vsh;
 		ID3D11InputLayout*  vlayout;
@@ -113,7 +121,8 @@ public:
 	}
 
 	// 頂点シェーダー取得
-	ID3D11VertexShader* GetVertexShader(std::string filenamekey) {
+	ID3D11VertexShader* GetVertexShader(std::string filenamekey)
+	{
 		// 存在するかを確かめる
 		auto it = mVsHashMap.find(filenamekey);
 		if (it == mVsHashMap.end())
@@ -124,7 +133,8 @@ public:
 	}
 
 	// ピクセルシェーダー取得
-	ID3D11PixelShader* GetPixelShader(std::string filenamekey) {
+	ID3D11PixelShader* GetPixelShader(std::string filenamekey)
+	{
 		// 存在するかを確かめる
 		auto it = mPsHashMap.find(filenamekey);
 		if (it == mPsHashMap.end())
@@ -135,7 +145,8 @@ public:
 	}
 
 	// 頂点レイアウト取得
-	ID3D11InputLayout* GetVertexLayout(std::string filenamekey) {
+	ID3D11InputLayout* GetVertexLayout(std::string filenamekey)
+	{
 		// 存在するかを確かめる
 		auto it = mLayoutHashMap.find(filenamekey);
 		if (it == mLayoutHashMap.end())
@@ -172,9 +183,4 @@ public:
 
 		mLayoutHashMap.clear();
 	}
-private:
-	ShaderHashmap() {}
-	std::unordered_map<std::string, ID3D11VertexShader*> mVsHashMap;
-	std::unordered_map<std::string, ID3D11PixelShader*> mPsHashMap;
-	std::unordered_map<std::string, ID3D11InputLayout*> mLayoutHashMap;
 };

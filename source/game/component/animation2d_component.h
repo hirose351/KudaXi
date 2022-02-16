@@ -15,13 +15,12 @@ namespace Component {
 
 	public:
 		Animation2d();
-		void Init() override {};
+		void Init() override;
 		void Update()override;
 		void ImguiDraw()override;
 		void Uninit() override {};
 
-		// アニメーション設定
-		// 速度、縦何列目か
+		// アニメーション設定 (速度、縦何列目か)
 		void SetAnim(int _frameCnt, int array);
 	};
 }

@@ -4,10 +4,10 @@
 #include	"../component/map_move_component.h"
 #include	"../component/model_component.h"
 #include	"../component/collision_component.h"
-#include	"../../system/model/ModelMgr.h"
-#include	<random>
+#include	"../../system/model/model_manager.h"
 #include	"../../system/util/XAudio2.h"
 #include	"../../system/dx11/CDirectInput.h"
+#include	<random>
 
 std::random_device rnd;							// 非決定的な乱数生成器
 std::mt19937 mt(rnd());							// メルセンヌ・ツイスタの32ビット版、引数は初期シード値

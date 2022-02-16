@@ -151,7 +151,6 @@
     <ClCompile Include="source\game\component\player_controller.cpp" />
     <ClCompile Include="source\game\component\quad2d_component.cpp" />
     <ClCompile Include="source\game\component\qube.cpp" />
-    <ClCompile Include="source\game\data\saveload.cpp" />
     <ClCompile Include="source\game\gameobject\access_camera_eye.cpp" />
     <ClCompile Include="source\game\gameobject\access_camera_lookat.cpp" />
     <ClCompile Include="source\game\gameobject\access_dice_create_manager.cpp" />
@@ -208,8 +207,8 @@
     <ClCompile Include="source\system\model\assimpscene.cpp" />
     <ClCompile Include="source\system\model\CModel.cpp" />
     <ClCompile Include="source\system\model\Mesh.cpp" />
-    <ClCompile Include="source\system\model\ModelData.cpp" />
-    <ClCompile Include="source\system\model\ModelMgr.cpp" />
+    <ClCompile Include="source\system\model\model_data.cpp" />
+    <ClCompile Include="source\system\model\model_manager.cpp" />
     <ClCompile Include="source\system\model\utftosjisconv.cpp" />
     <ClCompile Include="source\system\util\2dsystem.cpp" />
     <ClCompile Include="source\system\util\BoundingSphere.cpp" />
@@ -218,7 +217,7 @@
     <ClCompile Include="source\system\util\easing.cpp" />
     <ClCompile Include="source\system\util\line.cpp" />
     <ClCompile Include="source\system\util\quad2d.cpp" />
-    <ClCompile Include="source\system\util\Sphere.cpp" />
+    <ClCompile Include="source\system\util\sphere.cpp" />
     <ClCompile Include="source\system\util\StopWatch.cpp" />
     <ClCompile Include="source\system\util\texture_manager.cpp" />
     <ClCompile Include="source\system\util\time.cpp" />
@@ -247,7 +246,6 @@
     <ClInclude Include="source\game\component\player_controller.h" />
     <ClInclude Include="source\game\component\quad2d_component.h" />
     <ClInclude Include="source\game\component\qube.h" />
-    <ClInclude Include="source\game\data\saveload.h" />
     <ClInclude Include="source\game\data\stage_data.h" />
     <ClInclude Include="source\game\gameobject\access_camera_eye.h" />
     <ClInclude Include="source\game\gameobject\access_camera_lookat.h" />
@@ -296,7 +294,7 @@
     <ClInclude Include="source\game\state\player_state_base.h" />
     <ClInclude Include="source\game\state\state_base.h" />
     <ClInclude Include="source\macro.h" />
-    <ClInclude Include="source\Memory.h" />
+    <ClInclude Include="source\memory.h" />
     <ClInclude Include="source\system\dx11\CDirectInput.h" />
     <ClInclude Include="source\system\dx11\CDirectxGraphics.h" />
     <ClInclude Include="source\system\dx11\dx11mathutil.h" />
@@ -315,8 +313,8 @@
     <ClInclude Include="source\system\model\assimpscene.h" />
     <ClInclude Include="source\system\model\CModel.h" />
     <ClInclude Include="source\system\model\Mesh.h" />
-    <ClInclude Include="source\system\model\ModelData.h" />
-    <ClInclude Include="source\system\model\ModelMgr.h" />
+    <ClInclude Include="source\system\model\model_data.h" />
+    <ClInclude Include="source\system\model\model_manager.h" />
     <ClInclude Include="source\system\model\utftosjisconv.h" />
     <ClInclude Include="source\system\model\vertexproto.h" />
     <ClInclude Include="source\system\util\2dsystem.h" />
@@ -329,7 +327,7 @@
     <ClInclude Include="source\system\util\quad2d.h" />
     <ClInclude Include="source\system\util\resource.h" />
     <ClInclude Include="source\system\util\shaderhashmap.h" />
-    <ClInclude Include="source\system\util\Sphere.h" />
+    <ClInclude Include="source\system\util\sphere.h" />
     <ClInclude Include="source\system\util\StopWatch.h" />
     <ClInclude Include="source\system\util\texture_manager.h" />
     <ClInclude Include="source\system\util\time.h" />

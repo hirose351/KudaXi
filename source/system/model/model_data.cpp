@@ -8,7 +8,7 @@
 #include	"../dx11/DX11Settransform.h"
 #include	"../dx11/CDirectxGraphics.h"
 #include	"memory.h"
-#include	"ModelData.h"
+#include	"model_data.h"
 #include	"vertexproto.h"
 #include	"utftosjisconv.h"
 

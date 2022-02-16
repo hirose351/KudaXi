@@ -1,15 +1,15 @@
 #include	"gamemode_state_puzzle.h"
-#include	"../gameobject/ui_image.h"
 #include	"../manager/stagedata_manager.h"
 #include	"../manager/dice_manager.h"
 #include	"../manager/input_manager.h"
 #include	"../gameobject/access_camera_eye.h"
 #include	"../gameobject/access_camera_lookat.h"
+#include	"../gameobject/ui_image.h"
 #include	"../component/easing_component.h"
 #include	"../component/number_component.h"
 #include	"../component/player_controller.h"
-#include	"../../application.h"
 #include	"../component/map_pos_component.h"
+#include	"../../application.h"
 #include	"../../system/util/XAudio2.h"
 
 using namespace GameModeState;
@@ -19,7 +19,7 @@ Puzzle::Puzzle()
 	// StageStringUI
 	Dix::sp<myUI::Image> stageString;
 	stageString.SetPtr(new myUI::Image);
-	stageString->GetTransform()->SetPositionXYZ(Float3(1280 / 2.0f, 50.0f, 0));
+	stageString->GetTransform()->SetPositionXYZ(Float3(Application::CLIENT_WIDTH / 2.0f, 50.0f, 0));
 	stageString->GetTransform()->SetScale(Float3(200));
 	SceneManager::GetInstance()->GetCurrentScene()->AddGameObject(stageString);
 	Component::Quad2d* uiStageQuad = stageString->AddComponent<Component::Quad2d>();
@@ -30,7 +30,7 @@ Puzzle::Puzzle()
 	// StageNumUI
 	Dix::sp<myUI::Image> stageNum;
 	stageNum.SetPtr(new myUI::Image);
-	stageNum->GetTransform()->SetPositionXYZ(Float3(1280 / 2.0f + 200, 50.0f, 0));
+	stageNum->GetTransform()->SetPositionXYZ(Float3(Application::CLIENT_WIDTH / 2.0f + 200, 50.0f, 0));
 	stageNum->GetTransform()->SetScale(Float3(100));
 	SceneManager::GetInstance()->GetCurrentScene()->AddGameObject(stageNum);
 	stageNum->AddComponent<Component::Number>();
@@ -67,7 +67,7 @@ Puzzle::Puzzle()
 	// ClearOverUI
 	Dix::sp<myUI::Image> clearOver;
 	clearOver.SetPtr(new myUI::Image);
-	clearOver->GetTransform()->SetPositionXYZ(Float3((float)Application::CLIENT_WIDTH / 2.0f, (float)Application::CLIENT_HEIGHT / 2.0f, 0));
+	clearOver->GetTransform()->SetPositionXYZ(Float3(Application::CLIENT_WIDTH / 2.0f, Application::CLIENT_HEIGHT / 2.0f, 0));
 	clearOver->GetTransform()->SetScale(Float3(500.0f, 250.0f, 0));
 	SceneManager::GetInstance()->GetCurrentScene()->AddGameObject(clearOver);
 	Component::Quad2d* clearOverQuad = clearOver->AddComponent<Component::Quad2d>();
@@ -90,7 +90,7 @@ Puzzle::Puzzle()
 	SceneManager::GetInstance()->GetCurrentScene()->AddGameObject(cameralookat);
 	mModeObjList.emplace_back(cameralookat);
 
-	// 次のステージへ、ステージセレクトへ、もう一度
+	/// Todo:次のステージへ、ステージセレクトへ、もう一度
 
 	for (Dix::wp<GameObject> obj : mModeObjList)
 		obj->SetIsActive(false);
@@ -232,8 +232,7 @@ void Puzzle::BeforeChange()
 	DiceManager::GetInstance()->SetPuzzle();
 
 	mCameraEye->ObjectInit();
-	Float3 cameraVector(30.5f, 20.0f, -30.5f);
-	Float3 pos;
+	Float3 pos, cameraVector(30.5f, 20.0f, -30.5f);
 	pos.x = cameraVector.x * data.mMapSizeWidth;
 	pos.y = 70 + cameraVector.y * (data.mMapSizeWidth + data.mMapSizeHeight);
 	pos.z = cameraVector.z * data.mMapSizeHeight;

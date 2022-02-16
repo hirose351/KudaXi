@@ -8,9 +8,9 @@ namespace myUI {
 class ModeSelectScene : public SceneBase
 {
 private:
-	Dix::wp<myUI::ButtonGroup> mpBg;
-	Dix::wp<GameObject> mpRuleImage;
-	bool mIsRuleDraw = false;
+	Dix::wp<myUI::ButtonGroup> mpBg;	// ボタン
+	Dix::wp<GameObject> mpRuleImage;	// ルール画像
+	bool mIsRuleDraw = false;			// ルールを表示するか
 
 public:
 	ModeSelectScene();

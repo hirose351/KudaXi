@@ -1,9 +1,9 @@
 #include	"gamemode_state_select.h"
 #include	"../gameobject/ui_image.h"
-#include	"../component/quad2d_component.h"
-#include	"../component/player_controller.h"
 #include	"../manager/input_manager.h"
 #include	"../manager/dice_manager.h"
+#include	"../component/quad2d_component.h"
+#include	"../component/player_controller.h"
 #include	"../component/map_pos_component.h"
 
 using namespace GameModeState;

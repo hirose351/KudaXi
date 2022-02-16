@@ -5,6 +5,7 @@
 #include	"../manager/dice_manager.h"
 #include	"state_base.h"
 
+// 状態
 enum
 {
 	eMove,
@@ -16,7 +17,6 @@ namespace Component
 {
 	class PlayerController;
 }
-
 class DIce;
 
 class PlayerStateBase :public StateBase
@@ -29,13 +29,16 @@ protected:
 	Foot*						 mFoot;				// 足元
 	INT3						 mMapPos;			// マップ上の位置
 
-	/// Todo:アニメーション管理もここで宣言
+	/// Todo:アニメーション管理もここで管理したい
 
 public:
 	virtual ~PlayerStateBase() {};
 
 	// 操作する変数登録
 	virtual void Start(Component::PlayerController* _c);
+
+
+	/// アクセサ ////////////////////////////////////////////////////////////////
 
 	void SetOperationDice(Dix::wp<Dice> _dice) { mpOperationDice = _dice; }
 	Dix::wp<Dice> GetOperationDice() { return mpOperationDice; }

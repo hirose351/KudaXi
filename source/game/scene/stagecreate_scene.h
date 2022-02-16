@@ -8,13 +8,13 @@ class StageCreateScene : public SceneBase
 private:
 	std::vector<Dix::wp<GameObject>> mViewObjList;	// クリエイト表示するオブジェクトリスト
 
-	char mStageNameText[128] = {};
+	char mStageNameText[128] = {};	// プレイヤーが入力する用ステージ名
 	Dix::wp<StageData> mStageData;
 	Dix::wp<Stage> mStage;
-	int mSelectObjNum;
-	bool mIsPlay = false;
-	bool mIsStagePlay = false;
-	std::string mBeforeStageName;
+	int mSelectObjNum;				// 選択されているオブジェクトの数字
+	bool mIsPlay = false;			// プレイしているか
+	bool mIsStagePlay = false;		// ステージデータをプレイしているか
+	std::string mBeforeStageName;	// プレイを選択した時に入力されていたステージ名
 
 	void RuleImGuiDraw();
 

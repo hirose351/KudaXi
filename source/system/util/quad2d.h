@@ -11,10 +11,11 @@
 // comptr
 using Microsoft::WRL::ComPtr;
 
+// 描画するタイプ
 enum class DrawType {
 	eTex,
 	eNoTex,
-	eMokomokoTex
+	eMokomokoShaderTex
 };
 
 // 矩形クラス
@@ -27,7 +28,6 @@ private:
 		DirectX::XMFLOAT2 tex;		// テクスチャ
 	};
 
-	//DirectX::XMFLOAT4X4		mWorldmtx;				// ワールド変換行列
 	ComPtr<ID3D11Buffer>	mVertexbuffer;			// 頂点バッファ
 	ComPtr<ID3D11Buffer>	mIndexbuffer;			// インデックスバッファ
 	CQuad2D::Vertex			mVertex[4];				// 矩形４頂点
@@ -58,7 +58,7 @@ public:
 	void DrawNoTex(DirectX::XMFLOAT4X4 _mtx);
 
 	// 特殊シェーダーで描画
-	void DrawMokoMokoTex(DirectX::XMFLOAT4X4 _mtx);
+	void DrawMokoMokoShaderTex(DirectX::XMFLOAT4X4 _mtx);
 
 	// 頂点カラーセット
 	void SetColor(const XMFLOAT4 &_color);

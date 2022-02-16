@@ -5,7 +5,7 @@
 #include	"../component/allcomponents.h"
 #include	"../../system/util/XAudio2.h"
 #include	"../../system/util/easing.h"
-#include	"../../system/model/ModelMgr.h"
+#include	"../../system/model/model_manager.h"
 
 Dice::Dice() :GameObject(("Dice"), ObjectType::eDice, true)
 {

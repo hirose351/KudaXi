@@ -243,12 +243,6 @@
     <ClCompile Include="source\system\imgui\imgui_widgets.cpp">
       <Filter>ソース ファイル\system\imgui</Filter>
     </ClCompile>
-    <ClCompile Include="source\system\model\ModelData.cpp">
-      <Filter>ソース ファイル\system\model</Filter>
-    </ClCompile>
-    <ClCompile Include="source\system\model\ModelMgr.cpp">
-      <Filter>ソース ファイル\system\model</Filter>
-    </ClCompile>
     <ClCompile Include="source\system\model\Mesh.cpp">
       <Filter>ソース ファイル\system\model</Filter>
     </ClCompile>
@@ -283,9 +277,6 @@
       <Filter>ソース ファイル\system\util</Filter>
     </ClCompile>
     <ClCompile Include="source\system\util\2dsystem.cpp">
-      <Filter>ソース ファイル\system\util</Filter>
-    </ClCompile>
-    <ClCompile Include="source\system\util\Sphere.cpp">
       <Filter>ソース ファイル\system\util</Filter>
     </ClCompile>
     <ClCompile Include="source\system\util\XAudio2.cpp">
@@ -363,14 +354,8 @@
     <ClCompile Include="source\game\scene\stagecreate_scene.cpp">
       <Filter>ソース ファイル\game\scene\stagecreate_scene</Filter>
     </ClCompile>
-    <ClCompile Include="source\game\data\saveload.cpp">
-      <Filter>ソース ファイル\game\data</Filter>
-    </ClCompile>
     <ClCompile Include="source\system\dx11\CDirectXGraphics.cpp">
       <Filter>ソース ファイル\system\dx11\util</Filter>
-    </ClCompile>
-    <ClCompile Include="source\application.cpp">
-      <Filter>ソース ファイル\system\texture</Filter>
     </ClCompile>
     <ClCompile Include="source\game\component\player_controller.cpp">
       <Filter>ソース ファイル\game\component\controller</Filter>
@@ -465,9 +450,6 @@
     <ClCompile Include="source\game\gameobject\access_dice_create_manager.cpp">
       <Filter>ソース ファイル\game\gameobject\access</Filter>
     </ClCompile>
-    <ClCompile Include="source\game\state\gamemode_controller.cpp">
-      <Filter>ソース ファイル\game\state\gamemode</Filter>
-    </ClCompile>
     <ClCompile Include="source\game\state\gamemode_state_endless.cpp">
       <Filter>ソース ファイル\game\state\gamemode\endless</Filter>
     </ClCompile>
@@ -485,6 +467,21 @@
     </ClCompile>
     <ClCompile Include="source\game\component\number_component.cpp">
       <Filter>ソース ファイル\game\component\ui\number</Filter>
+    </ClCompile>
+    <ClCompile Include="source\game\state\gamemode_controller.cpp">
+      <Filter>ソース ファイル\game\component\controller</Filter>
+    </ClCompile>
+    <ClCompile Include="source\system\model\model_manager.cpp">
+      <Filter>ソース ファイル\system\model</Filter>
+    </ClCompile>
+    <ClCompile Include="source\system\model\model_data.cpp">
+      <Filter>ソース ファイル\system\model</Filter>
+    </ClCompile>
+    <ClCompile Include="source\application.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="source\system\util\sphere.cpp">
+      <Filter>ソース ファイル\system\util</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -530,12 +527,6 @@
     <ClInclude Include="source\system\dx11\CDirectInput.h">
       <Filter>ソース ファイル\system\dx11</Filter>
     </ClInclude>
-    <ClInclude Include="source\system\model\ModelData.h">
-      <Filter>ソース ファイル\system\model</Filter>
-    </ClInclude>
-    <ClInclude Include="source\system\model\ModelMgr.h">
-      <Filter>ソース ファイル\system\model</Filter>
-    </ClInclude>
     <ClInclude Include="source\system\model\Mesh.h">
       <Filter>ソース ファイル\system\model</Filter>
     </ClInclude>
@@ -572,9 +563,6 @@
     <ClInclude Include="source\system\util\2dsystem.h">
       <Filter>ソース ファイル\system\util</Filter>
     </ClInclude>
-    <ClInclude Include="source\system\util\Sphere.h">
-      <Filter>ソース ファイル\system\util</Filter>
-    </ClInclude>
     <ClInclude Include="source\system\util\XAudio2.h">
       <Filter>ソース ファイル\system\util</Filter>
     </ClInclude>
@@ -591,9 +579,6 @@
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="source\macro.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="source\Memory.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="source\system\util\resource.h">
@@ -679,9 +664,6 @@
     </ClInclude>
     <ClInclude Include="source\game\scene\stagecreate_scene.h">
       <Filter>ソース ファイル\game\scene\stagecreate_scene</Filter>
-    </ClInclude>
-    <ClInclude Include="source\game\data\saveload.h">
-      <Filter>ソース ファイル\game\data</Filter>
     </ClInclude>
     <ClInclude Include="source\system\util\easing.h">
       <Filter>ソース ファイル\system\util</Filter>
@@ -791,9 +773,6 @@
     <ClInclude Include="source\game\gameobject\access_dice_create_manager.h">
       <Filter>ソース ファイル\game\gameobject\access</Filter>
     </ClInclude>
-    <ClInclude Include="source\game\state\gamemode_controller.h">
-      <Filter>ソース ファイル\game\state\gamemode</Filter>
-    </ClInclude>
     <ClInclude Include="source\game\state\gamemode_state_base.h">
       <Filter>ソース ファイル\game\state\gamemode</Filter>
     </ClInclude>
@@ -814,6 +793,21 @@
     </ClInclude>
     <ClInclude Include="source\game\component\number_component.h">
       <Filter>ソース ファイル\game\component\ui\number</Filter>
+    </ClInclude>
+    <ClInclude Include="source\game\state\gamemode_controller.h">
+      <Filter>ソース ファイル\game\component\controller</Filter>
+    </ClInclude>
+    <ClInclude Include="source\system\model\model_manager.h">
+      <Filter>ソース ファイル\system\model</Filter>
+    </ClInclude>
+    <ClInclude Include="source\system\model\model_data.h">
+      <Filter>ソース ファイル\system\model</Filter>
+    </ClInclude>
+    <ClInclude Include="source\system\util\sphere.h">
+      <Filter>ソース ファイル\system\util</Filter>
+    </ClInclude>
+    <ClInclude Include="source\memory.h">
+      <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

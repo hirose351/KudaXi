@@ -1,5 +1,5 @@
 #include	"skydome.h"
-#include	"../../system/model/ModelMgr.h"
+#include	"../../system/model/model_manager.h"
 #include	"../component/allcomponents.h"
 
 Skydome::Skydome() :GameObject(("SkyDome"), ObjectType::eDice, false) {

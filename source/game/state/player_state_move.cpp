@@ -8,7 +8,7 @@
 //*****************************************************************************
 #define	VALUE_MOVE_MODEL		(0.085f)		// 移動速度
 #define	RATE_ROTATE_MODEL		(0.10f)			// 回転慣性係数
-#define	RATE_MOVE_MODEL			(0.10f)			// 
+#define	RATE_MOVE_MODEL			(0.10f)			// 移動慣性係数
 #define	GETOFFDICE_FRAME		(20)			// Diceから降りるのに必要なフレーム数
 
 using namespace PlayerState;
@@ -20,7 +20,7 @@ bool Move::CheckRoll()
 	if (mpOperationDice->GetDiceStatus() != DiceStatus::eNormal)
 		return false;
 
-	Float3 basePoint;// 基準点
+	Float3 basePoint;	// 基準点
 	basePoint.x = static_cast<float>(mMapPos.x) * DICE_SCALE + DICE_SCALE_HALF;
 	basePoint.z = -static_cast<float>(mMapPos.z) * DICE_SCALE - DICE_SCALE_HALF;
 
@@ -122,7 +122,7 @@ bool Move::CheckPush()
 
 	switch (checkDice->GetDiceStatus())
 	{
-	case DiceStatus::eNormal:// Diceの状態が通常なら押す
+	case DiceStatus::eNormal:	// Diceの状態が通常なら押す
 		mpOperationDice = checkDice;
 		if (mpOperationDice->SetPushAction(*mDirection))
 		{
@@ -141,8 +141,6 @@ bool Move::CheckPush()
 		return false;
 	}
 
-	mTransform->move = 0;
-
 	// 移動制限
 	switch (*mDirection)
 	{
@@ -159,6 +157,7 @@ bool Move::CheckPush()
 		mTransform->SetPositionX(mMapPos.x*DICE_SCALE + DICE_SCALE_HALF - mTransform->scale.x / 2.0f);
 		break;
 	}
+	mTransform->move = 0;	// 移動量を0にする
 	return false;
 }
 
@@ -166,7 +165,6 @@ void Move::SetMapPos()
 {
 	mMapPos.x = static_cast<int>((mTransform->position.x + DICE_SCALE_HALF) / DICE_SCALE);
 	mMapPos.z = static_cast<int>((mTransform->position.z - DICE_SCALE_HALF) / DICE_SCALE) * -1;
-
 	if (mMapPos.x < 0)	mMapPos.x = 0;
 	if (mMapPos.z < 0)	mMapPos.z = 0;
 }
@@ -364,7 +362,6 @@ void Move::Exec()
 			return;
 
 		INT3 dicePos = mpOperationDice->GetMapPos();
-		/// Todo:足元がダイスの時の移動制限しっかりつける(長押ししたら降りれる、降りようとしても降りれない時の処理)
 		switch (mpOperationDice->GetDiceStatus())
 		{
 		case DiceStatus::eUp:
