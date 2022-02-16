@@ -105,17 +105,8 @@ void DiceManager::EndleesUpdate()
 	{
 		mEndlessCnt++;
 
-		// ランダムで出したマップ位置にDiceが存在すればコンティニュー
+		// ランダムな値取得
 		int num = rand100(mt) % (mCurrentStageData->mMapSizeWidth*mCurrentStageData->mMapSizeHeight);
-		//int z = num / mCurrentStageData->mMapSizeWidth;
-		//int x = num % mCurrentStageData->mMapSizeHeight;
-		//if (mDiceMap[z][x] != NODICE)
-		//	return;
-		//// プレイヤーとその周りで、他が埋まっていなければコンティニュー
-		//if (x <= mPlayerPos.x + 1 && x >= mPlayerPos.x - 1 && z <= mPlayerPos.z + 1 && z >= mPlayerPos.z - 1)
-		//	if (mpDiceList.size() < mCurrentStageData->mMapSizeWidth*mCurrentStageData->mMapSizeHeight - 9)
-		//		return;
-
 		INT2 mapPos(GetSpawnDicePos(num));
 
 		// Dice生成
@@ -150,41 +141,30 @@ void DiceManager::EndleesUpdate()
 		return;
 	}
 	mFrameCnt = 0;
-	// ランダム生成
-	while (true)
-	{
-		// ランダムで出したマップ位置にDiceが存在すればコンティニュー
-		int num = rand100(mt) % (mCurrentStageData->mMapSizeWidth*mCurrentStageData->mMapSizeHeight);
-		int z = num / mCurrentStageData->mMapSizeWidth;
-		int x = num % mCurrentStageData->mMapSizeHeight;
-		if (mDiceMap[z][x] != NODICE)
-			continue;
-		// プレイヤーとその周りで、他が埋まっていなければコンティニュー
-		if (x <= mPlayerPos.x + 1 && x >= mPlayerPos.x - 1 && z <= mPlayerPos.z + 1 && z >= mPlayerPos.z - 1)
-			if (mpDiceList.size() < mCurrentStageData->mMapSizeWidth*mCurrentStageData->mMapSizeHeight - 9)
-				continue;
 
-		// Dice生成
-		Dix::sp<Dice> dice;
-		dice.SetPtr(new Dice);
-		dice->GetTransform()->SetPositionMove(Float3(DICE_SCALE*x, -DICE_SCALE_HALF, -DICE_SCALE * z));
-		dice->GetTransform()->SetAngle(mSpawnAngle[GetDiceRandomNum(rand100(mt))]);
-		dice->GetTransform()->CreateWordMtx();
+	// ランダムな値取得
+	int num = rand100(mt) % (mCurrentStageData->mMapSizeWidth*mCurrentStageData->mMapSizeHeight);
+	INT2 mapPos(GetSpawnDicePos(num));
 
-		// Y軸をランダムで回転
-		XMFLOAT4X4 angleMtx;
-		DX11MtxRotationY(mSpawnAngle[5 + rand100(mt) % 4].y, angleMtx);
-		DX11MtxMultiply(dice->GetTransform()->worldMtx, angleMtx, dice->GetTransform()->worldMtx);
+	// Dice生成
+	Dix::sp<Dice> dice;
+	dice.SetPtr(new Dice);
+	dice->GetTransform()->SetPositionMove(Float3(DICE_SCALE*mapPos.x, -DICE_SCALE_HALF, -DICE_SCALE * mapPos.z));
+	dice->GetTransform()->SetAngle(mSpawnAngle[GetDiceRandomNum(rand100(mt))]);
+	dice->GetTransform()->CreateWordMtx();
 
-		dice->SetMapPos(INT3(x, 0, z));
-		mDiceMap[z][x] = dice->GetObjectID();
-		dice->SetName(("Dice" + std::to_string(mDiceMap[z][x])));	// オブジェクトの名前に添え字を加える
-		dice->Init();
+	// Y軸をランダムで回転
+	XMFLOAT4X4 angleMtx;
+	DX11MtxRotationY(mSpawnAngle[5 + rand100(mt) % 4].y, angleMtx);
+	DX11MtxMultiply(dice->GetTransform()->worldMtx, angleMtx, dice->GetTransform()->worldMtx);
 
-		mpDiceList.emplace_back(dice);	// vector配列に追加
-		SceneManager::GetInstance()->GetCurrentScene()->AddGameObject(dice);
-		return;
-	}
+	dice->SetMapPos(INT3(mapPos.x, 0, mapPos.z));
+	mDiceMap[mapPos.z][mapPos.x] = dice->GetObjectID();
+	dice->SetName(("Dice" + std::to_string(mDiceMap[mapPos.z][mapPos.x])));	// オブジェクトの名前に添え字を加える
+	dice->Init();
+
+	mpDiceList.emplace_back(dice);	// vector配列に追加
+	SceneManager::GetInstance()->GetCurrentScene()->AddGameObject(dice);
 }
 
 void DiceManager::ImguiDraw()

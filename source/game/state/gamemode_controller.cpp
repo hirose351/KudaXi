@@ -43,3 +43,8 @@ void Component::GameModeController::ChangeMode(int _modeNum)
 	mStates[_modeNum]->BeforeChange();
 	mModeNum = _modeNum;
 }
+
+void Component::GameModeController::CurrentAfterChange()
+{
+	mStates[mModeNum]->AfterChange();
+}

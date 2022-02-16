@@ -32,6 +32,7 @@ namespace Component {
 		void Uninit()override {};
 
 		void ChangeMode(int _modeNum);
+		void CurrentAfterChange();
 
 		// アクセサ ////////////////////////////////////////////////////////
 

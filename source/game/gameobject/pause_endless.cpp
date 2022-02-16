@@ -4,6 +4,7 @@
 #include	"../component/easing_component.h"
 #include	"../manager/scene_manager.h"
 #include	"../manager/input_manager.h"
+#include	"../state/gamemode_controller.h"
 #include	"../../application.h"
 #include	"ui_button.h"
 
@@ -93,9 +94,15 @@ void PauseEndless::ObjectUpdate()
 			mpButtonBg->SetIsActive(false);
 		}
 		if (mpButton->GetSelectNum() == 1)
+		{
+			mParent->GetComponent<Component::GameModeController>()->CurrentAfterChange();
 			SceneManager::GetInstance()->SetNextScene("Mode");
+		}
 		if (mpButton->GetSelectNum() == 2)
+		{
+			mParent->GetComponent<Component::GameModeController>()->CurrentAfterChange();
 			SceneManager::GetInstance()->SetNextScene("Title");
+		}
 		mpButton->SetIsPressed(false);
 	}
 }

@@ -6,13 +6,13 @@ class GameObject;
 class ComponentBase
 {
 protected:
-	GameObject* mOwner;		// 自身を所有しているゲームオブジェクト
+	GameObject* mOwner = nullptr;		// 自身を所有しているゲームオブジェクト
 	std::string	mName;		// 名前
 	ObjectTag mTag;
 	ObjectState mState;
 	bool mIsCreate = false;
 public:
-	ComponentBase(std::string mName) :mOwner(nullptr), mName(mName), mState(ObjectState::eActive) {}
+	ComponentBase(std::string mName) : mName(mName), mState(ObjectState::eActive) {}
 	ComponentBase(GameObject* mOwner) :mOwner(mOwner) {}
 	virtual ~ComponentBase() { Uninit(); mOwner = nullptr; }
 

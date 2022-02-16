@@ -19,6 +19,7 @@ Endless::Endless()
 	SceneManager::GetInstance()->GetCurrentScene()->AddGameObject(p);
 	p->SetIsActive(false);
 	mModeObjList.emplace_back(p);
+	mPauseBt = p;
 
 	Dix::sp<DiceManagerAccess> dicemanager;
 	dicemanager.SetPtr(new DiceManagerAccess);
@@ -43,6 +44,11 @@ Endless::~Endless()
 {
 }
 
+void Endless::Start(Component::GameModeController * _c)
+{
+	mHolder = _c;
+}
+
 void Endless::Exec()
 {
 	// –ß‚é‚ð‰Ÿ‚³‚ê‚½‚Æ‚«‚Ìˆ—
@@ -55,6 +61,8 @@ void Endless::Exec()
 
 void Endless::BeforeChange()
 {
+	mPauseBt->SetParent(mHolder->GetOwner());
+
 	StageDataManager::GetInstance().SetCurrentStage("endless");
 	Dix::wp<StageData> stageData;
 	stageData = StageDataManager::GetInstance().GetCurrentStage();
