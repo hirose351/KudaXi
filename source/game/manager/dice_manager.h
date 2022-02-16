@@ -49,6 +49,8 @@ private:
 	int GetDiceRandomNum(int _rndNum);
 
 	int mEndlessCnt = 0;
+	// ¶¬o—ˆ‚éƒ}ƒX‚ğ•Ô‚·
+	INT2 GetSpawnDicePos(int _rndNum);
 
 public:
 	static DiceManager* GetInstance() {

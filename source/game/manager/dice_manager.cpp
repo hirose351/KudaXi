@@ -117,19 +117,21 @@ void DiceManager::EndleesUpdate()
 
 		// ランダムで出したマップ位置にDiceが存在すればコンティニュー
 		int num = rand100(mt) % (mCurrentStageData->mMapSizeWidth*mCurrentStageData->mMapSizeHeight);
-		int z = num / mCurrentStageData->mMapSizeWidth;
-		int x = num % mCurrentStageData->mMapSizeHeight;
-		if (mDiceMap[z][x] != NODICE)
-			return;
-		// プレイヤーとその周りで、他が埋まっていなければコンティニュー
-		if (x <= mPlayerPos.x + 1 && x >= mPlayerPos.x - 1 && z <= mPlayerPos.z + 1 && z >= mPlayerPos.z - 1)
-			if (mpDiceList.size() < mCurrentStageData->mMapSizeWidth*mCurrentStageData->mMapSizeHeight - 9)
-				return;
+		//int z = num / mCurrentStageData->mMapSizeWidth;
+		//int x = num % mCurrentStageData->mMapSizeHeight;
+		//if (mDiceMap[z][x] != NODICE)
+		//	return;
+		//// プレイヤーとその周りで、他が埋まっていなければコンティニュー
+		//if (x <= mPlayerPos.x + 1 && x >= mPlayerPos.x - 1 && z <= mPlayerPos.z + 1 && z >= mPlayerPos.z - 1)
+		//	if (mpDiceList.size() < mCurrentStageData->mMapSizeWidth*mCurrentStageData->mMapSizeHeight - 9)
+		//		return;
+
+		INT2 mapPos(GetSpawnDicePos(num));
 
 		// Dice生成
 		Dix::sp<Dice> dice;
 		dice.SetPtr(new Dice);
-		dice->GetTransform()->SetPositionMove(Float3(DICE_SCALE*x, -DICE_SCALE_HALF, -DICE_SCALE * z));
+		dice->GetTransform()->SetPositionMove(Float3(DICE_SCALE*mapPos.x, -DICE_SCALE_HALF, -DICE_SCALE * mapPos.z));
 		dice->GetTransform()->SetAngle(mSpawnAngle[GetDiceRandomNum(rand100(mt))]);
 		dice->GetTransform()->CreateWordMtx();
 
@@ -138,9 +140,9 @@ void DiceManager::EndleesUpdate()
 		DX11MtxRotationY(mSpawnAngle[5 + rand100(mt) % 4].y, angleMtx);
 		DX11MtxMultiply(dice->GetTransform()->worldMtx, angleMtx, dice->GetTransform()->worldMtx);
 
-		dice->SetMapPos(INT3(x, 0, z));
-		mDiceMap[z][x] = dice->GetObjectID();
-		dice->SetName(("Dice" + std::to_string(mDiceMap[z][x])));	// オブジェクトの名前に添え字を加える
+		dice->SetMapPos(INT3(mapPos.x, 0, mapPos.z));
+		mDiceMap[mapPos.z][mapPos.x] = dice->GetObjectID();
+		dice->SetName(("Dice" + std::to_string(mDiceMap[mapPos.z][mapPos.x])));	// オブジェクトの名前に添え字を加える
 		dice->Init();
 
 		mpDiceList.emplace_back(dice);	// vector配列に追加
@@ -484,6 +486,30 @@ int DiceManager::GetDiceRandomNum(int _rndNum)
 	return 0;
 }
 
+INT2 DiceManager::GetSpawnDicePos(int _rndNum)
+{
+	while (true)
+	{
+
+		INT2 rndMapPos(_rndNum % mCurrentStageData->mMapSizeWidth % mCurrentStageData->mMapSizeHeight, _rndNum / mCurrentStageData->mMapSizeWidth);
+
+		// すでにサイコロがあればコンティニュー
+		if (mDiceMap[rndMapPos.z][rndMapPos.x] != NODICE)
+		{
+			_rndNum++;
+			continue;
+		}
+		// プレイヤーとその周りで、他が埋まっていなければコンティニュー
+		if (rndMapPos.x <= mPlayerPos.x + 1 && rndMapPos.x >= mPlayerPos.x - 1 && rndMapPos.z <= mPlayerPos.z + 1 && rndMapPos.z >= mPlayerPos.z - 1)
+			if (mpDiceList.size() < mCurrentStageData->mMapSizeWidth*mCurrentStageData->mMapSizeHeight - 9)
+			{
+				_rndNum++;
+				continue;
+			}
+		return rndMapPos;
+	}
+}
+
 void DiceManager::CreateInit()
 {
 	mSelectNum = 0;
@@ -495,8 +521,6 @@ void DiceManager::CreateInit()
 	{
 		MessageBox(nullptr, "Diceモデル 読み込みエラー", "error", MB_OK);
 	}
-
-
 }
 
 void DiceManager::CreateUpdate()
@@ -603,7 +627,6 @@ void DiceManager::CreateImguiDraw()
 		mpDiceList[mSelectNum]->ImguiCreateDraw();
 }
 
-
 bool DiceManager::CreateAddDice()
 {
 	mCurrentStageData = StageDataManager::GetInstance().GetCurrentStage();
@@ -634,7 +657,6 @@ bool DiceManager::CreateAddDice()
 			}
 		}
 	}
-
 	return false;
 }
 
@@ -724,13 +746,11 @@ INT2 DiceManager::GetMoveMapPos(Direction _direction, INT2 _mapPos)
 		break;
 	}
 	}
-
 	return INT2(0, 0);
 }
 
 void DiceManager::SetCreateRemoveDice(int _diceId)
 {
-	//for (auto itDice : mpDiceList)
 	for (auto itDice = mpDiceList.begin(); itDice != mpDiceList.end();)
 	{
 		if ((*itDice)->GetObjectID() == _diceId)
@@ -757,7 +777,6 @@ Dix::wp<Dice> DiceManager::GetCreateDice(INT2 _mapPos)
 			return dice;
 		}
 	}
-
 	return NULL;
 }
 
