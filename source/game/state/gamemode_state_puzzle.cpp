@@ -102,16 +102,20 @@ Puzzle::~Puzzle()
 
 void Puzzle::Exec()
 {
+	// カメラが動いている状態なら
 	if (mIsCameraMove)
 	{
 		if (mCameraEye->GetComponent<Component::Easing>()->GetEasingListCnt() == 0)
 		{
+			for (Dix::wp<GameObject> obj : mModeObjList)
+				obj->Update();
+
 			mHolder->ChangeMode(eSelect);
 			// BGM設定
 			StopSound(SOUND_LABEL_BGM_GAME);
 			PlaySound(SOUND_LABEL_BGM_TITLE);
 		}
-		return;
+		return;		// 他の更新はされない
 	}
 
 	// カメラが動きを止めたらポーズ状態を解除
@@ -134,6 +138,9 @@ void Puzzle::Exec()
 	// ステップが0になった時
 	if (mStep <= 0 && !mIsClear)
 	{
+		// ポーズになる前にステップ数オブジェクト更新
+		mUiStepNum->Update();
+		// ポーズにする
 		SceneManager::GetInstance()->GetCurrentScene()->SetIsPause(true);
 		// クリアオーバー表示
 		mUiClearOver->SetIsActive(true);
@@ -152,7 +159,6 @@ void Puzzle::Exec()
 			PlaySound(SOUND_LABEL_SE_RETRY);
 		}
 	}
-
 
 	// 戻るを押されたときの処理
 	if (InputManager::GetInstance().GetStateTrigger(InputMode::eUi, static_cast<int>(UiAction::eCancel)))
