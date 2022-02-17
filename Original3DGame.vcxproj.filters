@@ -423,9 +423,6 @@
     <ClCompile Include="source\game\component\easing_component.cpp">
       <Filter>ソース ファイル\game\component\ui\easing</Filter>
     </ClCompile>
-    <ClCompile Include="source\game\gameobject\access_dice_manager.cpp">
-      <Filter>ソース ファイル\game\gameobject\access</Filter>
-    </ClCompile>
     <ClCompile Include="source\game\manager\draw_manager.cpp">
       <Filter>ソース ファイル\game\manager\draw</Filter>
     </ClCompile>
@@ -482,6 +479,9 @@
     </ClCompile>
     <ClCompile Include="source\system\util\sphere.cpp">
       <Filter>ソース ファイル\system\util</Filter>
+    </ClCompile>
+    <ClCompile Include="source\game\gameobject\access_dice_endless_manager.cpp">
+      <Filter>ソース ファイル\game\gameobject\access</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -743,9 +743,6 @@
     <ClInclude Include="source\game\component\easing_component.h">
       <Filter>ソース ファイル\game\component\ui\easing</Filter>
     </ClInclude>
-    <ClInclude Include="source\game\gameobject\access_dice_manager.h">
-      <Filter>ソース ファイル\game\gameobject\access</Filter>
-    </ClInclude>
     <ClInclude Include="source\game\manager\draw_manager.h">
       <Filter>ソース ファイル\game\manager\draw</Filter>
     </ClInclude>
@@ -808,6 +805,9 @@
     </ClInclude>
     <ClInclude Include="source\memory.h">
       <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="source\game\gameobject\access_dice_endless_manager.h">
+      <Filter>ソース ファイル\game\gameobject\access</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -49,8 +49,11 @@ private:
 	int GetDiceRandomNum(int _rndNum);
 
 	int mEndlessCnt = 0;
+
 	// 生成出来るマスを返す
-	INT2 GetSpawnDicePos(int _rndNum);
+	INT2 GetSpawnPos(int _rndNum);
+	// ランダム生成位置を返す
+	INT2 GetRandomSpawnPos(int _rndNum);
 
 public:
 	static DiceManager* GetInstance() {
@@ -59,9 +62,6 @@ public:
 	}
 	DiceManager();
 	~DiceManager() {};
-
-	// Dice生成
-	void PuzzleInit();
 
 	void DiceMapCreate(bool _isUp);
 
@@ -90,14 +90,11 @@ public:
 
 	/// ↓Create用 ////////////////////
 
-	// 初期化
 	void CreateInit();
-	// 初期化
-	void DataCreate();
-	// 更新
 	void CreateUpdate();
-
 	void CreateImguiDraw();
+
+	void DataCreate();
 
 	INT2 GetMoveMapPos(Direction _direction, INT2 _mapPos);
 
@@ -116,6 +113,7 @@ public:
 
 	/// ↓Puzzle用 ////////////////////
 
+	void PuzzleInit();
 	int GetStepCount() { return mStepCount; };
 	void SetIsStepCount(bool _flg);
 	bool GetIsAllAligned();
@@ -124,4 +122,5 @@ public:
 
 	void EndlessInit();
 	void EndleesUpdate();
+	bool GetEndlessIsOver();
 };

@@ -6,6 +6,8 @@ namespace GameModeState {
 	{
 	private:
 		Dix::wp<GameObject> mPauseBt;
+		Dix::wp<GameObject> mOverImage;
+		bool mIsOver = false;
 		/// Todo:ƒXƒRƒA‚Ìˆ—‚Í‚±‚±‚ÅŠÇ—‚µ‚½‚¢
 
 	public:

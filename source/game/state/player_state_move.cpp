@@ -172,21 +172,33 @@ void Move::SetMapPos()
 void Move::MoveDirectionLimitDice()
 {
 	// 右
-	if ((*mDirection) != Direction::eRight)
+	if ((*mDirection) != Direction::eRight && (*mDirection) != Direction::eLeft)
 		if (mMapPos.x*DICE_SCALE + DICE_SCALE_HALF - mTransform->scale.x / 2.0f < mTransform->GetPosition().x)
+		{
 			mTransform->SetPositionX(mMapPos.x*DICE_SCALE + DICE_SCALE_HALF - mTransform->scale.x / 2.0f);
+			mTransform->move.x = 0;
+		}
 	// 左
-	if ((*mDirection) != Direction::eLeft)
+	if ((*mDirection) != Direction::eRight && (*mDirection) != Direction::eLeft)
 		if (mMapPos.x*DICE_SCALE - DICE_SCALE_HALF + mTransform->scale.x / 2.0f > mTransform->GetPosition().x)
+		{
 			mTransform->SetPositionX(mMapPos.x*DICE_SCALE - DICE_SCALE_HALF + mTransform->scale.x / 2.0f);
+			mTransform->move.x = 0;
+		}
 	// 上
-	if ((*mDirection) != Direction::eUp)
+	if ((*mDirection) != Direction::eUp && (*mDirection) != Direction::eDown)
 		if (-mMapPos.z*DICE_SCALE + DICE_SCALE_HALF - mTransform->scale.z / 2.0f < mTransform->GetPosition().z)
+		{
 			mTransform->SetPositionZ(-mMapPos.z*DICE_SCALE + DICE_SCALE_HALF - mTransform->scale.z / 2.0f);
+			mTransform->move.z = 0;
+		}
 	// 下
-	if ((*mDirection) != Direction::eDown)
+	if ((*mDirection) != Direction::eUp && (*mDirection) != Direction::eDown)
 		if (-mMapPos.z*DICE_SCALE - DICE_SCALE_HALF + mTransform->scale.z / 2.0f > mTransform->GetPosition().z)
+		{
 			mTransform->SetPositionZ(-mMapPos.z*DICE_SCALE - DICE_SCALE_HALF + mTransform->scale.z / 2.0f);
+			mTransform->move.z = 0;
+		}
 }
 
 void Move::MoveLimitDice(INT3 _dicePos)
@@ -284,8 +296,7 @@ void Move::Exec()
 	}
 	else
 	{
-		// 入力していなければ動かない
-		//mTransform->move = 0;
+		// 入力していなければ
 		mDiceDownFrame = 0;
 	}
 
@@ -352,9 +363,7 @@ void Move::Exec()
 	}
 
 	mTransform->CreateWordMtx();
-
-	if (*mFoot == Foot::eDice)
-		MoveDirectionLimitDice();
+	MoveDirectionLimitDice();
 
 	// 自分のマップ位置にあるDiceのポインタ取得
 	mpOperationDice = DiceManager::GetInstance()->GetDice(mMapPos);

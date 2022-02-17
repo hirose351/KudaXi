@@ -2,11 +2,12 @@
 #include	"../manager/dice_manager.h"
 #include	"../manager/input_manager.h"
 #include	"../gameobject/pause_endless.h"
-#include	"../gameobject/access_dice_manager.h"
+#include	"../gameobject/access_dice_endless_manager.h"
 #include	"../gameobject/ui_image.h"
 #include	"../component/player_controller.h"
 #include	"../component/quad2d_component.h"
 #include	"../../system/util/XAudio2.h"
+#include	"../../application.h"
 
 #define ENDLESSMAPSIZE (7)
 
@@ -17,14 +18,12 @@ Endless::Endless()
 	Dix::sp<myUI::PauseEndless> p;
 	p.SetPtr(new myUI::PauseEndless);
 	SceneManager::GetInstance()->GetCurrentScene()->AddGameObject(p);
-	p->SetIsActive(false);
 	mModeObjList.emplace_back(p);
 	mPauseBt = p;
 
-	Dix::sp<DiceManagerAccess> dicemanager;
-	dicemanager.SetPtr(new DiceManagerAccess);
+	Dix::sp<DiceEndlessManagerAccess> dicemanager;
+	dicemanager.SetPtr(new DiceEndlessManagerAccess);
 	SceneManager::GetInstance()->GetCurrentScene()->AddGameObject(dicemanager);
-	dicemanager->SetIsActive(false);
 	mModeObjList.emplace_back(dicemanager);
 
 	// PauseUI
@@ -36,8 +35,22 @@ Endless::Endless()
 	quadComponent->SetInfo("assets/image/ui/pause_ui.png", XMFLOAT4(1, 1, 1, 1));
 	quadComponent->SetOrderInLayer(1);
 	SceneManager::GetInstance()->GetCurrentScene()->AddGameObject(pauseUi);
-	pauseUi->SetIsActive(false);
 	mModeObjList.emplace_back(pauseUi);
+
+	// OverUI
+	Dix::sp<myUI::Image> overImage;
+	overImage.SetPtr(new myUI::Image);
+	overImage->GetTransform()->SetPositionXYZ(Float3(Application::CLIENT_WIDTH / 2.0f, Application::CLIENT_HEIGHT / 2.0f, 0));
+	overImage->GetTransform()->SetScale(Float3(500.0f, 250.0f, 0));
+	SceneManager::GetInstance()->GetCurrentScene()->AddGameObject(overImage);
+	Component::Quad2d* clearOverQuad = overImage->AddComponent<Component::Quad2d>();
+	clearOverQuad->SetInfo("assets/image/ui/clearover.png", XMFLOAT4(1, 1, 1, 1), 2);
+	clearOverQuad->SetOrderInLayer(20);
+	mModeObjList.emplace_back(overImage);
+	mOverImage = overImage;
+
+	for (Dix::wp<GameObject> obj : mModeObjList)
+		obj->SetIsActive(false);
 }
 
 Endless::~Endless()
@@ -56,6 +69,18 @@ void Endless::Exec()
 	{
 		AfterChange();
 		SceneManager::GetInstance()->SetNextScene("Mode");
+	}
+
+	if (mIsOver)
+		return;
+
+	if (DiceManager::GetInstance()->GetEndlessIsOver())
+	{
+		// É|Å[ÉYÇ…Ç∑ÇÈ
+		SceneManager::GetInstance()->GetCurrentScene()->SetIsPause(true);
+		mOverImage->SetIsActive(true);
+		PlaySound(SOUND_LABEL_SE_RETRY);
+		mIsOver = true;
 	}
 }
 
@@ -86,7 +111,8 @@ void Endless::BeforeChange()
 	}
 
 	mHolder->GetPlayer()->GetComponent<Component::PlayerController>()->SetDiceUi();
-
+	mOverImage->SetIsActive(false);
+	mIsOver = false;
 	// BGMê›íË
 	StopSound(SOUND_LABEL_BGM_TITLE);
 	PlaySound(SOUND_LABEL_BGM_GAME);
@@ -99,6 +125,7 @@ void Endless::AfterChange()
 	{
 		obj->SetIsActive(false);
 	}
+	SceneManager::GetInstance()->GetCurrentScene()->SetIsPause(false);
 
 	// BGMê›íË
 	StopSound(SOUND_LABEL_BGM_GAME);

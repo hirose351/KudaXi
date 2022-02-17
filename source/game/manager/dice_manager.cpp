@@ -107,7 +107,9 @@ void DiceManager::EndleesUpdate()
 
 		// ランダムな値取得
 		int num = rand100(mt) % (mCurrentStageData->mMapSizeWidth*mCurrentStageData->mMapSizeHeight);
-		INT2 mapPos(GetSpawnDicePos(num));
+		INT2 mapPos(GetRandomSpawnPos(num));
+		if (mapPos == NODICE)
+			return;
 
 		// Dice生成
 		Dix::sp<Dice> dice;
@@ -130,7 +132,6 @@ void DiceManager::EndleesUpdate()
 		SceneManager::GetInstance()->GetCurrentScene()->AddGameObject(dice);
 	}
 
-	/// Todo:埋まってたらゲームオーバー処理
 	if (mCurrentStageData->mMapSizeWidth*mCurrentStageData->mMapSizeHeight <= mpDiceList.size())
 	{
 		return;
@@ -144,7 +145,9 @@ void DiceManager::EndleesUpdate()
 
 	// ランダムな値取得
 	int num = rand100(mt) % (mCurrentStageData->mMapSizeWidth*mCurrentStageData->mMapSizeHeight);
-	INT2 mapPos(GetSpawnDicePos(num));
+	INT2 mapPos(GetRandomSpawnPos(num));
+	if (mapPos == NODICE)
+		return;
 
 	// Dice生成
 	Dix::sp<Dice> dice;
@@ -165,6 +168,20 @@ void DiceManager::EndleesUpdate()
 
 	mpDiceList.emplace_back(dice);	// vector配列に追加
 	SceneManager::GetInstance()->GetCurrentScene()->AddGameObject(dice);
+}
+
+bool DiceManager::GetEndlessIsOver()
+{
+	if (mCurrentStageData->mMapSizeWidth*mCurrentStageData->mMapSizeHeight <= mpDiceList.size())
+	{
+		for (auto &obj : mpDiceList)
+		{
+			if (obj->GetDiceStatus() != DiceStatus::eNormal)
+				return false;
+		}
+		return true;
+	}
+	return false;
 }
 
 void DiceManager::ImguiDraw()
@@ -462,26 +479,60 @@ int DiceManager::GetDiceRandomNum(int _rndNum)
 	return 0;
 }
 
-INT2 DiceManager::GetSpawnDicePos(int _rndNum)
+INT2 DiceManager::GetSpawnPos(int _rndNum)
+{
+	while (true)
+	{
+		_rndNum %= mCurrentStageData->mMapSizeWidth*mCurrentStageData->mMapSizeHeight;
+		for (int z = 0; z < mCurrentStageData->mMapSizeHeight; z++)
+			for (int x = 0; x < mCurrentStageData->mMapSizeWidth; x++)
+			{
+				if (_rndNum == x + z * mCurrentStageData->mMapSizeWidth)
+				{
+					if (mDiceMap[z][x] == NODICE)
+					{
+						// プレイヤーとその周りで、他が埋まっていなければやり直し
+						if (x <= mPlayerPos.x + 1 && x >= mPlayerPos.x - 1 && z <= mPlayerPos.z + 1 && z >= mPlayerPos.z - 1)
+						{
+							if (mpDiceList.size() >= mCurrentStageData->mMapSizeWidth*mCurrentStageData->mMapSizeHeight - 9)
+							{
+								return INT2(x, z);
+							}
+						}
+						else
+						{
+							return INT2(x, z);
+						}
+					}
+					_rndNum++;
+				}
+			}
+	}
+	return INT2(NODICE);
+}
+
+INT2 DiceManager::GetRandomSpawnPos(int _rndNum)
 {
 	while (true)
 	{
 
-		INT2 rndMapPos(_rndNum % mCurrentStageData->mMapSizeWidth % mCurrentStageData->mMapSizeHeight, _rndNum / mCurrentStageData->mMapSizeWidth);
+		INT2 rndMapPos(GetSpawnPos(_rndNum));
+		//INT2 rndMapPos(_rndNum % mCurrentStageData->mMapSizeWidth % mCurrentStageData->mMapSizeHeight, _rndNum / mCurrentStageData->mMapSizeWidth);
 
-		// すでにサイコロがあればコンティニュー
-		if (mDiceMap[rndMapPos.z][rndMapPos.x] != NODICE)
-		{
-			_rndNum++;
-			continue;
-		}
+		//// すでにサイコロがあればコンティニュー
+		//if (mDiceMap[rndMapPos.z][rndMapPos.x] != NODICE)
+		//{
+		//	_rndNum++;
+		//	continue;
+		//}
+
 		// プレイヤーとその周りで、他が埋まっていなければコンティニュー
-		if (rndMapPos.x <= mPlayerPos.x + 1 && rndMapPos.x >= mPlayerPos.x - 1 && rndMapPos.z <= mPlayerPos.z + 1 && rndMapPos.z >= mPlayerPos.z - 1)
-			if (mpDiceList.size() < mCurrentStageData->mMapSizeWidth*mCurrentStageData->mMapSizeHeight - 9)
-			{
-				_rndNum++;
-				continue;
-			}
+		//if (rndMapPos.x <= mPlayerPos.x + 1 && rndMapPos.x >= mPlayerPos.x - 1 && rndMapPos.z <= mPlayerPos.z + 1 && rndMapPos.z >= mPlayerPos.z - 1)
+		//	if (mpDiceList.size() < mCurrentStageData->mMapSizeWidth*mCurrentStageData->mMapSizeHeight - 9)
+		//	{
+		//		_rndNum++;
+		//		continue;
+		//	}
 		if (rndMapPos.x < mCurrentStageData->mMapSizeWidth&&rndMapPos.z < mCurrentStageData->mMapSizeHeight)
 			return rndMapPos;
 	}

@@ -1,12 +1,12 @@
 #pragma once
 #include	"gameobject.h"
 
-class DiceManagerAccess : public GameObject
+class DiceEndlessManagerAccess : public GameObject
 {
 private:
 
 public:
-	DiceManagerAccess();
+	DiceEndlessManagerAccess();
 
 	void ObjectInit() override;
 	void ObjectUpdate()override;

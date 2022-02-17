@@ -154,7 +154,7 @@
     <ClCompile Include="source\game\gameobject\access_camera_eye.cpp" />
     <ClCompile Include="source\game\gameobject\access_camera_lookat.cpp" />
     <ClCompile Include="source\game\gameobject\access_dice_create_manager.cpp" />
-    <ClCompile Include="source\game\gameobject\access_dice_manager.cpp" />
+    <ClCompile Include="source\game\gameobject\access_dice_endless_manager.cpp" />
     <ClCompile Include="source\game\gameobject\camera.cpp" />
     <ClCompile Include="source\game\gameobject\dice.cpp" />
     <ClCompile Include="source\game\gameobject\effect_fruit.cpp" />
@@ -250,7 +250,7 @@
     <ClInclude Include="source\game\gameobject\access_camera_eye.h" />
     <ClInclude Include="source\game\gameobject\access_camera_lookat.h" />
     <ClInclude Include="source\game\gameobject\access_dice_create_manager.h" />
-    <ClInclude Include="source\game\gameobject\access_dice_manager.h" />
+    <ClInclude Include="source\game\gameobject\access_dice_endless_manager.h" />
     <ClInclude Include="source\game\gameobject\camera.h" />
     <ClInclude Include="source\game\gameobject\CLight.h" />
     <ClInclude Include="source\game\gameobject\dice.h" />
