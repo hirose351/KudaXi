@@ -13,7 +13,8 @@ private:
 	INT3 mMapPos;													// マップ上の位置
 	DiceFruit mTopDiceTypeFruit;									// 上面の果物
 	int mTopDiceTypeNum;											// 上面の数字
-	DiceStatus mSts = DiceStatus::eNormal;							// 状態
+	DiceStatus mDiceSts = DiceStatus::eNormal;						// 状態
+	DiceStatus mDiceMoveSts = DiceStatus::eNormal;					// 移動時の状態
 	Direction mDirection = Direction::eNeutral;						// サイコロの移動方向	
 
 	DirectX::XMFLOAT4X4 mStartMtx;									// 1フレームでの変化を表す行列	
@@ -76,7 +77,12 @@ public:
 
 	// モデルの状態を取得する(沈んでいるか)
 	DiceStatus GetDiceStatus() {
-		return mSts;
+		return mDiceSts;
+	}
+
+	// モデルの状態を取得する(沈んでいるか)
+	DiceStatus GetDiceMoveStatus() {
+		return mDiceMoveSts;
 	}
 
 	Direction GetDirection() {
@@ -92,6 +98,6 @@ public:
 	bool GetPushEnd() { return mCrrentPushCnt == mMoveCnt; }
 	bool GetRollEnd() { return mCrrentRotCnt >= mMoveCnt; }
 
-	void SetDiceSts(DiceStatus _sts) { mSts = _sts; }
+	void SetDiceSts(DiceStatus _sts) { mDiceSts = _sts; }
 };
 

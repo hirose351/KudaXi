@@ -304,11 +304,13 @@ void DiceManager::CheckAligned(Dice* _dice)
 		}
 	}
 
-	/// ハッピーワンチェック ////////////////////////////////////////////////
+	/// ↓ハッピーワンチェック ////////////////////////////////////////////////
 	if (_dice->GetTopDiceTypeNum() == 1)
 	{
 		INT3 mapPos = _dice->GetMapPos();
 		INT3 ans[4] = { INT3(mapPos.x, 0, mapPos.z - 1), INT3(mapPos.x, 0, mapPos.z + 1), INT3(mapPos.x - 1, 0, mapPos.z), INT3(mapPos.x + 1, 0, mapPos.z) };
+
+		// 隣接しているDiceの状態を見る
 		for (int i = 0; i < 4; i++)
 		{
 			if ((i == 0 && ans[i].z < 0) || (i == 1 && ans[i].z > mCurrentStageData->mMapSizeHeight - 1))
@@ -319,6 +321,7 @@ void DiceManager::CheckAligned(Dice* _dice)
 			ansDice = GetListInDice(ans[i].x, ans[i].z);
 			if (ansDice.IsExist())
 			{
+				// 隣接しているDiceが存在していて沈んでいる途中の時
 				if (ansDice->GetDiceStatus() == DiceStatus::eDown || ansDice->GetDiceStatus() == DiceStatus::eHalfDown)
 				{
 					for (auto d : mpDiceList)
@@ -327,13 +330,16 @@ void DiceManager::CheckAligned(Dice* _dice)
 							continue;
 						d->SetHappyOne();
 					}
+					// 押されていたなら検索対象Diceも消える
+					if (_dice->GetDiceMoveStatus() == DiceStatus::ePush)
+						_dice->SetDownPosition();
 					return;
 				}
 			}
 		}
 		return;
 	}
-	/// ハッピーワンチェック ////////////////////////////////////////////////
+	/// ↑ハッピーワンチェック ////////////////////////////////////////////////
 
 	// 現在のブロック位置をチェック用配列にコピー
 	memcpy((void *)mCheckMap, (void *)mDiceMap, sizeof(mDiceMap));

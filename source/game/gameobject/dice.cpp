@@ -30,9 +30,9 @@ Dice::~Dice()
 void Dice::ObjectInit()
 {
 	if (SceneManager::GetInstance()->GetGameMode() != GameMode::eEndless)
-		mSts = DiceStatus::eCreate;
+		mDiceSts = DiceStatus::eCreate;
 
-	if (mSts == DiceStatus::eCreate)
+	if (mDiceSts == DiceStatus::eCreate)
 		return;
 
 	mDirection = Direction::eNeutral;
@@ -49,7 +49,7 @@ void Dice::ObjectInit()
 
 void Dice::ObjectUpdate()
 {
-	switch (mSts)
+	switch (mDiceSts)
 	{
 	case DiceStatus::eUp:
 		GetComponent<Component::Collision>()->SetColor(XMFLOAT4(1, 1, 1, 0));
@@ -96,7 +96,7 @@ void Dice::SetHappyOne()
 
 bool Dice::SetPushAction(Direction _direction)
 {
-	if (mSts != DiceStatus::eNormal)
+	if (mDiceSts != DiceStatus::eNormal)
 		return false;
 	if (!DiceManager::GetInstance()->CanDiceMove(this, _direction))
 		return false;
@@ -117,7 +117,7 @@ bool Dice::SetPushAction(Direction _direction)
 		mTransform->move.x = mPushPositionPerFrame;
 		break;
 	}
-	mSts = DiceStatus::ePush;
+	mDiceSts = DiceStatus::ePush;
 	mDirection = _direction;
 	mCrrentPushCnt = 0;
 	return true;
@@ -125,7 +125,7 @@ bool Dice::SetPushAction(Direction _direction)
 
 bool Dice::SetRollAction(Direction _direction)
 {
-	if (mSts != DiceStatus::eNormal)
+	if (mDiceSts != DiceStatus::eNormal)
 		return false;
 	if (!DiceManager::GetInstance()->CanDiceMove(this, _direction))
 		return false;
@@ -145,7 +145,7 @@ bool Dice::SetRollAction(Direction _direction)
 		mTransform->angle.z = -90.0f;
 		break;
 	}
-	mSts = DiceStatus::eRoll;
+	mDiceSts = DiceStatus::eRoll;
 	mDirection = _direction;
 	mCrrentRotCnt = 0;
 	mStartMtx = mTransform->worldMtx;
@@ -164,13 +164,13 @@ bool Dice::CheckDiceDirection(Direction _direction)
 void Dice::SetStartUpPosition()
 {
 	mTransform->move.y = mUpDownPositionPerFrame;
-	mSts = DiceStatus::eHalfUp;
+	mDiceSts = DiceStatus::eHalfUp;
 }
 
 void Dice::SetDownPosition()
 {
 	mTransform->move = Float3(0, -mUpDownPositionPerFrame, 0);
-	mSts = DiceStatus::eDown;
+	mDiceSts = DiceStatus::eDown;
 	GetComponent<Component::Collision>()->SetColor(XMFLOAT4(1, 0, 0, 0.5f));
 }
 
@@ -181,7 +181,8 @@ void Dice::Push()
 	if (mCrrentPushCnt >= mMoveCnt)
 	{
 		mDirection = Direction::eNeutral;
-		mSts = DiceStatus::eNormal;
+		mDiceMoveSts = mDiceSts;
+		mDiceSts = DiceStatus::eNormal;
 		// 接しているブロックと面が同じかチェック
 		DiceManager::GetInstance()->CheckAligned(this);
 		PlaySound(SOUND_LABEL_SE_DICE);
@@ -246,7 +247,8 @@ void Dice::Roll()
 		endpos.y = DICE_SCALE_HALF;
 		mTransform->SetPositionXYZ(endpos);
 		mDirection = Direction::eNeutral;
-		mSts = DiceStatus::eNormal;
+		mDiceMoveSts = mDiceSts;
+		mDiceSts = DiceStatus::eNormal;
 		// 回転後の面に設定
 		SetOverPlane();
 		// 接しているブロックと面が同じかチェック
@@ -264,12 +266,12 @@ void Dice::Up()
 	if (mCrrentPushCnt >= mUpDownCnt)
 	{
 		mDirection = Direction::eNeutral;
-		mSts = DiceStatus::eNormal;
+		mDiceSts = DiceStatus::eNormal;
 	}
 	else if (mCrrentPushCnt >= mUpDownCnt / 2)
 	{
 		mDirection = Direction::eNeutral;
-		mSts = DiceStatus::eUp;
+		mDiceSts = DiceStatus::eUp;
 	}
 }
 
@@ -283,7 +285,7 @@ void Dice::Down()
 	else if (mTransform->position.y < 0)
 	{
 		mDirection = Direction::eNeutral;
-		mSts = DiceStatus::eHalfDown;
+		mDiceSts = DiceStatus::eHalfDown;
 	}
 }
 
