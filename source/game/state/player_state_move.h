@@ -13,6 +13,8 @@ namespace PlayerState {
 		bool CheckRoll();
 		void SetMapPos();
 
+		// 移動方向以外にはみ出さないよう移動制限
+		void MoveDirectionLimitDice();
 		// サイコロから出ないよう移動制限
 		void MoveLimitDice(INT3 _dicePos);
 

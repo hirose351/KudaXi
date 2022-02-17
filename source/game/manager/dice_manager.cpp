@@ -482,7 +482,8 @@ INT2 DiceManager::GetSpawnDicePos(int _rndNum)
 				_rndNum++;
 				continue;
 			}
-		return rndMapPos;
+		if (rndMapPos.x < mCurrentStageData->mMapSizeWidth&&rndMapPos.z < mCurrentStageData->mMapSizeHeight)
+			return rndMapPos;
 	}
 }
 
