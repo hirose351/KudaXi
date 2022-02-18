@@ -1,11 +1,10 @@
 #pragma once
-#include	"../../system/util/dixsmartptr.h"
 #include	"gameobject_utility.h"
 #include	"transform.h"
-#include	"../component/component_base.h"
+#include	"../../system/util/dixsmartptr.h"
 #include	"../../system/imgui/util/myimgui.h"
+#include	"../component/component_base.h"
 #include	"../manager/scene_manager.h"
-
 #include	<string>
 #include	<vector>
 
@@ -23,7 +22,7 @@ protected:
 	Dix::sp<Transform>	mTransform;				// 位置回転大きさ
 	bool				mIsStopPause;			// ポーズ時に止めるか
 	GameObject*			mParent = nullptr;		// 親オブジェクト
-	std::string			mSceneKey;
+	std::string			mSceneKey;				// 存在しているシーン名
 
 	std::vector<ComponentBase*> mComponentList; // 保持コンポーネントリスト
 
