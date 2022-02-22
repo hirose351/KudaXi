@@ -7,16 +7,16 @@
 #include	"../gameobject/stage.h"
 #include	"../gameobject/skydome.h"
 #include	"../gameobject/access_dice_create_manager.h"
-#include	"../manager/dice_manager.h"
 #include	"../component/map_pos_component.h"
 #include	"../component/map_move_component.h"
 #include	"../component/collision_component.h"
-#include	"../component/allcomponents.h"
+#include	"../component/model_component.h"
 #include	"../manager/stagedata_manager.h"
+#include	"../manager/dice_manager.h"
 #include	"../manager/input_manager.h"
-#include	"../../application.h"
-#include	"../../system/dx11/DX11util.h"
+#include	"../../system/dx11/dx11_util.h"
 #include	"../../system/util/XAudio2.h"
+#include	"../../application.h"
 #include	<stdio.h>
 #include	<string.h>
 
@@ -37,10 +37,10 @@ void StageCreateScene::SceneAfter()
 	if (SceneManager::GetInstance()->GetBeforeSceneKey() == "Mode")
 	{
 		StageDataManager::GetInstance().SetCurrentStage("create/init");
-		mStageData = StageDataManager::GetInstance().GetCurrentStage();
-		mStageData->mStageName = "create/init";
+		mpStageData = StageDataManager::GetInstance().GetCurrentStage();
+		mpStageData->mStageName = "create/init";
 		mSelectObjNum = 0;
-		mStage->Reset();
+		mpStage->Reset();
 		DiceManager::GetInstance()->Uninit();
 
 		StopSound(SOUND_LABEL_BGM_TITLE);
@@ -48,9 +48,9 @@ void StageCreateScene::SceneAfter()
 	else
 	{
 		DiceManager::GetInstance()->DataCreate();
-		mViewObjList[eDiceM]->Init();
-		mStage->Init();
-		mViewObjList[ePlayer]->GetComponent<Component::MapPos>()->SetMapPos(mStageData->mPlayerPos);
+		mpViewObjList[eDiceM]->Init();
+		mpStage->Init();
+		mpViewObjList[ePlayer]->GetComponent<Component::MapPos>()->SetMapPos(mpStageData->mPlayerPos);
 		char stageNameText[128] = "create/play";
 		if (mIsStagePlay)
 		{
@@ -60,7 +60,7 @@ void StageCreateScene::SceneAfter()
 		StopSound(SOUND_LABEL_BGM_GAME);
 	}
 
-	mStage->CameraUpdate();
+	mpStage->CameraUpdate();
 	PlaySound(SOUND_LABEL_BGM_CREATE);
 	mIsStagePlay = false;
 }
@@ -78,13 +78,13 @@ void StageCreateScene::SceneInit()
 	player->GetComponent<Component::Collision>()->SetColor(DirectX::XMFLOAT4(1.0f, 1.0f, 1.0f, 0.5f));
 	player->GetComponent<Component::Collision>()->SetOrderInLayer(30);
 	AddGameObject(player);
-	mViewObjList.emplace_back(player);
+	mpViewObjList.emplace_back(player);
 
 	Dix::sp<Stage> stage;
 	stage.SetPtr(new Stage);
-	mStage = stage;
+	mpStage = stage;
 	AddGameObject(stage);
-	mViewObjList.emplace_back(stage);
+	mpViewObjList.emplace_back(stage);
 
 	Dix::sp<Skydome> skydome;
 	skydome.SetPtr(new Skydome);
@@ -94,20 +94,20 @@ void StageCreateScene::SceneInit()
 	Dix::sp<DiceCreateManagerAccess> dicemanager;
 	dicemanager.SetPtr(new DiceCreateManagerAccess);
 	AddGameObject(dicemanager);
-	mViewObjList.emplace_back(dicemanager);
+	mpViewObjList.emplace_back(dicemanager);
 }
 
 void StageCreateScene::SceneUpdate()
 {
 	if (mSelectObjNum == 0)
 	{
-		mViewObjList[0]->GetComponent<Component::Collision>()->SetIsDraw(true);
-		mViewObjList[0]->GetComponent<Component::MapMove>()->SetState(ObjectState::eActive);
+		mpViewObjList[0]->GetComponent<Component::Collision>()->SetIsDraw(true);
+		mpViewObjList[0]->GetComponent<Component::MapMove>()->SetState(ObjectState::eActive);
 	}
 	else
 	{
-		mViewObjList[0]->GetComponent<Component::Collision>()->SetIsDraw(false);
-		mViewObjList[0]->GetComponent<Component::MapMove>()->SetState(ObjectState::ePaused);
+		mpViewObjList[0]->GetComponent<Component::Collision>()->SetIsDraw(false);
+		mpViewObjList[0]->GetComponent<Component::MapMove>()->SetState(ObjectState::ePaused);
 	}
 	DiceManager::GetInstance()->SetIsSelect(mSelectObjNum == eDiceM);
 
@@ -123,7 +123,7 @@ void StageCreateScene::ImguiDebug()
 	ImGui::SetNextWindowSize(ImVec2(350, 300), ImGuiCond_Once);
 	ImGui::Begin(u8"GameObject");
 	int cnt = 0;
-	for (auto &obj : mViewObjList)
+	for (auto &obj : mpViewObjList)
 	{
 		ImGui::RadioButton(obj->GetName().c_str(), &mSelectObjNum, cnt);
 		cnt++;
@@ -135,7 +135,7 @@ void StageCreateScene::ImguiDebug()
 	ImGui::Begin(u8"Inspector");
 	ImGui::SetNextTreeNodeOpen(true, ImGuiCond_Once);
 
-	mViewObjList[mSelectObjNum]->ImguiCreateDraw();
+	mpViewObjList[mSelectObjNum]->ImguiCreateDraw();
 
 	ImGui::End();
 
@@ -185,18 +185,18 @@ void StageCreateScene::RuleImGuiDraw()
 	ImGui::SetNextWindowSize(ImVec2(350, 150), ImGuiCond_Once);
 	ImGui::Begin(u8"ゲームルール");
 	ImGui::Text(u8"揃える例の面(数字)");
-	ImGui::SliderInt("TargetDiceType", &mStageData->mTargetDiceType, 1, 6);
+	ImGui::SliderInt("TargetDiceType", &mpStageData->mTargetDiceType, 1, 6);
 	ImGui::Text(u8"STEP数");
-	ImGui::SliderInt("step", &mStageData->mStep, 1, 30);
+	ImGui::SliderInt("step", &mpStageData->mStep, 1, 30);
 	ImGui::End();
 }
 
 void StageCreateScene::StageDataSave()
 {
-	StageData data = mStageData.At();
+	StageData data = mpStageData.At();
 
 	data.mStageName = mStageNameText;
-	data.mPlayerPos = mViewObjList[ePlayer]->GetComponent<Component::MapPos>()->GetMapPos();
+	data.mPlayerPos = mpViewObjList[ePlayer]->GetComponent<Component::MapPos>()->GetMapPos();
 
 	data.mDiceMtx.clear();
 	data.mDiceMtx.shrink_to_fit();
@@ -227,7 +227,7 @@ void StageCreateScene::StageDataSave()
 	}
 
 	StageDataManager::GetInstance().SaveStage(data);
-	mStageData->mStageName = "create/init";
+	mpStageData->mStageName = "create/init";
 }
 
 void StageCreateScene::StageDataLoad()
@@ -238,14 +238,14 @@ void StageCreateScene::StageDataLoad()
 		// そのステージのポインタを取得
 		Dix::wp<StageData> p = StageDataManager::GetInstance().GetStageData(mStageNameText);
 
-		mStageData.At() = p.At();
-		mStageData->mStageName = "create/init";
-		StageDataManager::GetInstance().SetCurrentStage(mStageData->mStageName);
+		mpStageData.At() = p.At();
+		mpStageData->mStageName = "create/init";
+		StageDataManager::GetInstance().SetCurrentStage(mpStageData->mStageName);
 		DiceManager::GetInstance()->DataCreate();
-		mViewObjList[eDiceM]->Init();
-		mStage->Init();
-		mStage->CameraUpdate();
-		mViewObjList[ePlayer]->GetComponent<Component::MapPos>()->SetMapPosMove(mStageData->mPlayerPos);
+		mpViewObjList[eDiceM]->Init();
+		mpStage->Init();
+		mpStage->CameraUpdate();
+		mpViewObjList[ePlayer]->GetComponent<Component::MapPos>()->SetMapPosMove(mpStageData->mPlayerPos);
 	}
 }
 
@@ -273,15 +273,15 @@ void StageCreateScene::StagePlay()
 {
 	// プレイ用ステージに保存
 	mBeforeStageName = mStageNameText;
-	mStageData->mStageName = "create/play";
-	strcpy(mStageNameText, mStageData->mStageName.c_str());
+	mpStageData->mStageName = "create/play";
+	strcpy(mStageNameText, mpStageData->mStageName.c_str());
 
 	if (mIsPlay)
 		StageDataManager::GetInstance().RemoveStageData(mStageNameText);
 
 	StageDataSave();
 	StageDataPlay();
-	mStage->Init();
+	mpStage->Init();
 
 	mIsStagePlay = true;
 

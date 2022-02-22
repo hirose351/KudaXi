@@ -11,7 +11,7 @@ class DiceManager :Uncopyable
 {
 private:
 	std::vector<Dix::wp<Dice>> mpDiceList;
-	Dix::wp<StageData> mCurrentStageData;
+	Dix::wp<StageData> mpCurrentStageData;
 
 	int mDiceMap[STAGESIZEMAX][STAGESIZEMAX];			// ブロック更新用マップ配列(-1:無し　0以上:ブロックあり,番号は生成された順)
 	int mCheckMap[STAGESIZEMAX][STAGESIZEMAX];			// 接地ブロックチェック用マップ配列
@@ -48,7 +48,7 @@ private:
 
 	int GetDiceRandomNum(int _rndNum);
 
-	int mEndlessCnt = 0;
+	int mEndlessCnt = 0;		// 初期生成数
 
 	// 生成出来るマスを返す
 	INT2 GetSpawnPos(int _rndNum);

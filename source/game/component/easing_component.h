@@ -29,7 +29,7 @@ namespace Component {
 		};
 
 		float mCurrentFrame;								// 経過時間
-		bool isStart = false;								// 開始したか
+		bool mIsStart = false;								// 開始したか
 		std::list<EasingFamily> mEasingList;				// イージングの塊が入ったリスト
 		bool mIsRepeat = false;								// 繰り返すか
 

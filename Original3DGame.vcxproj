@@ -190,10 +190,10 @@
     <ClCompile Include="source\game\state\player_state_push.cpp" />
     <ClCompile Include="source\game\state\player_state_roll.cpp" />
     <ClCompile Include="source\game\state\player_state_base.cpp" />
-    <ClCompile Include="source\system\dx11\CDirectXGraphics.cpp" />
+    <ClCompile Include="source\system\dx11\directx_graphics.cpp" />
     <ClCompile Include="source\system\dx11\DDSTextureLoader.cpp" />
-    <ClCompile Include="source\system\dx11\dx11mathutil.cpp" />
-    <ClCompile Include="source\system\dx11\DX11util.cpp" />
+    <ClCompile Include="source\system\dx11\dx11_mathutil.cpp" />
+    <ClCompile Include="source\system\dx11\dx11_util.cpp" />
     <ClCompile Include="source\system\dx11\shader.cpp" />
     <ClCompile Include="source\system\dx11\WICTextureLoader.cpp" />
     <ClCompile Include="source\system\imgui\imgui.cpp" />
@@ -226,12 +226,11 @@
     <ClCompile Include="source\system\util\controller_input.cpp" />
     <ClCompile Include="source\system\windows\CWindow.cpp" />
     <ClCompile Include="source\system\windows\CWindowCallback.cpp" />
-    <ClCompile Include="source\WinMain.cpp" />
+    <ClCompile Include="source\win_main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\application.h" />
     <ClInclude Include="source\game.h" />
-    <ClInclude Include="source\game\component\allcomponents.h" />
     <ClInclude Include="source\game\component\animation2d_component.h" />
     <ClInclude Include="source\game\component\billbord_component.h" />
     <ClInclude Include="source\game\component\collision_component.h" />
@@ -252,7 +251,7 @@
     <ClInclude Include="source\game\gameobject\access_dice_create_manager.h" />
     <ClInclude Include="source\game\gameobject\access_dice_endless_manager.h" />
     <ClInclude Include="source\game\gameobject\camera.h" />
-    <ClInclude Include="source\game\gameobject\CLight.h" />
+    <ClInclude Include="source\game\gameobject\light.h" />
     <ClInclude Include="source\game\gameobject\dice.h" />
     <ClInclude Include="source\game\gameobject\effect_fruit.h" />
     <ClInclude Include="source\game\gameobject\effect_thunder.h" />
@@ -295,11 +294,11 @@
     <ClInclude Include="source\game\state\state_base.h" />
     <ClInclude Include="source\macro.h" />
     <ClInclude Include="source\memory.h" />
-    <ClInclude Include="source\system\dx11\CDirectInput.h" />
-    <ClInclude Include="source\system\dx11\CDirectxGraphics.h" />
-    <ClInclude Include="source\system\dx11\dx11mathutil.h" />
-    <ClInclude Include="source\system\dx11\DX11Settransform.h" />
-    <ClInclude Include="source\system\dx11\DX11util.h" />
+    <ClInclude Include="source\system\dx11\direct_input.h" />
+    <ClInclude Include="source\system\dx11\directx_graphics.h" />
+    <ClInclude Include="source\system\dx11\dx11_mathutil.h" />
+    <ClInclude Include="source\system\dx11\dx11_settransform.h" />
+    <ClInclude Include="source\system\dx11\dx11_util.h" />
     <ClInclude Include="source\system\dx11\shader.h" />
     <ClInclude Include="source\system\imgui\imconfig.h" />
     <ClInclude Include="source\system\imgui\imgui.h" />

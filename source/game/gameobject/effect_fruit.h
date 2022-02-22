@@ -6,14 +6,16 @@ namespace Effect {
 	class Fruit : public GameObject
 	{
 	private:
-		float mAlha = 1.0f;							// 雷α値
+		float mAlha = 1.0f;					// α値
 		Float3 mInitPos;
 
 		std::vector<PARTICLE> mParticle;
-		Float3 mCenterPos;	// 生成されるときの中心座標
+		Float3 mCenterPos;					// 生成されるときの中心座標
+
 	public:
 		Fruit();
 		~Fruit();
+
 		void ObjectInit() override;
 		void ObjectUpdate()override;
 		void ObjectImguiDraw()override {};

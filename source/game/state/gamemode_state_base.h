@@ -13,7 +13,7 @@ class GameModeBase :public StateBase
 {
 protected:
 	Component::GameModeController* mHolder;			// 持ち主
-	std::vector<Dix::wp<GameObject>> mModeObjList;	// モードごとに使用するオブジェクト(コンストラクタで生成,アクティブ状態管理)
+	std::vector<Dix::wp<GameObject>> mpModeObjList;	// モードごとに使用するオブジェクト(コンストラクタで生成,アクティブ状態管理)
 
 public:
 	virtual ~GameModeBase() {};

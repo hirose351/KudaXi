@@ -210,9 +210,6 @@
     <ClCompile Include="source\game.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="source\WinMain.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="source\system\model\assimpscene.cpp">
       <Filter>ソース ファイル\system\model</Filter>
     </ClCompile>
@@ -294,12 +291,6 @@
     <ClCompile Include="source\system\util\vector.cpp">
       <Filter>ソース ファイル\system\util</Filter>
     </ClCompile>
-    <ClCompile Include="source\system\dx11\dx11mathutil.cpp">
-      <Filter>ソース ファイル\system\dx11\util</Filter>
-    </ClCompile>
-    <ClCompile Include="source\system\dx11\DX11util.cpp">
-      <Filter>ソース ファイル\system\dx11\util</Filter>
-    </ClCompile>
     <ClCompile Include="source\system\util\texture_manager.cpp">
       <Filter>ソース ファイル\system\texture</Filter>
     </ClCompile>
@@ -353,9 +344,6 @@
     </ClCompile>
     <ClCompile Include="source\game\scene\stagecreate_scene.cpp">
       <Filter>ソース ファイル\game\scene\stagecreate_scene</Filter>
-    </ClCompile>
-    <ClCompile Include="source\system\dx11\CDirectXGraphics.cpp">
-      <Filter>ソース ファイル\system\dx11\util</Filter>
     </ClCompile>
     <ClCompile Include="source\game\component\player_controller.cpp">
       <Filter>ソース ファイル\game\component\controller</Filter>
@@ -483,6 +471,18 @@
     <ClCompile Include="source\game\gameobject\access_dice_endless_manager.cpp">
       <Filter>ソース ファイル\game\gameobject\access</Filter>
     </ClCompile>
+    <ClCompile Include="source\win_main.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="source\system\dx11\directx_graphics.cpp">
+      <Filter>ソース ファイル\system\dx11\util</Filter>
+    </ClCompile>
+    <ClCompile Include="source\system\dx11\dx11_mathutil.cpp">
+      <Filter>ソース ファイル\system\dx11\util</Filter>
+    </ClCompile>
+    <ClCompile Include="source\system\dx11\dx11_util.cpp">
+      <Filter>ソース ファイル\system\dx11\util</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\system\model\assimpscene.h">
@@ -517,15 +517,6 @@
     </ClInclude>
     <ClInclude Include="source\system\imgui\imstb_truetype.h">
       <Filter>ソース ファイル\system\imgui</Filter>
-    </ClInclude>
-    <ClInclude Include="source\system\dx11\DX11Settransform.h">
-      <Filter>ソース ファイル\system\dx11</Filter>
-    </ClInclude>
-    <ClInclude Include="source\system\dx11\CDirectxGraphics.h">
-      <Filter>ソース ファイル\system\dx11</Filter>
-    </ClInclude>
-    <ClInclude Include="source\system\dx11\CDirectInput.h">
-      <Filter>ソース ファイル\system\dx11</Filter>
     </ClInclude>
     <ClInclude Include="source\system\model\Mesh.h">
       <Filter>ソース ファイル\system\model</Filter>
@@ -596,12 +587,6 @@
     <ClInclude Include="source\system\util\vector.h">
       <Filter>ソース ファイル\system\util</Filter>
     </ClInclude>
-    <ClInclude Include="source\system\dx11\DX11util.h">
-      <Filter>ソース ファイル\system\dx11\util</Filter>
-    </ClInclude>
-    <ClInclude Include="source\system\dx11\dx11mathutil.h">
-      <Filter>ソース ファイル\system\dx11\util</Filter>
-    </ClInclude>
     <ClInclude Include="source\system\util\dixsmartptr.h">
       <Filter>ソース ファイル\system\util</Filter>
     </ClInclude>
@@ -610,9 +595,6 @@
     </ClInclude>
     <ClInclude Include="source\game\gameobject\dice.h">
       <Filter>ソース ファイル\game\gameobject\dice</Filter>
-    </ClInclude>
-    <ClInclude Include="source\game\gameobject\CLight.h">
-      <Filter>ソース ファイル\game\gameobject\util</Filter>
     </ClInclude>
     <ClInclude Include="source\game\gameobject\gameobject.h">
       <Filter>ソース ファイル\game\gameobject\util</Filter>
@@ -643,9 +625,6 @@
     </ClInclude>
     <ClInclude Include="source\game\scene\maingame_scene.h">
       <Filter>ソース ファイル\game\scene\maingame</Filter>
-    </ClInclude>
-    <ClInclude Include="source\game\component\allcomponents.h">
-      <Filter>ソース ファイル\game\component</Filter>
     </ClInclude>
     <ClInclude Include="source\game\manager\collision_manager.h">
       <Filter>ソース ファイル\game\manager\collision</Filter>
@@ -808,6 +787,24 @@
     </ClInclude>
     <ClInclude Include="source\game\gameobject\access_dice_endless_manager.h">
       <Filter>ソース ファイル\game\gameobject\access</Filter>
+    </ClInclude>
+    <ClInclude Include="source\game\gameobject\light.h">
+      <Filter>ソース ファイル\game\gameobject\util</Filter>
+    </ClInclude>
+    <ClInclude Include="source\system\dx11\dx11_settransform.h">
+      <Filter>ソース ファイル\system\dx11</Filter>
+    </ClInclude>
+    <ClInclude Include="source\system\dx11\directx_graphics.h">
+      <Filter>ソース ファイル\system\dx11</Filter>
+    </ClInclude>
+    <ClInclude Include="source\system\dx11\direct_input.h">
+      <Filter>ソース ファイル\system\dx11</Filter>
+    </ClInclude>
+    <ClInclude Include="source\system\dx11\dx11_mathutil.h">
+      <Filter>ソース ファイル\system\dx11\util</Filter>
+    </ClInclude>
+    <ClInclude Include="source\system\dx11\dx11_util.h">
+      <Filter>ソース ファイル\system\dx11\util</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

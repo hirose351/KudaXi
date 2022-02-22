@@ -1,6 +1,6 @@
 #include	"skydome.h"
 #include	"../../system/model/model_manager.h"
-#include	"../component/allcomponents.h"
+#include	"../component/model_component.h"
 
 Skydome::Skydome() :GameObject(("SkyDome"), ObjectType::eDice, false) {
 	bool sts = ModelMgr::GetInstance().LoadModel(

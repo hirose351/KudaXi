@@ -5,13 +5,12 @@
 #include	"../gameobject/transform.h"
 
 constexpr float PI = DirectX::XM_PI;
-
 using Microsoft::WRL::ComPtr;
 
 class Qube {
 private:
 	ComPtr<ID3D11Buffer> mpVertexBuffer;		// 頂点バッファ
-	ComPtr<ID3D11Buffer> mpIndexBuffer;		// インデックスバッファ
+	ComPtr<ID3D11Buffer> mpIndexBuffer;			// インデックスバッファ
 	ComPtr<ID3D11VertexShader> mpVertexShader;	// 頂点シェーダー
 	ComPtr<ID3D11PixelShader> mpPixelShader;	// ピクセルシェーダー
 	ComPtr<ID3D11InputLayout>  mpVertexLayout;	// 頂点レイアウト

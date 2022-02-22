@@ -2,8 +2,8 @@
 
 CollisionManager::~CollisionManager()
 {
-	mColList.clear();
-	mColList.shrink_to_fit();
+	mpColList.clear();
+	mpColList.shrink_to_fit();
 }
 
 void CollisionManager::AddCollision(Component::Collision *_col)

@@ -6,7 +6,7 @@ namespace myUI {
 	class PauseEndless : public GameObject
 	{
 	private:
-		bool isPause;	// ポーズか
+		bool mIsPause;	// ポーズか
 		Dix::wp<myUI::ButtonGroup> mpButton;
 		Dix::wp<GameObject> mpButtonBg;
 

@@ -1,5 +1,5 @@
 #include	"sphere.h"
-#include	"../dx11/dx11mathutil.h"
+#include	"../dx11/dx11_mathutil.h"
 
 // 法線ベクトルを計算,ノーマライズ
 void Sphere::Normalize(XMFLOAT3 vector, XMFLOAT3& Normal)

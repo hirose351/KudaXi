@@ -1,8 +1,8 @@
 #include	<windows.h>
 #include	"CModel.h"
 #include	"../dx11/Shader.h"
-#include	"../dx11/CDirectxGraphics.h"
-#include	"../dx11/DX11Settransform.h"
+#include	"../dx11/directx_graphics.h"
+#include	"../dx11/dx11_settransform.h"
 
 bool CModel::Init(const char* _fileName, const char* _vsFile, const char* psFile, std::string _texFolder) {
 

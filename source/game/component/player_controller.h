@@ -1,5 +1,4 @@
 #pragma once
-#include		"../../system/util/dixsmartptr.h"
 #include		"../component/component_base.h"
 #include		"../manager/stagedata_manager.h"
 #include		"../gameobject/transform.h"
@@ -14,16 +13,16 @@ namespace Component {
 	class PlayerController :public ComponentBase
 	{
 	private:
-		std::map<int, Dix::sp<PlayerStateBase>> mStates;
-		int							  mStateNum;			// 現在のステート番号
-		Direction					  mDiceMoveDirection;	// サイコロを回転させる方向
-		Dix::sp<Direction>			  mDirection;			// プレイヤーの方向(キー参照)
-		Dix::wp<GameObject>			  mDiceModel;			// 操作しているサイコロモデル
-		Dix::wp<GameObject>			  mDiceBg;				// 操作しているサイコロ背景
-		Dix::wp<StageData> 			  mStageData;			// ステージ情報
-		Foot						  mFoot;				// 足元のオブジェクト
-		Float3						  mInfoDicePos;			// 画面に表示する位置
-		bool mIsDiceUiDraw = false;							// 左上UIのサイコロを描画するか
+		std::map<int, Dix::sp<PlayerStateBase>> mpStatesList;
+		int							  mStateNum;				// 現在のステート番号
+		Direction					  mDiceMoveDirection;		// サイコロを回転させる方向
+		Dix::sp<Direction>			  mpDirection;				// プレイヤーの方向(キー参照)
+		Dix::wp<GameObject>			  mpDiceModel;				// 操作しているサイコロモデル
+		Dix::wp<GameObject>			  mpDiceBg;					// 操作しているサイコロ背景
+		Dix::wp<StageData> 			  mpStageData;				// ステージ情報
+		Foot						  mFoot;					// 足元のオブジェクト
+		Float3						  mInfoDicePos;				// 画面に表示する位置
+		bool mIsDiceUiDraw = false;								// 左上UIのサイコロを描画するか
 
 	public:
 		PlayerController();
@@ -45,8 +44,8 @@ namespace Component {
 
 		int GetCurrentState() { return mStateNum; }
 
-		Dix::wp<Direction> GetDirection() { return mDirection; }
+		Dix::wp<Direction> GetDirection() { return mpDirection; }
 		Foot* GetFoot() { return &mFoot; };
-		INT2 GetStageSize() { return INT2(mStageData->mMapSizeWidth, mStageData->mMapSizeHeight); }
+		INT2 GetStageSize() { return INT2(mpStageData->mMapSizeWidth, mpStageData->mMapSizeHeight); }
 	};
 }

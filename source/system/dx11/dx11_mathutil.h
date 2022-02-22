@@ -2,7 +2,7 @@
 #include <DirectXMath.h>
 #include <d3d11.h>
 #include "../../game/gameobject/camera.h"
-#include "CDirectxGraphics.h"
+#include "directx_graphics.h"
 
 struct PLANE {
 	float a, b, c, d;

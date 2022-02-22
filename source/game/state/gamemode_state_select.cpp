@@ -47,9 +47,9 @@ Select::Select()
 	b.SetPtr(new myUI::ButtonGroup);
 	b->GetTransform()->SetPositionXYZ(Float3(150, 500, 0));
 	b->SetInitState("assets/image/ui/number.png", 10, 1, 10, ButtonTransition::eColorTint, XMFLOAT2(50, 0), XMFLOAT2(50, 50), XMFLOAT2(70, 70), ButtonArrangement::eHorizontal, StartPoint::eLeftUp, true, 2);
-	mButton = b; mButton->SetInitSelectNum(0);
+	mpButton = b; mpButton->SetInitSelectNum(0);
 	SceneManager::GetInstance()->GetCurrentScene()->AddGameObject(b);
-	mModeObjList.emplace_back(mButton);
+	mpModeObjList.emplace_back(mpButton);
 
 	// 文字
 	Dix::sp<myUI::Image> selectString;
@@ -60,9 +60,9 @@ Select::Select()
 	uiStageQuad->SetInfo("assets/image/ui/stageselect.png", XMFLOAT4(1, 1, 1, 1));
 	uiStageQuad->SetOrderInLayer(1);
 	selectString->GetTransform()->SetPositionXYZ(Float3(1280 / 2.0f, 100.0f, 0));
-	mModeObjList.emplace_back(selectString);
+	mpModeObjList.emplace_back(selectString);
 
-	for (Dix::wp<GameObject> obj : mModeObjList)
+	for (Dix::wp<GameObject> obj : mpModeObjList)
 		obj->SetIsActive(false);
 }
 
@@ -75,16 +75,16 @@ void Select::Exec()
 	// 入力に対する処理（入力されていたらステージ、プレイヤー、サイコロ更新）
 
 	// 選択されているステージ番号が変更されたらステージ情報を更新する
-	if (mStageNum != mButton->GetSelectNum() + 1)
+	if (mStageNum != mpButton->GetSelectNum() + 1)
 	{
-		mStageNum = mButton->GetSelectNum() + 1;
+		mStageNum = mpButton->GetSelectNum() + 1;
 		SetStage();
 	}
 
 	// 決定を押されたときの処理（ステージはそのままでカメラを動かす感じ）
 	if (InputManager::GetInstance().GetStateTrigger(InputMode::eUi, static_cast<int>(UiAction::eClick)))
 	{
-		mHolder->SetSelectStage(mButton->GetSelectNum() + 1);
+		mHolder->SetSelectStage(mpButton->GetSelectNum() + 1);
 		mHolder->ChangeMode(ePuzzle);
 	}
 	// 戻るを押されたときの処理
@@ -99,10 +99,10 @@ void Select::BeforeChange()
 {
 	SetStage();
 
-	for (Dix::wp<GameObject> obj : mModeObjList)
+	for (Dix::wp<GameObject> obj : mpModeObjList)
 		obj->SetIsActive(true);
 
-	mButton->SetInitSelectNum(mStageNum - 1);
+	mpButton->SetInitSelectNum(mStageNum - 1);
 
 	mHolder->GetPlayer()->GetComponent<Component::PlayerController>()->RemoveDiceUi();
 	SceneManager::GetInstance()->GetCurrentScene()->SetIsPause(true);
@@ -113,6 +113,6 @@ void Select::AfterChange()
 	SceneManager::GetInstance()->GetCurrentScene()->SetIsPause(false);
 	mHolder->SetIsSetCamera(false);
 
-	for (Dix::wp<GameObject> obj : mModeObjList)
+	for (Dix::wp<GameObject> obj : mpModeObjList)
 		obj->SetIsActive(false);
 }

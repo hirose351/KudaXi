@@ -5,11 +5,11 @@
 #include	<string>
 #include	<unordered_map>
 #include	"memory.h"
-#include	"../dx11/CDirectxGraphics.h"
-#include	"../dx11/Shader.h"
+#include	"../dx11/directx_graphics.h"
+#include	"../dx11/shader.h"
 #include	"vertexproto.h"
 #include	"Mesh.h"
-#include	"../dx11/DX11util.h"
+#include	"../dx11/dx11_util.h"
 
 using namespace std;
 using namespace DirectX;

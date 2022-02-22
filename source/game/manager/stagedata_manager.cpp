@@ -26,10 +26,10 @@ const Dix::wp<StageData> StageDataManager::GetCurrentStage()
 bool StageDataManager::LoadStage(std::string _key)
 {
 	// 存在するかを確かめる
-	auto it = mStageHashmap.find(_key);
+	auto it = mpStageHashmap.find(_key);
 
 	// 存在していれば返す
-	if (it != mStageHashmap.end())
+	if (it != mpStageHashmap.end())
 		return true;
 
 	// 存在していなければ読み込む
@@ -95,7 +95,7 @@ bool StageDataManager::LoadStage(std::string _key)
 	fin.read((char*)&stagedata->mPlayerPos, sizeof(INT2));
 
 	// unordered_mapコンテナに格納
-	mStageHashmap[_key] = stagedata;
+	mpStageHashmap[_key] = stagedata;
 
 	fin.close();  //ファイルを閉じる
 
@@ -172,21 +172,21 @@ void StageDataManager::SaveStage(const StageData& _stagedata)
 const Dix::wp<StageData> StageDataManager::GetStageData(string _key)
 {
 	// 存在するか確かめる
-	auto it = mStageHashmap.find(_key);
-	if (it == mStageHashmap.end())
+	auto it = mpStageHashmap.find(_key);
+	if (it == mpStageHashmap.end())
 	{
 		MessageBox(nullptr, "指定されたデータは存在しません", "error", MB_OK);
 		return NULL;
 	}
 
-	return mStageHashmap[_key];
+	return mpStageHashmap[_key];
 }
 
 void StageDataManager::RemoveStageData(std::string _key)
 {
 	// 存在するかを確かめる
-	auto it = mStageHashmap.find(_key);
-	if (it == mStageHashmap.end())
+	auto it = mpStageHashmap.find(_key);
+	if (it == mpStageHashmap.end())
 	{
 		MessageBox(nullptr, "指定されたデータは存在しません", "error", MB_OK);
 		return;
@@ -195,5 +195,5 @@ void StageDataManager::RemoveStageData(std::string _key)
 	string fileName = "assets/stage/" + _key + ".txt";
 	remove(fileName.c_str());
 	// マップからステージデータを削除
-	mStageHashmap.erase(_key);
+	mpStageHashmap.erase(_key);
 }

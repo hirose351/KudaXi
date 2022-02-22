@@ -18,13 +18,13 @@ Endless::Endless()
 	Dix::sp<myUI::PauseEndless> p;
 	p.SetPtr(new myUI::PauseEndless);
 	SceneManager::GetInstance()->GetCurrentScene()->AddGameObject(p);
-	mModeObjList.emplace_back(p);
-	mPauseBt = p;
+	mpModeObjList.emplace_back(p);
+	mpPauseBt = p;
 
 	Dix::sp<DiceEndlessManagerAccess> dicemanager;
 	dicemanager.SetPtr(new DiceEndlessManagerAccess);
 	SceneManager::GetInstance()->GetCurrentScene()->AddGameObject(dicemanager);
-	mModeObjList.emplace_back(dicemanager);
+	mpModeObjList.emplace_back(dicemanager);
 
 	// PauseUI
 	Dix::sp<myUI::Image> pauseUi;
@@ -35,7 +35,7 @@ Endless::Endless()
 	quadComponent->SetInfo("assets/image/ui/pause_ui.png", XMFLOAT4(1, 1, 1, 1));
 	quadComponent->SetOrderInLayer(1);
 	SceneManager::GetInstance()->GetCurrentScene()->AddGameObject(pauseUi);
-	mModeObjList.emplace_back(pauseUi);
+	mpModeObjList.emplace_back(pauseUi);
 
 	// OverUI
 	Dix::sp<myUI::Image> overImage;
@@ -46,10 +46,10 @@ Endless::Endless()
 	Component::Quad2d* clearOverQuad = overImage->AddComponent<Component::Quad2d>();
 	clearOverQuad->SetInfo("assets/image/ui/clearover.png", XMFLOAT4(1, 1, 1, 1), 2);
 	clearOverQuad->SetOrderInLayer(20);
-	mModeObjList.emplace_back(overImage);
-	mOverImage = overImage;
+	mpModeObjList.emplace_back(overImage);
+	mpOverImage = overImage;
 
-	for (Dix::wp<GameObject> obj : mModeObjList)
+	for (Dix::wp<GameObject> obj : mpModeObjList)
 		obj->SetIsActive(false);
 }
 
@@ -78,7 +78,7 @@ void Endless::Exec()
 	{
 		// ƒ|[ƒY‚É‚·‚é
 		SceneManager::GetInstance()->GetCurrentScene()->SetIsPause(true);
-		mOverImage->SetIsActive(true);
+		mpOverImage->SetIsActive(true);
 		PlaySound(SOUND_LABEL_SE_RETRY);
 		mIsOver = true;
 	}
@@ -86,7 +86,7 @@ void Endless::Exec()
 
 void Endless::BeforeChange()
 {
-	mPauseBt->SetParent(mHolder->GetOwner());
+	mpPauseBt->SetParent(mHolder->GetOwner());
 
 	StageDataManager::GetInstance().SetCurrentStage("endless");
 	Dix::wp<StageData> stageData;
@@ -105,13 +105,13 @@ void Endless::BeforeChange()
 	mHolder->GetStage()->ObjectInit();
 	mHolder->GetPlayer()->Init();
 
-	for (Dix::wp<GameObject> obj : mModeObjList)
+	for (Dix::wp<GameObject> obj : mpModeObjList)
 	{
 		obj->SetIsActive(true);
 	}
 
 	mHolder->GetPlayer()->GetComponent<Component::PlayerController>()->SetDiceUi();
-	mOverImage->SetIsActive(false);
+	mpOverImage->SetIsActive(false);
 	mIsOver = false;
 	// BGMÝ’è
 	StopSound(SOUND_LABEL_BGM_TITLE);
@@ -121,7 +121,7 @@ void Endless::BeforeChange()
 void Endless::AfterChange()
 {
 	DiceManager::GetInstance()->Uninit();
-	for (Dix::wp<GameObject> obj : mModeObjList)
+	for (Dix::wp<GameObject> obj : mpModeObjList)
 	{
 		obj->SetIsActive(false);
 	}

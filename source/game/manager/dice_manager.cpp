@@ -6,7 +6,7 @@
 #include	"../component/collision_component.h"
 #include	"../../system/model/model_manager.h"
 #include	"../../system/util/XAudio2.h"
-#include	"../../system/dx11/CDirectInput.h"
+#include	"../../system/dx11/direct_input.h"
 #include	<random>
 
 std::random_device rnd;							// 非決定的な乱数生成器
@@ -25,18 +25,18 @@ void DiceManager::PuzzleInit()
 
 void DiceManager::DiceMapCreate(bool _isUp = true)
 {
-	mCurrentStageData = StageDataManager::GetInstance().GetCurrentStage();
+	mpCurrentStageData = StageDataManager::GetInstance().GetCurrentStage();
 	int diceCnt = 0;
 
-	for (int z = 0; z < mCurrentStageData->mMapSizeHeight; z++)
+	for (int z = 0; z < mpCurrentStageData->mMapSizeHeight; z++)
 	{
-		for (int x = 0; x < mCurrentStageData->mMapSizeWidth; x++)
+		for (int x = 0; x < mpCurrentStageData->mMapSizeWidth; x++)
 		{
 			mDiceMap[z][x] = NODICE;
 		}
 	}
 
-	for (diceCnt = 0; diceCnt < mCurrentStageData->mDiceMtx.size(); diceCnt++)
+	for (diceCnt = 0; diceCnt < mpCurrentStageData->mDiceMtx.size(); diceCnt++)
 	{
 		if (diceCnt >= mpDiceList.size())
 		{
@@ -50,7 +50,7 @@ void DiceManager::DiceMapCreate(bool _isUp = true)
 			mpDiceList.emplace_back(dice);	// vector配列に追加
 		}
 
-		mpDiceList[diceCnt]->GetTransform()->SetWordMtx(mCurrentStageData->mDiceMtx[diceCnt]);
+		mpDiceList[diceCnt]->GetTransform()->SetWordMtx(mpCurrentStageData->mDiceMtx[diceCnt]);
 		Float3 dicePos = mpDiceList[diceCnt]->GetTransform()->GetPosition();
 		mpDiceList[diceCnt]->GetTransform()->SetPositionMove(dicePos);
 
@@ -106,7 +106,7 @@ void DiceManager::EndleesUpdate()
 		mEndlessCnt++;
 
 		// ランダムな値取得
-		int num = rand100(mt) % (mCurrentStageData->mMapSizeWidth*mCurrentStageData->mMapSizeHeight);
+		int num = rand100(mt) % (mpCurrentStageData->mMapSizeWidth*mpCurrentStageData->mMapSizeHeight);
 		INT2 mapPos(GetRandomSpawnPos(num));
 		if (mapPos == NODICE)
 			return;
@@ -132,7 +132,7 @@ void DiceManager::EndleesUpdate()
 		SceneManager::GetInstance()->GetCurrentScene()->AddGameObject(dice);
 	}
 
-	if (mCurrentStageData->mMapSizeWidth*mCurrentStageData->mMapSizeHeight <= mpDiceList.size())
+	if (mpCurrentStageData->mMapSizeWidth*mpCurrentStageData->mMapSizeHeight <= mpDiceList.size())
 	{
 		return;
 	}
@@ -144,7 +144,7 @@ void DiceManager::EndleesUpdate()
 	mFrameCnt = 0;
 
 	// ランダムな値取得
-	int num = rand100(mt) % (mCurrentStageData->mMapSizeWidth*mCurrentStageData->mMapSizeHeight);
+	int num = rand100(mt) % (mpCurrentStageData->mMapSizeWidth*mpCurrentStageData->mMapSizeHeight);
 	INT2 mapPos(GetRandomSpawnPos(num));
 	if (mapPos == NODICE)
 		return;
@@ -172,7 +172,7 @@ void DiceManager::EndleesUpdate()
 
 bool DiceManager::GetEndlessIsOver()
 {
-	if (mCurrentStageData->mMapSizeWidth*mCurrentStageData->mMapSizeHeight <= mpDiceList.size())
+	if (mpCurrentStageData->mMapSizeWidth*mpCurrentStageData->mMapSizeHeight <= mpDiceList.size())
 	{
 		for (auto &obj : mpDiceList)
 		{
@@ -244,10 +244,10 @@ bool DiceManager::CanDiceMove(Dice* _dice, Direction _dire)
 	}
 
 	// 行き先が穴なら移動しない
-	if (afterPos.z < 0 || afterPos.x < 0 || afterPos.z >= mCurrentStageData->mMapSizeHeight || afterPos.x >= mCurrentStageData->mMapSizeWidth)
+	if (afterPos.z < 0 || afterPos.x < 0 || afterPos.z >= mpCurrentStageData->mMapSizeHeight || afterPos.x >= mpCurrentStageData->mMapSizeWidth)
 		return false;
 	// ステージ外なら移動しない
-	if (mCurrentStageData->mFloorMap[afterPos.z][afterPos.x] <= 0)
+	if (mpCurrentStageData->mFloorMap[afterPos.z][afterPos.x] <= 0)
 		return false;
 
 	// 行き先のサイコロのポインタを取得
@@ -291,10 +291,10 @@ bool DiceManager::CanDiceMoveCheak(Dice * _dice, Direction _dire)
 	}
 
 	// 行き先が穴なら移動しない
-	if (afterPos.z < 0 || afterPos.x < 0 || afterPos.z >= mCurrentStageData->mMapSizeHeight || afterPos.x >= mCurrentStageData->mMapSizeWidth)
+	if (afterPos.z < 0 || afterPos.x < 0 || afterPos.z >= mpCurrentStageData->mMapSizeHeight || afterPos.x >= mpCurrentStageData->mMapSizeWidth)
 		return true;
 	// ステージ外なら移動しない
-	if (mCurrentStageData->mFloorMap[afterPos.z][afterPos.x] <= 0)
+	if (mpCurrentStageData->mFloorMap[afterPos.z][afterPos.x] <= 0)
 		return true;
 	return false;
 }
@@ -330,9 +330,9 @@ void DiceManager::CheckAligned(Dice* _dice)
 		// 隣接しているDiceの状態を見る
 		for (int i = 0; i < 4; i++)
 		{
-			if ((i == 0 && ans[i].z < 0) || (i == 1 && ans[i].z > mCurrentStageData->mMapSizeHeight - 1))
+			if ((i == 0 && ans[i].z < 0) || (i == 1 && ans[i].z > mpCurrentStageData->mMapSizeHeight - 1))
 				continue;
-			if ((i == 2 && ans[i].x < 0) || (i == 3 && ans[i].x > mCurrentStageData->mMapSizeWidth - 1))
+			if ((i == 2 && ans[i].x < 0) || (i == 3 && ans[i].x > mpCurrentStageData->mMapSizeWidth - 1))
 				continue;
 
 			ansDice = GetListInDice(ans[i].x, ans[i].z);
@@ -362,9 +362,9 @@ void DiceManager::CheckAligned(Dice* _dice)
 	memcpy((void *)mCheckMap, (void *)mDiceMap, sizeof(mDiceMap));
 
 	// 揃っているブロックの存在確認用配列初期化
-	for (int z = 0; z < mCurrentStageData->mMapSizeHeight; z++)
+	for (int z = 0; z < mpCurrentStageData->mMapSizeHeight; z++)
 	{
-		for (int x = 0; x < mCurrentStageData->mMapSizeWidth; x++)
+		for (int x = 0; x < mpCurrentStageData->mMapSizeWidth; x++)
 		{
 			mCheckboolMap[z][x] = false;
 		}
@@ -382,9 +382,9 @@ void DiceManager::CheckAligned(Dice* _dice)
 		return;
 
 	// 対象サイコロの下げる関数を呼ぶ
-	for (int z = 0; z < mCurrentStageData->mMapSizeHeight; z++)
+	for (int z = 0; z < mpCurrentStageData->mMapSizeHeight; z++)
 	{
-		for (int x = 0; x < mCurrentStageData->mMapSizeWidth; x++)
+		for (int x = 0; x < mpCurrentStageData->mMapSizeWidth; x++)
 		{
 			if (mCheckboolMap[z][x] && mDiceMap[z][x] != NODICE)
 			{
@@ -418,9 +418,9 @@ void DiceManager::SetRemoveDice(int _diceId)
 Dix::wp<Dice> DiceManager::GetDice(INT3 _mapPos)
 {
 	// ステージ外かDiceがなければnullptrを返す
-	if (_mapPos.z < 0 || _mapPos.z >= mCurrentStageData->mMapSizeHeight)
+	if (_mapPos.z < 0 || _mapPos.z >= mpCurrentStageData->mMapSizeHeight)
 		return NULL;
-	if (_mapPos.x < 0 || _mapPos.x >= mCurrentStageData->mMapSizeWidth)
+	if (_mapPos.x < 0 || _mapPos.x >= mpCurrentStageData->mMapSizeWidth)
 		return NULL;
 	if (mDiceMap[_mapPos.z][_mapPos.x] == NODICE)
 		return NULL;
@@ -433,9 +433,9 @@ void DiceManager::CheckDiceAlign(INT3 _mapPos, DiceFruit _diceType)
 	INT3 ans[4] = { INT3(_mapPos.x, 0, _mapPos.z - 1), INT3(_mapPos.x, 0, _mapPos.z + 1), INT3(_mapPos.x - 1, 0, _mapPos.z), INT3(_mapPos.x + 1, 0, _mapPos.z) };
 	for (int i = 0; i < 4; i++)
 	{
-		if ((i == 0 && ans[i].z < 0) || (i == 1 && ans[i].z > mCurrentStageData->mMapSizeHeight - 1))
+		if ((i == 0 && ans[i].z < 0) || (i == 1 && ans[i].z > mpCurrentStageData->mMapSizeHeight - 1))
 			continue;
-		if ((i == 2 && ans[i].x < 0) || (i == 3 && ans[i].x > mCurrentStageData->mMapSizeWidth - 1))
+		if ((i == 2 && ans[i].x < 0) || (i == 3 && ans[i].x > mpCurrentStageData->mMapSizeWidth - 1))
 			continue;
 
 		// ブロックが存在してチェックされていないマスなら
@@ -483,18 +483,18 @@ INT2 DiceManager::GetSpawnPos(int _rndNum)
 {
 	while (true)
 	{
-		_rndNum %= mCurrentStageData->mMapSizeWidth*mCurrentStageData->mMapSizeHeight;
-		for (int z = 0; z < mCurrentStageData->mMapSizeHeight; z++)
-			for (int x = 0; x < mCurrentStageData->mMapSizeWidth; x++)
+		_rndNum %= mpCurrentStageData->mMapSizeWidth*mpCurrentStageData->mMapSizeHeight;
+		for (int z = 0; z < mpCurrentStageData->mMapSizeHeight; z++)
+			for (int x = 0; x < mpCurrentStageData->mMapSizeWidth; x++)
 			{
-				if (_rndNum == x + z * mCurrentStageData->mMapSizeWidth)
+				if (_rndNum == x + z * mpCurrentStageData->mMapSizeWidth)
 				{
 					if (mDiceMap[z][x] == NODICE)
 					{
 						// プレイヤーとその周りで、他が埋まっていなければやり直し
 						if (x <= mPlayerPos.x + 1 && x >= mPlayerPos.x - 1 && z <= mPlayerPos.z + 1 && z >= mPlayerPos.z - 1)
 						{
-							if (mpDiceList.size() >= mCurrentStageData->mMapSizeWidth*mCurrentStageData->mMapSizeHeight - 9)
+							if (mpDiceList.size() >= mpCurrentStageData->mMapSizeWidth*mpCurrentStageData->mMapSizeHeight - 9)
 							{
 								return INT2(x, z);
 							}
@@ -533,7 +533,7 @@ INT2 DiceManager::GetRandomSpawnPos(int _rndNum)
 		//		_rndNum++;
 		//		continue;
 		//	}
-		if (rndMapPos.x < mCurrentStageData->mMapSizeWidth&&rndMapPos.z < mCurrentStageData->mMapSizeHeight)
+		if (rndMapPos.x < mpCurrentStageData->mMapSizeWidth&&rndMapPos.z < mpCurrentStageData->mMapSizeHeight)
 			return rndMapPos;
 	}
 }
@@ -553,7 +553,7 @@ void DiceManager::CreateInit()
 
 void DiceManager::CreateUpdate()
 {
-	mCurrentStageData = StageDataManager::GetInstance().GetCurrentStage();
+	mpCurrentStageData = StageDataManager::GetInstance().GetCurrentStage();
 
 	if (mpDiceList.size() > 1)
 	{
@@ -573,7 +573,7 @@ void DiceManager::CreateUpdate()
 	// ステージ外にサイコロが存在した時の処理
 	for (int i = 0; i < mpDiceList.size(); ++i)
 	{
-		if (mpDiceList[i]->GetComponent<Component::MapPos>()->GetMapPos().x > mCurrentStageData->mMapSizeWidth - 1 || mpDiceList[i]->GetComponent<Component::MapPos>()->GetMapPos().z > mCurrentStageData->mMapSizeHeight - 1)
+		if (mpDiceList[i]->GetComponent<Component::MapPos>()->GetMapPos().x > mpCurrentStageData->mMapSizeWidth - 1 || mpDiceList[i]->GetComponent<Component::MapPos>()->GetMapPos().z > mpCurrentStageData->mMapSizeHeight - 1)
 		{
 			mpDiceList[i]->SetObjectState(ObjectState::ePaused);
 
@@ -657,10 +657,10 @@ void DiceManager::CreateImguiDraw()
 
 bool DiceManager::CreateAddDice()
 {
-	mCurrentStageData = StageDataManager::GetInstance().GetCurrentStage();
-	for (int z = 0; z < mCurrentStageData->mMapSizeHeight; z++)
+	mpCurrentStageData = StageDataManager::GetInstance().GetCurrentStage();
+	for (int z = 0; z < mpCurrentStageData->mMapSizeHeight; z++)
 	{
-		for (int x = 0; x < mCurrentStageData->mMapSizeWidth; x++)
+		for (int x = 0; x < mpCurrentStageData->mMapSizeWidth; x++)
 		{
 			if (mDiceMap[z][x] < 1)
 			{
@@ -700,7 +700,7 @@ Dix::wp<Dice> DiceManager::GetCreateListInDice(int x, int z)
 
 INT2 DiceManager::GetMoveMapPos(Direction _direction, INT2 _mapPos)
 {
-	mCurrentStageData = StageDataManager::GetInstance().GetCurrentStage();
+	mpCurrentStageData = StageDataManager::GetInstance().GetCurrentStage();
 
 	INT2 ans = _mapPos;
 	switch (_direction)
@@ -727,7 +727,7 @@ INT2 DiceManager::GetMoveMapPos(Direction _direction, INT2 _mapPos)
 		ans.z += 1;
 		while (true)
 		{
-			if (ans.z > mCurrentStageData->mMapSizeHeight - 1)
+			if (ans.z > mpCurrentStageData->mMapSizeHeight - 1)
 				break;
 			if (mDiceMap[ans.z][ans.x] < 1)
 			{
@@ -761,7 +761,7 @@ INT2 DiceManager::GetMoveMapPos(Direction _direction, INT2 _mapPos)
 		ans.x += 1;
 		while (true)
 		{
-			if (ans.x > mCurrentStageData->mMapSizeWidth - 1)
+			if (ans.x > mpCurrentStageData->mMapSizeWidth - 1)
 				break;
 			if (mDiceMap[ans.z][ans.x] < 1)
 			{
@@ -820,7 +820,7 @@ void DiceManager::SetCreateDiceMap()
 void DiceManager::SetIsStepCount(bool _flg)
 {
 	mIsStepCount = _flg;
-	mStepCount = mCurrentStageData->mStep;
+	mStepCount = mpCurrentStageData->mStep;
 }
 
 bool DiceManager::GetIsAllAligned()
@@ -838,9 +838,9 @@ void DiceManager::EndlessInit()
 {
 	Uninit();
 	mFrameCnt = 0;
-	mCurrentStageData = StageDataManager::GetInstance().GetCurrentStage();
-	for (int z = 0; z < mCurrentStageData->mMapSizeHeight; z++)
-		for (int x = 0; x < mCurrentStageData->mMapSizeWidth; x++)
+	mpCurrentStageData = StageDataManager::GetInstance().GetCurrentStage();
+	for (int z = 0; z < mpCurrentStageData->mMapSizeHeight; z++)
+		for (int x = 0; x < mpCurrentStageData->mMapSizeWidth; x++)
 			mDiceMap[z][x] = NODICE;
 	mEndlessCnt = 0;
 }
@@ -848,12 +848,12 @@ void DiceManager::EndlessInit()
 void DiceManager::DataCreate()
 {
 	Uninit();
-	mCurrentStageData = StageDataManager::GetInstance().GetCurrentStage();
-	for (int z = 0; z < mCurrentStageData->mMapSizeHeight; z++)
+	mpCurrentStageData = StageDataManager::GetInstance().GetCurrentStage();
+	for (int z = 0; z < mpCurrentStageData->mMapSizeHeight; z++)
 	{
-		for (int x = 0; x < mCurrentStageData->mMapSizeWidth; x++)
+		for (int x = 0; x < mpCurrentStageData->mMapSizeWidth; x++)
 		{
-			if (mCurrentStageData->mMap[z][x] < 0)
+			if (mpCurrentStageData->mMap[z][x] < 0)
 			{
 				mDiceMap[z][x] = NODICE;
 				continue;
@@ -876,7 +876,7 @@ void DiceManager::DataCreate()
 			mDiceMap[z][x] = dice->GetObjectID();
 			dice->SetName(("Dice" + std::to_string(mDiceMap[z][x])));	// オブジェクトの名前に添え字を加える
 
-			dice->GetTransform()->SetWordMtx(mCurrentStageData->mDiceMtx[mpDiceList.size()]);
+			dice->GetTransform()->SetWordMtx(mpCurrentStageData->mDiceMtx[mpDiceList.size()]);
 			mpDiceList.emplace_back(dice);	// vector配列に追加
 			SceneManager::GetInstance()->GetCurrentScene()->AddGameObject(dice);
 		}

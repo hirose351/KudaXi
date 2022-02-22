@@ -2,7 +2,7 @@
 
 using namespace Component;
 
-Animation2d::Animation2d() :ComponentBase(("Animation2d")), isRepeat(false), mFrameCnt(0), mCurrentFrame(0)
+Animation2d::Animation2d() :ComponentBase(("Animation2d")), mIsRepeat(false), mFrameCnt(0), mCurrentFrame(0)
 {
 }
 
@@ -13,15 +13,15 @@ void Animation2d::Init()
 
 void Animation2d::Update()
 {
-	if (mQuad == nullptr)
+	if (mpQuad == nullptr)
 	{
-		mQuad = mOwner->GetComponent<Quad2d>();
-		if (mQuad == nullptr)
+		mpQuad = mpOwner->GetComponent<Quad2d>();
+		if (mpQuad == nullptr)
 			return;
-		mUvposU = mQuad->GetTexUv().x;
+		mUvposU = mpQuad->GetTexUv().x;
 	}
 
-	mQuad->SetUvPos(INT2(mCurrentFrame / mFrameCnt % mUvposU, mArray));
+	mpQuad->SetUvPos(INT2(mCurrentFrame / mFrameCnt % mUvposU, mArray));
 	mCurrentFrame++;
 	if (mCurrentFrame / mFrameCnt >= mUvposU)
 		mCurrentFrame = 0;

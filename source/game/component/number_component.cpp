@@ -18,13 +18,13 @@ void Number::Update()
 	{
 		// ‚PŒ…–Ú‚È‚ç
 		if (i == 1)
-			mOwner->GetComponent<Component::Quad2d>()->SetDrawUv(INT2(mNum % (i * 10), 0));
+			mpOwner->GetComponent<Component::Quad2d>()->SetDrawUv(INT2(mNum % (i * 10), 0));
 		else
-			mOwner->GetComponent<Component::Quad2d>()->SetDrawUv(INT2((mNum + 1) / ((i - 1) * 10), 0));
+			mpOwner->GetComponent<Component::Quad2d>()->SetDrawUv(INT2((mNum + 1) / ((i - 1) * 10), 0));
 		if (GetDigit(mNum) != 1)
-			mOwner->GetComponent<Component::Quad2d>()->SetDrawPos(Float3(mStartingPoint + mOwner->GetTransform()->scale.x * (GetDigit(mNum) - i), mOwner->GetTransform()->position.y, 0));
+			mpOwner->GetComponent<Component::Quad2d>()->SetDrawPos(Float3(mStartingPoint + mpOwner->GetTransform()->scale.x * (GetDigit(mNum) - i), mpOwner->GetTransform()->position.y, 0));
 		else
-			mOwner->GetComponent<Component::Quad2d>()->SetDrawPos(mOwner->GetTransform()->position);
+			mpOwner->GetComponent<Component::Quad2d>()->SetDrawPos(mpOwner->GetTransform()->position);
 	}
 }
 
@@ -40,7 +40,7 @@ void Number::SetNum(int _num, float _space)
 	mNum = _num;
 	mSpace = _space;
 	int digit = GetDigit(mNum);
-	float scale = mOwner->GetTransform()->scale.x;
-	float pos = mOwner->GetTransform()->position.x;
+	float scale = mpOwner->GetTransform()->scale.x;
+	float pos = mpOwner->GetTransform()->position.x;
 	mStartingPoint = pos - scale * (digit / 2) - (scale / 2.0f) * (digit % 2) - mSpace * (digit / 2) - mSpace / 2.0f * ((digit / 2) ? 1 : 0);
 }

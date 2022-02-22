@@ -2,10 +2,10 @@
 
 void PlayerStateBase::Start(Component::PlayerController* _c)
 {
-	mHolder = _c;
-	mTransform = mHolder->GetOwner()->GetTransform();
-	mDirection = mHolder->GetDirection();
-	mFoot = mHolder->GetFoot();
+	mpHolder = _c;
+	mpTransform = mpHolder->GetOwner()->GetTransform();
+	mpDirection = mpHolder->GetDirection();
+	mpFoot = mpHolder->GetFoot();
 
 	Init();
 }

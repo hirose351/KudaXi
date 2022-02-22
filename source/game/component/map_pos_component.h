@@ -1,6 +1,5 @@
 #pragma once
 #include	"component_base.h"
-#include	"../data/stage_data.h"
 
 class StageData;
 namespace Component {

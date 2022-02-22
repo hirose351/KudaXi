@@ -12,7 +12,7 @@ std::string PlayerStateStr[] =
 
 PlayerController::PlayerController() :ComponentBase(("PlayerController"))
 {
-	mDirection.SetPtr(new Direction);
+	mpDirection.SetPtr(new Direction);
 	bool sts = ModelMgr::GetInstance().LoadModel(
 		"assets/model/dice/Dice.fbx",
 		"shader/vs.hlsl", "shader/toonps.hlsl",
@@ -26,10 +26,10 @@ PlayerController::PlayerController() :ComponentBase(("PlayerController"))
 	SceneManager::GetInstance()->GetCurrentScene()->AddGameObject(dice);
 	dice->AddComponent<Component::Model>()->SetModel(ModelMgr::GetInstance().GetModelPtr("assets/model/dice/Dice.fbx"));
 	dice->GetComponent<Component::Model>()->SetOrderInLayer(5);
-	mDiceModel = dice;
-	mDiceModel->GetTransform()->SetScale((0.5f));
-	mDiceModel->Update();
-	mDiceModel->SetIsActive(false);
+	mpDiceModel = dice;
+	mpDiceModel->GetTransform()->SetScale((0.5f));
+	mpDiceModel->Update();
+	mpDiceModel->SetIsActive(false);
 
 	Dix::sp<myUI::Image> diceBg;
 	diceBg.SetPtr(new myUI::Image);
@@ -41,8 +41,8 @@ PlayerController::PlayerController() :ComponentBase(("PlayerController"))
 	diceBg->GetTransform()->SetScale((188));
 	diceBg->GetTransform()->SetPosition(Float3(150));
 	diceBg->GetTransform()->CreateWordMtx();
-	mDiceBg = diceBg;
-	mDiceBg->SetIsActive(false);
+	mpDiceBg = diceBg;
+	mpDiceBg->SetIsActive(false);
 
 	transScreenToWorld(&mInfoDicePos, 150, 150, 0.9f);
 
@@ -56,58 +56,58 @@ PlayerController::~PlayerController()
 void PlayerController::Init()
 {
 	mFoot = Foot::eFloor;
-	(*mDirection) = Direction::eDown;
-	mStageData = StageDataManager::GetInstance().GetCurrentStage();
-	mOwner->GetTransform()->SetPosition(Float3(mStageData->mPlayerPos.x*DICE_SCALE, DICE_SCALE_HALF, -mStageData->mPlayerPos.z*DICE_SCALE));
-	mOwner->GetTransform()->CreateWordMtx();
+	(*mpDirection) = Direction::eDown;
+	mpStageData = StageDataManager::GetInstance().GetCurrentStage();
+	mpOwner->GetTransform()->SetPosition(Float3(mpStageData->mPlayerPos.x*DICE_SCALE, DICE_SCALE_HALF, -mpStageData->mPlayerPos.z*DICE_SCALE));
+	mpOwner->GetTransform()->CreateWordMtx();
 
 	// 最初の状態
 	mStateNum = eMove;
 
 	// 状態クラスをMapに登録
-	mStates[eMove].SetPtr(new PlayerState::Move);
-	mStates[ePush].SetPtr(new PlayerState::Push);
-	mStates[eRoll].SetPtr(new PlayerState::Roll);
+	mpStatesList[eMove].SetPtr(new PlayerState::Move);
+	mpStatesList[ePush].SetPtr(new PlayerState::Push);
+	mpStatesList[eRoll].SetPtr(new PlayerState::Roll);
 
-	for (auto sts : mStates)
+	for (auto sts : mpStatesList)
 	{
 		sts.second->Start(this);
 	}
 
-	mStates[mStateNum]->BeforeChange();
+	mpStatesList[mStateNum]->BeforeChange();
 	RemoveDiceUi();
 }
 
 void PlayerController::Update()
 {
-	mStates[mStateNum]->Exec();
-	DiceManager::GetInstance()->SetPlayerPos(mStates[mStateNum]->GetMapPos());
+	mpStatesList[mStateNum]->Exec();
+	DiceManager::GetInstance()->SetPlayerPos(mpStatesList[mStateNum]->GetMapPos());
 
 	if (!mIsDiceUiDraw)
 		return;
 
 	// 操作するサイコロが存在していれば
-	if (mStates[mStateNum]->GetOperationDice().IsExist())
+	if (mpStatesList[mStateNum]->GetOperationDice().IsExist())
 	{
-		XMFLOAT4X4 mtx = mStates[mStateNum]->GetOperationDice()->GetTransform()->GetMtx();
+		XMFLOAT4X4 mtx = mpStatesList[mStateNum]->GetOperationDice()->GetTransform()->GetMtx();
 		mtx._41 = mInfoDicePos.x;
 		mtx._42 = mInfoDicePos.y;
 		mtx._43 = mInfoDicePos.z;
 
-		mDiceModel->GetTransform()->SetWordMtx(mtx);
-		mDiceModel->GetTransform()->CreateScaleMtx();
-		mDiceModel->SetIsActive(true);
+		mpDiceModel->GetTransform()->SetWordMtx(mtx);
+		mpDiceModel->GetTransform()->CreateScaleMtx();
+		mpDiceModel->SetIsActive(true);
 	}
 	else
 	{
-		mDiceModel->SetIsActive(false);
+		mpDiceModel->SetIsActive(false);
 	}
 }
 
 void PlayerController::ImguiDraw()
 {
 	std::string str;
-	str = DirectionStr[static_cast<int>(*mDirection)];
+	str = DirectionStr[static_cast<int>(*mpDirection)];
 	ImGui::Text(str.c_str());
 
 	str = u8"現在のステート：　" + (PlayerStateStr[mStateNum]);
@@ -115,11 +115,11 @@ void PlayerController::ImguiDraw()
 
 	if (ImGui::TreeNode("MapPos"))
 	{
-		str = "x" + std::to_string(mStates[mStateNum]->GetMapPos().x);
+		str = "x" + std::to_string(mpStatesList[mStateNum]->GetMapPos().x);
 		ImGui::Text(str.c_str());
-		str = "y" + std::to_string(mStates[mStateNum]->GetMapPos().y);
+		str = "y" + std::to_string(mpStatesList[mStateNum]->GetMapPos().y);
 		ImGui::Text(str.c_str());
-		str = "z" + std::to_string(mStates[mStateNum]->GetMapPos().z);
+		str = "z" + std::to_string(mpStatesList[mStateNum]->GetMapPos().z);
 		ImGui::Text(str.c_str());
 		ImGui::TreePop();
 	}
@@ -129,10 +129,10 @@ void PlayerController::SetDiceUi()
 {
 	transScreenToWorld(&mInfoDicePos, 150, 150, 0.9f);
 	mIsDiceUiDraw = true;
-	mDiceBg->SetIsActive(true);
-	mStageData = StageDataManager::GetInstance().GetCurrentStage();
+	mpDiceBg->SetIsActive(true);
+	mpStageData = StageDataManager::GetInstance().GetCurrentStage();
 
-	for (auto sts : mStates)
+	for (auto sts : mpStatesList)
 	{
 		sts.second->Init();
 	}
@@ -140,21 +140,21 @@ void PlayerController::SetDiceUi()
 
 void PlayerController::RemoveDiceUi()
 {
-	mDiceModel->SetIsActive(false);
-	mDiceBg->SetIsActive(false);
+	mpDiceModel->SetIsActive(false);
+	mpDiceBg->SetIsActive(false);
 	mIsDiceUiDraw = false;
 }
 
 void PlayerController::StateInit(int _stateNum)
 {
-	mStates[_stateNum]->Init();
+	mpStatesList[_stateNum]->Init();
 }
 
 void PlayerController::ChangeState(int _stateNum)
 {
-	mStates[_stateNum]->SetOperationDice(mStates[mStateNum]->GetOperationDice());
-	mStates[_stateNum]->SetMapPos(mStates[mStateNum]->GetMapPos());
-	mStates[mStateNum]->AfterChange();
-	mStates[_stateNum]->BeforeChange();
+	mpStatesList[_stateNum]->SetOperationDice(mpStatesList[mStateNum]->GetOperationDice());
+	mpStatesList[_stateNum]->SetMapPos(mpStatesList[mStateNum]->GetMapPos());
+	mpStatesList[mStateNum]->AfterChange();
+	mpStatesList[_stateNum]->BeforeChange();
 	mStateNum = _stateNum;
 }

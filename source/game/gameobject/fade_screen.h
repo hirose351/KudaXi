@@ -11,8 +11,8 @@ class FadeScreen : public GameObject
 {
 private:
 	float mAlpha;			// ‰æ‘œ‚Ìƒ¿’l
-	FadeType mCurrentType;
 	bool mIsCompleted;		// “®ì‚ªŠ®—¹‚µ‚½‚©
+	FadeType mCurrentType;
 
 public:
 	FadeScreen();

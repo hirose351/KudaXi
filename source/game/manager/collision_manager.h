@@ -1,15 +1,12 @@
 #pragma once
 #include	"../../system/util/uncopyable.h"
-#include	"../../system/dx11/dx11mathutil.h"
-#include	"../../system/util/dixsmartptr.h"
 #include	"../component/collision_component.h"
 
 class Component::Collision;
-
 class CollisionManager : public Uncopyable
 {
 private:
-	std::vector<class Component::Collision*> mColList;
+	std::vector<class Component::Collision*> mpColList;
 
 public:
 	static CollisionManager& GetInstance() {

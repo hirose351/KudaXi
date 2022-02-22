@@ -1,5 +1,5 @@
 #include	"quad2d.h"
-#include	"../dx11/DX11Settransform.h"
+#include	"../dx11/dx11_settransform.h"
 
 // comptr
 using Microsoft::WRL::ComPtr;

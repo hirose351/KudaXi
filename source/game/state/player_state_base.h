@@ -22,11 +22,11 @@ class DIce;
 class PlayerStateBase :public StateBase
 {
 protected:
-	Component::PlayerController* mHolder;			// 持ち主
-	Dix::wp<Transform>			 mTransform;		// 位置回転大きさ
-	Dix::wp<Direction>			 mDirection;		// 移動方向
+	Component::PlayerController* mpHolder;			// 持ち主
+	Dix::wp<Transform>			 mpTransform;		// 位置回転大きさ
+	Dix::wp<Direction>			 mpDirection;		// 移動方向
 	Dix::wp<Dice>				 mpOperationDice;	// 操作するDice
-	Foot*						 mFoot;				// 足元
+	Foot*						 mpFoot;			// 足元
 	INT3						 mMapPos;			// マップ上の位置
 
 	/// Todo:アニメーション管理もここで管理したい

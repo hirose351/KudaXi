@@ -25,7 +25,7 @@ Puzzle::Puzzle()
 	Component::Quad2d* uiStageQuad = stageString->AddComponent<Component::Quad2d>();
 	uiStageQuad->SetInfo("assets/image/ui/stage.png", XMFLOAT4(1, 1, 1, 1));
 	uiStageQuad->SetOrderInLayer(1);
-	mModeObjList.emplace_back(stageString);
+	mpModeObjList.emplace_back(stageString);
 
 	// StageNumUI
 	Dix::sp<myUI::Image> stageNum;
@@ -37,8 +37,8 @@ Puzzle::Puzzle()
 	Component::Quad2d* uiStageNumQuad = stageNum->AddComponent<Component::Quad2d>();
 	uiStageNumQuad->SetInfo("assets/image/ui/number.png", XMFLOAT4(1, 1, 1, 1), 10);
 	uiStageNumQuad->SetOrderInLayer(1);
-	mModeObjList.emplace_back(stageNum);
-	mUiStageNum = stageNum;
+	mpModeObjList.emplace_back(stageNum);
+	mpUiStageNum = stageNum;
 
 	// StepStringUI
 	Dix::sp<myUI::Image> stepString;
@@ -49,7 +49,7 @@ Puzzle::Puzzle()
 	Component::Quad2d* uiStepQuad = stepString->AddComponent<Component::Quad2d>();
 	uiStepQuad->SetInfo("assets/image/ui/step.png", XMFLOAT4(1, 1, 1, 1));
 	uiStepQuad->SetOrderInLayer(1);
-	mModeObjList.emplace_back(stepString);
+	mpModeObjList.emplace_back(stepString);
 
 	// StepNumUI
 	Dix::sp<myUI::Image> stepNum;
@@ -61,8 +61,8 @@ Puzzle::Puzzle()
 	Component::Quad2d* stepNumQuad = stepNum->AddComponent<Component::Quad2d>();
 	stepNumQuad->SetInfo("assets/image/ui/number.png", XMFLOAT4(1, 1, 1, 1), 10);
 	stepNumQuad->SetOrderInLayer(1);
-	mModeObjList.emplace_back(stepNum);
-	mUiStepNum = stepNum;
+	mpModeObjList.emplace_back(stepNum);
+	mpUiStepNum = stepNum;
 
 	// ClearOverUI
 	Dix::sp<myUI::Image> clearOver;
@@ -73,26 +73,26 @@ Puzzle::Puzzle()
 	Component::Quad2d* clearOverQuad = clearOver->AddComponent<Component::Quad2d>();
 	clearOverQuad->SetInfo("assets/image/ui/clearover.png", XMFLOAT4(1, 1, 1, 1), 2);
 	clearOverQuad->SetOrderInLayer(20);
-	mModeObjList.emplace_back(clearOver);
-	mUiClearOver = clearOver;
+	mpModeObjList.emplace_back(clearOver);
+	mpUiClearOver = clearOver;
 
 	// cameraEye
 	Dix::sp<CameraEyeAccess> cameraEye;
 	cameraEye.SetPtr(new CameraEyeAccess);
-	mCameraEye = cameraEye;
+	mpCameraEye = cameraEye;
 	SceneManager::GetInstance()->GetCurrentScene()->AddGameObject(cameraEye);
-	mModeObjList.emplace_back(cameraEye);
+	mpModeObjList.emplace_back(cameraEye);
 
 	// cameralookat
 	Dix::sp<CameraAccessLookat> cameralookat;
 	cameralookat.SetPtr(new CameraAccessLookat);
-	mCameraLookat = cameralookat;
+	mpCameraLookat = cameralookat;
 	SceneManager::GetInstance()->GetCurrentScene()->AddGameObject(cameralookat);
-	mModeObjList.emplace_back(cameralookat);
+	mpModeObjList.emplace_back(cameralookat);
 
 	/// Todo:次のステージへ、ステージセレクトへ、もう一度
 
-	for (Dix::wp<GameObject> obj : mModeObjList)
+	for (Dix::wp<GameObject> obj : mpModeObjList)
 		obj->SetIsActive(false);
 }
 
@@ -105,9 +105,9 @@ void Puzzle::Exec()
 	// カメラが動いている状態なら
 	if (mIsCameraMove)
 	{
-		if (mCameraEye->GetComponent<Component::Easing>()->GetEasingListCnt() == 0)
+		if (mpCameraEye->GetComponent<Component::Easing>()->GetEasingListCnt() == 0)
 		{
-			for (Dix::wp<GameObject> obj : mModeObjList)
+			for (Dix::wp<GameObject> obj : mpModeObjList)
 				obj->Update();
 
 			mHolder->ChangeMode(eSelect);
@@ -121,7 +121,7 @@ void Puzzle::Exec()
 	// カメラが動きを止めたらポーズ状態を解除
 	if (!mIsStart)
 	{
-		if (mCameraEye->GetComponent<Component::Easing>()->GetEasingListCnt() == 0)
+		if (mpCameraEye->GetComponent<Component::Easing>()->GetEasingListCnt() == 0)
 		{
 			mIsStart = true;
 			mIsClear = false;
@@ -133,29 +133,29 @@ void Puzzle::Exec()
 	mStep = DiceManager::GetInstance()->GetStepCount();
 
 	// ステップ番号更新
-	mUiStepNum->GetComponent<Component::Number>()->SetNum(mStep, -30);
+	mpUiStepNum->GetComponent<Component::Number>()->SetNum(mStep, -30);
 
 	// ステップが0になった時
 	if (mStep <= 0 && !mIsClear)
 	{
 		// ポーズになる前にステップ数オブジェクト更新
-		mUiStepNum->Update();
+		mpUiStepNum->Update();
 		// ポーズにする
 		SceneManager::GetInstance()->GetCurrentScene()->SetIsPause(true);
 		// クリアオーバー表示
-		mUiClearOver->SetIsActive(true);
+		mpUiClearOver->SetIsActive(true);
 		mIsClear = true;
 		// サイコロが全て揃っていれば
 		if (DiceManager::GetInstance()->GetIsAllAligned())
 		{
 			// クリア
-			mUiClearOver->GetComponent<Component::Quad2d>()->SetUvPos(INT2(1, 0));
+			mpUiClearOver->GetComponent<Component::Quad2d>()->SetUvPos(INT2(1, 0));
 			PlaySound(SOUND_LABEL_SE_CLEAR);
 		}
 		else
 		{
 			// オーバー
-			mUiClearOver->GetComponent<Component::Quad2d>()->SetUvPos(INT2(0, 0));
+			mpUiClearOver->GetComponent<Component::Quad2d>()->SetUvPos(INT2(0, 0));
 			PlaySound(SOUND_LABEL_SE_RETRY);
 		}
 	}
@@ -180,13 +180,13 @@ void Puzzle::Exec()
 			Float3 eye(data.mMapSizeWidth*data.mMapChipSize / 2.0f, 250, -197.5f - data.mMapSizeHeight*data.mMapChipSize / 2.0f);
 			Float3 lookat(data.mMapSizeWidth*data.mMapChipSize / 2.0f, 0, -data.mMapSizeHeight*data.mMapChipSize / 2.0f);
 
-			mCameraEye->ObjectInit();
-			mCameraEye->GetComponent<Component::Easing>()->AddEasing(EasingProcess::EasingType::eLinear, TransType::ePos, 50.0f, 0.0f, 0, eye, true);
-			mCameraEye->SetIsActive(true);
+			mpCameraEye->ObjectInit();
+			mpCameraEye->GetComponent<Component::Easing>()->AddEasing(EasingProcess::EasingType::eLinear, TransType::ePos, 50.0f, 0.0f, 0, eye, true);
+			mpCameraEye->SetIsActive(true);
 
-			mCameraLookat->ObjectInit();
-			mCameraLookat->GetComponent<Component::Easing>()->AddEasing(EasingProcess::EasingType::eLinear, TransType::ePos, 50.0f, 0.0f, 0, lookat, true);
-			mCameraLookat->SetIsActive(true);
+			mpCameraLookat->ObjectInit();
+			mpCameraLookat->GetComponent<Component::Easing>()->AddEasing(EasingProcess::EasingType::eLinear, TransType::ePos, 50.0f, 0.0f, 0, lookat, true);
+			mpCameraLookat->SetIsActive(true);
 
 			mHolder->SetIsSetCamera(true);
 		}
@@ -195,7 +195,7 @@ void Puzzle::Exec()
 
 void Puzzle::BeforeChange()
 {
-	for (Dix::wp<GameObject> obj : mModeObjList)
+	for (Dix::wp<GameObject> obj : mpModeObjList)
 	{
 		obj->SetIsActive(true);
 	}
@@ -208,11 +208,11 @@ void Puzzle::BeforeChange()
 	mStep = data.mStep;
 
 	// ステージ番号更新
-	mUiStageNum->GetComponent<Component::Number>()->SetNum(mHolder->GetSelectStage(), -30);
+	mpUiStageNum->GetComponent<Component::Number>()->SetNum(mHolder->GetSelectStage(), -30);
 	// ステップ番号更新
-	mUiStepNum->GetComponent<Component::Number>()->SetNum(data.mStep);
+	mpUiStepNum->GetComponent<Component::Number>()->SetNum(data.mStep);
 	// クリアオーバー非表示
-	mUiClearOver->SetIsActive(false);
+	mpUiClearOver->SetIsActive(false);
 
 	mHolder->GetPlayer()->GetTransform()->angle = 0;
 	mHolder->GetPlayer()->GetTransform()->move = 0;
@@ -237,20 +237,20 @@ void Puzzle::BeforeChange()
 	DiceManager::GetInstance()->SetIsStepCount(true);
 	DiceManager::GetInstance()->SetPuzzle();
 
-	mCameraEye->ObjectInit();
+	mpCameraEye->ObjectInit();
 	Float3 pos, cameraVector(30.5f, 20.0f, -30.5f);
 	pos.x = cameraVector.x * data.mMapSizeWidth;
 	pos.y = 70 + cameraVector.y * (data.mMapSizeWidth + data.mMapSizeHeight);
 	pos.z = cameraVector.z * data.mMapSizeHeight;
-	mCameraEye->GetComponent<Component::Easing>()->AddEasing(EasingProcess::EasingType::eLinear, TransType::ePos, 50.0f, 0.0f, 0, pos, true);
+	mpCameraEye->GetComponent<Component::Easing>()->AddEasing(EasingProcess::EasingType::eLinear, TransType::ePos, 50.0f, 0.0f, 0, pos, true);
 
 
-	mCameraLookat->ObjectInit();
+	mpCameraLookat->ObjectInit();
 	Float3 cameraLookat;
 	cameraLookat.x = data.mMapSizeWidth*DICE_SCALE_HALF;
 	cameraLookat.y = 0;
 	cameraLookat.z = -data.mMapSizeHeight*DICE_SCALE_HALF;
-	mCameraLookat->GetComponent<Component::Easing>()->AddEasing(EasingProcess::EasingType::eLinear, TransType::ePos, 50.0f, 0.0f, 0, cameraLookat, true);
+	mpCameraLookat->GetComponent<Component::Easing>()->AddEasing(EasingProcess::EasingType::eLinear, TransType::ePos, 50.0f, 0.0f, 0, cameraLookat, true);
 
 	// BGM設定
 	if (SceneManager::GetInstance()->GetBeforeSceneKey() == "Create")
@@ -267,7 +267,7 @@ void Puzzle::BeforeChange()
 
 void Puzzle::AfterChange()
 {
-	for (Dix::wp<GameObject> obj : mModeObjList)
+	for (Dix::wp<GameObject> obj : mpModeObjList)
 	{
 		obj->SetIsActive(false);
 	}

@@ -2,19 +2,19 @@
 #include "../gameobject/gameobject.h"
 
 class GameObject;
-
 class ComponentBase
 {
 protected:
-	GameObject* mOwner = nullptr;		// 自身を所有しているゲームオブジェクト
-	std::string	mName;		// 名前
+	GameObject* mpOwner = nullptr;		// 自身を所有しているゲームオブジェクト
+	std::string	mName;					// 名前
 	ObjectTag mTag;
 	ObjectState mState;
 	bool mIsCreate = false;
+
 public:
 	ComponentBase(std::string mName) : mName(mName), mState(ObjectState::eActive) {}
-	ComponentBase(GameObject* mOwner) :mOwner(mOwner) {}
-	virtual ~ComponentBase() { Uninit(); mOwner = nullptr; }
+	ComponentBase(GameObject* mpOwner) :mpOwner(mpOwner) {}
+	virtual ~ComponentBase() { Uninit(); mpOwner = nullptr; }
 
 	virtual void Awake() {}
 	virtual void Init() {}
@@ -22,8 +22,8 @@ public:
 	virtual void ImguiDraw() {}
 	virtual void Uninit() {}
 
-	GameObject* GetOwner() { return mOwner; }
-	void SetOwner(GameObject* newowner) { mOwner = newowner; }
+	GameObject* GetOwner() { return mpOwner; }
+	void SetOwner(GameObject* newOwner) { mpOwner = newOwner; }
 
 	ObjectTag GetTag() { return mTag; }
 	void SetTag(ObjectTag _tag) { mTag = _tag; }

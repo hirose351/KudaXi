@@ -1,5 +1,5 @@
 #pragma once
-#include	"../../system/dx11/DX11util.h"
+#include	"../../system/dx11/dx11_util.h"
 
 struct PARTICLE {
 	int		uv;						// UVî‘çÜ

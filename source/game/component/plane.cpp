@@ -1,7 +1,7 @@
 #include	"plane.h"
-#include	"../../system/dx11/DX11util.h"
-#include	"../../system/dx11/DX11Settransform.h"
-#include	"../../system/dx11/Shader.h"
+#include	"../../system/dx11/dx11_util.h"
+#include	"../../system/dx11/dx11_settransform.h"
+#include	"../../system/dx11/shader.h"
 
 using namespace Component;
 

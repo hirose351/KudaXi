@@ -1,8 +1,8 @@
 #pragma once
 #include	<DirectXMath.h>
-#include	"Shader.h"
 #include	"../../Memory.h"
-#include	"CDirectxGraphics.h"
+#include	"directx_graphics.h"
+#include	"shader.h"
 
 class DX11SetTransform {
 private:

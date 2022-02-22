@@ -7,12 +7,12 @@ namespace Component {
 	class Quad2d : public DrawComponentBase
 	{
 	private:
-		Dix::sp<CQuad2D> mpQuad;
+		std::vector<INT2> mDrawUvList;	// 連続して描画する場合のUV位置リスト
 		DirectX::XMFLOAT4 mColor = DirectX::XMFLOAT4(1, 1, 1, 1);
+		Dix::sp<CQuad2D> mpQuad;
 		DrawType mDrawType;
-		INT2 mUvPos;	// Uv位置
-		INT2 mTexUv;	// テクスチャの分割数
-		std::vector<INT2>		mDrawUvList;	// 連続して描画する場合のUV位置リスト
+		INT2 mUvPos;					// Uv位置
+		INT2 mTexUv;					// テクスチャの分割数
 
 		int mWidth;
 		int mHeight;

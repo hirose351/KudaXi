@@ -17,8 +17,8 @@ MapMove::MapMove() :ComponentBase((u8"ƒ}ƒbƒvã‚Ì‘€ì"))
 
 void MapMove::Init()
 {
-	mOwnerType = mOwner->GetObjectType();
-	pos = mOwner->GetComponent<Component::MapPos>();
+	mOwnerType = mpOwner->GetObjectType();
+	mpMapPos = mpOwner->GetComponent<Component::MapPos>();
 }
 
 void MapMove::Update()
@@ -51,11 +51,11 @@ void MapMove::Update()
 		}
 		if (mOwnerType == ObjectType::ePlayer)
 		{
-			pos->AddMapPos(moveP);
+			mpMapPos->AddMapPos(moveP);
 		}
 		else if (mOwnerType == ObjectType::eDice)
 		{
-			pos->AddMapPos(DiceManager::GetInstance()->GetMoveMapPos(static_cast<Direction>(direction), pos->GetMapPos()));
+			mpMapPos->AddMapPos(DiceManager::GetInstance()->GetMoveMapPos(static_cast<Direction>(direction), mpMapPos->GetMapPos()));
 		}
 	}
 	else if (mOwnerType == ObjectType::eDice)
@@ -77,8 +77,8 @@ void MapMove::Update()
 			DX11MtxRotationZ(90, rotMtx);
 			break;
 		}
-		DX11MtxMultiply(rotMtx, rotMtx, mOwner->GetTransform()->GetMtx());
-		mOwner->GetTransform()->SetWordMtx(rotMtx);
+		DX11MtxMultiply(rotMtx, rotMtx, mpOwner->GetTransform()->GetMtx());
+		mpOwner->GetTransform()->SetWordMtx(rotMtx);
 	}
 }
 

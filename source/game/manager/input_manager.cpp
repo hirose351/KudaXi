@@ -1,5 +1,5 @@
 #include	"input_manager.h"
-#include	"../../system/dx11/CDirectInput.h"
+#include	"../../system/dx11/direct_input.h"
 #include	"../../system/util/controller_input.h"
 
 bool InputManager::GetState(InputMode _mode, int _action)

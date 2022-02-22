@@ -1,13 +1,13 @@
 #include		"title_scene.h"
 #include		"../gameobject/ui_image.h"
+#include		"../gameobject/skydome.h"
 #include		"../component/quad2d_component.h"
 #include		"../component/model_component.h"
 #include		"../component/billbord_component.h"
 #include		"../component/animation2d_component.h"
-#include		"../gameobject/skydome.h"
-#include		"../../system/dx11/CDirectInput.h"
-#include		"maingame_scene.h"
+#include		"../../system/dx11/direct_input.h"
 #include		"../../system/util/XAudio2.h"
+#include		"maingame_scene.h"
 
 using namespace DirectX;
 

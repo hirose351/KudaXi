@@ -6,7 +6,7 @@
 #include	<map>
 #include	<assimp\Importer.hpp>
 #include	"Mesh.h"
-#include	"../dx11/CDirectxGraphics.h"
+#include	"../dx11/directx_graphics.h"
 #include	"assimpscene.h"
 #include	"vertexproto.h"
 

@@ -1,16 +1,18 @@
 #include	"stage.h"
+#include	"../manager/stagedata_manager.h"
+#include	"../component/plane.h"
 
 void Stage::CameraUpdate()
 {
 	Float3 mCameraLookat, mCameraEye, cameraVector(20.5f, 4.4f, -27.5f);
 
-	mCameraLookat.x = mCurrentStageData->mMapSizeWidth*DICE_SCALE_HALF;
+	mCameraLookat.x = mpCurrentStageData->mMapSizeWidth*DICE_SCALE_HALF;
 	mCameraLookat.y = { 0 };
-	mCameraLookat.z = { -mCurrentStageData->mMapSizeHeight*DICE_SCALE_HALF };
+	mCameraLookat.z = { -mpCurrentStageData->mMapSizeHeight*DICE_SCALE_HALF };
 
-	mCameraEye.x = cameraVector.x * mCurrentStageData->mMapSizeWidth;
-	mCameraEye.y = 70 + cameraVector.y * (mCurrentStageData->mMapSizeWidth + mCurrentStageData->mMapSizeHeight);
-	mCameraEye.z = cameraVector.z * mCurrentStageData->mMapSizeHeight;
+	mCameraEye.x = cameraVector.x * mpCurrentStageData->mMapSizeWidth;
+	mCameraEye.y = 70 + cameraVector.y * (mpCurrentStageData->mMapSizeWidth + mpCurrentStageData->mMapSizeHeight);
+	mCameraEye.z = cameraVector.z * mpCurrentStageData->mMapSizeHeight;
 
 	Camera::GetInstance()->SetLookat(mCameraLookat);
 	Camera::GetInstance()->SetEye(mCameraEye);
@@ -19,13 +21,13 @@ void Stage::CameraUpdate()
 
 void Stage::Reset()
 {
-	mCurrentStageData = StageDataManager::GetInstance().GetCurrentStage();
+	mpCurrentStageData = StageDataManager::GetInstance().GetCurrentStage();
 
 	for (int x = 0; x < 10; x++)
 		for (int z = 0; z < 10; z++)
-			mCurrentStageData->mFloorMap[x][z] = 1;
+			mpCurrentStageData->mFloorMap[x][z] = 1;
 
-	mCurrentStageData->mMapSizeWidth = mCurrentStageData->mMapSizeHeight = 3;
+	mpCurrentStageData->mMapSizeWidth = mpCurrentStageData->mMapSizeHeight = 3;
 }
 
 Stage::Stage() :GameObject(("Stage"), ObjectType::eStage, false)
@@ -35,20 +37,20 @@ Stage::Stage() :GameObject(("Stage"), ObjectType::eStage, false)
 
 void Stage::ObjectInit()
 {
-	mCurrentStageData = StageDataManager::GetInstance().GetCurrentStage();
+	mpCurrentStageData = StageDataManager::GetInstance().GetCurrentStage();
 
 	for (int x = 0; x < 10; x++)
 		for (int z = 0; z < 10; z++)
-			mCurrentStageData->mFloorMap[x][z] = 1;
+			mpCurrentStageData->mFloorMap[x][z] = 1;
 }
 
 void Stage::ObjectUpdate()
 {
-	for (int z = 0; z < mCurrentStageData->mMapSizeHeight; z++)
+	for (int z = 0; z < mpCurrentStageData->mMapSizeHeight; z++)
 	{
-		for (int x = 0; x < mCurrentStageData->mMapSizeWidth; x++)
+		for (int x = 0; x < mpCurrentStageData->mMapSizeWidth; x++)
 		{
-			if (mCurrentStageData->mFloorMap[z][x] != 0)
+			if (mpCurrentStageData->mFloorMap[z][x] != 0)
 			{
 				GetComponent<Component::Plane>()->SetDrawPos(Float3(DICE_SCALE*x, 0, -DICE_SCALE * z));
 			}
@@ -59,7 +61,7 @@ void Stage::ObjectUpdate()
 void Stage::ImguiCreateDraw()
 {
 	ImGui::Text("Size");
-	ImGui::SliderInt("Width", &mCurrentStageData->mMapSizeWidth, 3, 10);
-	ImGui::SliderInt("Height", &mCurrentStageData->mMapSizeHeight, 3, 10);
+	ImGui::SliderInt("Width", &mpCurrentStageData->mMapSizeWidth, 3, 10);
+	ImGui::SliderInt("Height", &mpCurrentStageData->mMapSizeHeight, 3, 10);
 	CameraUpdate();
 }

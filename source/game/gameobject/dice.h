@@ -30,14 +30,16 @@ private:
 	const int mUpDownCnt = 200;									// 
 	const float mUpDownPositionPerFrame = DICE_SCALE / mUpDownCnt;		// 
 
-	// ˆÚ“®‚·‚é
-	void Push();
-	// ‰ñ“]‚·‚é
-	void Roll();
 	// ¶¬ã‚ª‚é
 	void Up();
 	// ‘µ‚Á‚½‰º‚ª‚é
 	void Down();
+
+protected:	// •Êí—Ş‚ÌDice‚ğì‚é‚Æ‚«‚Í‚±‚ÌŠÖ”‚Ì’†g‚ğ•Ï‚¦‚é
+	// ˆÚ“®
+	virtual void Push();
+	// ‰ñ“]
+	virtual void Roll();
 
 public:
 	Dice();

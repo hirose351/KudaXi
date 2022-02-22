@@ -21,10 +21,10 @@ protected:
 	ObjectType			mObjectType;			// オブジェクトタイプ
 	Dix::sp<Transform>	mTransform;				// 位置回転大きさ
 	bool				mIsStopPause;			// ポーズ時に止めるか
-	GameObject*			mParent = nullptr;		// 親オブジェクト
+	GameObject*			mpParent = nullptr;		// 親オブジェクト
 	std::string			mSceneKey;				// 存在しているシーン名
 
-	std::vector<ComponentBase*> mComponentList; // 保持コンポーネントリスト
+	std::vector<ComponentBase*> mpComponentList; // 保持コンポーネントリスト
 
 public:
 	GameObject(std::string mName, ObjectType mObjectType, bool isStopPose);
@@ -60,8 +60,8 @@ public:
 	void SetIsActive(bool _isActive) { mIsActive = _isActive; }
 	bool GetIsActive() { return mIsActive; }
 
-	void SetParent(GameObject* _obj) { mParent = _obj; }
-	GameObject* GetParent() { return  mParent; }
+	void SetParent(GameObject* _obj) { mpParent = _obj; }
+	GameObject* GetParent() { return  mpParent; }
 
 	std::string GetScenekey() { return  mSceneKey; }
 
@@ -91,7 +91,7 @@ T* GameObject::AddComponent()
 	if (dynamic_cast<ComponentBase*>(newComponent) != nullptr)
 	{
 		newComponent->SetOwner(this);
-		mComponentList.emplace_back(newComponent);
+		mpComponentList.emplace_back(newComponent);
 	}
 
 	return newComponent;
@@ -101,7 +101,7 @@ T* GameObject::AddComponent()
 template<class T>
 T* GameObject::GetComponent()
 {
-	for (auto &com : mComponentList)
+	for (auto &com : mpComponentList)
 	{
 		T* sp = dynamic_cast<T*>(com);
 		if (sp != NULL)
@@ -116,13 +116,13 @@ T* GameObject::GetComponent()
 template<class T>
 void GameObject::RemoveComponent()
 {
-	for (unsigned int i = 0; i < mComponentList.size(); i++)
+	for (unsigned int i = 0; i < mpComponentList.size(); i++)
 	{
-		T* toRemove = dynamic_cast<T*>(mComponentList[i]);
+		T* toRemove = dynamic_cast<T*>(mpComponentList[i]);
 		if (toRemove != nullptr)
 		{
-			mComponentList.erase(mComponentList.begin() + i);
-			mComponentList.shrink_to_fit();
+			mpComponentList.erase(mpComponentList.begin() + i);
+			mpComponentList.shrink_to_fit();
 			return;
 		}
 	}

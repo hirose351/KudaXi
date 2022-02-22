@@ -49,9 +49,9 @@ void PauseEndless::ObjectUpdate()
 	// ポーズボタンが押されたら
 	if (InputManager::GetInstance().GetStateTrigger(InputMode::eUi, static_cast<int>(UiAction::ePause)))
 	{
-		if (!isPause)
+		if (!mIsPause)
 		{
-			isPause = true;
+			mIsPause = true;
 			SceneManager::GetInstance()->GetCurrentScene()->SetIsPause(true);
 			mpButton->SetIsActive(true);
 			mpButton->SetSelectedNum(0);
@@ -64,7 +64,7 @@ void PauseEndless::ObjectUpdate()
 		else
 		{
 			// ポーズ中ならポーズ解除
-			isPause = false;
+			mIsPause = false;
 			SceneManager::GetInstance()->GetCurrentScene()->SetIsPause(false);
 			mpButton->SetIsActive(false);
 			mpButtonBg->SetIsActive(false);
@@ -88,19 +88,19 @@ void PauseEndless::ObjectUpdate()
 	{
 		if (mpButton->GetSelectNum() == 0)
 		{
-			isPause = false;
+			mIsPause = false;
 			SceneManager::GetInstance()->GetCurrentScene()->SetIsPause(false);
 			mpButton->SetIsActive(false);
 			mpButtonBg->SetIsActive(false);
 		}
 		if (mpButton->GetSelectNum() == 1)
 		{
-			mParent->GetComponent<Component::GameModeController>()->CurrentAfterChange();
+			mpParent->GetComponent<Component::GameModeController>()->CurrentAfterChange();
 			SceneManager::GetInstance()->SetNextScene("Mode");
 		}
 		if (mpButton->GetSelectNum() == 2)
 		{
-			mParent->GetComponent<Component::GameModeController>()->CurrentAfterChange();
+			mpParent->GetComponent<Component::GameModeController>()->CurrentAfterChange();
 			SceneManager::GetInstance()->SetNextScene("Title");
 		}
 		mpButton->SetIsPressed(false);

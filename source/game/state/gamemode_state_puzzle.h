@@ -12,11 +12,11 @@ namespace GameModeState {
 		bool mIsCameraMove = false;			// 戻るボタン押されたか
 		bool mIsStart = false;				// 始まったか
 
-		Dix::wp<GameObject> mUiStageNum;	// ステージ番号のUI
-		Dix::wp<GameObject> mUiStepNum;		// ステップ数のUI
-		Dix::wp<GameObject> mUiClearOver;	// クリアオーバー時のUI
-		Dix::wp<GameObject> mCameraEye;
-		Dix::wp<GameObject> mCameraLookat;
+		Dix::wp<GameObject> mpUiStageNum;	// ステージ番号のUI
+		Dix::wp<GameObject> mpUiStepNum;	// ステップ数のUI
+		Dix::wp<GameObject> mpUiClearOver;	// クリアオーバー時のUI
+		Dix::wp<GameObject> mpCameraEye;
+		Dix::wp<GameObject> mpCameraLookat;
 
 	public:
 		Puzzle();

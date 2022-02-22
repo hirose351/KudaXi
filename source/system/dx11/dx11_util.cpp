@@ -1,11 +1,11 @@
 #include	<d3d11.h>
 #include	<DirectXMath.h>
-#include	"CDirectxGraphics.h"
-#include	"Shader.h"
 #include	"../../game/gameobject/camera.h"
+#include	"../../game/gameobject/light.h"
 #include	"../../memory.h"
-#include	"../../game/gameobject/CLight.h"
-#include	"DX11Settransform.h"
+#include	"dx11_settransform.h"
+#include	"directx_graphics.h"
+#include	"shader.h"
 
 CLight				gDirectionallight;
 

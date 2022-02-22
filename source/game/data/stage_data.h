@@ -1,6 +1,5 @@
 #pragma once
 #include		"../../system/util/vector.h"
-#include		"../../system/util/dixsmartptr.h"
 #include		<vector>
 #define		STAGESIZEMAX			(10)
 
@@ -8,25 +7,16 @@
 class StageData
 {
 public:
-	StageData() {
-		mStageName = "Test";
-	}
-
+	StageData() { mStageName = "Test"; }
 	~StageData() { Finalize(); }
 
-	// 後始末
 	void Finalize()
 	{
-		//if (!mDiceMtx.empty())
-		//{
-		//	mDiceMtx.clear();
-		//	mDiceMtx.shrink_to_fit();
-		//}
 	}
 
 	std::string mStageName;
 
-	int mMapSizeWidth = 8;			// マップ横サイズ
+	int mMapSizeWidth = 8;		// マップ横サイズ
 	int mMapSizeHeight = 8;		// マップ縦サイズ
 
 	// 床配置用マップ配列

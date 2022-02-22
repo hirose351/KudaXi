@@ -1,8 +1,8 @@
 #include	"CBillboard.h"
-#include	"../dx11/CDirectxGraphics.h"
-#include	"../dx11/Shader.h"
-#include	"../dx11/DX11Settransform.h"
-#include	"../dx11/dx11mathutil.h"
+#include	"../dx11/directx_graphics.h"
+#include	"../dx11/shader.h"
+#include	"../dx11/dx11_settransform.h"
+#include	"../dx11/dx11_mathutil.h"
 #include	"../../game/gameobject/camera.h"
 
 using namespace DirectX;

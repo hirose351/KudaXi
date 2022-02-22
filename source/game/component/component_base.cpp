@@ -4,7 +4,7 @@ bool ComponentBase::GetIsActiveWithOwner()
 {
 	if (mState != ObjectState::eActive)
 		return false;
-	if (mOwner->GetParent() == nullptr)
-		return mOwner->GetIsActive();
-	return (mOwner->GetIsActive() && mOwner->GetParent()->GetIsActive());
+	if (mpOwner->GetParent() == nullptr)
+		return mpOwner->GetIsActive();
+	return (mpOwner->GetIsActive() && mpOwner->GetParent()->GetIsActive());
 }

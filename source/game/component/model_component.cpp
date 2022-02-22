@@ -1,8 +1,7 @@
 #include	"model_component.h"
 #include	"../../system/dx11/Shader.h"
-#include	"../../system/dx11/CDirectxGraphics.h"
-#include	"../../system/dx11/DX11Settransform.h"
-
+#include	"../../system/dx11/directx_graphics.h"
+#include	"../../system/dx11/dx11_settransform.h"
 #include	<windows.h>
 
 using namespace Component;
@@ -14,7 +13,7 @@ Model::Model()
 
 void Model::Draw()
 {
-	mpModel->Draw(mOwner->GetTransform()->worldMtx);
+	mpModel->Draw(mpOwner->GetTransform()->worldMtx);
 }
 
 void Component::Model::ImguiDraw()

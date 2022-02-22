@@ -2,7 +2,7 @@
 
 using namespace Component;
 
-Billbord::Billbord() : mIsLateDraw(false)
+Billbord::Billbord()
 {
 	mpBillboard.SetPtr(new CBillboard);
 	SetName("Billbord");
@@ -14,12 +14,11 @@ void Billbord::Init()
 
 void Billbord::Update()
 {
-	mpBillboard->Update(mOwner->GetTransform()->worldMtx);
+	mpBillboard->Update(mpOwner->GetTransform()->worldMtx);
 }
 
 void Billbord::Draw()
 {
-	if (mIsLateDraw) return;
 	mpBillboard->Render();
 }
 

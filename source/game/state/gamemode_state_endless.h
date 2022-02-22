@@ -5,14 +5,15 @@ namespace GameModeState {
 	class Endless : public GameModeBase
 	{
 	private:
-		Dix::wp<GameObject> mPauseBt;
-		Dix::wp<GameObject> mOverImage;
+		Dix::wp<GameObject> mpPauseBt;
+		Dix::wp<GameObject> mpOverImage;
 		bool mIsOver = false;
 		/// Todo:スコアの処理はここで管理したい
 
 	public:
 		Endless();
 		~Endless();
+
 		// 操作する変数登録
 		void Start(Component::GameModeController* _c)override;
 		// 実行

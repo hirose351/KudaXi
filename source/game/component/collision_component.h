@@ -12,7 +12,7 @@ namespace Component {
 	{
 	private:
 		Primitive::AABB mPrim;
-		std::vector<Dix::sp<CollisionData>> mHitColList;
+		std::vector<Dix::sp<CollisionData>> mpHitColList;
 		Qube mQube;
 		Float3 mLocalScaleHalf;
 		Float3 mLocalPos;
@@ -23,6 +23,7 @@ namespace Component {
 	public:
 		Collision();
 		~Collision();
+
 		void Awake()override {};
 		void Init()override;
 		void Update()override;
@@ -44,7 +45,6 @@ namespace Component {
 		void SetColor(DirectX::XMFLOAT4 _color) { mColor = _color; mQube.SetColor(mColor); };
 
 		void SetInitState(ObjectTag _tag, Float3 _localPos, Float3 _scale, DirectX::XMFLOAT4 _color);
-
 
 		Primitive::AABB* GetPrim() { Update(); return &mPrim; }
 	};

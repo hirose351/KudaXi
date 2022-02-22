@@ -2,8 +2,8 @@
 #include	<unordered_map>
 #include	<d3d11.h>
 #include	<string>
-#include	"../dx11/DX11util.h"
-#include	"../dx11/Shader.h"
+#include	"../dx11/dx11_util.h"
+#include	"../dx11/shader.h"
 
 class ShaderHashmap {
 private:

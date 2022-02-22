@@ -6,12 +6,12 @@ namespace Component {
 	class Animation2d : public ComponentBase
 	{
 	private:
-		bool isRepeat;					// アニメーションを繰り返すか
+		bool mIsRepeat;					// アニメーションを繰り返すか
 		unsigned int mFrameCnt;			// アニメーションが進む時にかかるフレーム
 		unsigned int mCurrentFrame = 0;	// 現在のフレームカウント
 		unsigned int mArray;			// 何列目のアニメーションか
 		unsigned int mUvposU;			// 何番目のアニメーションか
-		Quad2d* mQuad = nullptr;
+		Quad2d* mpQuad = nullptr;
 
 	public:
 		Animation2d();

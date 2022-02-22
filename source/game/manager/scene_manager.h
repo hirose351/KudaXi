@@ -15,14 +15,13 @@ class SceneBase;
 
 class SceneManager :public Uncopyable {
 private:
-	// シーン保管
-	std::unordered_map<std::string, std::unique_ptr<SceneBase>>	mScenefactories;
+	std::unordered_map<std::string, std::unique_ptr<SceneBase>>	mScenefactories;	// シーン保管
 	std::string mBeforeSceneKey = "";		// 前シーンのキー
 	std::string mCurrentSceneKey = "";		// カレントシーンのキー
 	std::string mNextSceneKey = "";			// 次シーン
 	std::string mAddkey = "";				// 追加シーン
 
-	bool mGameEndFlg = false;										// ゲームを終了するか
+	bool mGameEndFlg = false;				// ゲームを終了するか
 	GameMode mGameMode;
 public:
 
@@ -40,9 +39,6 @@ public:
 
 	template <class sceneclass>
 	void AddScene(std::string key);
-	//// シーンを変更する
-	//template <class sceneclass>
-	//void ChangeScene(std::string key);
 
 	// カレントシーンをセットする
 	void SetCurrentScene(std::string key);

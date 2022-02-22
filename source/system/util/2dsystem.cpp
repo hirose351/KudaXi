@@ -1,7 +1,7 @@
 #include	<DirectXMath.h>
 #include	<wrl/client.h>
-#include	"../dx11/CDirectxGraphics.h"
-#include	"../dx11/Shader.h"
+#include	"../dx11/directx_graphics.h"
+#include	"../dx11/shader.h"
 #include	"2dsystem.h"
 
 using Microsoft::WRL::ComPtr;

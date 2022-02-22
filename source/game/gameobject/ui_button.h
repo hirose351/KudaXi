@@ -95,19 +95,19 @@ namespace myUI {
 	{
 	private:
 		std::vector<Dix::wp<Button>> mpButtonList;		// ボタンのリスト
-		StartPoint mStartPoint;					// 開始地点
-		DirectX::XMFLOAT2 mSpace;				// 余白の大きさ
-		int mSelectNum;							// 選択されている番号
-		unsigned int mArrayCnt;					// 横に並べる数
-		unsigned int mPressingTriggerFrame;		// 長押し時に進む数
-		DirectX::XMFLOAT4 mStateColor[(int)ButtonState::MaxButtonState] = { DirectX::XMFLOAT4(0.5f,0.5f,0.5f,1.0f), DirectX::XMFLOAT4(1.0f,1.0f,1.0f,1.0f),DirectX::XMFLOAT4(1.0f,1.0f,1.0f,1.0f),DirectX::XMFLOAT4(1.0f,1.0f,1.0f,1.0f) };
-		bool isPressed = false;		// ボタンが押されたか
+		StartPoint mStartPoint;							// 開始地点
+		DirectX::XMFLOAT2 mSpace;						// 余白の大きさ
+		int mSelectNum;									// 選択されている番号
+		unsigned int mArrayCnt;							// 横に並べる数
+		unsigned int mPressingTriggerFrame;				// 長押し時に進む数
+		bool isPressed = false;							// ボタンが押されたか
 		ButtonArrangement mArrangement;
 		DirectX::XMFLOAT2 mNomalScale;
-		Float3 mBeforePos;	// 前フレームの位置
-
+		Float3 mBeforePos;								// 前フレームの位置
+		DirectX::XMFLOAT4 mStateColor[(int)ButtonState::MaxButtonState] = { DirectX::XMFLOAT4(0.5f,0.5f,0.5f,1.0f), DirectX::XMFLOAT4(1.0f,1.0f,1.0f,1.0f),DirectX::XMFLOAT4(1.0f,1.0f,1.0f,1.0f),DirectX::XMFLOAT4(1.0f,1.0f,1.0f,1.0f) };
 
 		void SetButtonPosition();
+
 	public:
 		ButtonGroup();
 		void ObjectInit() override;

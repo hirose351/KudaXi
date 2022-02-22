@@ -14,7 +14,7 @@ void Component::Easing::Update()
 	// Easingタイプを決める
 	EasingFamily famly = mEasingList.front();
 
-	if (!isStart)
+	if (!mIsStart)
 	{
 		if (famly.delayFrame > 0.0f)
 		{
@@ -26,13 +26,13 @@ void Component::Easing::Update()
 			switch (famly.transType)
 			{
 			case TransType::ePos:
-				mEasingList.front().startValue = mOwner->GetTransform()->GetPosition();
+				mEasingList.front().startValue = mpOwner->GetTransform()->GetPosition();
 				break;
 			case TransType::eRot:
-				mEasingList.front().startValue = mOwner->GetTransform()->GetAngle();
+				mEasingList.front().startValue = mpOwner->GetTransform()->GetAngle();
 				break;
 			case TransType::eScale:
-				mEasingList.front().startValue = mOwner->GetTransform()->GetScale();
+				mEasingList.front().startValue = mpOwner->GetTransform()->GetScale();
 				break;
 			}
 		}
@@ -41,18 +41,18 @@ void Component::Easing::Update()
 			switch (famly.transType)
 			{
 			case TransType::ePos:
-				mEasingList.front().endValue = mOwner->GetTransform()->GetPosition();
+				mEasingList.front().endValue = mpOwner->GetTransform()->GetPosition();
 				break;
 			case TransType::eRot:
-				mEasingList.front().endValue = mOwner->GetTransform()->GetAngle();
+				mEasingList.front().endValue = mpOwner->GetTransform()->GetAngle();
 				break;
 			case TransType::eScale:
-				mEasingList.front().endValue = mOwner->GetTransform()->GetScale();
+				mEasingList.front().endValue = mpOwner->GetTransform()->GetScale();
 				break;
 			}
 		}
 		mCurrentFrame = 0;
-		isStart = true;
+		mIsStart = true;
 	}
 
 	// リストの先頭から値を求める
@@ -77,13 +77,13 @@ void Component::Easing::Update()
 	switch (famly.transType)
 	{
 	case TransType::ePos:
-		mOwner->GetTransform()->SetPositionXYZ(ansValue);
+		mpOwner->GetTransform()->SetPositionXYZ(ansValue);
 		break;
 	case TransType::eRot:
-		mOwner->GetTransform()->SetAngle(ansValue);
+		mpOwner->GetTransform()->SetAngle(ansValue);
 		break;
 	case TransType::eScale:
-		mOwner->GetTransform()->SetScale(ansValue);
+		mpOwner->GetTransform()->SetScale(ansValue);
 		break;
 	}
 
@@ -96,19 +96,19 @@ void Component::Easing::Update()
 	switch (famly.transType)
 	{
 	case TransType::ePos:
-		mOwner->GetTransform()->SetPositionXYZ(famly.endValue);
+		mpOwner->GetTransform()->SetPositionXYZ(famly.endValue);
 		break;
 	case TransType::eRot:
-		mOwner->GetTransform()->SetAngle(famly.endValue);
+		mpOwner->GetTransform()->SetAngle(famly.endValue);
 		break;
 	case TransType::eScale:
-		mOwner->GetTransform()->SetScale(famly.endValue);
+		mpOwner->GetTransform()->SetScale(famly.endValue);
 		break;
 	}
 
 	// 繰り返すなら先頭の要素を末尾に入れて初期状態に戻し、繰り返さないならリストから消す
 
-	isStart = false;
+	mIsStart = false;
 	if (!mIsRepeat)
 	{
 		mEasingList.pop_front();

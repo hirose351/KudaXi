@@ -15,7 +15,7 @@ Collision::Collision()
 Collision::~Collision()
 {
 	CollisionManager::GetInstance().RemoveCollision(this);
-	mHitColList.clear();
+	mpHitColList.clear();
 }
 
 void Collision::Init()
@@ -26,14 +26,14 @@ void Collision::Init()
 
 void Collision::Update()
 {
-	DX11MtxMultiply(mWorldMtx, mLocalMtx, mOwner->GetTransform()->GetMtx());
+	DX11MtxMultiply(mWorldMtx, mLocalMtx, mpOwner->GetTransform()->GetMtx());
 	mPrim.p = { mWorldMtx._41,mWorldMtx._42,mWorldMtx._43 };
 	mQube.Update(mPrim);
 }
 
 void Collision::Draw()
 {
-	DX11MtxMultiply(mWorldMtx, mLocalMtx, mOwner->GetTransform()->GetMtx());
+	DX11MtxMultiply(mWorldMtx, mLocalMtx, mpOwner->GetTransform()->GetMtx());
 	mQube.Draw(mWorldMtx);
 }
 
@@ -50,7 +50,7 @@ void Collision::ImguiDraw()
 	ImGui::DragFloat("y", &mLocalMtx._42, 0.5f);
 	ImGui::DragFloat("z", &mLocalMtx._43, 0.5f);
 
-	for (auto& list : mHitColList)
+	for (auto& list : mpHitColList)
 	{
 		if ((*list).isHit)
 		{
@@ -63,34 +63,34 @@ void Collision::ImguiDraw()
 void Collision::ColUpdate()
 {
 	// コンテナが空なら返す
-	if (mHitColList.empty())
+	if (mpHitColList.empty())
 	{
 		return;
 	}
 
 	/// Todo:ゲームオブジェクトがぬるの時の処理
-	for (auto obj = mHitColList.begin(); obj != mHitColList.end();)
+	for (auto obj = mpHitColList.begin(); obj != mpHitColList.end();)
 	{
 		// 登録されたオブジェクトが削除されていた時の処理
 		if ((*obj)->col->GetOwner()->GetObjectState() == ObjectState::eDead)
 		{
-			mOwner->OnCollisionExit((*obj)->col);
-			obj = mHitColList.erase(obj);
+			mpOwner->OnCollisionExit((*obj)->col);
+			obj = mpHitColList.erase(obj);
 			continue;
 		}
 
 		// 当たった関数呼び出し
 		if ((*obj)->isHit && (*obj)->beforeHit)
 		{
-			mOwner->OnCollisionStay((*obj)->col);
+			mpOwner->OnCollisionStay((*obj)->col);
 		}
 		else if (!(*obj)->isHit && (*obj)->beforeHit)
 		{
-			mOwner->OnCollisionExit((*obj)->col);
+			mpOwner->OnCollisionExit((*obj)->col);
 		}
 		else if ((*obj)->isHit && !(*obj)->beforeHit)
 		{
-			mOwner->OnCollisionEnter((*obj)->col);
+			mpOwner->OnCollisionEnter((*obj)->col);
 		}
 
 		// フラグ更新
@@ -99,7 +99,7 @@ void Collision::ColUpdate()
 
 		obj++;
 	}
-	mHitColList.shrink_to_fit();
+	mpHitColList.shrink_to_fit();
 }
 
 GameObject* Collision::GetNearestDice(Float3 _pos)
@@ -109,7 +109,7 @@ GameObject* Collision::GetNearestDice(Float3 _pos)
 	float distance = 0;
 
 	// リストに存在するオブジェクトがDiceであれば受け取った座標との距離を測る
-	for (auto obj = mHitColList.begin(); obj != mHitColList.end(); obj++)
+	for (auto obj = mpHitColList.begin(); obj != mpHitColList.end(); obj++)
 	{
 		if ((*obj)->col->GetTag() != ObjectTag::eDice && !(*obj)->isHit && !(*obj)->beforeHit)
 			continue;
@@ -141,12 +141,12 @@ GameObject* Collision::GetNearestDice(Float3 _pos)
 void Collision::RemoveCollisionData(Collision* _col)
 {
 	// リストに存在するオブジェクトか
-	for (auto obj = mHitColList.begin(); obj != mHitColList.end(); obj++)
+	for (auto obj = mpHitColList.begin(); obj != mpHitColList.end(); obj++)
 	{
 		if ((*obj)->col != _col)
 			continue;
 		// 存在すれば消す
-		mHitColList.erase(obj);
+		mpHitColList.erase(obj);
 		return;
 	}
 }
@@ -154,7 +154,7 @@ void Collision::RemoveCollisionData(Collision* _col)
 void Collision::SetHitObj(Collision* _hitobj)
 {
 	// リストに存在するオブジェクトか
-	for (auto obj = mHitColList.begin(); obj != mHitColList.end(); obj++)
+	for (auto obj = mpHitColList.begin(); obj != mpHitColList.end(); obj++)
 	{
 		if ((*obj)->col != _hitobj)
 		{
@@ -170,7 +170,7 @@ void Collision::SetHitObj(Collision* _hitobj)
 	sp<CollisionData> colData;
 	colData.SetPtr(new CollisionData);
 	(*colData).col = _hitobj;
-	mHitColList.emplace_back(colData);
+	mpHitColList.emplace_back(colData);
 }
 
 void Collision::SetInitState(ObjectTag _tag, Float3 _localPos, Float3 _scale, DirectX::XMFLOAT4 _color)

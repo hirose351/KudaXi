@@ -10,7 +10,7 @@ private:
 	std::unordered_map<
 		std::string,					// キー(ステージ名)
 		Dix::sp<StageData>				// データ(StageDataクラス)
-	> mStageHashmap;
+	> mpStageHashmap;
 
 	std::string mCurrentStageKey = "puzzle/init";		// 現在のステージを示すキー
 

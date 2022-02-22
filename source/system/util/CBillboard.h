@@ -1,6 +1,6 @@
 #pragma once
 
-#include	"../dx11/CDirectxGraphics.h"
+#include	"../dx11/directx_graphics.h"
 #include	<DirectXMath.h>
 #include	<unordered_map>
 #include	<string>

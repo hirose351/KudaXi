@@ -1,9 +1,8 @@
 #pragma once
-
 #include	<d3d11.h>
 #include	<wrl/client.h>
 #include	<string>
-#include	"../dx11/dx11mathutil.h"
+#include	"../dx11/dx11_mathutil.h"
 #include	"shaderhashmap.h"
 #include	"texture_manager.h"
 #include	"vector.h"

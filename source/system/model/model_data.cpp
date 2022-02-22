@@ -4,9 +4,9 @@
 #include	<assimp/cimport.h>
 #include	<unordered_map>
 #include	<vector>
-#include	"../dx11/Shader.h"
-#include	"../dx11/DX11Settransform.h"
-#include	"../dx11/CDirectxGraphics.h"
+#include	"../dx11/shader.h"
+#include	"../dx11/dx11_settransform.h"
+#include	"../dx11/directx_graphics.h"
 #include	"memory.h"
 #include	"model_data.h"
 #include	"vertexproto.h"

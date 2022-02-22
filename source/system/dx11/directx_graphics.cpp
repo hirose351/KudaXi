@@ -1,4 +1,4 @@
-#include	"CDirectXGraphics.h"
+#include	"directx_graphics.h"
 
 /*-------------------------------------------------------------------------------
 	DirectX Grpaphics ‚Ì‰Šú‰»ˆ—

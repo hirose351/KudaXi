@@ -1,5 +1,5 @@
 #pragma once
-#include "../dx11/dx11mathutil.h"
+#include "../dx11/dx11_mathutil.h"
 
 struct Float3 : public DirectX::XMFLOAT3
 {

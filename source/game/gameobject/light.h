@@ -1,8 +1,9 @@
 #pragma once
 #include	<DirectXMath.h>
+#include	"../../system/dx11/shader.h"
+#include	"../../system/dx11/dx11_mathutil.h"
+#include	"../../system/dx11/dx11_util.h"
 #include	"memory.h"
-#include	"../../system/dx11/Shader.h"
-#include	"DX11util.h"
 
 using namespace DirectX;
 

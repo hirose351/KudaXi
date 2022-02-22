@@ -6,8 +6,8 @@
 #include	"game/scene/modeselect_scene.h"
 #include	"game/scene/stagecreate_scene.h"
 #include	"game/gameobject/camera.h"
-#include	"system/dx11/CDirectInput.h"
-#include	"system/dx11/DX11Settransform.h"
+#include	"system/dx11/direct_input.h"
+#include	"system/dx11/dx11_settransform.h"
 #include	"system/imgui/util/myimgui.h"
 #include	"system/util/2dsystem.h"
 #include	"system/util/XAudio2.h"
@@ -36,8 +36,7 @@ void GameInit()
 		eye, lookat, up);								// カメラのデータ
 
 	// 平行光源をセット
-	DX11LightInit(
-		DirectX::XMFLOAT4(-50, -87, 66, 0));
+	DX11LightInit(DirectX::XMFLOAT4(-50, -87, 66, 0));
 
 	// アルファブレンド有効化
 	TurnOnAlphablend();

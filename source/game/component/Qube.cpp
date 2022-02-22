@@ -1,8 +1,8 @@
 #include	"Qube.h"
-#include	"../../system/dx11/dx11mathutil.h"
-#include	"../../system/dx11/DX11util.h"
-#include	"../../system/dx11/DX11Settransform.h"
-#include	"../../system/dx11/Shader.h"
+#include	"../../system/dx11/dx11_mathutil.h"
+#include	"../../system/dx11/dx11_util.h"
+#include	"../../system/dx11/dx11_settransform.h"
+#include	"../../system/dx11/shader.h"
 
 // 法線ベクトルを計算
 // ノーマライズ

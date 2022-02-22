@@ -14,7 +14,7 @@ void Quad2d::Init()
 
 void Quad2d::Update()
 {
-	mpQuad->UpdateVertex(XMFLOAT2(mOwner->GetTransform()->GetScale().x, mOwner->GetTransform()->GetScale().y), mColor);
+	mpQuad->UpdateVertex(XMFLOAT2(mpOwner->GetTransform()->GetScale().x, mpOwner->GetTransform()->GetScale().y), mColor);
 	mpQuad->UpdateVbuffer();
 }
 
@@ -22,7 +22,7 @@ void Quad2d::Draw()
 {
 	TurnOffZbuffer();
 	Transform transform;
-	transform.SetWordMtx(mOwner->GetTransform()->worldMtx);
+	transform.SetWordMtx(mpOwner->GetTransform()->worldMtx);
 
 	// 連続描画用リストが空なら
 	if (mDrawPosList.empty())
@@ -85,8 +85,8 @@ void Quad2d::SetInfo(std::string _texName, const XMFLOAT4& _color, int _u, int _
 	mTexUv = { _u,_v };
 	mpQuad.SetPtr(new CQuad2D);
 	mColor = _color;
-	mpQuad->Init(XMFLOAT2(mOwner->GetTransform()->GetScale().x, mOwner->GetTransform()->GetScale().y), _texName, _color, _u, _v, _z);
-	mOwner->SetName(mOwner->GetName() + "  " + _texName);
+	mpQuad->Init(XMFLOAT2(mpOwner->GetTransform()->GetScale().x, mpOwner->GetTransform()->GetScale().y), _texName, _color, _u, _v, _z);
+	mpOwner->SetName(mpOwner->GetName() + "  " + _texName);
 }
 
 void Quad2d::SetColor(const DirectX::XMFLOAT4 & _color)

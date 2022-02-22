@@ -1,11 +1,11 @@
 #include	"scene_base.h"
 #include	"../gameobject/gameobject.h"
+#include	"../gameobject/fade_screen.h"
 #include	"../../system/imgui/util/myimgui.h"
-#include	"../../system/dx11/DX11util.h"
+#include	"../../system/dx11/dx11_util.h"
+#include	"../../system/dx11/direct_input.h"
 #include	"../manager/draw_manager.h"
 #include	"../manager/dice_manager.h"
-#include	"../gameobject/fade_screen.h"
-#include	"../../system/dx11/CDirectInput.h"
 
 SceneBase::SceneBase()
 {

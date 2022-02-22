@@ -1,6 +1,6 @@
 #include	"Player.h"
 #include	"../component/player_controller.h"
-#include	"../component/allcomponents.h"
+#include	"../component/model_component.h"
 #include	"../component/map_pos_component.h"
 #include	"../manager/input_manager.h"
 #include	"../../system/model/model_manager.h"

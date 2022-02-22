@@ -1,8 +1,8 @@
 #include	"texture_manager.h"
-#include	"../dx11/DX11Settransform.h"
+#include	"../dx11/dx11_settransform.h"
+#include	"shaderhashmap.h"
 #include	<memory>
 #include	<wrl/client.h>
-#include	"shaderhashmap.h"
 
 void TextureManager::Finalize()
 {

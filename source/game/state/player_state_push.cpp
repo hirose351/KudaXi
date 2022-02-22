@@ -7,33 +7,33 @@ void Push::Exec()
 {
 	if (mpOperationDice->GetPushEnd())
 	{
-		mHolder->ChangeState(eMove);	// ó‘Ô‚ð•Ï‚¦‚é
+		mpHolder->ChangeState(eMove);	// ó‘Ô‚ð•Ï‚¦‚é
 		return;
 	}
 
 	float movePos = 1;
 
-	switch (*mDirection)
+	switch (*mpDirection)
 	{
 	case Direction::eNeutral:
-		mHolder->ChangeState(eMove);	// ó‘Ô‚ð•Ï‚¦‚é
+		mpHolder->ChangeState(eMove);	// ó‘Ô‚ð•Ï‚¦‚é
 		return;
 	case Direction::eUp:
-		mTransform->move = { 0, 0, movePos };
+		mpTransform->move = { 0, 0, movePos };
 		break;
 	case Direction::eDown:
-		mTransform->move = { 0, 0, -movePos };
+		mpTransform->move = { 0, 0, -movePos };
 		break;
 	case Direction::eLeft:
-		mTransform->move = { -movePos, 0, 0 };
+		mpTransform->move = { -movePos, 0, 0 };
 		break;
 	case Direction::eRight:
-		mTransform->move = { movePos, 0, 0 };
+		mpTransform->move = { movePos, 0, 0 };
 		break;
 	}
 
-	mTransform->AddPosition();
-	mTransform->CreateWordMtx();
+	mpTransform->AddPosition();
+	mpTransform->CreateWordMtx();
 }
 
 void Push::BeforeChange()
@@ -42,5 +42,5 @@ void Push::BeforeChange()
 
 void Push::AfterChange()
 {
-	mTransform->move = 0;
+	mpTransform->move = 0;
 }

@@ -3,7 +3,7 @@
 #include	"../imgui_impl_dx11.h"
 #include	"../imgui_impl_win32.h"
 #include	"../../../application.h"
-#include	"../../dx11/dx11util.h"
+#include	"../../dx11/dx11_util.h"
 
 static const ImWchar glyphRangesJapanese[] = {
 

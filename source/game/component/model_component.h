@@ -12,6 +12,7 @@ namespace Component {
 	{
 	private:
 		CModel* mpModel;
+
 	public:
 		Model();
 		void Draw()override;

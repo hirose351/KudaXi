@@ -9,19 +9,19 @@ using Microsoft::WRL::ComPtr;
 class CDirectInput :Uncopyable
 {
 private:
-	ComPtr<IDirectInput8>			mDinput;
-	ComPtr<IDirectInputDevice8>	mDiKeyboard;
-	ComPtr<IDirectInputDevice8>	mDiMouse;
+	ComPtr<IDirectInput8>			mpDinput;
+	ComPtr<IDirectInputDevice8>		mpDiKeyboard;
+	ComPtr<IDirectInputDevice8>		mpDiMouse;
 
 	char					mKeyBuffer[256];		// キーボードバッファ
-	char					mOldKeyBuffer[256];	// 前回の入力キーボードバッファ
+	char					mOldKeyBuffer[256];		// 前回の入力キーボードバッファ
 	DIMOUSESTATE2			mMouseState;			// マウスの状態
-	DIMOUSESTATE2			mMouseStateTrigger;	// マウスの状態
-	POINT				mMousePoint;			// マウス座標
-	int					mWidth;				// マウスのＸ座標最大
-	int					mHeight;				// マウスのＹ座標最大
+	DIMOUSESTATE2			mMouseStateTrigger;		// マウスの状態
+	POINT					mMousePoint;			// マウス座標
+	int						mWidth;					// マウスのＸ座標最大
+	int						mHeight;				// マウスのＹ座標最大
 	HWND					mHwnd;
-	CDirectInput() :mDinput(nullptr), mDiKeyboard(nullptr), mDiMouse(nullptr) {	}
+	CDirectInput() :mpDinput(nullptr), mpDiKeyboard(nullptr), mpDiMouse(nullptr) {	}
 
 public:
 	static CDirectInput& GetInstance() {
@@ -45,37 +45,37 @@ public:
 	//----------------------------------
 	bool Init(HINSTANCE hInst, HWND hwnd, int width, int height) {
 		HRESULT	hr;
-		hr = DirectInput8Create(hInst, DIRECTINPUT_VERSION, IID_IDirectInput8, (void **)&mDinput, NULL);
+		hr = DirectInput8Create(hInst, DIRECTINPUT_VERSION, IID_IDirectInput8, (void **)&mpDinput, NULL);
 		if (FAILED(hr))
 			return false;
 
 		// キーボードデバイス生成
-		mDinput->CreateDevice(GUID_SysKeyboard, &mDiKeyboard, NULL);
+		mpDinput->CreateDevice(GUID_SysKeyboard, &mpDiKeyboard, NULL);
 		if (FAILED(hr))
 			return false;
 
 		// データフォーマットの設定
-		hr = mDiKeyboard->SetDataFormat(&c_dfDIKeyboard);
+		hr = mpDiKeyboard->SetDataFormat(&c_dfDIKeyboard);
 		if (FAILED(hr))
 			return false;
 
 		// 協調レベルの設定
-		hr = mDiKeyboard->SetCooperativeLevel(hwnd, DISCL_FOREGROUND | DISCL_NONEXCLUSIVE);
+		hr = mpDiKeyboard->SetCooperativeLevel(hwnd, DISCL_FOREGROUND | DISCL_NONEXCLUSIVE);
 		if (FAILED(hr))
 			return false;
 
 		// マウスデバイス生成
-		mDinput->CreateDevice(GUID_SysMouse, &mDiMouse, NULL);
+		mpDinput->CreateDevice(GUID_SysMouse, &mpDiMouse, NULL);
 		if (FAILED(hr))
 			return false;
 
 		// データフォーマットの設定
-		hr = mDiMouse->SetDataFormat(&c_dfDIMouse2);
+		hr = mpDiMouse->SetDataFormat(&c_dfDIMouse2);
 		if (FAILED(hr))
 			return false;
 
 		// 協調レベルの設定
-		hr = mDiMouse->SetCooperativeLevel(hwnd, DISCL_FOREGROUND | DISCL_NONEXCLUSIVE);
+		hr = mpDiMouse->SetCooperativeLevel(hwnd, DISCL_FOREGROUND | DISCL_NONEXCLUSIVE);
 		if (FAILED(hr))
 			return false;
 
@@ -86,7 +86,7 @@ public:
 		diprop.diph.dwObj = 0;
 		diprop.diph.dwHow = DIPH_DEVICE;
 		diprop.dwData = DIPROPAXISMODE_REL;							// 相対値モード
-		mDiMouse->SetProperty(DIPROP_AXISMODE, &diprop.diph);		// 軸モードの設定
+		mpDiMouse->SetProperty(DIPROP_AXISMODE, &diprop.diph);		// 軸モードの設定
 
 
 		DIPROPRANGE diprg;
@@ -97,12 +97,12 @@ public:
 		diprg.lMin = 0;
 		diprg.lMax = width - 1;
 
-		mDiMouse->SetProperty(DIPROP_RANGE, &diprg.diph);		// Ｘ方向の範囲を指定
+		mpDiMouse->SetProperty(DIPROP_RANGE, &diprg.diph);		// Ｘ方向の範囲を指定
 		diprg.diph.dwObj = DIJOFS_Y;
 		diprg.diph.dwHow = DIPH_BYOFFSET;
 		diprg.lMin = 0;
 		diprg.lMax = height - 1;
-		mDiMouse->SetProperty(DIPROP_RANGE, &diprg.diph);	// Ｙ方向の範囲を指定
+		mpDiMouse->SetProperty(DIPROP_RANGE, &diprg.diph);	// Ｙ方向の範囲を指定
 
 		mHwnd = hwnd;
 
@@ -124,9 +124,9 @@ public:
 		ScreenToClient(mHwnd, &mMousePoint);
 
 		// デバイスの認識
-		hr = mDiMouse->Acquire();
+		hr = mpDiMouse->Acquire();
 
-		hr = mDiMouse->GetDeviceState(sizeof(mMouseState), &mMouseState);
+		hr = mpDiMouse->GetDeviceState(sizeof(mMouseState), &mMouseState);
 		if (SUCCEEDED(hr))
 		{
 			for (int cnt = 0; cnt < 8; cnt++)
@@ -139,7 +139,7 @@ public:
 			if (hr == DIERR_INPUTLOST)
 			{
 				// デバイスの認識
-				hr = mDiMouse->Acquire();
+				hr = mpDiMouse->Acquire();
 			}
 		}
 	}
@@ -218,14 +218,14 @@ public:
 	void GetKeyBuffer() {
 		HRESULT	hr;
 		// デバイスの認識
-		hr = mDiKeyboard->Acquire();
+		hr = mpDiKeyboard->Acquire();
 		// 前回の状態を保存
 		memcpy(&mOldKeyBuffer, mKeyBuffer, sizeof(mKeyBuffer));
-		hr = mDiKeyboard->GetDeviceState(sizeof(mKeyBuffer), (LPVOID)&mKeyBuffer);
+		hr = mpDiKeyboard->GetDeviceState(sizeof(mKeyBuffer), (LPVOID)&mKeyBuffer);
 		if (hr == DIERR_INPUTLOST)
 		{
 			// デバイスの認識
-			hr = mDiKeyboard->Acquire();
+			hr = mpDiKeyboard->Acquire();
 		}
 	}
 

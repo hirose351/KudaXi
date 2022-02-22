@@ -8,31 +8,28 @@ GameObject::GameObject(std::string mName, ObjectType mObjectType, bool mIsStopPo
 	mObjectID = objectCnt;
 	mTransform.SetPtr(new Transform);
 	mSceneKey = SceneManager::GetInstance()->GetCurrentSceneKey();
-	//SceneManager::GetInstance()->GetCurrentScene()->AddGameObject(this);
 }
 
 GameObject::~GameObject()
 {
 	mName.clear();
-	for (auto &component : mComponentList)
+	for (auto &component : mpComponentList)
 	{
 		if (component != nullptr)
 		{
 			delete(component);
 		}
 	}
-	mComponentList.clear();
-	mComponentList.shrink_to_fit();
-
-	//SceneManager::GetInstance()->GetScene(mSceneKey)->RemoveGameObject(GetObjectID());
+	mpComponentList.clear();
+	mpComponentList.shrink_to_fit();
 }
 
 void GameObject::Init()
 {
 	ObjectInit();
-	if (mComponentList.empty())
+	if (mpComponentList.empty())
 		return;
-	for (auto& component : mComponentList)
+	for (auto& component : mpComponentList)
 	{
 		component->Init();
 	}
@@ -40,16 +37,16 @@ void GameObject::Init()
 
 void GameObject::Update()
 {
-	if (mParent != nullptr)
+	if (mpParent != nullptr)
 	{
-		if (!mParent->GetIsActive() && mObjectType != ObjectType::eStage&&mName != "NumButton")
+		if (!mpParent->GetIsActive() && mObjectType != ObjectType::eStage&&mName != "NumButton")
 			return;
 		/*mTransform->CreateLocalMtx();
 		DX11MtxMultiply(mTransform->worldMtx, mParent->GetTransform()->GetMtx(), mTransform->localMtx);*/
 	}
 
 	ObjectUpdate();
-	for (auto& component : mComponentList)
+	for (auto& component : mpComponentList)
 	{
 		if (component->GetState() == ObjectState::eActive)
 		{
@@ -59,7 +56,7 @@ void GameObject::Update()
 
 	// 死んだコンポーネントを一時配列に追加
 	std::vector<ComponentBase*> deadComponents;
-	for (auto component : mComponentList)
+	for (auto component : mpComponentList)
 	{
 		if (component->GetState() == ObjectState::eDead)
 		{
@@ -73,7 +70,7 @@ void GameObject::Update()
 		delete component;
 	}
 
-	mComponentList.shrink_to_fit();
+	mpComponentList.shrink_to_fit();
 }
 
 void GameObject::ImguiDraw()
@@ -106,7 +103,7 @@ void GameObject::ImguiDraw()
 		ObjectImguiDraw();
 
 		// コンポーネント情報表示
-		for (auto& component : mComponentList)
+		for (auto& component : mpComponentList)
 		{
 			if (ImGui::TreeNode(component->GetName().c_str()))
 			{
@@ -122,7 +119,7 @@ void GameObject::ImguiDraw()
 void GameObject::ImguiCreateDraw()
 {
 	// コンポーネント情報表示
-	for (auto& component : mComponentList)
+	for (auto& component : mpComponentList)
 	{
 		if (!component->GetIsCreate())
 			continue;

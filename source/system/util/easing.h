@@ -1,8 +1,8 @@
 #pragma once
-#include <cassert>
-#include "../dx11/dx11mathutil.h"
-#include <stdio.h>
-#include <iostream>
+#include	"../dx11/dx11_mathutil.h"
+#include	<cassert>
+#include	<stdio.h>
+#include	<iostream>
 
 namespace EasingProcess
 {
