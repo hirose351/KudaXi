@@ -30,13 +30,13 @@ void Quad2d::Draw()
 		switch (mDrawType)
 		{
 		case DrawType::eTex:
-			mpQuad->Draw(transform.GetMtx());
+			mpQuad->Draw(mWorldMtx);
 			break;
 		case DrawType::eNoTex:
-			mpQuad->DrawNoTex(transform.GetMtx());
+			mpQuad->DrawNoTex(mWorldMtx);
 			break;
 		case DrawType::eMokomokoShaderTex:
-			mpQuad->DrawMokoMokoShaderTex(transform.GetMtx());
+			mpQuad->DrawMokoMokoShaderTex(mWorldMtx);
 			break;
 		}
 	}
@@ -71,9 +71,8 @@ void Quad2d::Draw()
 	TurnOnZbuffer();
 }
 
-void Quad2d::ImguiDraw()
+void Quad2d::ImguiDrawComponent()
 {
-	ImGui::DragInt("OrderInLayer", &mOrderInLayer, 0.5f);
 }
 
 void Quad2d::Uninit()

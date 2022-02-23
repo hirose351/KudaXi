@@ -13,10 +13,10 @@ Model::Model()
 
 void Model::Draw()
 {
-	mpModel->Draw(mpOwner->GetTransform()->worldMtx);
+	mpModel->Draw(mWorldMtx);
 }
 
-void Component::Model::ImguiDraw()
+void Model::ImguiDrawComponent()
 {
 
 }

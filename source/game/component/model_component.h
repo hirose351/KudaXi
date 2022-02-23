@@ -16,7 +16,7 @@ namespace Component {
 	public:
 		Model();
 		void Draw()override;
-		void ImguiDraw()override;
+		void ImguiDrawComponent()override;
 		void Uninit() override;
 
 		void SetModel(CModel* p) {

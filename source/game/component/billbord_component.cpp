@@ -14,7 +14,7 @@ void Billbord::Init()
 
 void Billbord::Update()
 {
-	mpBillboard->Update(mpOwner->GetTransform()->worldMtx);
+	mpBillboard->Update(mWorldMtx);
 }
 
 void Billbord::Draw()
@@ -22,7 +22,7 @@ void Billbord::Draw()
 	mpBillboard->Render();
 }
 
-void Billbord::ImguiDraw()
+void Billbord::ImguiDrawComponent()
 {
 }
 

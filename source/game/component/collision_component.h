@@ -15,10 +15,7 @@ namespace Component {
 		std::vector<Dix::sp<CollisionData>> mpHitColList;
 		Qube mQube;
 		Float3 mLocalScaleHalf;
-		Float3 mLocalPos;
 		DirectX::XMFLOAT4 mColor{ 0, 0, 0, 0 };
-		DirectX::XMFLOAT4X4 mLocalMtx;
-		DirectX::XMFLOAT4X4 mWorldMtx;
 
 	public:
 		Collision();
@@ -28,7 +25,7 @@ namespace Component {
 		void Init()override;
 		void Update()override;
 		void Draw()override;
-		void ImguiDraw()override;
+		void ImguiDrawComponent()override;
 		void Uninit()override {};
 
 		void ColUpdate();

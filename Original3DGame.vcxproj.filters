@@ -76,9 +76,6 @@
     <Filter Include="ソース ファイル\game\component">
       <UniqueIdentifier>{7eebec67-83f2-486a-bc56-c55687c4130b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\game\component\collision">
-      <UniqueIdentifier>{43b5d054-c190-4997-bc80-bbfd26b827e4}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ソース ファイル\game\component\draw">
       <UniqueIdentifier>{c925b7e8-2de2-4419-879e-47b5ed255760}</UniqueIdentifier>
     </Filter>
@@ -208,6 +205,9 @@
     <Filter Include="ソース ファイル\game\manager\score">
       <UniqueIdentifier>{f7c037c0-c4b5-425c-8045-f18f4f0b51f3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\game\component\draw\collision">
+      <UniqueIdentifier>{43b5d054-c190-4997-bc80-bbfd26b827e4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\game.cpp">
@@ -322,7 +322,7 @@
       <Filter>ソース ファイル\game\component\draw\model</Filter>
     </ClCompile>
     <ClCompile Include="source\game\component\collision_component.cpp">
-      <Filter>ソース ファイル\game\component\collision</Filter>
+      <Filter>ソース ファイル\game\component\draw\collision</Filter>
     </ClCompile>
     <ClCompile Include="source\system\util\line.cpp">
       <Filter>ソース ファイル\system\util</Filter>
@@ -627,7 +627,7 @@
       <Filter>ソース ファイル\game\component\draw\model</Filter>
     </ClInclude>
     <ClInclude Include="source\game\component\collision_component.h">
-      <Filter>ソース ファイル\game\component\collision</Filter>
+      <Filter>ソース ファイル\game\component\draw\collision</Filter>
     </ClInclude>
     <ClInclude Include="source\game\component\qube.h">
       <Filter>ソース ファイル\game\gameobject\util</Filter>

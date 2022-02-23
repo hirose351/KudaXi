@@ -49,7 +49,7 @@ namespace Component {
 		void Init() override;
 		void Update()override;
 		void Draw()override;
-		void ImguiDraw()override {}
+		void ImguiDrawComponent()override {}
 		void Uninit()override;
 
 		void SetScale(Float3 _scale) { mScale = _scale; }

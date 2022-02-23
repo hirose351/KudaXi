@@ -21,23 +21,20 @@ Collision::~Collision()
 void Collision::Init()
 {
 	mQube.Init(mPrim, mColor);
-	DX11MakeWorldMatrix(mLocalMtx, XMFLOAT3(0, 0, 0), mLocalPos);
 }
 
 void Collision::Update()
 {
-	DX11MtxMultiply(mWorldMtx, mLocalMtx, mpOwner->GetTransform()->GetMtx());
 	mPrim.p = { mWorldMtx._41,mWorldMtx._42,mWorldMtx._43 };
 	mQube.Update(mPrim);
 }
 
 void Collision::Draw()
 {
-	DX11MtxMultiply(mWorldMtx, mLocalMtx, mpOwner->GetTransform()->GetMtx());
 	mQube.Draw(mWorldMtx);
 }
 
-void Collision::ImguiDraw()
+void Collision::ImguiDrawComponent()
 {
 	std::string str;
 
@@ -45,10 +42,6 @@ void Collision::ImguiDraw()
 	ImGui::Text(str.c_str());
 	str = (ObjectTagStr[static_cast<int>(mTag)]);
 	ImGui::Text(str.c_str());
-	ImGui::Text("LocalPosition");
-	ImGui::DragFloat("x", &mLocalMtx._41, 0.5f);
-	ImGui::DragFloat("y", &mLocalMtx._42, 0.5f);
-	ImGui::DragFloat("z", &mLocalMtx._43, 0.5f);
 
 	for (auto& list : mpHitColList)
 	{

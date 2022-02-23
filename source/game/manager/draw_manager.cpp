@@ -31,6 +31,9 @@ void DrawManager::Draw()
 	for (auto &c : mpComponentList)
 	{
 		if (c->GetIsActiveWithOwner() && c->GetIsDraw())
+		{
+			c->CreateLocalMtx();
 			c->Draw();
+		}
 	}
 }
