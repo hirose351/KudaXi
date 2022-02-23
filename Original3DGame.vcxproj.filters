@@ -205,6 +205,9 @@
     <Filter Include="ソース ファイル\game\component\ui\number">
       <UniqueIdentifier>{56c08642-b707-491f-8085-1b527d308d14}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\game\manager\score">
+      <UniqueIdentifier>{f7c037c0-c4b5-425c-8045-f18f4f0b51f3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\game.cpp">
@@ -482,6 +485,12 @@
     </ClCompile>
     <ClCompile Include="source\system\dx11\dx11_util.cpp">
       <Filter>ソース ファイル\system\dx11\util</Filter>
+    </ClCompile>
+    <ClCompile Include="source\game\gameobject\effect_score.cpp">
+      <Filter>ソース ファイル\game\gameobject\effect</Filter>
+    </ClCompile>
+    <ClCompile Include="source\game\manager\score_manager.cpp">
+      <Filter>ソース ファイル\game\manager\score</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -805,6 +814,12 @@
     </ClInclude>
     <ClInclude Include="source\system\dx11\dx11_util.h">
       <Filter>ソース ファイル\system\dx11\util</Filter>
+    </ClInclude>
+    <ClInclude Include="source\game\gameobject\effect_score.h">
+      <Filter>ソース ファイル\game\gameobject\effect</Filter>
+    </ClInclude>
+    <ClInclude Include="source\game\manager\score_manager.h">
+      <Filter>ソース ファイル\game\manager\score</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

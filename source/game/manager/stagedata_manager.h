@@ -1,8 +1,8 @@
 #pragma once
 #include	"../../system/util/uncopyable.h"
 #include	"../../system/util/dixsmartptr.h"
-#include	<unordered_map>
 #include	"../data/stage_data.h"
+#include	<unordered_map>
 
 class StageDataManager :public Uncopyable
 {

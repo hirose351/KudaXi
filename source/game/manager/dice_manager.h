@@ -1,7 +1,5 @@
 #pragma once
 #include	"../gameobject/dice.h"
-#include	"../gameobject/gameobject.h"
-#include	"../../system/util/dixsmartptr.h"
 #include	"../manager/stagedata_manager.h"
 #include	<random>
 
@@ -49,6 +47,7 @@ private:
 	int GetDiceRandomNum(int _rndNum);
 
 	int mEndlessCnt = 0;		// 初期生成数
+	int mScore = 0;				// 総スコア
 
 	// 生成出来るマスを返す
 	INT2 GetSpawnPos(int _rndNum);

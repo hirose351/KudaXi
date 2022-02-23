@@ -837,6 +837,7 @@ bool DiceManager::GetIsAllAligned()
 void DiceManager::EndlessInit()
 {
 	Uninit();
+	mScore = 0;
 	mFrameCnt = 0;
 	mpCurrentStageData = StageDataManager::GetInstance().GetCurrentStage();
 	for (int z = 0; z < mpCurrentStageData->mMapSizeHeight; z++)

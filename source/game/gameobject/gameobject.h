@@ -76,6 +76,9 @@ public:
 	T* GetComponent();
 
 	template<class T>
+	T* GetComponents(int _num);
+
+	template<class T>
 	void RemoveComponent();
 };
 
@@ -107,6 +110,24 @@ T* GameObject::GetComponent()
 		if (sp != NULL)
 		{
 			return sp;
+		}
+	}
+	return nullptr;	// 当該コンポーネントがなければnullptrをreturn
+}
+
+// コンポーネント取得
+template<class T>
+T* GameObject::GetComponents(int _num)
+{
+	int numCnt = 0;
+	for (auto &com : mpComponentList)
+	{
+		T* sp = dynamic_cast<T*>(com);
+		if (sp != NULL)
+		{
+			if (numCnt == _num)
+				return sp;
+			numCnt++;
 		}
 	}
 	return nullptr;	// 当該コンポーネントがなければnullptrをreturn

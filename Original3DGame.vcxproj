@@ -158,6 +158,7 @@
     <ClCompile Include="source\game\gameobject\camera.cpp" />
     <ClCompile Include="source\game\gameobject\dice.cpp" />
     <ClCompile Include="source\game\gameobject\effect_fruit.cpp" />
+    <ClCompile Include="source\game\gameobject\effect_score.cpp" />
     <ClCompile Include="source\game\gameobject\effect_thunder.cpp" />
     <ClCompile Include="source\game\gameobject\fade_screen.cpp" />
     <ClCompile Include="source\game\gameobject\gameobject.cpp" />
@@ -175,6 +176,7 @@
     <ClCompile Include="source\game\manager\draw_manager.cpp" />
     <ClCompile Include="source\game\manager\input_manager.cpp" />
     <ClCompile Include="source\game\manager\scene_manager.cpp" />
+    <ClCompile Include="source\game\manager\score_manager.cpp" />
     <ClCompile Include="source\game\manager\stagedata_manager.cpp" />
     <ClCompile Include="source\game\scene\modeselect_scene.cpp" />
     <ClCompile Include="source\game\scene\scene_base.cpp" />
@@ -251,6 +253,7 @@
     <ClInclude Include="source\game\gameobject\access_dice_create_manager.h" />
     <ClInclude Include="source\game\gameobject\access_dice_endless_manager.h" />
     <ClInclude Include="source\game\gameobject\camera.h" />
+    <ClInclude Include="source\game\gameobject\effect_score.h" />
     <ClInclude Include="source\game\gameobject\light.h" />
     <ClInclude Include="source\game\gameobject\dice.h" />
     <ClInclude Include="source\game\gameobject\effect_fruit.h" />
@@ -274,6 +277,7 @@
     <ClInclude Include="source\game\manager\input_manager.h" />
     <ClInclude Include="source\game\manager\input_utility.h" />
     <ClInclude Include="source\game\manager\scene_manager.h" />
+    <ClInclude Include="source\game\manager\score_manager.h" />
     <ClInclude Include="source\game\manager\stagedata_manager.h" />
     <ClInclude Include="source\game\scene\modeselect_scene.h" />
     <ClInclude Include="source\game\scene\scene_base.h" />

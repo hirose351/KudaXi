@@ -30,6 +30,8 @@ private:
 	const int mUpDownCnt = 200;									// 
 	const float mUpDownPositionPerFrame = DICE_SCALE / mUpDownCnt;		// 
 
+	int mChainCnt = 0;	// ƒ`ƒFƒCƒ“””
+
 	// ¶¬Žžã‚ª‚é
 	void Up();
 	// ‘µ‚Á‚½Žž‰º‚ª‚é
@@ -101,5 +103,7 @@ public:
 	bool GetRollEnd() { return mCrrentRotCnt >= mMoveCnt; }
 
 	void SetDiceSts(DiceStatus _sts) { mDiceSts = _sts; }
+	void SetChainCnt(int _chainCnt) { mChainCnt = _chainCnt; }
+	int GetChainCnt() { return mChainCnt; }
 };
 
