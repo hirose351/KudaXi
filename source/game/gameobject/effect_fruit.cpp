@@ -11,6 +11,7 @@ Fruit::Fruit() :GameObject(("Fruit"), ObjectType::eObstracle, true)
 	bilbord->LoadTexture("assets/image/effect/fruit.png");
 	bilbord->SetScale(XMFLOAT2(7.0f, 7.0f));
 	bilbord->SetDivUV(XMFLOAT2(6.0f, 1.0f));
+	bilbord->SetOrderInLayer(78);
 }
 
 Fruit::~Fruit()
@@ -64,9 +65,15 @@ void Fruit::ObjectUpdate()
 	{
 		//mTransform->SetPositionXYZ(itr.pos);
 		bilbord->SetUV(XMFLOAT2(static_cast<float>(itr.uv), 0));
-		bilbord->Update();
 		bilbord->SetDrawPos(itr.pos);
+		bilbord->Update();
 	}
+	for (auto itr : mParticle)
+	{
+		if (itr.lifetime > 0)
+			return;
+	}
+	mObjectState = ObjectState::eDead;
 }
 
 void Fruit::SetInit(const Float3& _pos, int _uvnum)
@@ -84,7 +91,7 @@ void Fruit::SetInit(const Float3& _pos, int _uvnum)
 		mParticle.back().pos.y = _pos.y;
 		mParticle.back().pos.z = _pos.z + (((float)rand() / (float)RAND_MAX - 0.5f)/* * 0.5f*/);
 
-		mParticle.back().lifetime = 300;
+		mParticle.back().lifetime = 500;
 		//m_particle[i].velocity.x = ((float)rand() / (float)RAND_MAX - 0.5f) * 0.05f; //ÉâÉìÉ_ÉÄÇ…ë¨ìxÇê›íË
 		//m_particle[i].velocity.y = -((float)rand() / (float)RAND_MAX) * 10.0f;
 		//m_particle[i].velocity.z = ((float)rand() / (float)RAND_MAX - 0.5f) * 0.05f;
@@ -92,7 +99,7 @@ void Fruit::SetInit(const Float3& _pos, int _uvnum)
 		mParticle.back().velocity.y = -((float)rand() / (float)RAND_MAX) * 10.0f;
 		mParticle.back().velocity.z = (_pos.z - mParticle.back().pos.z) / 2.0f;
 
-		mParticle.back().height = -25.0f;
+		mParticle.back().height = 3.0f;
 		mParticle.back().gravity = -0.5f;
 		mParticle.back().attenuation = 0.5f;
 

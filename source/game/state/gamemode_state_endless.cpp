@@ -4,6 +4,7 @@
 #include	"../gameobject/pause_endless.h"
 #include	"../gameobject/access_dice_endless_manager.h"
 #include	"../gameobject/ui_image.h"
+#include	"../gameobject/ui_score.h"
 #include	"../component/player_controller.h"
 #include	"../component/quad2d_component.h"
 #include	"../../system/util/XAudio2.h"
@@ -48,6 +49,13 @@ Endless::Endless()
 	clearOverQuad->SetOrderInLayer(20);
 	mpModeObjList.emplace_back(overImage);
 	mpOverImage = overImage;
+
+	// ScoreNumUI
+	Dix::sp<myUI::Score> scoreNum;
+	scoreNum.SetPtr(new myUI::Score);
+	SceneManager::GetInstance()->GetCurrentScene()->AddGameObject(scoreNum);
+	mpModeObjList.emplace_back(scoreNum);
+	mpScoreNum = scoreNum;
 
 	for (Dix::wp<GameObject> obj : mpModeObjList)
 		obj->SetIsActive(false);

@@ -1,5 +1,6 @@
 #include	"effect_thunder.h"
 #include	"../component/billbord_component.h"
+#include	"../component/easing_component.h"
 
 using namespace Effect;
 using namespace DirectX;
@@ -11,8 +12,9 @@ void Thunder::ObjectInit()
 	bilbord->SetScale(XMFLOAT2(100.0f, 200.0f));
 	bilbord->SetDivUV(XMFLOAT2(2, 1));
 	bilbord->SetUV(XMFLOAT2(0, 0));
-	bilbord->SetOrderInLayer(10);
+	bilbord->SetOrderInLayer(80);
 	mTransform->SetPositionXYZ(mInitPos);
+	AddComponent<Component::Easing>()->AddEasing(EasingProcess::EasingType::eLinear, TransType::eBilbordAlha, 40, 0, Float3(1), Float3(0));
 }
 
 void Thunder::ObjectUpdate()
@@ -28,17 +30,6 @@ void Thunder::ObjectUpdate()
 	if (bilbord == nullptr)
 		return;
 
-	if (mAlha <= 0.8f)
-	{
-		bilbord->SetUV(XMFLOAT2(1, 0));
-	}
-	if (mAlha > 0.0f)
-	{
-		bilbord->SetColor(XMFLOAT4(1, 1, 1, mAlha));
-		mAlha -= mAlhaPerFrame;
-	}
-	else
-	{
-		SetObjectState(ObjectState::eDead);
-	}
+	if (GetComponent<Component::Billbord>()->GetAlha() <= 0)
+		mObjectState = ObjectState::eDead;
 }

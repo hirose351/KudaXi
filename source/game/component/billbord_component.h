@@ -7,6 +7,7 @@ namespace Component {
 	{
 	private:
 		Dix::sp<CBillboard> mpBillboard;
+		DirectX::XMFLOAT4 mColor = { 1,1,1,1 };
 
 	public:
 		Billbord();
@@ -18,7 +19,8 @@ namespace Component {
 
 		void SetColor(const DirectX::XMFLOAT4& color)
 		{
-			mpBillboard->SetColor(color);
+			mColor = color;
+			mpBillboard->SetColor(mColor);
 		}
 		void SetScale(const DirectX::XMFLOAT2& scale)
 		{
@@ -35,6 +37,15 @@ namespace Component {
 		void LoadTexture(const std::string pTexFileName)
 		{
 			mpBillboard->LoadTexture(pTexFileName);
+		}
+		void SetAlha(float _alha)
+		{
+			mColor.w = _alha;
+			mpBillboard->SetColor(mColor);
+		}
+		float GetAlha()
+		{
+			return mColor.w;
 		}
 	};
 }

@@ -1,5 +1,6 @@
 #include	"number_component.h"
 #include	"quad2d_component.h"
+#include	<cmath>
 
 using namespace Component;
 
@@ -11,7 +12,7 @@ Number::Number() :ComponentBase(("Number"))
 {
 }
 
-void Component::Number::Init()
+void Number::Init()
 {
 	mQuad = mpOwner->GetComponents<Component::Quad2d>(GetComponentId());
 }
@@ -20,16 +21,15 @@ void Number::Update()
 {
 	if (mQuad == nullptr)
 		return;
-
-	for (int i = 1; i <= GetDigit(mNum); i++)
+	int digit = mIsDigitFixed ? mDigit : GetDigit(mNum);
+	for (int i = 1; i <= digit; i++)
 	{
-		// ‚PŒ…–Ú‚È‚ç
-		if (i == 1)
-			mQuad->SetDrawUv(INT2(mNum % (i * 10), 0));
-		else
-			mQuad->SetDrawUv(INT2((mNum + 1) / ((i - 1) * 10), 0));
-		if (GetDigit(mNum) != 1)
-			mQuad->SetDrawPos(Float3(mStartingPoint + mpOwner->GetTransform()->scale.x * (GetDigit(mNum) - i), mQuad->GetWorldPos().y, 0));
+		// uvÝ’è
+		mQuad->SetDrawUv(INT2((mNum  % static_cast<int>(std::pow(10, i))) / static_cast<int>(std::pow(10, i - 1)), 0));
+
+		// ˆÊ’uÝ’è
+		if (digit != 1)
+			mQuad->SetDrawPos(Float3(mStartingPoint + mpOwner->GetTransform()->scale.x * (digit - i), mQuad->GetWorldPos().y, 0));
 		else
 			mQuad->SetDrawPos(mQuad->GetWorldPos());
 	}
@@ -42,12 +42,13 @@ void Number::ImguiDraw()
 	SetNum(mNum);
 }
 
-void Number::SetNum(int _num, float _space)
+void Number::SetNum(int _num, float _space, int _digit)
 {
 	mNum = _num;
 	mSpace = _space;
-	int digit = GetDigit(mNum);
+	mDigit = _digit < GetDigit(mNum) ? GetDigit(mNum) : _digit;
+	mIsDigitFixed = _digit < GetDigit(mNum) ? false : true;
 	float scale = mpOwner->GetTransform()->scale.x;
 	float pos = mQuad->GetWorldMtx()._41;
-	mStartingPoint = pos - scale * (digit / 2) - (scale / 2.0f) * (digit % 2) - mSpace * (digit / 2) - mSpace / 2.0f * ((digit / 2) ? 1 : 0);
+	mStartingPoint = pos - scale * (mDigit / 2) - (scale / 2.0f) * (mDigit % 2) - mSpace * (mDigit / 2) - mSpace / 2.0f * ((mDigit / 2) ? 1 : 0);
 }

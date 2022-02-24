@@ -1,5 +1,6 @@
 #include	"easing_component.h"
 #include	"quad2d_component.h"
+#include	"billbord_component.h"
 
 using namespace DirectX;
 
@@ -38,6 +39,9 @@ void Component::Easing::Update()
 			case TransType::eQuad2dAlha:
 				mEasingList.front().startValue = mpOwner->GetComponents<Quad2d>(GetComponentId())->GetAlha();
 				break;
+			case TransType::eBilbordAlha:
+				mpOwner->GetComponents<Billbord>(GetComponentId())->GetAlha();
+				break;
 			}
 		}
 		if (famly.isEndAbsolute)
@@ -55,6 +59,9 @@ void Component::Easing::Update()
 				break;
 			case TransType::eQuad2dAlha:
 				mEasingList.front().endValue = mpOwner->GetComponents<Quad2d>(GetComponentId())->GetAlha();
+				break;
+			case TransType::eBilbordAlha:
+				mpOwner->GetComponents<Billbord>(GetComponentId())->GetAlha();
 				break;
 			}
 		}
@@ -95,6 +102,9 @@ void Component::Easing::Update()
 	case TransType::eQuad2dAlha:
 		mpOwner->GetComponents<Quad2d>(GetComponentId())->SetAlha(ansValue.x);
 		break;
+	case TransType::eBilbordAlha:
+		mpOwner->GetComponents<Billbord>(GetComponentId())->SetAlha(ansValue.x);
+		break;
 	}
 
 	mCurrentFrame += 1.0f;
@@ -116,6 +126,9 @@ void Component::Easing::Update()
 		break;
 	case TransType::eQuad2dAlha:
 		mpOwner->GetComponents<Quad2d>(GetComponentId())->SetAlha(famly.endValue.x);
+		break;
+	case TransType::eBilbordAlha:
+		mpOwner->GetComponents<Billbord>(GetComponentId())->SetAlha(famly.endValue.x);
 		break;
 	}
 

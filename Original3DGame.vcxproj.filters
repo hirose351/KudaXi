@@ -208,6 +208,9 @@
     <Filter Include="ソース ファイル\game\component\draw\collision">
       <UniqueIdentifier>{43b5d054-c190-4997-bc80-bbfd26b827e4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\game\gameobject\ui\score">
+      <UniqueIdentifier>{e77c7ef0-7c6c-4a74-9ef5-9dd9c949d210}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\game.cpp">
@@ -491,6 +494,9 @@
     </ClCompile>
     <ClCompile Include="source\game\manager\score_manager.cpp">
       <Filter>ソース ファイル\game\manager\score</Filter>
+    </ClCompile>
+    <ClCompile Include="source\game\gameobject\ui_score.cpp">
+      <Filter>ソース ファイル\game\gameobject\ui\score</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -820,6 +826,9 @@
     </ClInclude>
     <ClInclude Include="source\game\manager\score_manager.h">
       <Filter>ソース ファイル\game\manager\score</Filter>
+    </ClInclude>
+    <ClInclude Include="source\game\gameobject\ui_score.h">
+      <Filter>ソース ファイル\game\gameobject\ui\score</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

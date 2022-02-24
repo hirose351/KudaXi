@@ -9,7 +9,8 @@ enum class TransType
 	ePos,			// 位置
 	eRot,			// 回転
 	eScale,			// 大きさ
-	eQuad2dAlha		// 矩形のα値
+	eQuad2dAlha,	// 矩形のα値
+	eBilbordAlha	// ビルボードのα値
 };
 
 namespace Component {

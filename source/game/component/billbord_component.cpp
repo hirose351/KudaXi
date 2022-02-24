@@ -19,7 +19,23 @@ void Billbord::Update()
 
 void Billbord::Draw()
 {
-	mpBillboard->Render();
+	// 連続描画用リストが空なら
+	if (mDrawPosList.empty())
+	{
+		mpBillboard->Render();
+	}
+	else
+	{
+		for (int i = 0; i < mDrawPosList.size(); i++)
+		{
+			mWorldMtx._41 = mDrawPosList[i].x;
+			mWorldMtx._42 = mDrawPosList[i].y;
+			mWorldMtx._43 = mDrawPosList[i].z;
+			Update();
+			mpBillboard->Render();
+		}
+		mDrawPosList.clear();
+	}
 }
 
 void Billbord::ImguiDrawComponent()

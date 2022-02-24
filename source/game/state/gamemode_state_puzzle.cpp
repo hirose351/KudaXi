@@ -33,10 +33,10 @@ Puzzle::Puzzle()
 	stageNum->GetTransform()->SetPositionXYZ(Float3(Application::CLIENT_WIDTH / 2.0f + 200, 50.0f, 0));
 	stageNum->GetTransform()->SetScale(Float3(100));
 	SceneManager::GetInstance()->GetCurrentScene()->AddGameObject(stageNum);
-	stageNum->AddComponent<Component::Number>();
 	Component::Quad2d* uiStageNumQuad = stageNum->AddComponent<Component::Quad2d>();
 	uiStageNumQuad->SetInfo("assets/image/ui/number.png", XMFLOAT4(1, 1, 1, 1), 10);
 	uiStageNumQuad->SetOrderInLayer(1);
+	stageNum->AddComponent<Component::Number>();
 	mpModeObjList.emplace_back(stageNum);
 	mpUiStageNum = stageNum;
 
@@ -72,7 +72,7 @@ Puzzle::Puzzle()
 	SceneManager::GetInstance()->GetCurrentScene()->AddGameObject(clearOver);
 	Component::Quad2d* clearOverQuad = clearOver->AddComponent<Component::Quad2d>();
 	clearOverQuad->SetInfo("assets/image/ui/clearover.png", XMFLOAT4(1, 1, 1, 1), 2);
-	clearOverQuad->SetOrderInLayer(20);
+	clearOverQuad->SetOrderInLayer(100);
 	mpModeObjList.emplace_back(clearOver);
 	mpUiClearOver = clearOver;
 

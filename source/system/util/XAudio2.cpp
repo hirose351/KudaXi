@@ -23,6 +23,7 @@ PARAM gParam[SOUND_LABEL_MAX] =
 	{"assets/audio/se/switch.wav", false},  	// 切り替えSE（ループしないのでfalse設定）
 	{"assets/audio/se/ok.wav", false},			// 決定SE
 	{"assets/audio/se/dice.wav", false},		// サイコロSE
+	{"assets/audio/se/align.wav", false},		// サイコロ揃うSE
 
 	{"assets/audio/se/miss.wav", false},		// ミスSE
 	{"assets/audio/se/yeah.wav", false},		// クリアSE
@@ -184,6 +185,10 @@ void PlaySound(SOUND_LABEL label)
 {
 	// ソースボイス作成
 	//g_pXAudio2->CreateSourceVoice(&(g_pSourceVoice[(int)label]), &(g_wfx[(int)label].Format));
+	if (gpSourceVoice[(int)label] != NULL)
+	{
+		StopSound(label);
+	}
 	gpSourceVoice[(int)label]->SubmitSourceBuffer(&(gBuffer[(int)label]));	// ボイスキューに新しいオーディオバッファーを追加
 
 	// 再生

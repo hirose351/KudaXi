@@ -30,7 +30,7 @@ PauseEndless::PauseEndless() :GameObject(("PauseEndless"), ObjectType::eObstracl
 	Component::Quad2d* bgQuad = diceBg->AddComponent<Component::Quad2d>();
 	bgQuad->SetInfo("", XMFLOAT4(1, 1, 1, 0.8f));
 	bgQuad->SetDrawType(DrawType::eNoTex);
-	bgQuad->SetOrderInLayer(1);
+	bgQuad->SetOrderInLayer(99);
 	diceBg->GetTransform()->SetScale(Float3(500, 300, 0));
 	diceBg->GetTransform()->SetPosition(Float3(Application::CLIENT_WIDTH / 2.0f, 400, 0));
 	mpButtonBg = diceBg;

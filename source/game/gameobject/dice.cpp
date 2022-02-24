@@ -1,5 +1,6 @@
 #include	"dice.h"
 #include	"effect_thunder.h"
+#include	"effect_fruit.h"
 #include	"../manager/dice_manager.h"
 #include	"../manager/scene_manager.h"
 #include	"../component/model_component.h"
@@ -21,7 +22,8 @@ Dice::Dice() :GameObject(("Dice"), ObjectType::eDice, true)
 	AddComponent<Component::Model>()->SetModel(ModelMgr::GetInstance().GetModelPtr("assets/model/dice/Dice.fbx"));
 	AddComponent<Component::Collision>()->SetInitState(ObjectTag::eDice, Float3(0, 0, 0), Float3(DICE_SCALE_HALF), DirectX::XMFLOAT4(1, 1, 1, 0.0f));
 	GetComponent<Component::Collision>()->SetColor(XMFLOAT4(1, 1, 1, 0));
-	GetComponent<Component::Collision>()->SetOrderInLayer(5);
+	GetComponent<Component::Collision>()->SetOrderInLayer(75);
+	GetComponent<Component::Model>()->SetOrderInLayer(70);
 }
 
 Dice::~Dice()
@@ -174,6 +176,11 @@ void Dice::SetDownPosition()
 	mTransform->move = Float3(0, -mDownPositionPerFrame, 0);
 	mDiceSts = DiceStatus::eDown;
 	GetComponent<Component::Collision>()->SetColor(XMFLOAT4(1, 0, 0, 0.5f));
+
+	Dix::sp<Effect::Fruit> effect;
+	effect.SetPtr(new Effect::Fruit);
+	effect->SetInit(Float3(mTransform->worldMtx._41, 50, mTransform->worldMtx._43), (int)mTopDiceTypeFruit);
+	SceneManager::GetInstance()->GetScene(mSceneKey)->AddGameObject(effect);
 }
 
 void Dice::Push()

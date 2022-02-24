@@ -1,5 +1,6 @@
 #include	"dice_manager.h"
 #include	"stagedata_manager.h"
+#include	"score_manager.h"
 #include	"../component/map_pos_component.h"
 #include	"../component/map_move_component.h"
 #include	"../component/model_component.h"
@@ -327,7 +328,7 @@ void DiceManager::CheckAligned(Dice* _dice)
 	{
 		INT3 mapPos = _dice->GetMapPos();
 		INT3 ans[4] = { INT3(mapPos.x, 0, mapPos.z - 1), INT3(mapPos.x, 0, mapPos.z + 1), INT3(mapPos.x - 1, 0, mapPos.z), INT3(mapPos.x + 1, 0, mapPos.z) };
-
+		int oneDiceCnt = 0;	// ハッピーワンで落ちたサイコロの数
 		// 隣接しているDiceの状態を見る
 		for (int i = 0; i < 4; i++)
 		{
@@ -347,10 +348,25 @@ void DiceManager::CheckAligned(Dice* _dice)
 						if (d->GetObjectID() == _dice->GetObjectID())
 							continue;
 						d->SetHappyOne();
+						oneDiceCnt++;
 					}
 					// 押されていたなら検索対象Diceも消える
 					if (_dice->GetDiceMoveStatus() == DiceStatus::ePush)
+					{
 						_dice->SetDownPosition();
+						oneDiceCnt++;
+					}
+					PlaySound(SOUND_LABEL_SE_DICE_ALIGN);
+					if (SceneManager::GetInstance()->GetGameMode() != GameMode::eEndless)
+						return;
+					// ゲームモードがエンドレスならスコアの処理を実行
+					// スコア生成
+					Dix::sp<Effect::Score> scoreEffect;
+					scoreEffect.SetPtr(new Effect::Score);
+					TransWorldToScreen(&scoreEffect->GetTransform()->position, _dice->GetTransform()->GetPosition());
+					scoreEffect->GetTransform()->CreateWordMtx();
+					scoreEffect->SetScoreNum(_dice->GetTopDiceTypeNum(), 1, oneDiceCnt);
+					SceneManager::GetInstance()->GetCurrentScene()->AddGameObject(scoreEffect);
 					return;
 				}
 			}
@@ -390,13 +406,20 @@ void DiceManager::CheckAligned(Dice* _dice)
 		{
 			if (mCheckboolMap[z][x] && mDiceMap[z][x] != NODICE)
 			{
-				// Diceを落とす
-				GetListInDice(x, z)->SetDownPosition();
 				if (chain < GetListInDice(x, z)->GetChainCnt())
 					chain = GetListInDice(x, z)->GetChainCnt();
+				// Diceを落とす
+				GetListInDice(x, z)->SetDownPosition();
 			}
 		}
 	}
+	PlaySound(SOUND_LABEL_SE_DICE_ALIGN);
+
+	if (SceneManager::GetInstance()->GetGameMode() != GameMode::eEndless)
+		return;
+
+	// ゲームモードがエンドレスならチェインの処理を実行
+	ScoreManager::GetInstance()->AddScore(_dice->GetTopDiceTypeNum(), mDiceAlignCnt, chain);	// スコア加算
 	_dice->SetChainCnt(chain);
 
 	// スコア生成
@@ -688,7 +711,6 @@ bool DiceManager::CreateAddDice()
 				dice->AddComponent<Component::MapMove>()->Init();
 				dice->GetComponent<Component::Collision>()->SetInitState(ObjectTag::eDice, Float3(0, 0, 0), Float3(DICE_SCALE_HALF), DirectX::XMFLOAT4(1, 1, 1, 0.5f));
 				dice->GetComponent<Component::Collision>()->Init();
-				dice->GetComponent<Component::Collision>()->SetOrderInLayer(30);
 				mDiceMap[z][x] = dice->GetObjectID();
 				dice->SetName(("Dice" + std::to_string(mDiceMap[z][x])));	// オブジェクトの名前に添え字を加える
 

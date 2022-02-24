@@ -18,6 +18,7 @@ typedef enum
 	SOUND_LABEL_SE_SWITCH,			// 切り替えSE
 	SOUND_LABEL_SE_OK,				// 決定SE
 	SOUND_LABEL_SE_DICE,			// サイコロSE
+	SOUND_LABEL_SE_DICE_ALIGN,		// サイコロ揃うSE
 
 	SOUND_LABEL_SE_RETRY,			// ミスSE
 	SOUND_LABEL_SE_CLEAR,			// クリアSE

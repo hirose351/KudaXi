@@ -171,6 +171,7 @@
     <ClCompile Include="source\game\gameobject\stage.cpp" />
     <ClCompile Include="source\game\gameobject\transform.cpp" />
     <ClCompile Include="source\game\gameobject\ui_button.cpp" />
+    <ClCompile Include="source\game\gameobject\ui_score.cpp" />
     <ClCompile Include="source\game\manager\collision_manager.cpp" />
     <ClCompile Include="source\game\manager\dice_manager.cpp" />
     <ClCompile Include="source\game\manager\draw_manager.cpp" />
@@ -271,6 +272,7 @@
     <ClInclude Include="source\game\gameobject\stage.h" />
     <ClInclude Include="source\game\gameobject\transform.h" />
     <ClInclude Include="source\game\gameobject\ui_button.h" />
+    <ClInclude Include="source\game\gameobject\ui_score.h" />
     <ClInclude Include="source\game\manager\collision_manager.h" />
     <ClInclude Include="source\game\manager\dice_manager.h" />
     <ClInclude Include="source\game\manager\draw_manager.h" />

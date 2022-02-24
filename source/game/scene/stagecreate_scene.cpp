@@ -76,7 +76,7 @@ void StageCreateScene::SceneInit()
 	player->GetTransform()->scale = Float3(5, 7, 5);
 	player->AddComponent<Component::Collision>()->SetLocalScale(player->GetTransform()->scale);
 	player->GetComponent<Component::Collision>()->SetColor(DirectX::XMFLOAT4(1.0f, 1.0f, 1.0f, 0.5f));
-	player->GetComponent<Component::Collision>()->SetOrderInLayer(30);
+	player->GetComponent<Component::Collision>()->SetOrderInLayer(90);
 	AddGameObject(player);
 	mpViewObjList.emplace_back(player);
 

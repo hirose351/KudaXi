@@ -19,6 +19,7 @@ Player::Player() : GameObject(("Player"), ObjectType::ePlayer, true) {
 	AddComponent<Component::Model>()->SetModel(ModelMgr::GetInstance().GetModelPtr("assets/model/player/player.fbx"));
 	AddComponent<Component::PlayerController>();
 	AddComponent<Component::MapPos>();
+	GetComponent<Component::Model>()->SetOrderInLayer(60);
 };
 
 Player::~Player()
