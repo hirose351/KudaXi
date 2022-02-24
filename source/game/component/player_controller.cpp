@@ -44,7 +44,7 @@ PlayerController::PlayerController() :ComponentBase(("PlayerController"))
 	mpDiceBg = diceBg;
 	mpDiceBg->SetIsActive(false);
 
-	transScreenToWorld(&mInfoDicePos, 150, 150, 0.9f);
+	TransScreenToWorld(&mInfoDicePos, 150, 150, 0.9f);
 
 	RemoveDiceUi();
 }
@@ -127,7 +127,7 @@ void PlayerController::ImguiDraw()
 
 void PlayerController::SetDiceUi()
 {
-	transScreenToWorld(&mInfoDicePos, 150, 150, 0.9f);
+	TransScreenToWorld(&mInfoDicePos, 150, 150, 0.9f);
 	mIsDiceUiDraw = true;
 	mpDiceBg->SetIsActive(true);
 	mpStageData = StageDataManager::GetInstance().GetCurrentStage();

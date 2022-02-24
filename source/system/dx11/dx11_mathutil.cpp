@@ -650,7 +650,7 @@ float haltonseq(unsigned int no, unsigned int base) {
  z      : スクリーン座標の仮想的なZ成分（0.0～1.0）
  戻り値 : ワールド座標（出力）
 --------------------------*/
-void transScreenToWorld(XMFLOAT3 * out, int sx, int sy, float z)
+void TransScreenToWorld(XMFLOAT3 * out, int sx, int sy, float z)
 {
 	// ビュー変換行列
 	XMFLOAT4X4 view = Camera::GetInstance()->GetCameraMatrix();
@@ -695,6 +695,59 @@ void transScreenToWorld(XMFLOAT3 * out, int sx, int sy, float z)
 	DX11MtxMultiply(invMat, invMat, ans);
 
 	DX11Vec3MulMatrix(*out, *out, invMat);
+}
+
+/*------------------------
+スクリーン座標をワールド座標へ変換
+ ansPos    : スクリーン座標（出力）
+ mtx　　　 ：ワールド座標
+--------------------------*/
+void TransWorldToScreen(DirectX::XMFLOAT3* ansPos, const DirectX::XMFLOAT3&  mtx)
+{
+	// ビュー変換行列
+	XMFLOAT4X4 view = Camera::GetInstance()->GetCameraMatrix();
+	DX11SetTransform::GetInstance()->SetTransform(DX11SetTransform::TYPE::eView, view);
+	// プロジェクション変換行列
+	XMFLOAT4X4 proj = Camera::GetInstance()->GetProjectionMatrix();
+	DX11SetTransform::GetInstance()->SetTransform(DX11SetTransform::TYPE::eProjection, proj);
+
+	// ビュー変換
+	XMFLOAT4 viewPosition = { mtx.x, mtx.y, mtx.z, 1.0f };
+	DX11GetQtfromMatrix(view, viewPosition);
+
+	// プロジェクション変換
+	XMFLOAT4 projectionPosition = viewPosition;
+	DX11GetQtfromMatrix(proj, projectionPosition);
+
+	// ビューポート行列を作成
+	XMFLOAT4X4 vpMat;
+	// 正規化
+	DX11MtxIdentity(vpMat);
+	// ビュー行列
+	D3D11_VIEWPORT vp;
+	vp.Width = (FLOAT)CDirectXGraphics::GetInstance()->GetViewPortWidth();
+	vp.Height = (FLOAT)CDirectXGraphics::GetInstance()->GetViewPortHeight();
+	vp.MinDepth = 0.0f;
+	vp.MaxDepth = 1.0f;
+	vp.TopLeftX = 0;
+	vp.TopLeftY = 0;
+	CDirectXGraphics::GetInstance()->GetImmediateContext()->RSSetViewports(1, &vp);
+
+	vpMat._11 = (float)vp.Width / 2;
+	vpMat._22 = -1.0f * (float)(vp.Height / 2);
+	vpMat._33 = (float)vp.MaxDepth - vp.MinDepth;
+	vpMat._41 = (float)(vp.TopLeftX + vp.Width / 2);
+	vpMat._42 = (float)(vp.TopLeftY + vp.Height / 2);
+	vpMat._43 = vp.MinDepth;
+
+	XMFLOAT3  tmp = mtx;
+	// ビュー変換とプロジェクション変換
+	DX11Vec3MulMatrix(tmp, tmp, view);
+	DX11Vec3MulMatrix(tmp, tmp, proj);
+	// zで割って-1~1の範囲に収める
+	tmp.x /= tmp.z; tmp.y /= tmp.z; tmp.z /= tmp.z;
+	// スクリーン変換
+	DX11Vec3MulMatrix(*ansPos, tmp, vpMat);
 }
 
 void MtxSetPos(XMFLOAT4X4& _mtx, XMFLOAT3 _pos)

@@ -6,9 +6,10 @@
 // “®‚©‚·‚à‚Ì
 enum class TransType
 {
-	ePos,
-	eRot,
-	eScale
+	ePos,			// ˆÊ’u
+	eRot,			// ‰ñ“]
+	eScale,			// ‘å‚«‚³
+	eQuad2dAlha		// ‹éŒ`‚Ìƒ¿’l
 };
 
 namespace Component {

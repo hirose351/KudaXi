@@ -90,10 +90,22 @@ public:
 template<class T>
 T* GameObject::AddComponent()
 {
+	// 同じ型のコンポーネントがあれば加算
+	int componentCnt = 0;
+	for (auto &com : mpComponentList)
+	{
+		T* sp = dynamic_cast<T*>(com);
+		if (sp != NULL)
+		{
+			componentCnt++;
+		}
+	}
+
 	T* newComponent = new T();
 	if (dynamic_cast<ComponentBase*>(newComponent) != nullptr)
 	{
 		newComponent->SetOwner(this);
+		newComponent->SetComponentId(componentCnt);
 		mpComponentList.emplace_back(newComponent);
 	}
 

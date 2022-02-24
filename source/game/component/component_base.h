@@ -10,6 +10,7 @@ protected:
 	ObjectTag mTag;
 	ObjectState mState;
 	bool mIsCreate = false;
+	unsigned int mComponentId = 0;
 
 public:
 	ComponentBase(std::string mName) : mName(mName), mState(ObjectState::eActive) {}
@@ -38,5 +39,8 @@ public:
 
 	void SetIsCreate(bool _flg) { mIsCreate = _flg; }
 	bool GetIsCreate() { return mIsCreate; }
+
+	void SetComponentId(int _id) { mComponentId = _id; }
+	int GetComponentId() { return mComponentId; }
 };
 

@@ -45,3 +45,8 @@ void DrawComponentBase::SetDrawPos(Float3 _f3)
 {
 	mDrawPosList.emplace_back(_f3);
 }
+
+const Float3 DrawComponentBase::GetWorldPos()
+{
+	return Float3(mWorldMtx._41, mWorldMtx._42, mWorldMtx._43);
+}

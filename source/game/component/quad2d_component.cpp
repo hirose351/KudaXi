@@ -94,6 +94,12 @@ void Quad2d::SetColor(const DirectX::XMFLOAT4 & _color)
 	Update();
 }
 
+void Quad2d::SetAlha(float _alha)
+{
+	mColor.w = _alha;
+	Update();
+}
+
 void Quad2d::SetUvPos(INT2 _uv)
 {
 	mUvPos = _uv;

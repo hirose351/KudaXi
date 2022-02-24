@@ -46,7 +46,8 @@ void DX11MtxRotationY(float angle, DirectX::XMFLOAT4X4& outmtx);
 void DX11MtxRotationZ(float angle, DirectX::XMFLOAT4X4& outmtx);
 void DX11MtxScale(float sx, float sy, float sz, DirectX::XMFLOAT4X4& outmtx);
 float haltonseq(unsigned int no, unsigned int base);
-void transScreenToWorld(DirectX::XMFLOAT3*, int sx, int sy, float z);
+void TransScreenToWorld(DirectX::XMFLOAT3*, int sx, int sy, float z);
+void TransWorldToScreen(DirectX::XMFLOAT3* ansPos, const DirectX::XMFLOAT3& mtx);
 void MtxSetPos(DirectX::XMFLOAT4X4& _mtx, DirectX::XMFLOAT3 _pos);
 void MtxAddPos(DirectX::XMFLOAT4X4& _mtx, DirectX::XMFLOAT3 _pos);
 //チェック対象と値を幅と比較対象地を引き算してその絶対値が一定の範囲内かどうかをチェック

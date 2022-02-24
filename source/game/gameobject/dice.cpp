@@ -164,13 +164,14 @@ bool Dice::CheckDiceDirection(Direction _direction)
 
 void Dice::SetStartUpPosition()
 {
-	mTransform->move.y = mUpDownPositionPerFrame;
+	mTransform->move.y = mUpPositionPerFrame;
 	mDiceSts = DiceStatus::eHalfUp;
 }
 
 void Dice::SetDownPosition()
 {
-	mTransform->move = Float3(0, -mUpDownPositionPerFrame, 0);
+	mChainCnt++;	// ƒ`ƒFƒCƒ“”‰ÁŽZ
+	mTransform->move = Float3(0, -mDownPositionPerFrame, 0);
 	mDiceSts = DiceStatus::eDown;
 	GetComponent<Component::Collision>()->SetColor(XMFLOAT4(1, 0, 0, 0.5f));
 }
@@ -264,12 +265,12 @@ void Dice::Up()
 {
 	mTransform->MovePosition();
 	mCrrentPushCnt++;
-	if (mCrrentPushCnt >= mUpDownCnt)
+	if (mCrrentPushCnt >= mUpCnt)
 	{
 		mDirection = Direction::eNeutral;
 		mDiceSts = DiceStatus::eNormal;
 	}
-	else if (mCrrentPushCnt >= mUpDownCnt / 2)
+	else if (mCrrentPushCnt >= mUpCnt / 2)
 	{
 		mDirection = Direction::eNeutral;
 		mDiceSts = DiceStatus::eUp;

@@ -1,4 +1,5 @@
 #include	"easing_component.h"
+#include	"quad2d_component.h"
 
 using namespace DirectX;
 
@@ -34,6 +35,9 @@ void Component::Easing::Update()
 			case TransType::eScale:
 				mEasingList.front().startValue = mpOwner->GetTransform()->GetScale();
 				break;
+			case TransType::eQuad2dAlha:
+				mEasingList.front().startValue = mpOwner->GetComponents<Quad2d>(GetComponentId())->GetAlha();
+				break;
 			}
 		}
 		if (famly.isEndAbsolute)
@@ -48,6 +52,9 @@ void Component::Easing::Update()
 				break;
 			case TransType::eScale:
 				mEasingList.front().endValue = mpOwner->GetTransform()->GetScale();
+				break;
+			case TransType::eQuad2dAlha:
+				mEasingList.front().endValue = mpOwner->GetComponents<Quad2d>(GetComponentId())->GetAlha();
 				break;
 			}
 		}
@@ -85,6 +92,9 @@ void Component::Easing::Update()
 	case TransType::eScale:
 		mpOwner->GetTransform()->SetScale(ansValue);
 		break;
+	case TransType::eQuad2dAlha:
+		mpOwner->GetComponents<Quad2d>(GetComponentId())->SetAlha(ansValue.x);
+		break;
 	}
 
 	mCurrentFrame += 1.0f;
@@ -103,6 +113,9 @@ void Component::Easing::Update()
 		break;
 	case TransType::eScale:
 		mpOwner->GetTransform()->SetScale(famly.endValue);
+		break;
+	case TransType::eQuad2dAlha:
+		mpOwner->GetComponents<Quad2d>(GetComponentId())->SetAlha(famly.endValue.x);
 		break;
 	}
 

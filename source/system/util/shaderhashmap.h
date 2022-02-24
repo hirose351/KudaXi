@@ -27,6 +27,9 @@ public:
 	// ピクセルシェーダーセット
 	bool SetPixelShader(std::string filename)
 	{
+		if (mPsHashMap[filename] != nullptr)
+			return true;
+
 		ID3D11PixelShader* psh;
 
 		// デバイス取得
@@ -57,6 +60,8 @@ public:
 						 D3D11_INPUT_ELEMENT_DESC* layout,
 						 unsigned int numElements)
 	{
+		if (mVsHashMap[filename] != nullptr&&mLayoutHashMap[filename] != nullptr)
+			return true;
 
 		ID3D11VertexShader* vsh;
 		ID3D11InputLayout*  vlayout;

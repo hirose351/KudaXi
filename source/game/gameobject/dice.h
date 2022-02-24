@@ -21,16 +21,18 @@ private:
 	DirectX::XMFLOAT4X4 mTargetMtx;									// 1回転での変化を表す行列
 	Float3 mRotateStartPos;										// キー入力された際の開始位置	
 
-	const int mMoveCnt = 16;										// 90度回転、押されるのに必要な更新回数
+	const int mMoveCnt = 14;										// 90度回転、押されるのに必要な更新回数
 	int mCrrentRotCnt = 0;											// 今の回転回数	
 
 	int mCrrentPushCnt = 0;										// 今の回転回数
 	const float mPushPositionPerFrame = DICE_SCALE / mMoveCnt;		// 
 
-	const int mUpDownCnt = 200;									// 
-	const float mUpDownPositionPerFrame = DICE_SCALE / mUpDownCnt;		// 
+	const float mUpCnt = 150.0f;									// 
+	const float mDownCnt = 300.0f;									// 
+	const float mUpPositionPerFrame = DICE_SCALE / mUpCnt;		// 
+	const float mDownPositionPerFrame = DICE_SCALE / mDownCnt;		// 
 
-	int mChainCnt = 0;	// チェイン数数
+	int mChainCnt = 0;	// チェイン数
 
 	// 生成時上がる
 	void Up();

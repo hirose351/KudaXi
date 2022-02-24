@@ -2,16 +2,18 @@
 #include	"component_base.h"
 
 namespace Component {
+	class Quad2d;
 	class Number : public ComponentBase
 	{
 	private:
 		int mNum = 0;				// ï\é¶Ç∑ÇÈêî
 		float mSpace = 0;			// ä‘äu
 		float mStartingPoint = 0;	// énì_
+		Quad2d* mQuad;
 
 	public:
 		Number();
-		void Init() override {};
+		void Init() override;
 		void Update()override;
 		void ImguiDraw()override;
 		void Uninit() override {};

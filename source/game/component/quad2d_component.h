@@ -29,6 +29,8 @@ namespace Component {
 		void SetInfo(std::string _texName, const DirectX::XMFLOAT4& _color, int _u = 1, int _v = 1, float _z = 0.0f);
 
 		void SetColor(const DirectX::XMFLOAT4 &_color);
+		void SetAlha(float _alha);
+		float GetAlha() { return mColor.w; };
 
 		void SetUvPos(INT2 _uv);
 		INT2 GetUvPos() { return mUvPos; };

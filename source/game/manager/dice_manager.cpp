@@ -7,6 +7,7 @@
 #include	"../../system/model/model_manager.h"
 #include	"../../system/util/XAudio2.h"
 #include	"../../system/dx11/direct_input.h"
+#include	"../gameobject/effect_score.h"
 #include	<random>
 
 std::random_device rnd;							// 非決定的な乱数生成器
@@ -381,6 +382,7 @@ void DiceManager::CheckAligned(Dice* _dice)
 	if (mDiceAlignCnt < _dice->GetTopDiceTypeNum())
 		return;
 
+	int chain = 0;
 	// 対象サイコロの下げる関数を呼ぶ
 	for (int z = 0; z < mpCurrentStageData->mMapSizeHeight; z++)
 	{
@@ -390,9 +392,20 @@ void DiceManager::CheckAligned(Dice* _dice)
 			{
 				// Diceを落とす
 				GetListInDice(x, z)->SetDownPosition();
+				if (chain < GetListInDice(x, z)->GetChainCnt())
+					chain = GetListInDice(x, z)->GetChainCnt();
 			}
 		}
 	}
+	_dice->SetChainCnt(chain);
+
+	// スコア生成
+	Dix::sp<Effect::Score> scoreEffect;
+	scoreEffect.SetPtr(new Effect::Score);
+	TransWorldToScreen(&scoreEffect->GetTransform()->position, _dice->GetTransform()->GetPosition());
+	scoreEffect->GetTransform()->CreateWordMtx();
+	scoreEffect->SetScoreNum(_dice->GetTopDiceTypeNum(), mDiceAlignCnt, chain);
+	SceneManager::GetInstance()->GetCurrentScene()->AddGameObject(scoreEffect);
 }
 
 void DiceManager::SetRemoveDice(int _diceId)
