@@ -1,5 +1,6 @@
 #include	"effect_fruit.h"
 #include	"../component/billbord_component.h"
+#include	"../component/easing_component.h"
 #include	 <algorithm>
 
 using namespace Effect;
@@ -81,6 +82,7 @@ void Fruit::SetInit(const Float3& _pos, int _uvnum)
 	XMFLOAT3 camera = Camera::GetInstance()->GetEye();
 
 	mCenterPos = _pos;
+	AddComponent<Component::Easing>()->AddEasing(EasingProcess::EasingType::eLinear, TransType::eBilbordAlha, 500, 0, Float3(1), Float3(0));
 
 	for (int i = 0; i < 10; i++)
 	{

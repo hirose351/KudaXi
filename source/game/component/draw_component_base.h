@@ -35,6 +35,7 @@ public:
 	bool GetIsDraw() { return mIsDraw; }
 
 	void SetLocalPos(const Float3& _pos) { mLocalPos = _pos; }
+	Float3 GetLocalPos() { return mLocalPos; }
 	void SetLocalAngle(const Float3& _angle) { mLocalAngle = _angle; }
 
 	const DirectX::XMFLOAT4X4 GetWorldMtx() { return mWorldMtx; }

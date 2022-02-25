@@ -38,7 +38,7 @@ void ModeSelectScene::SceneInit()
 {
 	Dix::sp<myUI::ButtonGroup> buttonG;
 	buttonG.SetPtr(new myUI::ButtonGroup);
-	buttonG->GetTransform()->SetPositionXYZ(Float3(200, 500, 0));
+	buttonG->GetTransform()->SetPositionXYZ(Float3(200, 400, 0));
 	buttonG->SetInitState("assets/image/ui/mode_button.png", 4, 1, 4, ButtonTransition::eColorTint, XMFLOAT2(5, 5), XMFLOAT2(300, 300), XMFLOAT2(350, 350), ButtonArrangement::eHorizontal);
 	buttonG->SetInitSelectNum(0);
 	mpBg = buttonG;
@@ -52,7 +52,7 @@ void ModeSelectScene::SceneInit()
 	Dix::sp<myUI::Image> modeUi;
 	modeUi.SetPtr(new myUI::Image);
 	modeUi->GetTransform()->SetScale(Float3(1000, 150, 0));
-	modeUi->GetTransform()->SetPositionXYZ(Float3(600, 150, 0));
+	modeUi->GetTransform()->SetPositionXYZ(Float3(650, 150, 0));
 	modeUi->AddComponent<Component::Quad2d>()->SetInfo("assets/image/ui/mode.png", XMFLOAT4(1, 1, 1, 1));
 	modeUi->GetComponent<Component::Quad2d>()->SetOrderInLayer(10);
 	AddGameObject(modeUi);

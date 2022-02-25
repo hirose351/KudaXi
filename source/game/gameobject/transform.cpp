@@ -23,9 +23,9 @@ void Transform::AddPosition()
 void Transform::MovePosition()
 {
 	position += move;
-	worldMtx._41 += move.x;
-	worldMtx._42 += move.y;
-	worldMtx._43 += move.z;
+	worldMtx._41 = position.x;
+	worldMtx._42 = position.y;
+	worldMtx._43 = position.z;
 }
 
 void Transform::AddRotation()

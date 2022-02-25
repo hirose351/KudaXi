@@ -173,10 +173,22 @@ void Dice::SetStartUpPosition()
 void Dice::SetDownPosition()
 {
 	mChainCnt++;	// チェイン数加算
-	mTransform->move = Float3(0, -mDownPositionPerFrame, 0);
-	mDiceSts = DiceStatus::eDown;
-	GetComponent<Component::Collision>()->SetColor(XMFLOAT4(1, 0, 0, 0.5f));
 
+	if (mDiceSts != DiceStatus::eDown && mDiceSts != DiceStatus::eHalfDown)
+	{
+		mTransform->move = Float3(0, -mDownPositionPerFrame, 0);
+		mDiceSts = DiceStatus::eDown;
+		GetComponent<Component::Collision>()->SetColor(XMFLOAT4(1, 0, 0, 0.5f));
+	}
+	else
+	{
+		mTransform->position.y += 2.0f;
+		if (mTopDiceTypeNum == 1)
+			return;
+	}
+
+
+	// エフェクト生成
 	Dix::sp<Effect::Fruit> effect;
 	effect.SetPtr(new Effect::Fruit);
 	effect->SetInit(Float3(mTransform->worldMtx._41, 50, mTransform->worldMtx._43), (int)mTopDiceTypeFruit);

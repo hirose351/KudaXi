@@ -11,6 +11,10 @@ Button::Button() :GameObject(("Button"), ObjectType::eObstracle, false)
 {
 	AddComponent<Component::Quad2d>();
 	AddComponent<Component::Easing>();
+	AddComponent<Component::Easing>();
+	GetComponent<Component::Easing>()->SetIsRepeat(true);
+	GetComponent<Component::Easing>()->AddEasing(EasingProcess::EasingType::eLinear, TransType::eQuad2dLocalPos, 30, 0, Float3(0), Float3(0, 10, 0), true);
+	GetComponent<Component::Easing>()->AddEasing(EasingProcess::EasingType::eLinear, TransType::eQuad2dLocalPos, 30, 0, Float3(0), Float3(0, -10, 0), true);
 	// 画像の登録は各ボタンでやる
 }
 
@@ -33,13 +37,14 @@ void Button::SetButtonState(ButtonState _state)
 		{
 		case ButtonState::eNomal:
 			// イージング登録
-			GetComponent<Component::Easing>()->AddEasing(EasingProcess::EasingType::eLinear, TransType::eScale, 10.0f, 0.0f, mTransform->GetScale(), Float3(mNomalScale.x, mNomalScale.y, 0));
-
+			GetComponents<Component::Easing>(1)->AddEasing(EasingProcess::EasingType::eLinear, TransType::eScale, 10.0f, 0.0f, mTransform->GetScale(), Float3(mNomalScale.x, mNomalScale.y, 0));
+			GetComponent<Component::Easing>()->SetState(ObjectState::ePaused);
+			GetComponent<Component::Quad2d>()->SetLocalPos(Float3(0));
 			break;
 		case ButtonState::eSelected:
 			// イージング登録
-			GetComponent<Component::Easing>()->AddEasing(EasingProcess::EasingType::eLinear, TransType::eScale, 10.0f, 0.0f, mTransform->GetScale(), Float3(mSelectScale.x, mSelectScale.y, 0));
-
+			GetComponents<Component::Easing>(1)->AddEasing(EasingProcess::EasingType::eLinear, TransType::eScale, 10.0f, 0.0f, mTransform->GetScale(), Float3(mSelectScale.x, mSelectScale.y, 0));
+			GetComponent<Component::Easing>()->SetState(ObjectState::eActive);
 			break;
 		case ButtonState::ePressed:
 			break;
@@ -63,7 +68,7 @@ void NumButton::ObjectUpdate()
 	for (int i = 0; i < mNumUvList.size(); i++)
 	{
 		GetComponent<Component::Quad2d>()->SetDrawUv(INT2(mNumUvList[i], 0));
-		GetComponent<Component::Quad2d>()->SetDrawPos(Float3(mTransform->position.x + mTransform->scale.x / 4 * 3 * i, mTransform->position.y, 0));
+		GetComponent<Component::Quad2d>()->SetDrawPos(Float3(GetComponent<Component::Quad2d>()->GetWorldPos().x + mTransform->scale.x / 4 * 3 * i, GetComponent<Component::Quad2d>()->GetWorldPos().y, 0));
 	}
 }
 

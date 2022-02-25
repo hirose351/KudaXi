@@ -44,9 +44,9 @@ Endless::Endless()
 	overImage->GetTransform()->SetPositionXYZ(Float3(Application::CLIENT_WIDTH / 2.0f, Application::CLIENT_HEIGHT / 2.0f, 0));
 	overImage->GetTransform()->SetScale(Float3(500.0f, 250.0f, 0));
 	SceneManager::GetInstance()->GetCurrentScene()->AddGameObject(overImage);
-	Component::Quad2d* clearOverQuad = overImage->AddComponent<Component::Quad2d>();
-	clearOverQuad->SetInfo("assets/image/ui/clearover.png", XMFLOAT4(1, 1, 1, 1), 2);
-	clearOverQuad->SetOrderInLayer(20);
+	quadComponent = overImage->AddComponent<Component::Quad2d>();
+	quadComponent->SetInfo("assets/image/ui/clearover.png", XMFLOAT4(1, 1, 1, 1), 2);
+	quadComponent->SetOrderInLayer(20);
 	mpModeObjList.emplace_back(overImage);
 	mpOverImage = overImage;
 
@@ -56,6 +56,17 @@ Endless::Endless()
 	SceneManager::GetInstance()->GetCurrentScene()->AddGameObject(scoreNum);
 	mpModeObjList.emplace_back(scoreNum);
 	mpScoreNum = scoreNum;
+
+	// OverUI
+	Dix::sp<myUI::Image> scoreString;
+	scoreString.SetPtr(new myUI::Image);
+	scoreString->GetTransform()->SetPositionXYZ(Float3(80, 30, 0));
+	scoreString->GetTransform()->SetScale(Float3(100));
+	SceneManager::GetInstance()->GetCurrentScene()->AddGameObject(scoreString);
+	quadComponent = scoreString->AddComponent<Component::Quad2d>();
+	quadComponent->SetInfo("assets/image/ui/score_string.png", XMFLOAT4(1, 1, 1, 1));
+	quadComponent->SetOrderInLayer(100);
+	mpModeObjList.emplace_back(scoreString);
 
 	for (Dix::wp<GameObject> obj : mpModeObjList)
 		obj->SetIsActive(false);

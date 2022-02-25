@@ -360,6 +360,7 @@ void DiceManager::CheckAligned(Dice* _dice)
 					if (SceneManager::GetInstance()->GetGameMode() != GameMode::eEndless)
 						return;
 					// ゲームモードがエンドレスならスコアの処理を実行
+					ScoreManager::GetInstance()->AddScore(_dice->GetTopDiceTypeNum(), oneDiceCnt, 0);	// スコア加算
 					// スコア生成
 					Dix::sp<Effect::Score> scoreEffect;
 					scoreEffect.SetPtr(new Effect::Score);

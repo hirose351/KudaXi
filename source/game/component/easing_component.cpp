@@ -39,6 +39,9 @@ void Component::Easing::Update()
 			case TransType::eQuad2dAlha:
 				mEasingList.front().startValue = mpOwner->GetComponents<Quad2d>(GetComponentId())->GetAlha();
 				break;
+			case TransType::eQuad2dLocalPos:
+				mEasingList.front().startValue = mpOwner->GetComponents<Quad2d>(GetComponentId())->GetLocalPos();
+				break;
 			case TransType::eBilbordAlha:
 				mpOwner->GetComponents<Billbord>(GetComponentId())->GetAlha();
 				break;
@@ -59,6 +62,9 @@ void Component::Easing::Update()
 				break;
 			case TransType::eQuad2dAlha:
 				mEasingList.front().endValue = mpOwner->GetComponents<Quad2d>(GetComponentId())->GetAlha();
+				break;
+			case TransType::eQuad2dLocalPos:
+				mEasingList.front().endValue = mpOwner->GetComponents<Quad2d>(GetComponentId())->GetLocalPos();
 				break;
 			case TransType::eBilbordAlha:
 				mpOwner->GetComponents<Billbord>(GetComponentId())->GetAlha();
@@ -102,6 +108,9 @@ void Component::Easing::Update()
 	case TransType::eQuad2dAlha:
 		mpOwner->GetComponents<Quad2d>(GetComponentId())->SetAlha(ansValue.x);
 		break;
+	case TransType::eQuad2dLocalPos:
+		mpOwner->GetComponents<Quad2d>(GetComponentId())->SetLocalPos(ansValue);
+		break;
 	case TransType::eBilbordAlha:
 		mpOwner->GetComponents<Billbord>(GetComponentId())->SetAlha(ansValue.x);
 		break;
@@ -126,6 +135,9 @@ void Component::Easing::Update()
 		break;
 	case TransType::eQuad2dAlha:
 		mpOwner->GetComponents<Quad2d>(GetComponentId())->SetAlha(famly.endValue.x);
+		break;
+	case TransType::eQuad2dLocalPos:
+		mpOwner->GetComponents<Quad2d>(GetComponentId())->SetLocalPos(famly.endValue);
 		break;
 	case TransType::eBilbordAlha:
 		mpOwner->GetComponents<Billbord>(GetComponentId())->SetAlha(famly.endValue.x);

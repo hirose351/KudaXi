@@ -9,10 +9,10 @@ using namespace myUI;
 
 Score::Score() :GameObject(("ScoreEffect"), ObjectType::eObstracle, false)
 {
-	mTransform->SetPositionXYZ(Float3(1140, 100, 0));
+	mTransform->SetPositionXYZ(Float3(320, 30, 0));
 	mTransform->SetScale(Float3(50));
 	Component::Quad2d* stepNumQuad = AddComponent<Component::Quad2d>();
-	stepNumQuad->SetInfo("assets/image/ui/number.png", XMFLOAT4(1, 1, 1, 1), 10);
+	stepNumQuad->SetInfo("assets/image/ui/number_score.png", XMFLOAT4(1, 1, 1, 1), 10);
 	stepNumQuad->SetOrderInLayer(100);
 	AddComponent<Component::Number>()->Init();
 }

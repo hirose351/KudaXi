@@ -6,11 +6,12 @@
 // 動かすもの
 enum class TransType
 {
-	ePos,			// 位置
-	eRot,			// 回転
-	eScale,			// 大きさ
-	eQuad2dAlha,	// 矩形のα値
-	eBilbordAlha	// ビルボードのα値
+	ePos,				// 位置
+	eRot,				// 回転
+	eScale,				// 大きさ
+	eQuad2dAlha,		// 矩形のα値
+	eQuad2dLocalPos,	// 矩形のローカル座標
+	eBilbordAlha		// ビルボードのα値
 };
 
 namespace Component {
