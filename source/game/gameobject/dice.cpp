@@ -187,6 +187,8 @@ void Dice::SetDownPosition()
 			return;
 	}
 
+	if (SceneManager::GetInstance()->GetGameMode() != GameMode::eEndless)
+		return;
 
 	// エフェクト生成
 	Dix::sp<Effect::Fruit> effect;

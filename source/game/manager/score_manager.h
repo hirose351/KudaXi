@@ -8,6 +8,7 @@ private:
 	unsigned int mScore = 0;			// 総スコア
 	unsigned int mDrawScore = 0;		// 表示スコア
 	unsigned int mCrrentDrawCnt = 0;	// 今の回転回数
+	bool mIsDrawCntUpdate = false;		// 今の回転回数
 
 public:
 	static ScoreManager* GetInstance() {

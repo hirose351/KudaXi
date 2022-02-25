@@ -11,6 +11,8 @@
 #include	"../gameobject/effect_score.h"
 #include	<random>
 
+#define		INITDICECNT		(10)
+
 std::random_device rnd;							// 非決定的な乱数生成器
 std::mt19937 mt(rnd());							// メルセンヌ・ツイスタの32ビット版、引数は初期シード値
 std::uniform_int_distribution<> rand100(0, 99); // [0, 99] 範囲の一様乱数
@@ -103,7 +105,7 @@ DiceManager::DiceManager()
 
 void DiceManager::EndleesUpdate()
 {
-	if (mEndlessCnt < 6)
+	if (mEndlessCnt < INITDICECNT)
 	{
 		mEndlessCnt++;
 
@@ -135,9 +137,7 @@ void DiceManager::EndleesUpdate()
 	}
 
 	if (mpCurrentStageData->mMapSizeWidth*mpCurrentStageData->mMapSizeHeight <= mpDiceList.size())
-	{
 		return;
-	}
 	if (mFrameCnt < 200)
 	{
 		mFrameCnt++;
