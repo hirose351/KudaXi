@@ -11,7 +11,9 @@
 #include	"../gameobject/effect_score.h"
 #include	<random>
 
-#define		INITDICECNT		(10)
+#define		INIT_DICECNT			(10)		// 始めに生成するサイコロの数
+#define		MULTISPAWN_DICECNT		(5)			// 複数生成し始めるサイコロの数
+#define		MULTISPAWN_SET_DICECNT	(10)		// 複数生成するサイコロの数
 
 std::random_device rnd;							// 非決定的な乱数生成器
 std::mt19937 mt(rnd());							// メルセンヌ・ツイスタの32ビット版、引数は初期シード値
@@ -65,7 +67,6 @@ void DiceManager::DiceMapCreate(bool _isUp = true)
 		mDiceMap[mapPos.z][mapPos.x] = mpDiceList[diceCnt]->GetObjectID();
 
 		mpDiceList[diceCnt]->GetComponent<Component::Collision>()->SetColor(DirectX::XMFLOAT4(1, 1, 1, 0.0f));
-		//mpDiceList[diceCnt]->GetComponent<Component::Collision>()->SetIsDraw(false);
 		mpDiceList[diceCnt]->SetMapPos(INT3(mapPos.x, 0, mapPos.z));
 		mpDiceList[diceCnt]->SetName(("Dice" + std::to_string(mDiceMap[mapPos.z][mapPos.x])));	// オブジェクトの名前に添え字を加える
 
@@ -105,39 +106,22 @@ DiceManager::DiceManager()
 
 void DiceManager::EndleesUpdate()
 {
-	if (mEndlessCnt < INITDICECNT)
+	// 複数回生成する処理
+	if (!mIsMultiSpawn)
 	{
-		mEndlessCnt++;
-
-		// ランダムな値取得
-		int num = rand100(mt) % (mpCurrentStageData->mMapSizeWidth*mpCurrentStageData->mMapSizeHeight);
-		INT2 mapPos(GetRandomSpawnPos(num));
-		if (mapPos == NODICE)
-			return;
-
-		// Dice生成
-		Dix::sp<Dice> dice;
-		dice.SetPtr(new Dice);
-		dice->GetTransform()->SetPositionMove(Float3(DICE_SCALE*mapPos.x, -DICE_SCALE_HALF, -DICE_SCALE * mapPos.z));
-		dice->GetTransform()->SetAngle(mSpawnAngle[GetDiceRandomNum(rand100(mt))]);
-		dice->GetTransform()->CreateWordMtx();
-
-		// Y軸をランダムで回転
-		XMFLOAT4X4 angleMtx;
-		DX11MtxRotationY(mSpawnAngle[5 + rand100(mt) % 4].y, angleMtx);
-		DX11MtxMultiply(dice->GetTransform()->worldMtx, angleMtx, dice->GetTransform()->worldMtx);
-
-		dice->SetMapPos(INT3(mapPos.x, 0, mapPos.z));
-		mDiceMap[mapPos.z][mapPos.x] = dice->GetObjectID();
-		dice->SetName(("Dice" + std::to_string(mDiceMap[mapPos.z][mapPos.x])));	// オブジェクトの名前に添え字を加える
-		dice->Init();
-
-		mpDiceList.emplace_back(dice);	// vector配列に追加
-		SceneManager::GetInstance()->GetCurrentScene()->AddGameObject(dice);
+		if (GetNomalDiceCnt() <= MULTISPAWN_DICECNT)
+			mIsMultiSpawn = true;
+	}
+	else
+	{
+		EndleesSpawn();
+		if (GetNomalDiceCnt() >= MULTISPAWN_SET_DICECNT)
+			mIsMultiSpawn = false;
 	}
 
 	if (mpCurrentStageData->mMapSizeWidth*mpCurrentStageData->mMapSizeHeight <= mpDiceList.size())
 		return;
+
 	if (mFrameCnt < 200)
 	{
 		mFrameCnt++;
@@ -151,25 +135,7 @@ void DiceManager::EndleesUpdate()
 	if (mapPos == NODICE)
 		return;
 
-	// Dice生成
-	Dix::sp<Dice> dice;
-	dice.SetPtr(new Dice);
-	dice->GetTransform()->SetPositionMove(Float3(DICE_SCALE*mapPos.x, -DICE_SCALE_HALF, -DICE_SCALE * mapPos.z));
-	dice->GetTransform()->SetAngle(mSpawnAngle[GetDiceRandomNum(rand100(mt))]);
-	dice->GetTransform()->CreateWordMtx();
-
-	// Y軸をランダムで回転
-	XMFLOAT4X4 angleMtx;
-	DX11MtxRotationY(mSpawnAngle[5 + rand100(mt) % 4].y, angleMtx);
-	DX11MtxMultiply(dice->GetTransform()->worldMtx, angleMtx, dice->GetTransform()->worldMtx);
-
-	dice->SetMapPos(INT3(mapPos.x, 0, mapPos.z));
-	mDiceMap[mapPos.z][mapPos.x] = dice->GetObjectID();
-	dice->SetName(("Dice" + std::to_string(mDiceMap[mapPos.z][mapPos.x])));	// オブジェクトの名前に添え字を加える
-	dice->Init();
-
-	mpDiceList.emplace_back(dice);	// vector配列に追加
-	SceneManager::GetInstance()->GetCurrentScene()->AddGameObject(dice);
+	EndleesSpawn();
 }
 
 bool DiceManager::GetEndlessIsOver()
@@ -190,15 +156,11 @@ void DiceManager::ImguiDraw()
 {
 	ImGui::Text(std::to_string(mpDiceList.size()).c_str());
 
-	ImGui::SetNextWindowPos(ImVec2(1000, 20), ImGuiCond_Once);
-	ImGui::SetNextWindowSize(ImVec2(280, 200), ImGuiCond_Once);
-	ImGui::Begin(u8"DiceManager");
 	ImGui::Text(u8"生成確率");
 	for (int i = 0; i < 6; i++)
 	{
 		ImGui::DragInt(std::to_string(i + 1).c_str(), &mSpawnRate[i], 0.5f, 0, 99);
 	}
-	ImGui::End();
 }
 
 void DiceManager::Uninit()
@@ -516,6 +478,47 @@ int DiceManager::GetDiceRandomNum(int _rndNum)
 	return 0;
 }
 
+void DiceManager::EndleesSpawn()
+{
+	// ランダムな値取得
+	int num = rand100(mt) % (mpCurrentStageData->mMapSizeWidth*mpCurrentStageData->mMapSizeHeight);
+	INT2 mapPos(GetRandomSpawnPos(num));
+	if (mapPos == NODICE)
+		return;
+
+	// Dice生成
+	Dix::sp<Dice> dice;
+	dice.SetPtr(new Dice);
+	dice->GetTransform()->SetPositionMove(Float3(DICE_SCALE*mapPos.x, -DICE_SCALE_HALF, -DICE_SCALE * mapPos.z));
+	dice->GetTransform()->SetAngle(mSpawnAngle[GetDiceRandomNum(rand100(mt))]);
+	dice->GetTransform()->CreateWordMtx();
+
+	// Y軸をランダムで回転
+	XMFLOAT4X4 angleMtx;
+	DX11MtxRotationY(mSpawnAngle[5 + rand100(mt) % 4].y, angleMtx);
+	DX11MtxMultiply(dice->GetTransform()->worldMtx, angleMtx, dice->GetTransform()->worldMtx);
+
+	dice->SetMapPos(INT3(mapPos.x, 0, mapPos.z));
+	mDiceMap[mapPos.z][mapPos.x] = dice->GetObjectID();
+	dice->SetName(("Dice" + std::to_string(mDiceMap[mapPos.z][mapPos.x])));	// オブジェクトの名前に添え字を加える
+	dice->Init();
+
+	mpDiceList.emplace_back(dice);	// vector配列に追加
+	SceneManager::GetInstance()->GetCurrentScene()->AddGameObject(dice);
+}
+
+int DiceManager::GetNomalDiceCnt()
+{
+	int cnt = 0;
+	for (auto dice : mpDiceList)
+	{
+		if (dice->GetDiceStatus() != DiceStatus::eHalfDown&&dice->GetDiceStatus() != DiceStatus::eDown)
+			cnt++;
+	}
+	return cnt;
+}
+
+
 INT2 DiceManager::GetSpawnPos(int _rndNum)
 {
 	while (true)
@@ -554,22 +557,6 @@ INT2 DiceManager::GetRandomSpawnPos(int _rndNum)
 	{
 
 		INT2 rndMapPos(GetSpawnPos(_rndNum));
-		//INT2 rndMapPos(_rndNum % mCurrentStageData->mMapSizeWidth % mCurrentStageData->mMapSizeHeight, _rndNum / mCurrentStageData->mMapSizeWidth);
-
-		//// すでにサイコロがあればコンティニュー
-		//if (mDiceMap[rndMapPos.z][rndMapPos.x] != NODICE)
-		//{
-		//	_rndNum++;
-		//	continue;
-		//}
-
-		// プレイヤーとその周りで、他が埋まっていなければコンティニュー
-		//if (rndMapPos.x <= mPlayerPos.x + 1 && rndMapPos.x >= mPlayerPos.x - 1 && rndMapPos.z <= mPlayerPos.z + 1 && rndMapPos.z >= mPlayerPos.z - 1)
-		//	if (mpDiceList.size() < mCurrentStageData->mMapSizeWidth*mCurrentStageData->mMapSizeHeight - 9)
-		//	{
-		//		_rndNum++;
-		//		continue;
-		//	}
 		if (rndMapPos.x < mpCurrentStageData->mMapSizeWidth&&rndMapPos.z < mpCurrentStageData->mMapSizeHeight)
 			return rndMapPos;
 	}
@@ -712,6 +699,7 @@ bool DiceManager::CreateAddDice()
 				dice->AddComponent<Component::MapMove>()->Init();
 				dice->GetComponent<Component::Collision>()->SetInitState(ObjectTag::eDice, Float3(0, 0, 0), Float3(DICE_SCALE_HALF), DirectX::XMFLOAT4(1, 1, 1, 0.5f));
 				dice->GetComponent<Component::Collision>()->Init();
+				dice->GetComponent<Component::Collision>()->SetOrderInLayer(75);
 				mDiceMap[z][x] = dice->GetObjectID();
 				dice->SetName(("Dice" + std::to_string(mDiceMap[z][x])));	// オブジェクトの名前に添え字を加える
 
@@ -875,6 +863,7 @@ void DiceManager::EndlessInit()
 	Uninit();
 	mScore = 0;
 	mFrameCnt = 0;
+	mIsMultiSpawn = false;
 	mpCurrentStageData = StageDataManager::GetInstance().GetCurrentStage();
 	for (int z = 0; z < mpCurrentStageData->mMapSizeHeight; z++)
 		for (int x = 0; x < mpCurrentStageData->mMapSizeWidth; x++)
@@ -909,7 +898,7 @@ void DiceManager::DataCreate()
 			dice->AddComponent<Component::MapMove>()->Init();
 			dice->GetComponent<Component::Collision>()->SetInitState(ObjectTag::eDice, Float3(0, 0, 0), Float3(DICE_SCALE_HALF), DirectX::XMFLOAT4(1, 1, 1, 0.5f));
 			dice->GetComponent<Component::Collision>()->Init();
-			dice->GetComponent<Component::Collision>()->SetOrderInLayer(30);
+			dice->GetComponent<Component::Collision>()->SetOrderInLayer(75);
 			mDiceMap[z][x] = dice->GetObjectID();
 			dice->SetName(("Dice" + std::to_string(mDiceMap[z][x])));	// オブジェクトの名前に添え字を加える
 

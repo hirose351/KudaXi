@@ -1,12 +1,12 @@
 #define _CRTDBG_MAP_ALLOC
+#include	"application.h"
+#include	"game.h"
+#include	"macro.h"
+#include	"system/windows/CWindow.h"
+#include	"game/manager/scene_manager.h"
 #include	<Windows.h>
 #include	<chrono>
 #include	<thread>
-#include	"application.h"
-#include	"system/windows/CWindow.h"
-#include	"macro.h"
-#include	"game.h"
-#include	"game/manager/scene_manager.h"
 
 const char*			Application::WINDOW_TITLE = "‚­‚¾Xi";
 const char*			Application::WINDOW_CLASS_NAME = "win32app";

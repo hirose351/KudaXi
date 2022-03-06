@@ -79,6 +79,10 @@ void GameObject::ImguiDraw()
 	{
 		std::string str;
 
+		ImGui::SetNextWindowPos(ImVec2(1000, 20), ImGuiCond_Once);
+		ImGui::SetNextWindowSize(ImVec2(300, 400), ImGuiCond_Once);
+		ImGui::Begin(mName.c_str());
+
 		ImGui::Checkbox("isActive", &mIsActive);
 
 		str = u8"ObjectIDÅF " + std::to_string(mObjectID);
@@ -111,6 +115,7 @@ void GameObject::ImguiDraw()
 				ImGui::TreePop();
 			}
 		}
+		ImGui::End();
 
 		ImGui::TreePop();
 	}

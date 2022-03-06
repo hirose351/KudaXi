@@ -139,12 +139,12 @@ void Endless::BeforeChange()
 
 void Endless::AfterChange()
 {
+	SceneManager::GetInstance()->GetCurrentScene()->SetIsPause(false);
 	DiceManager::GetInstance()->Uninit();
 	for (Dix::wp<GameObject> obj : mpModeObjList)
 	{
 		obj->SetIsActive(false);
 	}
-	SceneManager::GetInstance()->GetCurrentScene()->SetIsPause(false);
 
 	// BGMê›íË
 	StopSound(SOUND_LABEL_BGM_GAME);

@@ -23,7 +23,8 @@
 class ControllerInput :Uncopyable
 {
 private:
-	XINPUT_STATE mState;	// コントローラーのステート
+	XINPUT_STATE mState;		// コントローラーのステート
+	XINPUT_STATE mBeforeState;	// 前フレームのコントローラーのステート
 
 	// Rスティック関係
 	DirectX::XMFLOAT2 mRStick;

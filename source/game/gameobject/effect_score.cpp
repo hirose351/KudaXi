@@ -11,7 +11,7 @@ Score::Score() :GameObject(("ScoreEffect"), ObjectType::eObstracle, false)
 	AddComponent<Component::Quad2d>()->SetInfo("assets/image/ui/number.png", XMFLOAT4(1, 1, 1, 1), 10);
 	AddComponent<Component::Quad2d>()->SetInfo("assets/image/ui/number.png", XMFLOAT4(1, 1, 1, 1), 10);
 	AddComponent<Component::Quad2d>()->SetInfo("assets/image/ui/multiply.png", XMFLOAT4(1, 1, 1, 1));
-	GetComponent<Component::Quad2d>()->SetLocalPos(Float3(-20, 0, 0));
+	GetComponent<Component::Quad2d>()->SetLocalPos(Float3(-30, 0, 0));
 	GetComponent<Component::Quad2d>()->CreateLocalMtx();
 	GetComponents<Component::Quad2d>(1)->SetLocalPos(Float3(20, 0, 0));
 	GetComponents<Component::Quad2d>(1)->CreateLocalMtx();
@@ -41,8 +41,10 @@ void Score::SetScoreNum(int _diceNum, int _diceCnt, int _chain)
 	}
 	AddComponent<Component::Number>()->Init();
 	AddComponent<Component::Number>()->Init();
-	GetComponents<Component::Number>(0)->SetNum(_diceNum*_diceCnt);
-	GetComponents<Component::Number>(1)->SetNum(_chain + 1);
+	int num = _diceNum * _diceCnt;
+	GetComponents<Component::Number>(0)->SetNum(num);
+	num = _chain + 1;
+	GetComponents<Component::Number>(1)->SetNum(num);
 
 	SetIsActive(true);
 }

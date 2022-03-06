@@ -3,6 +3,7 @@
 void ControllerInput::Input()
 {
 	DWORD dwResult;
+	mBeforeState = mState;
 	for (DWORD i = 0; i < 1; i++)
 	{
 		XINPUT_STATE state;
@@ -388,15 +389,8 @@ bool ControllerInput::GetButtonStateTrigger(int i)
 {
 	if (mState.Gamepad.wButtons & i)
 	{
-		if (!mButtonFlg)
-		{
-			mButtonFlg = true;
+		if (!(mBeforeState.Gamepad.wButtons & i))
 			return true;
-		}
-	}
-	else
-	{
-		mButtonFlg = false;
 	}
 	return false;
 }

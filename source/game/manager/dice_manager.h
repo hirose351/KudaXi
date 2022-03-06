@@ -31,7 +31,6 @@ private:
 
 	/// ↑Create用 ////////////////////
 
-
 	/// ↓Puzzle用 ////////////////////
 
 	int mStepCount;				// Diceが動いた回数
@@ -39,20 +38,28 @@ private:
 
 	/// ↑Puzzle用 ////////////////////
 
+	/// ↓Endless用 ////////////////////
+
+	int mEndlessCnt = 0;		// 初期生成数
+	int mScore = 0;				// 総スコア
+	bool mIsMultiSpawn = false;	// 複数回生成するか
+
+	// 生成出来るマスを返す
+	INT2 GetSpawnPos(int _rndNum);
+	// ランダム生成位置を返す
+	INT2 GetRandomSpawnPos(int _rndNum);
 	// 受け取ったマップ位置と面を基準にサイコロが揃ったかチェックして配列を書き換える
 	void CheckDiceAlign(INT3 _mapPos, DiceFruit _diceType);
 
 	Dix::wp<Dice> GetListInDice(int x, int z);
 
 	int GetDiceRandomNum(int _rndNum);
+	// 
+	void EndleesSpawn();
 
-	int mEndlessCnt = 0;		// 初期生成数
-	int mScore = 0;				// 総スコア
+	int GetNomalDiceCnt();
 
-	// 生成出来るマスを返す
-	INT2 GetSpawnPos(int _rndNum);
-	// ランダム生成位置を返す
-	INT2 GetRandomSpawnPos(int _rndNum);
+	/// ↑Endless用 ////////////////////
 
 public:
 	static DiceManager* GetInstance() {
@@ -119,7 +126,11 @@ public:
 
 	/// ↑Puzzle用 ////////////////////
 
+	/// ↓Endless用 ////////////////////
+
 	void EndlessInit();
 	void EndleesUpdate();
 	bool GetEndlessIsOver();
+
+	/// ↑Endless用 ////////////////////
 };

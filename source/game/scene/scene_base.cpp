@@ -175,24 +175,19 @@ void SceneBase::ImguiDebug()
 
 bool SceneBase::Dispose()
 {
-	//for (auto &obj : mpObjectList)
-	//{
-	//	if (obj != nullptr)
-	//	{
-	//		delete(obj);
-	//	}
-	//}
 	return true;
 }
 
 void SceneBase::DrawFadeIn()
 {
-	mpfade->SetFadeType(FadeType::eIn);
+	if (mpfade != NULL)
+		mpfade->SetFadeType(FadeType::eIn);
 }
 
 void SceneBase::DrawFadeOut()
 {
-	mpfade->SetFadeType(FadeType::eOut);
+	if (mpfade != NULL)
+		mpfade->SetFadeType(FadeType::eOut);
 }
 
 void SceneBase::AddDrawComponent(DrawComponentBase* _c)

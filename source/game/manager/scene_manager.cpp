@@ -21,6 +21,7 @@ void SceneManager::ChangeNextScene()
 	mBeforeSceneKey = mCurrentSceneKey;
 	mCurrentSceneKey = mNextSceneKey;
 	mAddkey = mCurrentSceneKey;
+	mScenefactories[mBeforeSceneKey]->Update();
 	mScenefactories[mCurrentSceneKey]->Init();
 	mScenefactories[mCurrentSceneKey]->SceneAfter();
 	mScenefactories[mCurrentSceneKey]->Update();
