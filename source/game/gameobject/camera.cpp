@@ -4,6 +4,10 @@ using namespace DirectX;
 
 void Camera::CreateCameraMatrix()
 {
+	Float3 eye = mEye, at = mLookat;
+	if (eye == at)
+		return;
+
 	ALIGN16 XMVECTOR Eye = XMVectorSet(mEye.x, mEye.y, mEye.z, 0.0f);
 	ALIGN16 XMVECTOR At = XMVectorSet(mLookat.x, mLookat.y, mLookat.z, 0.0f);
 	ALIGN16 XMVECTOR Up = XMVectorSet(mUp.x, mUp.y, mUp.z, 0.0f);
